@@ -1,33 +1,29 @@
-    <div class="container-fluid shadow">
-        <center><h1 class="font-weight-normal">Gestion de Clientes</h1></center>
-        <hr class="bg-danger">
-        <div class="row">
-            <!-- <a href=" ROOT;?>Cliente/registro" class="btn btn-success btn-lg m-3">Registrar Cliente <i class="fas fa-user-plus"></i></a> -->
-            <a href="#" class="btn btn-success btn-lg m-3" data-toggle="modal" data-target="#modalRegistroCliente" >Registrar Cliente <i class="fas fa-user-plus"></i></a>
+<div class="content p-4">
+    <h2 class="mb-4">Gestion de Cliente</h2>
 
+    <div class="card mb-4">
+        <div class="card-header bg-white">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroCliente">
+            <i class="fas fa-plus-square"></i> Agregar Cliente
+          </button>
         </div>
-        <hr class="bg-danger">
-
-        <div class="table-responsive">
-            <table class="table shadow table-striped" id="datatable" style="width:100%">
-                <thead class="thead-dark">
-                    <tr>
-                        <th colspan="10" class="text-center bg-danger"><h4 class="font-weight-normal">Clientes Registrados</h4></th>
-                    </tr>
-                    <tr>
-                        <th class='text-center'>Cedula/Rif</th>
-                        <th class='text-center'>Nombre y Apellido</th>
-                        <th class='text-center'>Telefono</th>
-                        <th class='text-center'>Acciones</th>
-                        <!-- <th class="col-md-1">Acciones</th> -->
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
+        <div class="card-body">
+          <table class="table" id="datatable">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Cedula/RIF</th>
+                <th scope="col">Nombre y Apellido</th>
+                <th scope="col">Telefono</th>
+              </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+          </table>
         </div>
     </div>
+</div>
+
 
     <!-- Modal Registro -->
     <div class="modal fade" id="modalRegistroCliente" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

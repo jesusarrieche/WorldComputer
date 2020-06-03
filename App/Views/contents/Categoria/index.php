@@ -1,29 +1,27 @@
+<div class="content p-4">
+    <h2 class="mb-4">Gestion de Categorias</h2>
 
-<div class="container-fluid shadow">
-    <center><h1 class="font-weight-normal">Categorias</h1></center>
-    <hr class="bg-danger">
-    <div class="row">
-        <button class="btn btn-success m-2" data-toggle="modal" data-target="#modalRegistroCategoria"><i class="fas fa-plus-square"></i> Nueva Categoria</button>
-    </div>
-    <hr class="bg-danger">
-
-    <div class="table-responsive">
-        <table class="table shadow table-striped" id="datatable" style="width:100%">
+    <div class="card mb-4">
+        <div class="card-header bg-white">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroCategoria">
+            <i class="fas fa-plus-square"></i> Agregar Categoria
+          </button>
+        </div>
+        <div class="card-body">
+          <table class="table" id="datatable">
             <thead class="thead-dark">
-                <tr>
-                    <th colspan="10" class="text-center bg-danger"><h4 class="font-weight-normal">Categorias Registrados</h4></th>
-                </tr>
-                <tr>
-                    <th>Categoria</th>
-                    <th>Descripcion</th>
-                    <th>Estatus</th>
-                    <th>Acciones</th>
-                </tr>
+              <tr>
+                <th scope="col">Categoria</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Estatus</th>
+                <th scope="col">Acciones</th>
+              </tr>
             </thead>
             <tbody>
                 
             </tbody>
-        </table>
+          </table>
+        </div>
     </div>
 </div>
 
