@@ -10,7 +10,7 @@ define('ROOT', '/WorldComputer/');
  * Encriptado
  */
 const METODO ='AES-256-CBC';
-const CODIGO_PASSWORD ='HIDRO*';
+const CODIGO_PASSWORD ='WORLD*';
 const CODIGO_VECTOR ='1997';
 
 /**
