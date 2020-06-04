@@ -1,4 +1,4 @@
-<div class="content p-4">
+<div class="content p-4 dataTables_wrapper">
     <h2 class="mb-4">Gestion de Categorias</h2>
 
     <div class="card mb-4">
@@ -18,7 +18,39 @@
               </tr>
             </thead>
             <tbody>
-                
+                <tr>
+                    <td>Raton</td>
+                    <td>Raton entrada USB</td>
+                    <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Disponible</a></td>
+                    <td>
+                        <a href="#" class='mostrar btn btn-info'>
+                            <i class='fas fa-search'></i>
+                        </a>
+                        <a href="#" class='editar btn btn-warning m-1'>
+                            <i class='fas fa-pencil-alt'></i>
+                        </a>
+                        <a href="$" class='eliminar btn btn-danger'>
+                            <i class='fas fa-trash-alt'></i>
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Monitor</td>
+                    <td>Monitor PC entrada VGA</td>
+                    <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Disponible</a></td>
+                    <td>
+                        <a href="#" class='mostrar btn btn-info'>
+                            <i class='fas fa-search'></i>
+                        </a>
+                        <a href="#" class='editar btn btn-warning m-1'>
+                            <i class='fas fa-pencil-alt'></i>
+                        </a>
+                        <a href="$" class='eliminar btn btn-danger'>
+                            <i class='fas fa-trash-alt'></i>
+                        </a>
+                    </td>
+                </tr>
             </tbody>
           </table>
         </div>
@@ -136,5 +168,5 @@
 </div>
 
 
-<script src="<?= ROOT; ?>public/assets/js/categoria/index.js"></script>
+<!--<script src="<?//= ROOT; ?>public/assets/js/categoria/index.js"></script>-->
 
