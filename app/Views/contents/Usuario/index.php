@@ -333,6 +333,6 @@
         </div>
     </div>
 
-    <script src="<?= ROOT; ?>public/assets/js/usuario/index.js"></script>
+    <!--<script src="<?//= ROOT; ?>public/assets/js/usuario/index.js"></script>-->
 
 

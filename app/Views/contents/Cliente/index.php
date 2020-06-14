@@ -1,4 +1,4 @@
-<div class="content p-4">
+<div class="content p-4 dataTables_wrapper">
     <h2 class="mb-4">Gestion de Cliente</h2>
 
     <div class="card mb-4">
@@ -14,16 +14,48 @@
                 <th scope="col">Cedula/RIF</th>
                 <th scope="col">Nombre y Apellido</th>
                 <th scope="col">Telefono</th>
+                <th scope="col">Acción</th>
               </tr>
             </thead>
             <tbody>
-                
+                <tr>
+                    <td>V-23.435.003</td>
+                    <td>JESUS RODRIGUEZ</td>
+                    <td>0414-0309483</td>
+                    <td>
+                        <a href="#" class='mostrar btn btn-info'>
+                            <i class='fas fa-search'></i>
+                        </a>
+                        <a href="#" class='editar btn btn-warning m-1'>
+                            <i class='fas fa-pencil-alt'></i>
+                        </a>
+                        <a href="$" class='eliminar btn btn-danger'>
+                            <i class='fas fa-trash-alt'></i>
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>V-24.392.434</td>
+                    <td>JESUS RODRIGUEZ</td>
+                    <td>0414-0309483</td>
+                    <td>
+                        <a href="#" class='mostrar btn btn-info'>
+                            <i class='fas fa-search'></i>
+                        </a>
+                        <a href="#" class='editar btn btn-warning m-1'>
+                            <i class='fas fa-pencil-alt'></i>
+                        </a>
+                        <a href="$" class='eliminar btn btn-danger'>
+                            <i class='fas fa-trash-alt'></i>
+                        </a>
+                    </td>
+                </tr>
             </tbody>
           </table>
         </div>
     </div>
 </div>
-
 
     <!-- Modal Registro -->
     <div class="modal fade" id="modalRegistroCliente" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -224,6 +256,6 @@
     </div>
 
 
-    <script src="<?= ROOT; ?>public/assets/js/cliente/index.js"></script>
+   <!-- <script src="<?//= ROOT; ?>public/assets/js/cliente/index.js"></script>-->
 
 
