@@ -1,5 +1,5 @@
     
-
+<!-- Contenido inicial -->
 <div class="content p-4 dataTables_wrapper">
     <h2 class="mb-4">Gestion de Proveedores</h2>
 
@@ -108,16 +108,16 @@
                     <input type="text" name="direccion" id="direccion" pattern="[A-Za-z0-9/ ]+" required maxlength="150" class="form-control" placeholder="Direccion" >
                 </div>
             </div>
-
+            <div class="modal-footer">
+              <button type="submit"  class="btn btn-success m-2">Enviar</button>
+              <button type="reset" class="btn btn-danger m-2">Limpiar</button>
+            </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="submit"  class="btn btn-success m-2">Enviar</button>
-        <button type="reset" class="btn btn-danger m-2">Limpiar</button>
-      </div>
+      
     </div>
   </div>
 </div>
 
 
-    <!--<script src="<?//= ROOT; ?>public/assets/js/proveedor/index.js"></script> -->
+    <script src="<?= ROOT; ?>public/assets/js/proveedor/index.js"></script>
