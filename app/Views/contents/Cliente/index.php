@@ -18,39 +18,7 @@
               </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>V-23.435.003</td>
-                    <td>JESUS RODRIGUEZ</td>
-                    <td>0414-0309483</td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'>
-                            <i class='fas fa-search'></i>
-                        </a>
-                        <a href="#" class='editar btn btn-warning m-1'>
-                            <i class='fas fa-pencil-alt'></i>
-                        </a>
-                        <a href="$" class='eliminar btn btn-danger'>
-                            <i class='fas fa-trash-alt'></i>
-                        </a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>V-24.392.434</td>
-                    <td>JESUS RODRIGUEZ</td>
-                    <td>0414-0309483</td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'>
-                            <i class='fas fa-search'></i>
-                        </a>
-                        <a href="#" class='editar btn btn-warning m-1'>
-                            <i class='fas fa-pencil-alt'></i>
-                        </a>
-                        <a href="$" class='eliminar btn btn-danger'>
-                            <i class='fas fa-trash-alt'></i>
-                        </a>
-                    </td>
-                </tr>
+                
             </tbody>
           </table>
         </div>
