@@ -215,6 +215,10 @@
                                 <label for="direccion"><strong>Direccion:</strong></label> 
                                 <input type="text" id="direccion" class="form-control-plaintext" disabled placeholder="Direccion" > 
                             </div>
+                            <div class="form-group">
+                                <label for="usuario"><strong>Usuario:</strong></label> 
+                                <input type="text" id="usuario" class="form-control-plaintext" disabled placeholder="Usuario" > 
+                            </div>
 
                             <hr class="bg-secondary">
                             

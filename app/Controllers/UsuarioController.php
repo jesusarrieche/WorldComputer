@@ -129,6 +129,7 @@ class UsuarioController extends Controller{
     $usuario->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
     $usuario->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
     $usuario->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
+    $usuario->setUsuario(strtoupper($this->limpiaCadena($_POST['usuario'])));
     $usuario->setEstatus("ACTIVO");
 
     if($this->usuario->actualizar($usuario)){

@@ -100,7 +100,7 @@ class Usuario extends Persona{
 
     public function actualizar(Usuario $u){
         try{
-            $consulta = parent::connect()->prepare("UPDATE usuarios SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, estatus=:estatus WHERE id=:id");
+            $consulta = parent::connect()->prepare("UPDATE usuarios SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, usuario=:usuario, estatus=:estatus WHERE id=:id");
 
 
             $id = $u->getId();
@@ -109,7 +109,8 @@ class Usuario extends Persona{
             $apellido = $u->getApellido();
             $direccion = $u->getDireccion();
             $telefono = $u->getTelefono();
-            $email = $u->getEmail();
+            $email = $u->getEmail(); 
+            $usuario = $u->getUsuario(); 
             $estatus = "ACTIVO";
             
             $consulta->bindParam(":id", $id);
@@ -119,6 +120,7 @@ class Usuario extends Persona{
             $consulta->bindParam(":direccion", $direccion);
             $consulta->bindParam(":telefono", $telefono);
             $consulta->bindParam(":email", $email);
+            $consulta->bindParam(":usuario", $usuario);
             $consulta->bindParam(":estatus", $estatus);
 
             return $consulta->execute();
