@@ -47,6 +47,7 @@
 	<div class="sidebar sidebar-dark bg-dark">
     <ul class="list-unstyled">
         <li><a href="<?= ROOT;?>Usuario"><i class="fa fa-fw fa-user"></i> Usuarios</a></li>
+        <li><a href="<?= ROOT;?>Empleado"><i class="fa fa-fw fa-wrench"></i> Empleados</a></li>
         <li><a href="<?= ROOT;?>Cliente"><i class="fa fa-fw fa-users"></i> Clientes</a></li>
         <li><a href="<?= ROOT;?>Proveedor"><i class="fa fa-fw fa-truck"></i> Proveedores</a></li>
         <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-chart-area"></i> Inventario</a></li>
