@@ -60,8 +60,8 @@
                 <i class="fa fa-fw fa-sitemap"></i> Gestion de Productos
             </a>
             <ul id="sm_expand_1" class="list-unstyled collapse">
-                <li><a href="<?= ROOT;?>Producto"><i class="fa fa-fw fa-tag"></i> Categoria</a></li>
-                <li><a href="<?= ROOT;?>Categoria"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
+                <li><a href="<?= ROOT;?>Producto"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
+                <li><a href="<?= ROOT;?>Categoria"><i class="fa fa-fw fa-tag"></i> Categoría</a></li>
             </ul>
         </li>
         <li>

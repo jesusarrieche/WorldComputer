@@ -357,5 +357,5 @@
 </div>
 
 
-<!--<script src="<?//= ROOT; ?>public/assets/js/producto/index.js"></script>-->
+<script src="<?= ROOT; ?>public/assets/js/producto/index.js"></script>
 
