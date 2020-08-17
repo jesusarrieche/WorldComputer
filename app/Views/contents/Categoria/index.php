@@ -18,39 +18,7 @@
               </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Raton</td>
-                    <td>Raton entrada USB</td>
-                    <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Disponible</a></td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'>
-                            <i class='fas fa-search'></i>
-                        </a>
-                        <a href="#" class='editar btn btn-warning m-1'>
-                            <i class='fas fa-pencil-alt'></i>
-                        </a>
-                        <a href="$" class='eliminar btn btn-danger'>
-                            <i class='fas fa-trash-alt'></i>
-                        </a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Monitor</td>
-                    <td>Monitor PC entrada VGA</td>
-                    <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Disponible</a></td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'>
-                            <i class='fas fa-search'></i>
-                        </a>
-                        <a href="#" class='editar btn btn-warning m-1'>
-                            <i class='fas fa-pencil-alt'></i>
-                        </a>
-                        <a href="$" class='eliminar btn btn-danger'>
-                            <i class='fas fa-trash-alt'></i>
-                        </a>
-                    </td>
-                </tr>
+                
             </tbody>
           </table>
         </div>
@@ -132,7 +100,7 @@
 
 <!-- Modal Actualizar -->
 <div class="modal fade" id="modalActualizarCategoria" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
 
         <div class="card">
@@ -168,5 +136,5 @@
 </div>
 
 
-<!--<script src="<?//= ROOT; ?>public/assets/js/categoria/index.js"></script>-->
+<script src="<?= ROOT; ?>public/assets/js/categoria/index.js"></script>
 

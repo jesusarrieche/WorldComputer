@@ -21,44 +21,7 @@
               </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>M0N1T0R</td>
-                    <td>Lg 4059</td>
-                    <td>Monitor</td>
-                    <td>100.000 bs</td>
-                    <td>100</td>
-                    <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Disponible</a></td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'>
-                            <i class='fas fa-search'></i>
-                        </a>
-                        <a href="#" class='editar btn btn-warning m-1'>
-                            <i class='fas fa-pencil-alt'></i>
-                        </a>
-                        <a href="$" class='eliminar btn btn-danger'>
-                            <i class='fas fa-trash-alt'></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>K3YB04RD</td>
-                    <td>Hp invent</td>
-                    <td>Raton</td>
-                    <td>50.000 bs</td>
-                    <td>50</td>
-                    <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Disponible</a></td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'>
-                            <i class='fas fa-search'></i>
-                        </a>
-                        <a href="#" class='editar btn btn-warning m-1'>
-                            <i class='fas fa-pencil-alt'></i>
-                        </a>
-                        <a href="$" class='eliminar btn btn-danger'>
-                            <i class='fas fa-trash-alt'></i>
-                        </a>
-                    </td>
-                </tr>
+                
             </tbody>
           </table>
         </div>
