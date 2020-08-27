@@ -198,14 +198,19 @@
 
 
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <i class="fas fa-angle-double-down"></i> <label for="stock_min"><strong>Stock Minimo</strong></label>
                             <input class="form-control-plaintext" disabled type="number" name="stock_min" id="stock_min" placeholder="Ej. 5" required >
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <i class="fas fa-angle-double-up"></i> <label for="stock_max"><strong>Stock Maximo</strong></label>
                             <input class="form-control-plaintext" disabled type="number" name="stock_max" id="stock_max" placeholder="E j. 10" required >
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <i class="fas fa-angle-double-up"></i> <label for="stock"><strong>Stock</strong></label>
+                            <input class="form-control-plaintext" disabled type="number" name="stock" id="stock" placeholder="E j. 10" required >
                         </div>
                     </div>
 

@@ -88,4 +88,15 @@ class Model extends Database{
             die("Error: ". $ex->getMessage());
         }
     }
+    public function habilitar($tabla, $id){    //Metodo habilita un registro
+        try{
+            $consulta = parent::connect()->prepare("UPDATE $tabla SET estatus='ACTIVO' WHERE id=$id");
+
+            return $consulta->execute();
+
+        } catch (Exception $ex) {
+            
+            die("Error: ". $ex->getMessage());
+        }
+    }
 }
