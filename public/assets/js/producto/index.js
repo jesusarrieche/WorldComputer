@@ -131,6 +131,7 @@ $(document).ready(function () {
                     $(formulario).find('textarea#descripcion').val(json.data.descripcion);
                     $(formulario).find('input#stock_min').val(json.data.stock_min);
                     $(formulario).find('input#stock_max').val(json.data.stock_max);
+                    $(formulario).find('input#stock').val(json.data.stock);
                 }else{
                     
                     $(formulario).find('input#id').val(json.data.id);
@@ -142,7 +143,7 @@ $(document).ready(function () {
                     $(formulario).find('textarea#descripcion').val(json.data.descripcion);
                     $(formulario).find('input#stock_min').val(json.data.stock_min);
                     $(formulario).find('input#stock_max').val(json.data.stock_max);
-
+                    $(formulario).find('input#stock').val(json.data.stock);
                 }
     
                 $(modal).modal('show');
@@ -256,6 +257,29 @@ $(document).ready(function () {
         });
     }
 
+    const habilitarProducto = (id) => {
+        $.ajax({
+            type: "HABILITAR",
+            url: "/WorldComputer/producto/habilitar/" + id,
+            success: function (response) {
+                const json = JSON.parse(response);
+                if(json.tipo == 'success'){
+                    Swal.fire(
+                        'Activado!',
+                        'El producto ha sido habilitado!',
+                        'success'
+                        )
+    
+                    table.ajax.reload();
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+
     const generarCodigo = ( letra, longitud, numeroFinal, elemento) => {  
         $.ajax({
             type: "POST",
@@ -360,5 +384,27 @@ $(document).ready(function () {
         console.log($(this).attr('href'));
     });
     
+    $('body').on('click', '.estatusAnulado', function (e) {
+        e.preventDefault();
+    
+        Swal.fire({
+            title: 'Esta Seguro?',
+            text: "El producto será habilitado en el sistema!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Si, eliminar!'
+            }).then((result) => {
+            if (result.value) {
+    
+                habilitarProducto($(this).attr('href'));
+                
+            }
+            })
+        console.log($(this).attr('href'));
+    });
+
     });
     

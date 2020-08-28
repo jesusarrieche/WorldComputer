@@ -25,12 +25,18 @@ class ProductoController extends Controller{
 
         $param = $this->desencriptar($param);
 
-        $producto = $this->producto->query("SELECT p.id, c.id AS categoria_id, u.id AS unidad_id, p.codigo, p.nombre, c.nombre AS categoria, u.nombre AS unidad, p.precio_porcentaje AS porcentaje, p.precio_venta AS precio, p.descripcion, p.stock, p.stock_min, p.stock_max, p.estatus 
+        $producto = $this->producto->query("SELECT p.id, c.id AS categoria_id, u.id AS unidad_id, p.codigo, p.nombre, c.nombre AS categoria, u.nombre AS unidad, p.precio_porcentaje AS porcentaje, p.precio_venta AS precio, p.descripcion, IFNULL(e.total_entrada - s.total_salida,0) AS stock, p.stock_min, p.stock_max, p.estatus 
             FROM productos p
             JOIN categorias c 
                 ON p.categoria_id = c.id
             JOIN unidades u
                 ON p.unidad_id = u.id
+            LEFT JOIN
+            v_entradas e
+                ON p.id = e.id
+            LEFT JOIN
+            v_salidas s 
+                ON p.id = s.id
             WHERE p.id = '$param' LIMIT 1");
         $producto = $producto->fetch(PDO::FETCH_OBJ);                                    
 
@@ -58,8 +64,13 @@ class ProductoController extends Controller{
 
             $producto->button = 
             "<a href='/WorldComputer/producto/mostrar/". $this->encriptar($producto->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-            "<a href='/WorldComputer/producto/mostrar/". $this->encriptar($producto->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
-            "<a href='". $this->encriptar($producto->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
+            "<a href='/WorldComputer/producto/mostrar/". $this->encriptar($producto->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>";
+            if($producto->estatus == "ACTIVO"){
+                $producto->button .= "<a href='". $this->encriptar($producto->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
+            }
+            else{
+                $producto->button .= "<a href='". $this->encriptar($producto->id) ."' class='estatusAnulado btn btn-outline-info'><i class='fas fa-trash' title='ACTIVAR'></i></a>";
+            }
 
         }
 
@@ -283,6 +294,39 @@ class ProductoController extends Controller{
         $id = $this->desencriptar($id);
     
         if($this->producto->eliminar("productos", $id)){
+    
+          http_response_code(200);
+    
+          echo json_encode([
+            'titulo' => 'Registro eliminado!',
+            'mensaje' => 'Registro eliminado en nuestro sistema',
+            'tipo' => 'success'
+          ]);
+        }else{
+          http_response_code(404);
+    
+          echo json_encode([
+            'titulo' => 'Ocurio un error!',
+            'mensaje' => 'No se pudo eliminar el registro',
+            'tipo' => 'error'
+          ]);
+        }
+        
+    
+    }
+
+    public function habilitar($id){
+
+        $method = $_SERVER['REQUEST_METHOD'];
+    
+        if( $method != 'HABILITAR'){
+          http_response_code(404);
+          return false;
+        }
+    
+        $id = $this->desencriptar($id);
+    
+        if($this->producto->habilitar("productos", $id)){
     
           http_response_code(200);
     
