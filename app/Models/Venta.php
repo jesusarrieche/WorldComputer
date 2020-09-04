@@ -63,7 +63,7 @@ class Venta extends Movimiento{
 
     public function ultimoDocumento(){
         try {
-            $consulta = parent::connect()->prepare("SELECT num_venta FROM ventas ORDER BY id DESC LIMIT 1");
+            $consulta = parent::connect()->prepare("SELECT codigo FROM ventas ORDER BY id DESC LIMIT 1");
             $consulta->execute();
             return $consulta->fetch(PDO::FETCH_COLUMN);
         } catch (Exception $ex){
