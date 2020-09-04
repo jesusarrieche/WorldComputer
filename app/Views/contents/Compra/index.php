@@ -151,4 +151,4 @@
     </div>
 </div>
 
-<!--<script src="<?//= ROOT; ?>public/assets/js/compra/index.js"></script>-->
+<script src="<?= ROOT; ?>public/assets/js/compra/index.js"></script>

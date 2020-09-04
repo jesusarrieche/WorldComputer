@@ -66,8 +66,8 @@ class CompraController extends Controller{
                 }
 
                 $compra->button = 
-                "<a href='/FrameworkJD/compra/mostrar/". $this->encriptar($compra->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-                "<a href='/FrameworkJD/compra/compraPDF/". $this->encriptar($compra->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
+                "<a href='/WorldComputer/compra/mostrar/". $this->encriptar($compra->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+                "<a href='/WorldComputer/compra/compraPDF/". $this->encriptar($compra->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
             }
 
         http_response_code(200);

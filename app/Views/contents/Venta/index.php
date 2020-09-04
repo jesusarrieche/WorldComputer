@@ -19,27 +19,7 @@
               </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>0001</td>
-                    <td>02/01/2020</td>
-                    <td>grupo Gonzales S.A.</td>
-                    <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a></td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'><i class='fas fa-search'></i></a>
-                        <a href="#" class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>0002</td>
-                    <td>01/01/2020</td>
-                    <td>grupo Gonzales S.A.</td>
-                    <td><a href="#" class='btn btn-danger estatus'><i class='fas fa-window-close'></i> Anulada</a></td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'><i class='fas fa-search'></i></a>
-                        <a href="#" class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>
-                    </td>
-                </tr>
+               
             </tbody>
           </table>
         </div>
@@ -157,5 +137,5 @@
 </div>
 
 
-<!--<script src="<?//= ROOT; ?>public/assets/js/venta/index.js"></script>-->
+<script src="<?= ROOT; ?>public/assets/js/venta/index.js"></script>
 

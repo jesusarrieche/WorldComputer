@@ -8,7 +8,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: '/FrameworkJD/venta/listar'
+            url: '/WorldComputer/venta/listar'
         },
         columns: [
             { data: 'num_venta' },
@@ -101,7 +101,7 @@ $(document).ready(function () {
     const cambiarEstatus = (id) => {
         $.ajax({
             type: "POST",
-            url: "/FrameworkJD/venta/cambiarEstatus/" + id,
+            url: "/WorldComputer/venta/cambiarEstatus/" + id,
             success: function (response) {
                 json = JSON.parse(response);
 
