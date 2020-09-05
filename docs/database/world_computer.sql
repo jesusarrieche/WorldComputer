@@ -790,7 +790,7 @@ entradas e
 GROUP BY p.id, p.codigo, p.nombre;
 
 -- ENTRADAS TOTALES
-CREATE VIEW v_entradas_totales AS SELECT p.id, p.codigo, p.nombre, (vec.total + ver.total) AS total FROM
+CREATE VIEW v_entradas_totales AS SELECT p.id, p.codigo, p.nombre, vec.total AS compras, ver.total AS cargos, (vec.total + ver.total) AS total FROM
 productos p
 	JOIN
 v_entradas_compras vec
@@ -798,4 +798,40 @@ v_entradas_compras vec
 	JOIN
 v_entradas_recargo ver
   ON ver.id = vec.id
-GROUP BY p.id, p.codigo, p.nombre
+GROUP BY p.id, p.codigo, p.nombre;
+
+
+-- SALIDAS POR VENTAS
+CREATE VIEW v_salidas_ventas AS SELECT p.id, p.codigo, p.nombre, SUM(dv.cantidad) as total FROM
+productos p
+	LEFT JOIN
+detalle_venta dv
+  ON p.id = dv.producto_id
+  LEFT JOIN
+ventas v
+	ON dv.venta_id = v.id
+	WHERE v.estatus = 'ACTIVO'
+GROUP BY p.id, p.codigo, p.nombre;
+
+-- SALIDAS POR DESCARGO
+CREATE VIEW v_salidas_descargo AS SELECT p.id, p.codigo, p.nombre, SUM(ds.cantidad) as total FROM
+productos p
+	LEFT JOIN
+detalle_salida ds
+  ON p.id = ds.producto_id
+  LEFT JOIN
+salidas s
+	ON ds.salida_id = s.id
+	WHERE s.estatus = 'ACTIVO'
+GROUP BY p.id, p.codigo, p.nombre;
+
+-- SALIDAS TOTALES
+CREATE VIEW v_salidas_totales AS SELECT p.id, p.codigo, p.nombre, vsv.total AS ventas, vsd.total AS descargos, (vsv.total + vsd.total) AS total FROM
+productos p
+	JOIN
+v_salidas_ventas vsv
+	ON vsv.id = p.id
+	JOIN
+v_salidas_descargo vsd
+  ON vsd.id = vsv.id
+GROUP BY p.id, p.codigo, p.nombre;
