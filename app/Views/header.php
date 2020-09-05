@@ -50,8 +50,19 @@
         <li><a href="<?= ROOT;?>Empleado"><i class="fa fa-fw fa-wrench"></i> Empleados</a></li>
         <li><a href="<?= ROOT;?>Cliente"><i class="fa fa-fw fa-users"></i> Clientes</a></li>
         <li><a href="<?= ROOT;?>Proveedor"><i class="fa fa-fw fa-truck"></i> Proveedores</a></li>
-        <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-chart-area"></i> Inventario</a></li>
-        <li><a href="<?= ROOT;?>Compra"><i class="fa fa-fw fa-shopping-cart"></i>Compras</a></li>
+        <li>
+            <a href="#inventory_collapse" data-toggle="collapse">
+                <i class="fa fa-fw fa-chart-area"></i> Inventario
+            </a>
+
+            <ul id="inventory_collapse" class="list-unstyled collapse">
+                <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
+                <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-down"></i> Cargos de Inventario</a></li>
+                <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-up"></i> Descargos de Inventario</a></li>
+
+            </ul>
+        </li>
+        <li><a href="<?= ROOT;?>Compra"><i class="fa fa-fw fa-shopping-cart"></i> Compras</a></li>
         <li><a href="<?= ROOT;?>Venta"><i class="fa fa-fw fa-dollar-sign"></i> Ventas</a></li>
         <li><a href="<?= ROOT;?>Venta/Crear"><i class="fa fa-fw fa-shopping-basket"></i> Caja</a></li>
         <li><a href="<?= ROOT;?>Reporte"><i class="fa fa-fw fa-calendar"></i> Reportes</a></li>

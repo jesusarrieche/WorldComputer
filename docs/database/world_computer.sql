@@ -16,7 +16,7 @@ USE `world_computer` ;
 -- Table `world_computer`.`proveedores`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`proveedores` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `documento` VARCHAR(15) NOT NULL UNIQUE,
   `razon_social` VARCHAR(45) NOT NULL,
   `direccion` VARCHAR(45) NULL,
@@ -35,7 +35,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`clientes`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`clientes` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `documento` VARCHAR(15) NOT NULL UNIQUE,
   `nombre` VARCHAR(45) NULL,
   `apellido` VARCHAR(45) NULL,
@@ -55,7 +55,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`categorias`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`categorias` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion` VARCHAR(255) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
@@ -71,7 +71,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`marcas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`marcas` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
@@ -87,7 +87,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`modelos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`modelos` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `description` VARCHAR(45) NULL,
   `marca_id` INT NOT NULL,
@@ -108,7 +108,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`unidades`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`unidades` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `abreviatura` VARCHAR(5) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'activo',
@@ -124,17 +124,17 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`productos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`productos` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
   `nombre` VARCHAR(45) NULL,
   `descripcion` VARCHAR(45) NULL,
   `precio_venta` DOUBLE NULL,
-  `precio_procentaje` DOUBLE NULL,
+  `precio_porcentaje` DOUBLE NULL,
   `stock` INT(11) NULL DEFAULT 0,
   `stock_min` INT(11) NULL DEFAULT 0,
   `stock_max` INT(11) NULL DEFAULT 0,
   `descuento` DOUBLE NULL,
-  `impuesto` DOUBLE NULL,
+  `impuesto` VARCHAR(45) NULL DEFAULT '0',
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
   `categoria_id` INT NOT NULL,
   `modelo_id` INT NOT NULL,
@@ -165,10 +165,10 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`ventas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`ventas` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
-  `fecha` DATETIME NULL,
-  `impuesto` VARCHAR(45) NULL,
+  `fecha` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `impuesto` VARCHAR(45) NULL DEFAULT '0',
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
   `cliente_id` INT NOT NULL,
 
@@ -187,7 +187,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`detalle_venta`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_venta` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `cantidad` VARCHAR(45) NOT NULL,
   `precio` VARCHAR(45) NOT NULL,
   `producto_id` INT NOT NULL,
@@ -213,19 +213,19 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`compras`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`compras` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
   `cod_ref` VARCHAR(45) NULL,
-  `fecha` DATETIME NOT NULL,
-  `impuesto` DECIMAL NULL,
+  `fecha` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `impuesto` VARCHAR(45) NULL DEFAULT '0',
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
-  `proveedores_id` INT NOT NULL,
+  `proveedor_id` INT NOT NULL,
 
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_compras_proveedores1`
-    FOREIGN KEY (`proveedores_id`)
+    FOREIGN KEY (`proveedor_id`)
     REFERENCES `world_computer`.`proveedores` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -236,7 +236,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`detalle_compra`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_compra` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `costo` DOUBLE NOT NULL,
   `cantidad` VARCHAR(45) NOT NULL,
   `producto_id` INT NOT NULL,
@@ -262,7 +262,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`roles`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`roles` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
@@ -278,7 +278,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`usuarios`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`usuarios` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `documento` VARCHAR(15) NOT NULL UNIQUE,
   `nombre` VARCHAR(45) NULL,
   `apellido` VARCHAR(45) NULL,
@@ -305,7 +305,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`permisos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`permisos` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
@@ -344,7 +344,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`entradas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`entradas` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
   `fecha` DATETIME NOT NULL,
   `tipo` VARCHAR(45) NOT NULL,
@@ -362,7 +362,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`salidas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`salidas` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
   `fecha` DATETIME NOT NULL,
   `tipo` VARCHAR(45) NOT NULL,
@@ -380,9 +380,9 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`detalle_salida`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_salida` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `cantidad` DOUBLE NOT NULL,
-  `precio` VARCHAR(45) NOT NULL,
+  `precio` DOUBLE NULL,
   `producto_id` INT NOT NULL,
   `salida_id` INT NOT NULL,
 
@@ -406,7 +406,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`detalle_entrada`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_entrada` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `cantidad` DOUBLE NULL,
   `costo` DOUBLE NULL,
   `producto_id` INT NOT NULL,
@@ -432,7 +432,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`servicios`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`servicios` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
   `precio` VARCHAR(45) NULL,
@@ -449,7 +449,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`empleados`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`empleados` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `documento` VARCHAR(15) NOT NULL UNIQUE,
   `nombre` VARCHAR(45) NULL,
   `apellido` VARCHAR(45) NULL,
@@ -467,20 +467,21 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`servicio_venta`
+-- Table `world_computer`.`detalle_servicio`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`servicio_venta` (
-  `id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_servicio` (
+  `id` INT AUTO_INCREMENT,
   `cantidad` DOUBLE NOT NULL,
   `precio` DOUBLE NOT NULL,
   `empleado_id` INT NOT NULL,
   `venta_id` INT NOT NULL,
+  `servicio_id` INT NOT NULL,
 
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_servicios_has_ventas_servicios1`
-    FOREIGN KEY (`id`)
+    FOREIGN KEY (`servicio_id`)
     REFERENCES `world_computer`.`servicios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -501,7 +502,7 @@ ENGINE = InnoDB;
 -- Table `world_computer`.`bitacora`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`bitacora` (
-  `id` INT NOT NULL,
+  `id` INT AUTO_INCREMENT,
   `fecha` DATETIME NULL,
   `modulo` VARCHAR(45) NULL,
   `accion` VARCHAR(45) NULL,
@@ -523,9 +524,6 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
--- USUARIO
-INSERT INTO usuarios(documento, nombre, apellido, direccion, telefono, email, usuario, password, estatus)
-VALUES ('V-00000000', 'ADMINISTRADOR', 'ADMINISTRADOR', 'HIDROPARTS','000-0000000', 'administrador@email.com', 'administrador', 'bWxzUFhsenNNTERQQUdXY21odG0rdz09', 'ACTIVO');
 
 -- CLIENTES
 INSERT INTO clientes(documento, nombre, apellido, direccion, telefono, email, estatus) VALUES
@@ -547,7 +545,7 @@ INSERT INTO marcas(nombre, estatus) VALUES
 ('MERCUSYS', 'ACTIVO');
 
 -- MODELOS
-INSERT INTO modelos(id_marcas, nombre, estatus) VALUES
+INSERT INTO modelos(marca_id, nombre, estatus) VALUES
 ('1','WF155', 'ACTIVO'),
 ('1','MD399', 'ACTIVO'),
 ('1','JD110', 'ACTIVO'),
@@ -578,15 +576,15 @@ INSERT INTO categorias(nombre, descripcion) VALUES
 ('TELEFONIA', 'TELEFONOS EN GENERAL'),
 ('PC', 'PC GENERAL');
 
-INSERT INTO productos(categoria_id, unidad_id, codigo, nombre, precio_porcentaje) VALUES 
-('3', '1', 'P456125', 'ROUTER 3400', '30'),
-('3', '1', 'P456123', 'MODEM-ROUTER AJ300', '30'),
-('3', '1', 'P456154', 'ANTENA KE444', '30'),
-('2', '1', 'P456165', 'CAMARA AL300', '30'),
-('2', '1', 'P456187', 'ADAPTADOR 30K', '30');
+INSERT INTO productos(categoria_id, unidad_id, modelo_id, codigo, nombre, precio_porcentaje) VALUES 
+('3', '1', '1', 'P456125', 'ROUTER 3400', '30'),
+('3', '1', '2','P456123', 'MODEM-ROUTER AJ300', '30'),
+('3', '1', '3','P456154', 'ANTENA KE444', '30'),
+('2', '1', '4','P456165', 'CAMARA AL300', '30'),
+('2', '1', '5','P456187', 'ADAPTADOR 30K', '30');
 
 /* Roles */
-INSERT INTO roles(nombre, descripcion) VALUES ('super admin', 'todos los permisos del sistema');
+INSERT INTO roles(nombre, descripcion) VALUES ('admin', 'todos los permisos del sistema');
 
 /* Cargando Permisos */
 INSERT INTO permisos(nombre) VALUES 
@@ -672,3 +670,132 @@ INSERT INTO rol_permiso(rol_id, permiso_id) VALUES
 ('1','21'),
 ('1','22'),
 ('1','23');
+
+-- USUARIO
+INSERT INTO usuarios(rol_id, documento, nombre, apellido, direccion, telefono, email, usuario, password, estatus)
+VALUES ('1', 'V-00000000', 'ADMINISTRADOR', 'ADMINISTRADOR', 'HIDROPARTS','000-0000000', 'administrador@email.com', 'administrador', 'bWxzUFhsenNNTERQQUdXY21odG0rdz09', 'ACTIVO');
+
+-- COMPRAS
+INSERT INTO compras(proveedor_id, codigo, cod_ref, fecha, impuesto) VALUES 
+('1', 'C000001', null, now(), '12,00'),
+('2', 'C000002', null, now(), '0'),
+('3', 'C000003', null, now(), '10,00');
+
+INSERT INTO detalle_compra(producto_id, compra_id, costo, cantidad) VALUES 
+('1', '1', '2000', '5'),
+('2', '1', '1000', '3'),
+('3', '1', '5000', '12'),
+
+('1', '2', '2000', '5'),
+('2', '2', '1000', '3'),
+('3', '2', '5000', '12'),
+
+('1', '3', '2000', '5'),
+('2', '3', '1000', '3'),
+('3', '3', '5000', '12');
+
+-- VENTAS
+INSERT INTO ventas(cliente_id, codigo, fecha) VALUES 
+('1', 'V000001', now()),
+('2', 'V000002', now()),
+('3', 'V000003', now());
+
+INSERT INTO detalle_venta(venta_id, producto_id, cantidad, precio) VALUES 
+('1', '1', '12', '2500'),
+('1', '2', '6', '500'),
+('1', '3', '10', '200'),
+
+('2', '1', '12', '2500'),
+('2', '2', '6', '500'),
+('2', '3', '10', '200'),
+
+('3', '1', '12', '2500'),
+('3', '2', '6', '500'),
+('3', '3', '10', '200');
+
+-- SERVICIOS
+INSERT INTO servicios(nombre, descripcion, precio) VALUES 
+('MANTENIMIENTO CAMARAS', 'Mantenimiento General', '6200'),
+('REPARACION UPS', 'Reparacion ', '2000'),
+('FORMATEO PC', 'Instalacion SO', '3500');
+
+INSERT INTO detalle_servicio(venta_id, servicio_id, empleado_id, cantidad, precio) VALUES 
+('1', '2', '2', '1', '2000'),
+('2', '2', '3', '1', '2000'),
+('3', '2', '3', '1', '2000');
+
+-- ENTRADAS
+INSERT INTO entradas(codigo, fecha, tipo, observacion) VALUES 
+('E000001', now(), 'APORTE', 'aporte de un socio'),
+('E000002', now(), 'PRESTAMO', 'prestamo de mercancia'),
+('E000003', now(), 'APORTE', 'aporte de un socio');
+
+INSERT INTO detalle_entrada(entrada_id, producto_id, cantidad) VALUES 
+('1', '1', '20'),
+('1', '1', '20'),
+('1', '1', '20'),
+
+('2', '2', '20'),
+('2', '2', '20'),
+('2', '2', '20'),
+
+('3', '3', '20'),
+('3', '3', '20'),
+('3', '3', '20');
+
+-- SALIDAS
+INSERT INTO salidas(codigo, fecha, tipo, observacion) VALUES 
+('S000001', now(), 'RETIRO', 'retiro de un socio'),
+('S000002', now(), 'PRESTAMO', 'prestamo de mercancia'),
+('S000003', now(), 'RETIRO', 'retiro de un socio');
+
+INSERT INTO detalle_salida(salida_id, producto_id, cantidad) VALUES 
+('1', '1', '5'),
+('1', '1', '5'),
+('1', '1', '5'),
+
+('2', '2', '5'),
+('2', '2', '5'),
+('2', '2', '5'),
+
+('3', '3', '5'),
+('3', '3', '5'),
+('3', '3', '5');
+
+
+/* VISTAS */
+
+-- ENTRADAS POR COMPRAS
+CREATE VIEW v_entradas_compras AS SELECT p.id, p.codigo, p.nombre, SUM(dc.cantidad) as total FROM
+productos p
+	LEFT JOIN
+detalle_compra dc
+  ON p.id = dc.producto_id
+  LEFT JOIN
+compras c
+	ON dc.compra_id = c.id
+	WHERE c.estatus = 'ACTIVO'
+GROUP BY p.id, p.codigo, p.nombre;
+
+-- ENTRADAS POR RECARGOS
+CREATE VIEW v_entradas_recargo AS SELECT p.id, p.codigo, p.nombre, SUM(de.cantidad) as total FROM
+productos p
+	LEFT JOIN
+detalle_entrada de
+  ON p.id = de.producto_id
+  LEFT JOIN
+entradas e
+	ON de.entrada_id = e.id
+	WHERE e.estatus = 'ACTIVO'
+GROUP BY p.id, p.codigo, p.nombre;
+
+-- ENTRADAS TOTALES
+CREATE VIEW v_entradas_totales AS SELECT p.id, p.codigo, p.nombre, (vec.total + ver.total) AS total FROM
+productos p
+	JOIN
+v_entradas_compras vec
+	ON vec.id = p.id
+	JOIN
+v_entradas_recargo ver
+  ON ver.id = vec.id
+GROUP BY p.id, p.codigo, p.nombre
