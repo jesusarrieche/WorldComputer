@@ -7,9 +7,9 @@ use PDO;
 class Database {
     private $driver = 'mysql';
     private $host = 'localhost';
-    private $dbname = 'world_computer';
-    private $user = 'root';
-    private $password = '';
+    private $dbname = 'wcdns.admin_wc';
+    private $user = 'wcdns.admin_db';
+    private $password = 'uHgo3LrOn9';
 
     public function __construct(){
         $this->connect();
