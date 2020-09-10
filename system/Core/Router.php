@@ -41,14 +41,14 @@ class Router {
     }
 
     public function setController(){
-        $this->controller = $this->uri[2] === '' ? 'Home' : $this->uri[2];
+        $this->controller = $this->uri[1] === '' ? 'Home' : $this->uri[1];
     }
 
     public function setMethod(){
-        $this->method = !empty($this->uri[3]) ? $this->uri[3] : 'index';
+        $this->method = !empty($this->uri[2]) ? $this->uri[2] : 'index';
     }
 
     public function setParam(){
-        $this->param = !empty($this->uri[4]) ? $this->uri[4] : null;
+        $this->param = !empty($this->uri[3]) ? $this->uri[3] : null;
     }
 }
