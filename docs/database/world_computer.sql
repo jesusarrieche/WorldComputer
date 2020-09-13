@@ -835,3 +835,19 @@ v_salidas_ventas vsv
 v_salidas_descargo vsd
   ON vsd.id = vsv.id
 GROUP BY p.id, p.codigo, p.nombre;
+
+-- VISTA INVENTARIO
+CREATE VIEW v_inventario AS SELECT p.id, p.codigo, p.nombre, c.nombre AS categoria, p.precio_venta, IFNULL((e.compras + e.cargos) - (s.ventas + s.descargos),0) AS stock, p.stock_min, p.stock_max, p.estatus FROM
+productos p
+	LEFT JOIN
+v_entradas_totales e
+	ON p.id = e.id
+    LEFT JOIN
+v_salidas_totales s 
+	ON p.id = s.id
+    JOIN
+categorias c 
+	ON p.categoria_id = c.id
+-- WHERE p.estatus = 'ACTIVO'
+GROUP BY p.id, p.codigo, p.nombre, p.precio_venta, p.stock_min, p.stock_max  
+ORDER BY `p`.`id` ASC
