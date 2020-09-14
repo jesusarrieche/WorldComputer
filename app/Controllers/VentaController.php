@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use App\Models\Producto;
 use App\Models\Salida;
 use App\Models\Venta;
+use App\Models\DetalleVenta;
 use App\Traits\Utility;
 use PDO;
 use System\Core\Controller;
@@ -13,10 +14,11 @@ use System\Core\View;
 
 class VentaController extends Controller{
 
-    private $cliente;
-    private $producto;
-    private $venta;
-    private $salida;
+    private Cliente $cliente;
+    private Producto $producto;
+    private Venta $venta;
+    private DetalleVenta $detalleVenta;
+    // private Salida $salida;
 
     use Utility;
 
@@ -24,7 +26,8 @@ class VentaController extends Controller{
         $this->cliente = new Cliente;
         $this->producto = new Producto;
         $this->venta = new Venta;
-        $this->salida = new Salida;
+        $this->detalleVenta = new DetalleVenta;
+        // $this->salida = new Salida;
     }
 
     public function index(){
@@ -35,7 +38,7 @@ class VentaController extends Controller{
 
         $num_documento = $this->venta->formatoDocumento($this->venta->ultimoDocumento());
         $clientes = $this->cliente->getAll('clientes', "estatus = 'ACTIVO'");
-        $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO' AND stock > 0");
+        $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO' AND stock > 0 AND precio_venta != 'null'");
         $iva = $this->producto->getValorColumna('impuestos','valor','id = 2');
 
         return View::getView('Venta.create', 
@@ -83,21 +86,21 @@ class VentaController extends Controller{
 
         $idVenta = $this->desencriptar($param);
 
-        $query = $this->venta->query("SELECT v.id, v.num_venta, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.total, v.estatus FROM
+        $query = $this->venta->query("SELECT v.id, v.codigo, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.estatus FROM
             ventas v
                 LEFT JOIN
             clientes c
                 ON v.cliente_id = c.id
             WHERE v.id = '$idVenta' LIMIT 1");
 
-        $query2 = $this->venta->query("SELECT v.id, p.codigo, p.nombre, s.cantidad, s.precio FROM 
+        $query2 = $this->venta->query("SELECT v.id, p.codigo, p.nombre, dv.cantidad, dv.precio FROM 
             productos p 
                 JOIN
-            salidas s
-                ON p.id = s.producto_id
+            detalle_venta dv
+                ON p.id = dv.producto_id
                 JOIN
             ventas v 
-                ON s.venta_id = v.id
+                ON dv.venta_id = v.id
             WHERE v.id = '$idVenta'");
             
         // Encabezado Venta
@@ -136,14 +139,14 @@ class VentaController extends Controller{
         $contador = 0;
         foreach($productos AS $producto){
 
-            $salida = new Salida();
+            $detalleVenta = new DetalleVenta();
             
-            $salida->setProductoId($productos[$contador]);
-            $salida->setVentaId($lastId);
-            $salida->setCantidad($cantidad[$contador]);
-            $salida->setPrecio($precio[$contador]);
+            $detalleVenta->setProductoId($productos[$contador]);
+            $detalleVenta->setVentaId($lastId);
+            $detalleVenta->setCantidad($cantidad[$contador]);
+            $detalleVenta->setPrecio($precio[$contador]);
 
-            $this->salida->registrar($salida);
+            $this->detalleVenta->registrar($detalleVenta);
 
             $contador++;
         }
@@ -192,21 +195,21 @@ class VentaController extends Controller{
 
         $idVenta = $this->desencriptar($param);
 
-        $query = $this->venta->query("SELECT v.id, v.num_venta, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.total, v.estatus FROM
+        $query = $this->venta->query("SELECT v.id, v.codigo, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.estatus FROM
             ventas v
                 LEFT JOIN
             clientes c
                 ON v.cliente_id = c.id
             WHERE v.id = '$idVenta' LIMIT 1");
 
-        $query2 = $this->venta->query("SELECT v.id, p.codigo, p.nombre, s.cantidad, s.precio FROM 
+        $query2 = $this->venta->query("SELECT v.id, p.codigo, p.nombre, dv.cantidad, dv.precio FROM 
             productos p 
                 JOIN
-            salidas s
-                ON p.id = s.producto_id
+            detalle_venta dv
+                ON p.id = dv.producto_id
                 JOIN
             ventas v 
-                ON s.venta_id = v.id
+                ON dv.venta_id = v.id
             WHERE v.id = '$idVenta'");
             
         // Encabezado Venta

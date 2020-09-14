@@ -98,9 +98,9 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`modelos` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_modelos_marcas1`
     FOREIGN KEY (`marca_id`)
-    REFERENCES `world_computer`.`marcas` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `world_computer`.`marcas` (`id`) MATCH FULL
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`productos` (
   `impuesto` VARCHAR(45) NULL DEFAULT '0',
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
   `categoria_id` INT NOT NULL,
-  `modelo_id` INT NOT NULL,
+  -- `modelo_id` INT NOT NULL,
   `unidad_id` INT NOT NULL,
 
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -145,19 +145,20 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`productos` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_productos_categorias1`
     FOREIGN KEY (`categoria_id`)
-    REFERENCES `world_computer`.`categorias` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_productos_modelos1`
-    FOREIGN KEY (`modelo_id`)
-    REFERENCES `world_computer`.`modelos` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `world_computer`.`categorias` (`id`) MATCH FULL
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  -- CONSTRAINT `fk_productos_modelos1`
+  --   FOREIGN KEY (`modelo_id`)
+  --   REFERENCES `world_computer`.`modelos` (`id`) MATCH FULL
+  --   ON UPDATE CASCADE
+  --   ON DELETE CASCADE,
   CONSTRAINT `fk_productos_unidades1`
     FOREIGN KEY (`unidad_id`)
-    REFERENCES `world_computer`.`unidades` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `world_computer`.`unidades` (`id`) MATCH FULL
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+    )
 ENGINE = InnoDB;
 
 
@@ -519,10 +520,25 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`bitacora` (
 ENGINE = InnoDB;
 
 
+CREATE TABLE impuestos(
+    id INT AUTO_INCREMENT,
+    nombre VARCHAR(50) UNIQUE,
+    valor DECIMAL(4,2) NOT NULL,
+    estatus VARCHAR(15) DEFAULT 'ACTIVO',
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT id_impuestos PRIMARY KEY(id)
+);
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
+
+INSERT INTO impuestos(nombre, valor) VALUES ('iva', '12.00'), ('iva2', '16.00');
 
 
 -- CLIENTES
@@ -576,12 +592,19 @@ INSERT INTO categorias(nombre, descripcion) VALUES
 ('TELEFONIA', 'TELEFONOS EN GENERAL'),
 ('PC', 'PC GENERAL');
 
-INSERT INTO productos(categoria_id, unidad_id, modelo_id, codigo, nombre, precio_porcentaje) VALUES 
-('3', '1', '1', 'P456125', 'ROUTER 3400', '30'),
-('3', '1', '2','P456123', 'MODEM-ROUTER AJ300', '30'),
-('3', '1', '3','P456154', 'ANTENA KE444', '30'),
-('2', '1', '4','P456165', 'CAMARA AL300', '30'),
-('2', '1', '5','P456187', 'ADAPTADOR 30K', '30');
+-- INSERT INTO productos(categoria_id, unidad_id, modelo_id, codigo, nombre, precio_porcentaje) VALUES 
+-- ('3', '1', '1', 'P456125', 'ROUTER 3400', '30'),
+-- ('3', '1', '2','P456123', 'MODEM-ROUTER AJ300', '30'),
+-- ('3', '1', '3','P456154', 'ANTENA KE444', '30'),
+-- ('2', '1', '4','P456165', 'CAMARA AL300', '30'),
+-- ('2', '1', '5','P456187', 'ADAPTADOR 30K', '30');
+
+INSERT INTO productos(categoria_id, unidad_id, codigo, nombre, precio_porcentaje) VALUES 
+('3', '1','P456125', 'ROUTER 3400', '30'),
+('3', '1','P456123', 'MODEM-ROUTER AJ300', '30'),
+('3', '1','P456154', 'ANTENA KE444', '30'),
+('2', '1','P456165', 'CAMARA AL300', '30'),
+('2', '1','P456187', 'ADAPTADOR 30K', '30');
 
 /* Roles */
 INSERT INTO roles(nombre, descripcion) VALUES ('admin', 'todos los permisos del sistema');
@@ -790,12 +813,12 @@ entradas e
 GROUP BY p.id, p.codigo, p.nombre;
 
 -- ENTRADAS TOTALES
-CREATE VIEW v_entradas_totales AS SELECT p.id, p.codigo, p.nombre, vec.total AS compras, ver.total AS cargos, (vec.total + ver.total) AS total FROM
+CREATE VIEW v_entradas_totales AS SELECT p.id, p.codigo, p.nombre, IFNULL(vec.total, 0) AS compras, IFNULL(ver.total, 0) AS cargos, (IFNULL(vec.total, 0) + IFNULL(ver.total, 0)) AS total FROM
 productos p
-	JOIN
+	LEFT JOIN
 v_entradas_compras vec
 	ON vec.id = p.id
-	JOIN
+	LEFT JOIN
 v_entradas_recargo ver
   ON ver.id = vec.id
 GROUP BY p.id, p.codigo, p.nombre;
@@ -826,12 +849,12 @@ salidas s
 GROUP BY p.id, p.codigo, p.nombre;
 
 -- SALIDAS TOTALES
-CREATE VIEW v_salidas_totales AS SELECT p.id, p.codigo, p.nombre, vsv.total AS ventas, vsd.total AS descargos, (vsv.total + vsd.total) AS total FROM
+CREATE VIEW v_salidas_totales AS SELECT p.id, p.codigo, p.nombre, IFNULL(vsv.total, 0) AS ventas, IFNULL(vsd.total, 0) AS descargos, (IFNULL(vsv.total, 0) + IFNULL(vsd.total, 0)) AS total FROM
 productos p
-	JOIN
+	LEFT JOIN
 v_salidas_ventas vsv
 	ON vsv.id = p.id
-	JOIN
+	LEFT JOIN
 v_salidas_descargo vsd
   ON vsd.id = vsv.id
 GROUP BY p.id, p.codigo, p.nombre;
@@ -850,4 +873,11 @@ categorias c
 	ON p.categoria_id = c.id
 -- WHERE p.estatus = 'ACTIVO'
 GROUP BY p.id, p.codigo, p.nombre, p.precio_venta, p.stock_min, p.stock_max  
-ORDER BY `p`.`id` ASC
+ORDER BY `p`.`id` ASC;
+
+
+-- DISPARADORES
+
+CREATE TRIGGER actualizar_precio_producto 
+AFTER INSERT ON detalle_compra FOR EACH ROW
+	UPDATE productos SET precio_venta = (NEW.costo * (precio_porcentaje / 100)+ NEW.costo) WHERE id = NEW.producto_id;

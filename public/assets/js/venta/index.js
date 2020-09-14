@@ -54,22 +54,23 @@ $(document).ready(function () {
             type: "POST",
             url: url,        
             success: function (response) {
+                console.log(response);
                 json = JSON.parse(response);
                 console.log(JSON.parse(response));
 
-                $('#numero_venta').val(json.venta.num_venta);
+                $('#numero_venta').val(json.venta.codigo);
                 $('#nombre_cliente').val(json.venta.cliente);
                 $('#rif_cliente').val(json.venta.rif_cliente);
                 $('#direccion_cliente').val(json.venta.direccion);
-                $('#total').val(json.venta.total);
 
 
                 $('#cuerpo').empty();
                 
                 let subtotal = 0;
+                var total = 0;
 
                 json.productos.forEach( element => {
-                    
+                    total += element.cantidad * element.precio;
                     subtotal += element.cantidad * element.precio;
 
                     let row = `
@@ -78,15 +79,20 @@ $(document).ready(function () {
                             <td>${element.codigo}</td>
                             <td>${element.nombre}</td>
                             <td>${element.precio}</td>
-                            <td>${element.precio * element.cantidad}</td>
+                            <td>${parseFloat(element.precio * element.cantidad).toFixed(2)}</td>
                         </tr>
                     `;
 
-                    $('#subtotal').val(subtotal);
-                    $('#impuesto').val(subtotal * 0.16)
+                    $('#subtotal').val(parseFloat(subtotal).toFixed(2));
+                    $('#impuesto').val(parseFloat(subtotal * 0.16).toFixed(2))
                     $('#cuerpo').append(row);
                     
                 });
+
+                total += (total * 0.16);
+
+                $('#total').val(parseFloat(total).toFixed(2));
+
                 
                 
                 $('#modalDetalleVenta').modal('show');
