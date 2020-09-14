@@ -15,7 +15,7 @@ class Venta extends Movimiento{
 
             $conexion->beginTransaction();
 
-            $sql = "SELECT v.id, v.num_venta, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.nombre AS cliente, v.estatus FROM
+            $sql = "SELECT v.id, v.codigo , Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.nombre AS cliente, v.estatus FROM
             ventas v
                 LEFT JOIN
             clientes c

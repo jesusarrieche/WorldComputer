@@ -677,9 +677,9 @@ VALUES ('1', 'V-00000000', 'ADMINISTRADOR', 'ADMINISTRADOR', 'HIDROPARTS','000-0
 
 -- COMPRAS
 INSERT INTO compras(proveedor_id, codigo, cod_ref, fecha, impuesto) VALUES 
-('1', 'C000001', null, now(), '12,00'),
-('2', 'C000002', null, now(), '0'),
-('3', 'C000003', null, now(), '10,00');
+('1', '000001', null, now(), '12,00'),
+('2', '000002', null, now(), '0'),
+('3', '000003', null, now(), '10,00');
 
 INSERT INTO detalle_compra(producto_id, compra_id, costo, cantidad) VALUES 
 ('1', '1', '2000', '5'),
@@ -696,9 +696,9 @@ INSERT INTO detalle_compra(producto_id, compra_id, costo, cantidad) VALUES
 
 -- VENTAS
 INSERT INTO ventas(cliente_id, codigo, fecha) VALUES 
-('1', 'V000001', now()),
-('2', 'V000002', now()),
-('3', 'V000003', now());
+('1', '000001', now()),
+('2', '000002', now()),
+('3', '000003', now());
 
 INSERT INTO detalle_venta(venta_id, producto_id, cantidad, precio) VALUES 
 ('1', '1', '12', '2500'),
@@ -726,9 +726,9 @@ INSERT INTO detalle_servicio(venta_id, servicio_id, empleado_id, cantidad, preci
 
 -- ENTRADAS
 INSERT INTO entradas(codigo, fecha, tipo, observacion) VALUES 
-('E000001', now(), 'APORTE', 'aporte de un socio'),
-('E000002', now(), 'PRESTAMO', 'prestamo de mercancia'),
-('E000003', now(), 'APORTE', 'aporte de un socio');
+('000001', now(), 'APORTE', 'aporte de un socio'),
+('000002', now(), 'PRESTAMO', 'prestamo de mercancia'),
+('000003', now(), 'APORTE', 'aporte de un socio');
 
 INSERT INTO detalle_entrada(entrada_id, producto_id, cantidad) VALUES 
 ('1', '1', '20'),
@@ -745,9 +745,9 @@ INSERT INTO detalle_entrada(entrada_id, producto_id, cantidad) VALUES
 
 -- SALIDAS
 INSERT INTO salidas(codigo, fecha, tipo, observacion) VALUES 
-('S000001', now(), 'RETIRO', 'retiro de un socio'),
-('S000002', now(), 'PRESTAMO', 'prestamo de mercancia'),
-('S000003', now(), 'RETIRO', 'retiro de un socio');
+('000001', now(), 'RETIRO', 'retiro de un socio'),
+('000002', now(), 'PRESTAMO', 'prestamo de mercancia'),
+('000003', now(), 'RETIRO', 'retiro de un socio');
 
 INSERT INTO detalle_salida(salida_id, producto_id, cantidad) VALUES 
 ('1', '1', '5'),

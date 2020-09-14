@@ -82,21 +82,21 @@ class CompraController extends Controller{
 
         $idCompra = $this->desencriptar($param);
 
-        $query = $this->compra->query("SELECT c.id, c.num_compra, Date_format(c.fecha,'%d/%m/%Y') AS fecha, Date_format(c.fecha,'%H:%i') AS hora, p.documento AS rif_proveedor, p.razon_social AS proveedor, IF(c.num_documento_referencia = null OR c.num_documento_referencia = '', 'N/A', c.num_documento_referencia) AS referencia, p.direccion, c.total, c.estatus FROM
+        $query = $this->compra->query("SELECT c.id, c.codigo, Date_format(c.fecha,'%d/%m/%Y') AS fecha, Date_format(c.fecha,'%H:%i') AS hora, p.documento AS rif_proveedor, p.razon_social AS proveedor, IF(c.cod_ref = null OR c.cod_ref = '', 'N/A', c.cod_ref) AS referencia, p.direccion, c.estatus FROM
             compras c
                 LEFT JOIN
             proveedores p
                 ON c.proveedor_id = p.id
             WHERE c.id = '$idCompra' LIMIT 1");
 
-        $query2 = $this->compra->query("SELECT c.id, p.codigo, p.nombre, e.cantidad, e.precio FROM 
+        $query2 = $this->compra->query("SELECT c.id, p.codigo, p.nombre, dc.cantidad, dc.costo FROM 
             productos p 
                 JOIN
-            entradas e
-                ON p.id = e.producto_id
+            detalle_compra dc
+                ON p.id = dc.producto_id
                 JOIN
             compras c 
-                ON e.compra_id = c.id
+                ON dc.compra_id = c.id
             WHERE c.id = '$idCompra'");
             
         // Encabezado Compra
@@ -141,7 +141,7 @@ class CompraController extends Controller{
             $entrada->setProductoId($productos[$contador]);
             $entrada->setCompraId($lastId);
             $entrada->setCantidad($cantidad[$contador]);
-            $entrada->setPrecio($precio[$contador]);
+            $entrada->setCosto($precio[$contador]);
 
             $this->entrada->registrar($entrada);
 
@@ -192,21 +192,21 @@ class CompraController extends Controller{
 
         $idCompra = $this->desencriptar($param);
 
-        $query = $this->compra->query("SELECT c.id, c.num_compra, Date_format(c.fecha,'%d/%m/%Y') AS fecha, Date_format(c.fecha,'%H:%i') AS hora, p.documento AS rif_proveedor, p.razon_social AS proveedor, IF(c.num_documento_referencia = null OR c.num_documento_referencia = '', 'N/A', c.num_documento_referencia) AS referencia, p.direccion, c.total, c.estatus FROM
+        $query = $this->compra->query("SELECT c.id, c.codigo, Date_format(c.fecha,'%d/%m/%Y') AS fecha, Date_format(c.fecha,'%H:%i') AS hora, p.documento AS rif_proveedor, p.razon_social AS proveedor, IF(c.cod_ref = null OR c.cod_ref = '', 'N/A', c.cod_ref) AS referencia, p.direccion, c.estatus FROM
             compras c
                 LEFT JOIN
             proveedores p
                 ON c.proveedor_id = p.id
             WHERE c.id = '$idCompra' LIMIT 1");
 
-        $query2 = $this->compra->query("SELECT c.id, p.codigo, p.nombre, e.cantidad, e.precio FROM 
+        $query2 = $this->compra->query("SELECT c.id, p.codigo, p.nombre, dc.cantidad, dc.costo FROM 
             productos p 
                 JOIN
-            entradas e
-                ON p.id = e.producto_id
+            detalle_compra dc
+                ON p.id = dc.producto_id
                 JOIN
             compras c 
-                ON e.compra_id = c.id
+                ON dc.compra_id = c.id
             WHERE c.id = '$idCompra'");
             
         // Encabezado Compra

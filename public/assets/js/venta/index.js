@@ -11,7 +11,7 @@ $(document).ready(function () {
             url: '/WorldComputer/venta/listar'
         },
         columns: [
-            { data: 'num_venta' },
+            { data: 'codigo' },
             { data: "fecha" },
             { data: 'cliente' },
             { data: 'button' },

@@ -25,7 +25,7 @@ class Compra extends Movimiento{
 
             $conexion->beginTransaction();
 
-            $sql = "SELECT c.id, c.num_compra, Date_format(c.fecha,'%d/%m/%Y') AS fecha, Date_format(c.fecha,'%H:%i') AS hora, p.razon_social AS proveedor, c.estatus FROM
+            $sql = "SELECT c.id, c.codigo, Date_format(c.fecha,'%d/%m/%Y') AS fecha, Date_format(c.fecha,'%H:%i') AS hora, p.razon_social AS proveedor, c.estatus FROM
             compras c
                 LEFT JOIN
             proveedores p
@@ -49,18 +49,18 @@ class Compra extends Movimiento{
 
             $dbh = parent::connect();
 
-            $consulta = $dbh->prepare("INSERT INTO compras(proveedor_id, num_compra, num_documento_referencia, total)" 
-                                                            . "VALUES (:proveedor_id, :num_compra, :documento_referencia, :total)");
+            $consulta = $dbh->prepare("INSERT INTO compras(proveedor_id, codigo, cod_ref)" 
+                                                            . "VALUES (:proveedor_id, :codigo, :cod_ref)");
 
             $proveedor_id = $compra->getPersonaId();
-            $num_compra = $compra->getNumeroDocumento();
+            $codigo = $compra->getNumeroDocumento();
             $documentoReferencia = $compra->getDocumentoReferencia();
             $total = $compra->getTotal();
 
             $consulta->bindParam(":proveedor_id", $proveedor_id);
-            $consulta->bindParam(":num_compra", $num_compra);
-            $consulta->bindParam(":documento_referencia", $documentoReferencia);
-            $consulta->bindParam(":total", $total);
+            $consulta->bindParam(":codigo", $codigo);
+            $consulta->bindParam(":cod_ref", $documentoReferencia);
+            // $consulta->bindParam(":total", $total);
 
             $consulta->execute();
 
@@ -75,7 +75,7 @@ class Compra extends Movimiento{
 
     public function ultimoDocumento(){
         try {
-            $consulta = parent::connect()->prepare("SELECT num_compra FROM compras ORDER BY id DESC LIMIT 1");
+            $consulta = parent::connect()->prepare("SELECT codigo FROM compras ORDER BY id DESC LIMIT 1");
             $consulta->execute();
             return $consulta->fetch(PDO::FETCH_COLUMN);
         } catch (Exception $ex){

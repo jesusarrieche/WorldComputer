@@ -11,7 +11,7 @@ $(document).ready(function () {
             url: '/WorldComputer/compra/listar'
         },
         columns: [
-            { data: 'num_compra' },
+            { data: 'codigo' },
             { data: "fecha" },
             { data: 'proveedor' },
             { data: 'button' },
@@ -54,37 +54,40 @@ $(document).ready(function () {
             type: "POST",
             url: url,        
             success: function (response) {
+                console.log(response);
                 json = JSON.parse(response);
                 console.log(JSON.parse(response));
 
-                $('#numero_compra').val(json.compra.num_compra);
+                $('#numero_compra').val(json.compra.codigo);
                 $('#documento_referencia').val(json.compra.referencia);
                 $('#nombre_proveedor').val(json.compra.proveedor);
                 $('#rif_proveedor').val(json.compra.rif_proveedor);
                 $('#direccion_proveedor').val(json.compra.direccion);
-                $('#total').val(json.compra.total);
 
 
                 $('#cuerpo').empty();
                 
+                var total = 0;
 
                 json.productos.forEach( element => {
                     
+                    total += (element.costo * element.cantidad);
                     let row = `
                         <tr>
                             <td>${element.cantidad}</td>
                             <td>${element.codigo}</td>
                             <td>${element.nombre}</td>
-                            <td>${element.precio}</td>
-                            <td>${element.precio * element.cantidad}</td>
+                            <td>${element.costo}</td>
+                            <td>${element.costo * element.cantidad}</td>
                         </tr>
                     `;
 
-
+                    
                     $('#cuerpo').append(row);
                     
                 });
                 
+                $('#total').val(total);
                 
                 $('#modalDetalleCompra').modal('show');
 
@@ -100,6 +103,8 @@ $(document).ready(function () {
             type: "POST",
             url: "/WorldComputer/compra/cambiarEstatus/" + id,
             success: function (response) {
+
+                console.log(response);
                 json = JSON.parse(response);
 
                 Swal.fire(
