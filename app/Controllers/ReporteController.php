@@ -49,7 +49,13 @@ class ReporteController extends Controller {
                 WHERE c.estatus = 'ACTIVO'
                 GROUP BY c.codigo, c.fecha, c.impuesto");
 
-        $egresos = $query->fetch(PDO::FETCH_COLUMN);
+        $respQuery = $query->fetchAll(PDO::FETCH_OBJ);
+
+        $egresos = 0;
+
+        foreach( $respQuery AS $compra ) {
+            $egresos += $compra->monto;
+        }
 
         $query2 = $this->compra->query("SELECT COUNT(c.id) AS compras FROM
             compras c
@@ -57,11 +63,21 @@ class ReporteController extends Controller {
 
         $compras = $query2->fetch(PDO::FETCH_COLUMN);
 
-        $query3 = $this->venta->query("SELECT SUM(v.total) AS ingresos FROM
+        $query3 = $this->venta->query("SELECT v.codigo, v.fecha, v.impuesto, IFNULL(SUM(dv.precio * dv.cantidad), 0) AS monto FROM
             ventas v
-            WHERE v.estatus = 'ACTIVO'");
+                LEFT JOIN
+            detalle_venta dv
+                ON dv.venta_id = v.id
+                WHERE v.estatus = 'ACTIVO'
+                GROUP BY v.codigo, v.fecha, v.impuesto");
 
-        $ingresos = $query3->fetch(PDO::FETCH_COLUMN);
+        $respQuery3 = $query3->fetchAll(PDO::FETCH_OBJ);
+
+        $ingresos = 0;
+
+        foreach($respQuery3 AS $venta) {
+            $ingresos += $venta->monto;
+        }
 
         $query4 = $this->venta->query("SELECT COUNT(v.id) AS ventas FROM
             ventas v

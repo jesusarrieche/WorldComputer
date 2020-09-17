@@ -111,7 +111,7 @@
                             <i class="fa fa-industry fa-stack-1x fa-inverse"></i>
                         </span>
                         <h2>Total Transacciones</h2>
-                        <a href="#" class="btn btn-lg btn-primary btn-pill">Ver Reporte</a>
+                        <a href="<?= ROOT; ?>Reporte/totalTransacciones" class="btn btn-lg btn-primary btn-pill">Ver Reporte</a>
                     </div>
                 </div>
             </div>

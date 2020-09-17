@@ -1,7 +1,7 @@
-<div class="container-fluid card shadow">
+<div class="content p-4">
     <center><h1 class="font-weight-normal">Compras</h1></center>
     <hr class="bg-danger">
-    <div class="row justify-content-end">
+    <div class="row justify-content-center">
         <a href="#" class="btn btn-danger">
             <i class="fas fa-file-pdf"></i>
         </a>
