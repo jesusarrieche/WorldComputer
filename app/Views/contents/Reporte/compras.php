@@ -24,7 +24,7 @@
             <?php foreach($compras AS $compra): ?>
 
                 <tr>
-                    <td><?= $compra->num_compra ?></td>
+                    <td><?= $compra->codigo ?></td>
                     <td><?= $compra->fecha ?></td>
                     <td><?= $compra->razon_social ?></td>
                 </tr>

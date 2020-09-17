@@ -27,7 +27,7 @@ class ReporteController extends Controller {
 
     public function compras($producto){
 
-        $query = $this->compra->query("SELECT c.num_compra, Date_format(c.fecha,'%d/%m/%Y') AS fecha, p.razon_social FROM
+        $query = $this->compra->query("SELECT c.codigo , Date_format(c.fecha,'%d/%m/%Y') AS fecha, p.razon_social FROM
             compras c
                 JOIN
             proveedores p
@@ -40,9 +40,14 @@ class ReporteController extends Controller {
     }
 
     public function totalTransacciones(){
-        $query = $this->compra->query("SELECT SUM(c.total) AS egresos FROM
+
+        $query = $this->compra->query("SELECT c.codigo, c.fecha, c.impuesto, SUM(dc.costo * dc.cantidad) AS monto FROM
             compras c
-            WHERE c.estatus = 'ACTIVO'");
+                LEFT JOIN
+            detalle_compra dc
+                ON dc.compra_id = c.id
+                WHERE c.estatus = 'ACTIVO'
+                GROUP BY c.codigo, c.fecha, c.impuesto");
 
         $egresos = $query->fetch(PDO::FETCH_COLUMN);
 
