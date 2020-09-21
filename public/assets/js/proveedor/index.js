@@ -10,7 +10,7 @@ let table = $('#datatable').DataTable({
     searching: true,
     ajax: {
         method: 'POST',
-        url: '/WorldComputer/proveedor/listar'
+        url: '/proveedor/listar'
     },
     columns: [
         { data: 'documento' },
@@ -93,7 +93,7 @@ const mostrarProveedor = (href, formulario, modal) => {
 const registrarProveedor = (datos) => {
     $.ajax({
         type: "POST",
-        url: "/WorldComputer/proveedor/guardar",
+        url: "/proveedor/guardar",
         data: datos,
         cache: false,
         contentType: false,
@@ -130,7 +130,7 @@ const registrarProveedor = (datos) => {
 
 
 
-    // fetch('/WorldComputer/proveedor/guardar', { method: 'POST', body: datos })
+    // fetch('/proveedor/guardar', { method: 'POST', body: datos })
     // .then((response) => {
     //     console.log(response);
     //     return response.json();
@@ -153,7 +153,7 @@ const registrarProveedor = (datos) => {
 const actualizarProveedor = (datos) => {
     $.ajax({
         type: "POST",
-        url: "/WorldComputer/proveedor/actualizar",
+        url: "/proveedor/actualizar",
         data: datos,
         cache: false,
         contentType: false,
@@ -189,7 +189,7 @@ const actualizarProveedor = (datos) => {
 const eliminarProveedor = (id) => {
     $.ajax({
         type: "DELETE",
-        url: "/WorldComputer/proveedor/eliminar/" + id,
+        url: "/proveedor/eliminar/" + id,
         success: function (response) {
             const json = JSON.parse(response);
             if(json.tipo == 'success'){
