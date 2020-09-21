@@ -85,7 +85,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "/categoria/listar",
+            url: "/Categoria/listar",
             success: function (response) {
                 let json = JSON.parse(response);
 
@@ -283,7 +283,7 @@ $(document).ready(function () {
     const generarCodigo = ( letra, longitud, numeroFinal, elemento) => {  
         $.ajax({
             type: "POST",
-            url: "/api/generarCodigo",
+            url: "/Api/generarCodigo",
             data: { letra: letra, longitud: longitud, numero: numeroFinal},
             success: function (response) {
                 let json = JSON.parse(response);
