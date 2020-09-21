@@ -14,7 +14,7 @@ use System\Core\View;
 
 class VentaController extends Controller{
 
-    private Cliente $cliente;
+    private $cliente;
     private Producto $producto;
     private Venta $venta;
     private DetalleVenta $detalleVenta;
