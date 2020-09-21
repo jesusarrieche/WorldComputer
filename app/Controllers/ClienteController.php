@@ -37,8 +37,8 @@ class ClienteController extends Controller{
     foreach($clientes as $cliente){
 
       $cliente->button = 
-      "<a href='/WorldComputer/cliente/mostrar/". $this->encriptar($cliente->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-      "<a href='/WorldComputer/cliente/mostrar/". $this->encriptar($cliente->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
+      "<a href='/Cliente/mostrar/". $this->encriptar($cliente->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+      "<a href='/Cliente/mostrar/". $this->encriptar($cliente->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
       "<a href='". $this->encriptar($cliente->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
 
     }

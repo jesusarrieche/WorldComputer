@@ -10,7 +10,7 @@ let table = $('#datatable').DataTable({
     searching: true,
     ajax: {
         method: 'POST',
-        url: '/categoria/listar'
+        url: '/Categoria/listar'
     },
     columns: [
         { data: 'nombre' },
@@ -81,7 +81,7 @@ const registrarCategoria = (datos) => {
 
     $.ajax({
         type: "POST",
-        url: "/categoria/guardar",
+        url: "/Categoria/guardar",
         data: datos,
         cache: false,
         contentType: false,
@@ -118,7 +118,7 @@ const registrarCategoria = (datos) => {
 
 
 
-    // fetch('/categoria/guardar', { method: 'POST', body: datos })
+    // fetch('/Categoria/guardar', { method: 'POST', body: datos })
     // .then((response) => {
     //     console.log(response);
     //     return response.json();
@@ -141,7 +141,7 @@ const registrarCategoria = (datos) => {
 const actualizarCategoria = (datos) => {
     $.ajax({
         type: "POST",
-        url: "/categoria/actualizar",
+        url: "/Categoria/actualizar",
         data: datos,
         cache: false,
         contentType: false,
@@ -177,7 +177,7 @@ const actualizarCategoria = (datos) => {
 const eliminarCategoria = (id) => {
     $.ajax({
         type: "DELETE",
-        url: "/categoria/eliminar/" + id,
+        url: "/Categoria/eliminar/" + id,
         success: function (response) {
             const json = JSON.parse(response);
             if(json.tipo == 'success'){

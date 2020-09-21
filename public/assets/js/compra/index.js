@@ -8,7 +8,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: '/compra/listar'
+            url: '/Compra/listar'
         },
         columns: [
             { data: 'codigo' },
@@ -101,7 +101,7 @@ $(document).ready(function () {
     const cambiarEstatus = (id) => {
         $.ajax({
             type: "POST",
-            url: "/compra/cambiarEstatus/" + id,
+            url: "/Compra/cambiarEstatus/" + id,
             success: function (response) {
 
                 console.log(response);

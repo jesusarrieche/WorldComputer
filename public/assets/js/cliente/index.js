@@ -10,7 +10,7 @@ let table = $('#datatable').DataTable({
     searching: true,
     ajax: {
         method: 'POST',
-        url: '/cliente/listar'
+        url: '/Cliente/listar'
     },
     columns: [
         { data: 'documento' },
@@ -95,7 +95,7 @@ const registrarCliente = (datos) => {
 
     $.ajax({
         type: "POST",
-        url: "/cliente/guardar",
+        url: "/Cliente/guardar",
         data: datos,
         cache: false,
         contentType: false,
@@ -132,7 +132,7 @@ const registrarCliente = (datos) => {
 
 
 
-    // fetch('/cliente/guardar', { method: 'POST', body: datos })
+    // fetch('/Cliente/guardar', { method: 'POST', body: datos })
     // .then((response) => {
     //     console.log(response);
     //     return response.json();
@@ -155,7 +155,7 @@ const registrarCliente = (datos) => {
 const actualizarCliente = (datos) => {
     $.ajax({
         type: "POST",
-        url: "/cliente/actualizar",
+        url: "/Cliente/actualizar",
         data: datos,
         cache: false,
         contentType: false,
@@ -191,7 +191,7 @@ const actualizarCliente = (datos) => {
 const eliminarCliente = (id) => {
     $.ajax({
         type: "DELETE",
-        url: "/cliente/eliminar/" + id,
+        url: "/Cliente/eliminar/" + id,
         success: function (response) {
             const json = JSON.parse(response);
             if(json.tipo == 'success'){

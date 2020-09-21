@@ -37,8 +37,8 @@ class EmpleadoController extends Controller{
     foreach($empleados as $empleado){
 
       $empleado->button = 
-      "<a href='/WorldComputer/empleado/mostrar/". $this->encriptar($empleado->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-      "<a href='/WorldComputer/empleado/mostrar/". $this->encriptar($empleado->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
+      "<a href='/Empleado/mostrar/". $this->encriptar($empleado->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+      "<a href='/Empleado/mostrar/". $this->encriptar($empleado->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
       "<a href='". $this->encriptar($empleado->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
 
     }

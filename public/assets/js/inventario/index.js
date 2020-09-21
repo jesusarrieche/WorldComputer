@@ -8,7 +8,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: '/inventario/listar'
+            url: '/Inventario/listar'
         },
         columns: [
             { data: 'codigo' },

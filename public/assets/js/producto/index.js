@@ -8,7 +8,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: '/producto/listar'
+            url: '/Producto/listar'
         },
         columns: [
             { data: 'codigo' },
@@ -160,7 +160,7 @@ $(document).ready(function () {
         
         $.ajax({
             type: "POST",
-            url: "/producto/guardar",
+            url: "/Producto/guardar",
             data: datos,
             cache: false,
             contentType: false,
@@ -201,7 +201,7 @@ $(document).ready(function () {
     const actualizarProducto = (datos) => {
         $.ajax({
             type: "POST",
-            url: "/producto/actualizar",
+            url: "/Producto/actualizar",
             data: datos,
             cache: false,
             contentType: false,
@@ -238,7 +238,7 @@ $(document).ready(function () {
     const eliminarProducto = (id) => {
         $.ajax({
             type: "DELETE",
-            url: "/producto/eliminar/" + id,
+            url: "/Producto/eliminar/" + id,
             success: function (response) {
                 const json = JSON.parse(response);
                 if(json.tipo == 'success'){
@@ -260,7 +260,7 @@ $(document).ready(function () {
     const habilitarProducto = (id) => {
         $.ajax({
             type: "HABILITAR",
-            url: "/producto/habilitar/" + id,
+            url: "/Producto/habilitar/" + id,
             success: function (response) {
                 const json = JSON.parse(response);
                 if(json.tipo == 'success'){

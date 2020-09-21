@@ -70,8 +70,8 @@ class VentaController extends Controller{
                 }
 
                 $venta->button = 
-                "<a href='/WorldComputer/venta/mostrar/". $this->encriptar($venta->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-                "<a href='/WorldComputer/venta/ventaPDF/". $this->encriptar($venta->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
+                "<a href='/Venta/mostrar/". $this->encriptar($venta->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+                "<a href='/Venta/ventaPDF/". $this->encriptar($venta->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
             }
 
         http_response_code(200);
