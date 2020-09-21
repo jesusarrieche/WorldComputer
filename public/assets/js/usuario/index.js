@@ -10,7 +10,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: '/WorldComputer/Usuario/listar'
+            url: '/Usuario/listar'
         },
         columns: [
             { data: 'documento' },
