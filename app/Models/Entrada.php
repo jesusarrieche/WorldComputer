@@ -10,7 +10,7 @@ class Entrada extends Model{
     private $compra_id;
     private $producto_id;
     private $cantidad;
-    private $precio;
+    private $costo;
 
     public function getCompraId(){
         return $this->compra_id;
@@ -36,28 +36,28 @@ class Entrada extends Model{
         $this->cantidad = $cantidad;
     }
 
-    public function getPrecio(){
-        return $this->precio;
+    public function getCosto(){
+        return $this->costo;
     }
 
-    public function setPrecio($precio){
-        $this->precio = $precio;
+    public function setCosto($costo){
+        $this->costo = $costo;
     }
 
     public function registrar(Entrada $entrada){
         try{
-            $consulta = parent::connect()->prepare("INSERT INTO entradas(compra_id, producto_id, cantidad, precio) VALUES 
-                                                                     (:compra_id, :producto_id, :cantidad, :precio)");
+            $consulta = parent::connect()->prepare("INSERT INTO detalle_compra(compra_id, producto_id, cantidad, costo) VALUES 
+                                                                     (:compra_id, :producto_id, :cantidad, :costo)");
 
             $compra_id = $entrada->getCompraId();
             $producto_id = $entrada->getProductoId();
             $cantidad = $entrada->getCantidad();
-            $precio = $entrada->getPrecio();
+            $costo = $entrada->getCosto();
 
             $consulta->bindParam(":compra_id", $compra_id);
             $consulta->bindParam(":producto_id", $producto_id);
             $consulta->bindParam(":cantidad", $cantidad);
-            $consulta->bindParam(":precio", $precio);
+            $consulta->bindParam(":costo", $costo);
 
             $consulta->execute();
 

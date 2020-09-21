@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    
+
     /**
      * FUNCIONES
      */
@@ -182,6 +182,7 @@ $(document).ready(function () {
             url: form.attr('action'),
             data: form.serialize(),
             success: function (response) {
+                console.log(response);
                json = JSON.parse(response);
                 console.log(json);
 

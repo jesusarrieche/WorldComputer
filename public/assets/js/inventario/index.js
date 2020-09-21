@@ -18,8 +18,7 @@ $(document).ready(function () {
             { data: 'stock' },
             { data: 'stock_min' },
             { data: 'stock_max' },
-            { data: 'estado' },
-            { data: 'button' }
+            // { data: 'estado' },
         ],
 
         language: { 
@@ -143,27 +142,27 @@ $(document).ready(function () {
         mostrarProducto($(this).attr('href'),'form#formularioMostrarProducto','#modalMostrarProducto');
     });
 
-    $('body').on('click', '.estatus', function (e) {
-        e.preventDefault();
+    // $('body').on('click', '.estatus', function (e) {
+    //     e.preventDefault();
     
-        Swal.fire({
-            title: 'Esta Seguro?',
-            text: "El producto será inhabilitado del sistema!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Si, eliminar!'
-            }).then((result) => {
-            if (result.value) {
+    //     Swal.fire({
+    //         title: 'Esta Seguro?',
+    //         text: "El producto será inhabilitado del sistema!",
+    //         type: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         cancelButtonText: 'Cancelar',
+    //         confirmButtonText: 'Si, eliminar!'
+    //         }).then((result) => {
+    //         if (result.value) {
     
-                eliminarProducto($(this).attr('href'));
+    //             eliminarProducto($(this).attr('href'));
                 
-            }
-            })
-        console.log($(this).attr('href'));
-    });
+    //         }
+    //         })
+    //     console.log($(this).attr('href'));
+    // });
 
     $('body').on('click', '.estatusAnulado', function (e) {
         e.preventDefault();

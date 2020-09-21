@@ -11,7 +11,7 @@
           <table class="table" id="datatable">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Nro Venta</th>
+                <th scope="col">Codigo</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Cliente</th>
                 <th scope="col">Estado</th>

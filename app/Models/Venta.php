@@ -15,7 +15,7 @@ class Venta extends Movimiento{
 
             $conexion->beginTransaction();
 
-            $sql = "SELECT v.id, v.num_venta, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.nombre AS cliente, v.estatus FROM
+            $sql = "SELECT v.id, v.codigo , Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.nombre AS cliente, v.estatus FROM
             ventas v
                 LEFT JOIN
             clientes c
@@ -39,16 +39,16 @@ class Venta extends Movimiento{
 
             $dbh = parent::connect();
 
-            $consulta = $dbh->prepare("INSERT INTO ventas(cliente_id, num_venta, total)" 
-                                                            . "VALUES (:cliente_id, :num_venta, :total)");
+            $consulta = $dbh->prepare("INSERT INTO ventas(cliente_id, codigo)" 
+                                                            . "VALUES (:cliente_id, :codigo)");
 
             $cliente_id = $venta->getPersonaId();
-            $num_venta = $venta->getNumeroDocumento();
-            $total = $venta->getTotal();
+            $codigo = $venta->getNumeroDocumento();
+            // $total = $venta->getTotal();
 
             $consulta->bindParam(":cliente_id", $cliente_id);
-            $consulta->bindParam(":num_venta", $num_venta);
-            $consulta->bindParam(":total", $total);
+            $consulta->bindParam(":codigo", $codigo);
+            // $consulta->bindParam(":total", $total);
 
             $consulta->execute();
 

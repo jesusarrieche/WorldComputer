@@ -57,14 +57,14 @@
 
             <ul id="inventory_collapse" class="list-unstyled collapse">
                 <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
-                <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-down"></i> Cargos de Inventario</a></li>
-                <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-up"></i> Descargos de Inventario</a></li>
+                <!-- <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-down"></i> Cargos de Inventario</a></li>
+                <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-up"></i> Descargos de Inventario</a></li> -->
 
             </ul>
         </li>
         <li><a href="<?= ROOT;?>Compra"><i class="fa fa-fw fa-shopping-cart"></i> Compras</a></li>
         <li><a href="<?= ROOT;?>Venta"><i class="fa fa-fw fa-dollar-sign"></i> Ventas</a></li>
-        <li><a href="<?= ROOT;?>Venta/Crear"><i class="fa fa-fw fa-shopping-basket"></i> Caja</a></li>
+        <!-- <li><a href="<?= ROOT;?>Venta/Crear"><i class="fa fa-fw fa-shopping-basket"></i> Caja</a></li> -->
         <li><a href="<?= ROOT;?>Reporte"><i class="fa fa-fw fa-calendar"></i> Reportes</a></li>
         <li>
             <a href="#sm_expand_1" data-toggle="collapse">

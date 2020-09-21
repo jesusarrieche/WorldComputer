@@ -11,7 +11,7 @@
           <table class="table" id="datatable">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Nro Compra</th>
+                <th scope="col">Codigo</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Proveedor</th>
                 <th scope="col">Estado</th>
@@ -19,7 +19,7 @@
               </tr>
             </thead>
             <tbody>
-                <tr>
+                <!-- <tr>
                     <td>0001</td>
                     <td>02/01/2020</td>
                     <td>grupo Gonzales S.A.</td>
@@ -39,7 +39,7 @@
                         <a href="#" class='mostrar btn btn-info'><i class='fas fa-search'></i></a>
                         <a href="#" class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>
                     </td>
-                </tr>
+                </tr> -->
 
             </tbody>
           </table>
@@ -62,7 +62,7 @@
 
             <div class="card-body">
                 <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-2"><strong>Nro Compra:</strong> </label>
+                    <label for="" class="col-form-label col-2"><strong>CODIGO:</strong> </label>
                     <div class="col-md-2">
                         <input type="text" class="form-control-plaintext" id="numero_compra" disabled>
                     </div>
@@ -116,7 +116,7 @@
                                     <th>CANTIDAD</th>
                                     <th>CODIGO</th>
                                     <th>PRODUCTO</th>
-                                    <th>PRECIO COMPRA</th>
+                                    <th>COSTO</th>
                                     <th>IMPORTE</th>
                                 </tr>
                             </thead>

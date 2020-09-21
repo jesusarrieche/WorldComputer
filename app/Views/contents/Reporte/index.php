@@ -13,9 +13,9 @@
                         <i class="fa fa-industry fa-stack-1x fa-inverse"></i>
                     </span>
                     <h2>Compras</h2>
-                    <a href="#" class="btn btn-lg btn-primary btn-pill">Ver Reporte</a>
+                    <a href="<?= ROOT; ?>Reporte/compras" class="btn btn-lg btn-primary btn-pill">Ver Reporte</a>
                 </div>
-                
+
                 <div class="col-md border-right py-4">
                     <span class="fa-stack fa-4x mb-4">
                         <i class="fas fa-circle fa-stack-2x text-primary"></i>
@@ -24,7 +24,7 @@
                     <h2>Compras Por Producto</h2>
                     <a href="#" class="btn btn-lg btn-primary btn-pill">Ver Reporte</a>
                 </div>
-                
+
                 <div class="col-md border-right py-4">
                     <span class="fa-stack fa-4x mb-4">
                         <i class="fas fa-circle fa-stack-2x text-primary"></i>
@@ -32,7 +32,7 @@
                     </span>
                     <h2>Top Compras</h2>
                     <a href="#" class="btn btn-lg btn-primary btn-pill">Ver Reporte</a>
-                </div>     
+                </div>
             </div>
         </div>
 
@@ -50,7 +50,7 @@
                         <h2>Ventas</h2>
                         <a href="#" class="btn btn-lg btn-primary btn-pill">Ver Reporte</a>
                     </div>
-                    
+
                     <div class="col-md border-right py-4">
                         <span class="fa-stack fa-4x mb-4">
                             <i class="fas fa-circle fa-stack-2x text-primary"></i>
@@ -59,7 +59,7 @@
                         <h2>Ventas Por Producto</h2>
                         <a href="#" class="btn btn-lg btn-primary btn-pill">Ver Reporte</a>
                     </div>
-                    
+
                     <div class="col-md border-right py-4">
                         <span class="fa-stack fa-4x mb-4">
                             <i class="fas fa-circle fa-stack-2x text-primary"></i>
@@ -86,7 +86,7 @@
                         <h2>Clientes</h2>
                         <a href="#" class="btn btn-lg btn-primary btn-pill">Ver Reporte</a>
                     </div>
-                    
+
                     <div class="col-md border-right py-4">
                         <span class="fa-stack fa-4x mb-4">
                             <i class="fas fa-circle fa-stack-2x text-primary"></i>
@@ -111,7 +111,7 @@
                             <i class="fa fa-industry fa-stack-1x fa-inverse"></i>
                         </span>
                         <h2>Total Transacciones</h2>
-                        <a href="#" class="btn btn-lg btn-primary btn-pill">Ver Reporte</a>
+                        <a href="<?= ROOT; ?>Reporte/totalTransacciones" class="btn btn-lg btn-primary btn-pill">Ver Reporte</a>
                     </div>
                 </div>
             </div>

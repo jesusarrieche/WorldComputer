@@ -13,8 +13,7 @@
                 <th>Stock</th>
                 <th>Stock Min</th>
                 <th>Stock Max</th>
-                <th>Detalles</th> 
-                <th>Acción</th>
+                <!-- <th>Detalles</th>  -->
               </tr>
             </thead>
             <tbody>

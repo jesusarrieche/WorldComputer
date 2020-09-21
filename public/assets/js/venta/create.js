@@ -196,7 +196,7 @@ $(document).ready(function () {
             url: form.attr('action'),
             data: form.serialize(),
             success: function (response) {
-                debugger
+                console.log(response);
                json = JSON.parse(response);
                 console.log(json);
 

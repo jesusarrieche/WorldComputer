@@ -28,11 +28,11 @@
             <tbody>
                 <tr>
                     <td colspan="4" style="width:50%">
-                        <img style="width:375px;height:70px;" src="http://localhost/FrameworkJD/public/assets/img/logo1.png" alt="">
+                        <img style="width:375px;height:70px;" src="http://localhost/WorldComputer/public/assets/img/logo.png" alt="">
                     </td>
                     <td colspan="4" style="width:50%">
-                            <p class="text-right" style="display:block"><strong>Fecha:</strong> <span><i><?= $venta->fecha; ?></i></span></p>
-                            <p class="text-right" style="display:block"><strong>Nro Venta:</strong> <span><i><?= $venta->num_venta; ?></i></span></p>
+                            <p class="text-right" style="display:block"><strong>FECHA:</strong> <span><i><?= $venta->fecha; ?></i></span></p>
+                            <p class="text-right" style="display:block"><strong>CODIGO:</strong> <span><i><?= $venta->codigo; ?></i></span></p>
                     </td>
                 </tr>
 
@@ -235,7 +235,7 @@
                         <strong>TOTAL:</strong>
                     </td>
                     <td colspan="2" class="text-center">
-                        <strong><?= $venta->total; ?></strong>
+                        <strong><?= $subtotal += ($subtotal * 0.16); ?></strong>
                     </td>
                 </tr>
         </table>

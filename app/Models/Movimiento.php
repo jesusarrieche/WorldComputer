@@ -91,11 +91,11 @@ class Movimiento extends Model{
 
         if($tabla == 'compras'){
             $tabla = 'compras';
-            $tabla2 = 'entradas';
+            $tabla2 = 'detalle_compra';
             $referencia = 'compra_id';
         }elseif($tabla == 'ventas'){
             $tabla = 'ventas';
-            $tabla2 = 'salidas';
+            $tabla2 = 'detalle_venta';
             $referencia = 'venta_id';
         }else {
             return false;
@@ -111,10 +111,10 @@ class Movimiento extends Model{
 
             if($estatus == 'ACTIVO'){
                 $query2 = $conexion->prepare("UPDATE $tabla SET estatus = 'INACTIVO' WHERE id = '$id'");
-                $query3 = $conexion->prepare("UPDATE $tabla2 SET estatus = 'INACTIVO' WHERE $referencia = '$id'");
+                // $query3 = $conexion->prepare("UPDATE $tabla2 SET estatus = 'INACTIVO' WHERE $referencia = '$id'");
 
                 $query2->execute();
-                $query3->execute();
+                // $query3->execute();
 
                 $conexion->commit();
 
@@ -122,10 +122,10 @@ class Movimiento extends Model{
 
             }elseif($estatus == 'INACTIVO'){
                 $query2 = $conexion->prepare("UPDATE $tabla SET estatus = 'ACTIVO' WHERE id = '$id'");
-                $query3 = $conexion->prepare("UPDATE $tabla2 SET estatus = 'ACTIVO' WHERE $referencia = '$id'");
+                // $query3 = $conexion->prepare("UPDATE $tabla2 SET estatus = 'ACTIVO' WHERE $referencia = '$id'");
 
                 $query2->execute();
-                $query3->execute();
+                // $query3->execute();
 
                 $conexion->commit();
 

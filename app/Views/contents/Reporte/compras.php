@@ -1,7 +1,7 @@
-<div class="container-fluid card shadow">
+<div class="content p-4">
     <center><h1 class="font-weight-normal">Compras</h1></center>
     <hr class="bg-danger">
-    <div class="row justify-content-end">
+    <div class="row justify-content-center">
         <a href="#" class="btn btn-danger">
             <i class="fas fa-file-pdf"></i>
         </a>
@@ -24,7 +24,7 @@
             <?php foreach($compras AS $compra): ?>
 
                 <tr>
-                    <td><?= $compra->num_compra ?></td>
+                    <td><?= $compra->codigo ?></td>
                     <td><?= $compra->fecha ?></td>
                     <td><?= $compra->razon_social ?></td>
                 </tr>
