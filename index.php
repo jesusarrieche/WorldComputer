@@ -5,7 +5,7 @@ require_once 'vendor/autoload.php';
 $router = new \System\Core\Router();
 
 
-if( $router->getController() == 'api' ){
+if( $router->getController() == 'Api' ){
     $controller = "App\\Api\\" . $router->getController();
     $method = $router->getMethod();
     $param = $router->getParam();
