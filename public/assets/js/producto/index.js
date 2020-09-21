@@ -57,7 +57,7 @@ $(document).ready(function () {
         
         $.ajax({
             type: "POST",
-            url: "/unidad/listar",
+            url: "/Unidad/listar",
             success: function (response) {
                 json = JSON.parse(response);
 
