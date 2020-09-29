@@ -28,7 +28,7 @@
             <tbody>
                 <tr>
                     <td colspan="4" style="width:50%">
-                        <img style="width:375px;height:70px;" src="http://localhost/WorldComputer/public/assets/img/logo.png" alt="">
+                        <img style="width:375px;height:70px;" src="http://wcdns.online/public/assets/img/logo.png" alt="">
                     </td>
                     <td colspan="4" style="width:50%">
                             <p class="text-right" style="display:block"><strong>Fecha:</strong> <span><i><?= $compra->fecha; ?></i></span></p>
