@@ -92,15 +92,18 @@ class EmpleadoController extends Controller{
 
     }
 
-    $this->empleado->registrar($empleado);
+    $resp = $this->empleado->registrar($empleado);
 
-    http_response_code(200);
+    // http_response_code(200);
 
-    echo json_encode([
-      'titulo' => 'Registro Exitoso',
-      'mensaje' => 'Empleado registrado en nuestro sistema',
-      'tipo' => 'success'
-    ]);
+    echo json_encode($resp);
+
+
+    // echo json_encode([
+    //   'titulo' => 'Registro Exitoso',
+    //   'mensaje' => 'Empleado registrado en nuestro sistema',
+    //   'tipo' => 'success'
+    // ]);
 
 
   }
