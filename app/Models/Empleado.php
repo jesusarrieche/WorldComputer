@@ -29,7 +29,7 @@ class Empleado extends Persona{
     
     public function registrar(Empleado $c){
         try{
-            $consulta = parent::connect()->prepare("INSERT INTO Empleados(documento, nombre, apellido, direccion, telefono, email, cargo, estatus) "
+            $consulta = parent::connect()->prepare("INSERT INTO empleados(documento, nombre, apellido, direccion, telefono, email, cargo, estatus) "
                 . "VALUES (:documento, :nombre, :apellido, :direccion, :telefono, :email, :cargo, :estatus)");
         
             //$id = $u->getId();
