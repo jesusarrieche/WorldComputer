@@ -80,7 +80,7 @@ class Empleado extends Persona{
 
     public function actualizar(Empleado $c){
         try{
-            $consulta = parent::connect()->prepare("UPDATE Empleados SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, cargo=:cargo, estatus=:estatus WHERE id=:id");
+            $consulta = parent::connect()->prepare("UPDATE empleados SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, cargo=:cargo, estatus=:estatus WHERE id=:id");
 
             $id = $c->getId();
             $documento= $c->getTipoDocumento()."-".$c->getDocumento();
