@@ -63,6 +63,8 @@ class Empleado extends Persona{
             return $alerta;
             
         } catch (Exception $ex) {
+
+            var_dump($ex);
             
             $alerta= [
             'alerta' => 'simple',
