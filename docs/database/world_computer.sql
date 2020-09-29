@@ -1,21 +1,7 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
 -- -----------------------------------------------------
--- Schema world_computer
+-- Table `proveedores`
 -- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema world_computer
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `world_computer` DEFAULT CHARACTER SET utf8 ;
-USE `world_computer` ;
-
--- -----------------------------------------------------
--- Table `world_computer`.`proveedores`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`proveedores` (
+CREATE TABLE IF NOT EXISTS `proveedores` (
   `id` INT AUTO_INCREMENT,
   `documento` VARCHAR(15) NOT NULL UNIQUE,
   `razon_social` VARCHAR(45) NOT NULL,
@@ -32,9 +18,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`clientes`
+-- Table `clientes`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`clientes` (
+CREATE TABLE IF NOT EXISTS `clientes` (
   `id` INT AUTO_INCREMENT,
   `documento` VARCHAR(15) NOT NULL UNIQUE,
   `nombre` VARCHAR(45) NULL,
@@ -52,9 +38,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`categorias`
+-- Table `categorias`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`categorias` (
+CREATE TABLE IF NOT EXISTS `categorias` (
   `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion` VARCHAR(255) NULL,
@@ -68,9 +54,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`marcas`
+-- Table `marcas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`marcas` (
+CREATE TABLE IF NOT EXISTS `marcas` (
   `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
@@ -84,9 +70,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`modelos`
+-- Table `modelos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`modelos` (
+CREATE TABLE IF NOT EXISTS `modelos` (
   `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `description` VARCHAR(45) NULL,
@@ -98,16 +84,16 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`modelos` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_modelos_marcas1`
     FOREIGN KEY (`marca_id`)
-    REFERENCES `world_computer`.`marcas` (`id`) MATCH FULL
+    REFERENCES `marcas` (`id`) MATCH FULL
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`unidades`
+-- Table `unidades`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`unidades` (
+CREATE TABLE IF NOT EXISTS `unidades` (
   `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `abreviatura` VARCHAR(5) NULL,
@@ -121,9 +107,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`productos`
+-- Table `productos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`productos` (
+CREATE TABLE IF NOT EXISTS `productos` (
   `id` INT AUTO_INCREMENT,
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
   `nombre` VARCHAR(45) NULL,
@@ -145,17 +131,17 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`productos` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_productos_categorias1`
     FOREIGN KEY (`categoria_id`)
-    REFERENCES `world_computer`.`categorias` (`id`) MATCH FULL
+    REFERENCES `categorias` (`id`) MATCH FULL
     ON UPDATE CASCADE
     ON DELETE CASCADE,
   -- CONSTRAINT `fk_productos_modelos1`
   --   FOREIGN KEY (`modelo_id`)
-  --   REFERENCES `world_computer`.`modelos` (`id`) MATCH FULL
+  --   REFERENCES `modelos` (`id`) MATCH FULL
   --   ON UPDATE CASCADE
   --   ON DELETE CASCADE,
   CONSTRAINT `fk_productos_unidades1`
     FOREIGN KEY (`unidad_id`)
-    REFERENCES `world_computer`.`unidades` (`id`) MATCH FULL
+    REFERENCES `unidades` (`id`) MATCH FULL
     ON UPDATE CASCADE
     ON DELETE CASCADE
     )
@@ -163,9 +149,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`ventas`
+-- Table `ventas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`ventas` (
+CREATE TABLE IF NOT EXISTS `ventas` (
   `id` INT AUTO_INCREMENT,
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
   `fecha` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -178,16 +164,16 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`ventas` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_ventas_clientes1`
     FOREIGN KEY (`cliente_id`)
-    REFERENCES `world_computer`.`clientes` (`id`)
+    REFERENCES `clientes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`detalle_venta`
+-- Table `detalle_venta`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_venta` (
+CREATE TABLE IF NOT EXISTS `detalle_venta` (
   `id` INT AUTO_INCREMENT,
   `cantidad` VARCHAR(45) NOT NULL,
   `precio` VARCHAR(45) NOT NULL,
@@ -199,21 +185,21 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_venta` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_detalle_venta_productos1`
     FOREIGN KEY (`producto_id`)
-    REFERENCES `world_computer`.`productos` (`id`)
+    REFERENCES `productos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_detalle_venta_ventas1`
     FOREIGN KEY (`venta_id`)
-    REFERENCES `world_computer`.`ventas` (`id`)
+    REFERENCES `ventas` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`compras`
+-- Table `compras`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`compras` (
+CREATE TABLE IF NOT EXISTS `compras` (
   `id` INT AUTO_INCREMENT,
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
   `cod_ref` VARCHAR(45) NULL,
@@ -227,16 +213,16 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`compras` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_compras_proveedores1`
     FOREIGN KEY (`proveedor_id`)
-    REFERENCES `world_computer`.`proveedores` (`id`)
+    REFERENCES `proveedores` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`detalle_compra`
+-- Table `detalle_compra`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_compra` (
+CREATE TABLE IF NOT EXISTS `detalle_compra` (
   `id` INT AUTO_INCREMENT,
   `costo` DOUBLE NOT NULL,
   `cantidad` VARCHAR(45) NOT NULL,
@@ -248,21 +234,21 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_compra` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_detalle_compra_productos1`
     FOREIGN KEY (`producto_id`)
-    REFERENCES `world_computer`.`productos` (`id`)
+    REFERENCES `productos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_detalle_compra_compras1`
     FOREIGN KEY (`compra_id`)
-    REFERENCES `world_computer`.`compras` (`id`)
+    REFERENCES `compras` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`roles`
+-- Table `roles`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`roles` (
+CREATE TABLE IF NOT EXISTS `roles` (
   `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
@@ -276,9 +262,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`usuarios`
+-- Table `usuarios`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`usuarios` (
+CREATE TABLE IF NOT EXISTS `usuarios` (
   `id` INT AUTO_INCREMENT,
   `documento` VARCHAR(15) NOT NULL UNIQUE,
   `nombre` VARCHAR(45) NULL,
@@ -296,16 +282,16 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`usuarios` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_usuarios_roles1`
     FOREIGN KEY (`rol_id`)
-    REFERENCES `world_computer`.`roles` (`id`)
+    REFERENCES `roles` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`permisos`
+-- Table `permisos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`permisos` (
+CREATE TABLE IF NOT EXISTS `permisos` (
   `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
@@ -319,9 +305,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`rol_permiso`
+-- Table `rol_permiso`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`rol_permiso` (
+CREATE TABLE IF NOT EXISTS `rol_permiso` (
   `rol_id` INT NOT NULL,
   `permiso_id` INT NOT NULL,
 
@@ -330,21 +316,21 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`rol_permiso` (
   PRIMARY KEY (`rol_id`, `permiso_id`),
   CONSTRAINT `fk_roles_has_permisos_roles1`
     FOREIGN KEY (`rol_id`)
-    REFERENCES `world_computer`.`roles` (`id`)
+    REFERENCES `roles` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_roles_has_permisos_permisos1`
     FOREIGN KEY (`permiso_id`)
-    REFERENCES `world_computer`.`permisos` (`id`)
+    REFERENCES `permisos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`entradas`
+-- Table `entradas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`entradas` (
+CREATE TABLE IF NOT EXISTS `entradas` (
   `id` INT AUTO_INCREMENT,
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
   `fecha` DATETIME NOT NULL,
@@ -360,9 +346,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`salidas`
+-- Table `salidas`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`salidas` (
+CREATE TABLE IF NOT EXISTS `salidas` (
   `id` INT AUTO_INCREMENT,
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
   `fecha` DATETIME NOT NULL,
@@ -378,9 +364,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`detalle_salida`
+-- Table `detalle_salida`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_salida` (
+CREATE TABLE IF NOT EXISTS `detalle_salida` (
   `id` INT AUTO_INCREMENT,
   `cantidad` DOUBLE NOT NULL,
   `precio` DOUBLE NULL,
@@ -392,21 +378,21 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_salida` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_detalle_descargo_productos1`
     FOREIGN KEY (`producto_id`)
-    REFERENCES `world_computer`.`productos` (`id`)
+    REFERENCES `productos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_detalle_descargo_descargos1`
     FOREIGN KEY (`salida_id`)
-    REFERENCES `world_computer`.`salidas` (`id`)
+    REFERENCES `salidas` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`detalle_entrada`
+-- Table `detalle_entrada`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_entrada` (
+CREATE TABLE IF NOT EXISTS `detalle_entrada` (
   `id` INT AUTO_INCREMENT,
   `cantidad` DOUBLE NULL,
   `costo` DOUBLE NULL,
@@ -418,21 +404,21 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_entrada` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_detalle_cargo_productos1`
     FOREIGN KEY (`producto_id`)
-    REFERENCES `world_computer`.`productos` (`id`)
+    REFERENCES `productos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_detalle_cargo_cargos1`
     FOREIGN KEY (`entrada_id`)
-    REFERENCES `world_computer`.`entradas` (`id`)
+    REFERENCES `entradas` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`servicios`
+-- Table `servicios`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`servicios` (
+CREATE TABLE IF NOT EXISTS `servicios` (
   `id` INT AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
@@ -447,9 +433,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`empleados`
+-- Table `empleados`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`empleados` (
+CREATE TABLE IF NOT EXISTS `empleados` (
   `id` INT AUTO_INCREMENT,
   `documento` VARCHAR(15) NOT NULL UNIQUE,
   `nombre` VARCHAR(45) NULL,
@@ -468,9 +454,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`detalle_servicio`
+-- Table `detalle_servicio`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_servicio` (
+CREATE TABLE IF NOT EXISTS `detalle_servicio` (
   `id` INT AUTO_INCREMENT,
   `cantidad` DOUBLE NOT NULL,
   `precio` DOUBLE NOT NULL,
@@ -483,26 +469,26 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_servicio` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_servicios_has_ventas_servicios1`
     FOREIGN KEY (`servicio_id`)
-    REFERENCES `world_computer`.`servicios` (`id`)
+    REFERENCES `servicios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_servicios_has_ventas_ventas1`
     FOREIGN KEY (`venta_id`)
-    REFERENCES `world_computer`.`ventas` (`id`)
+    REFERENCES `ventas` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_servicio_venta_empleados1`
     FOREIGN KEY (`empleado_id`)
-    REFERENCES `world_computer`.`empleados` (`id`)
+    REFERENCES `empleados` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `world_computer`.`bitacora`
+-- Table `bitacora`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `world_computer`.`bitacora` (
+CREATE TABLE IF NOT EXISTS `bitacora` (
   `id` INT AUTO_INCREMENT,
   `fecha` DATETIME NULL,
   `modulo` VARCHAR(45) NULL,
@@ -514,7 +500,7 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`bitacora` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_bitacora_usuarios1`
     FOREIGN KEY (`usuario_id`)
-    REFERENCES `world_computer`.`usuarios` (`id`)
+    REFERENCES `usuarios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -532,10 +518,6 @@ CREATE TABLE impuestos(
     CONSTRAINT id_impuestos PRIMARY KEY(id)
 );
 
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 INSERT INTO impuestos(nombre, valor) VALUES ('iva', '12.00'), ('iva2', '16.00');

@@ -103,6 +103,7 @@ const registrarEmpleado = (datos) => {
         contentType: false,
         processData: false,
         success: function (response) {
+            console.log(response);
             let json = JSON.parse(response);
             
             if( json.tipo == 'success'){
