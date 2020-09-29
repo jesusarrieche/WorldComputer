@@ -69,7 +69,7 @@
 
         <div class="card">
         <div class="card-body">
-            <h2 class="card-tittle text-center">Nuevo Categoria</h2>
+            <h2 class="card-tittle text-center">Detalle Categoria</h2>
             <hr>
             <form action="#" method="POST" id="formularioMostrarCategoria" enctype="multipart/form-data">
 
@@ -105,7 +105,7 @@
 
         <div class="card">
         <div class="card-body">
-            <h2 class="card-tittle text-center">Nuevo Categoria</h2>
+            <h2 class="card-tittle text-center">Editar Categoria</h2>
             <hr>
           
             <form action="#" method="POST" id="formularioActualizarCategoria" enctype="multipart/form-data">

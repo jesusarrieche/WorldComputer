@@ -69,7 +69,7 @@ class ProductoController extends Controller{
                 $producto->button .= "<a href='". $this->encriptar($producto->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
             }
             else{
-                $producto->button .= "<a href='". $this->encriptar($producto->id) ."' class='estatusAnulado btn btn-outline-info'><i class='fas fa-trash' title='ACTIVAR'></i></a>";
+                $producto->button .= "<a href='". $this->encriptar($producto->id) ."' class='estatusAnulado btn btn-success'><i class='fas fa-check' title='RESTAURAR'></i></a>";
             }
 
         }
