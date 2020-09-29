@@ -234,8 +234,8 @@ class ProductoController extends Controller{
         } else {
 
             //Actualizacion de precio
-            $consulta3 = $this->producto->query("SELECT e.precio FROM 
-                entradas e
+            $consulta3 = $this->producto->query("SELECT e.costo FROM 
+                detalle_compra e
                     JOIN
                 productos p
                     ON e.producto_id = p.id
