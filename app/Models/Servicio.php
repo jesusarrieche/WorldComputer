@@ -2,99 +2,69 @@
 
 namespace App\Models;
 
-use Exception;
 use PDO;
+use System\Core\Model;
 
-class Cliente extends Persona{
+class Servicio extends Model{
 
-    public function listar(){
+    private $venta_id;
+    private $producto_id;
+    private $cantidad;
+    private $precio;
+
+    public function getVentaId(){
+        return $this->venta_id;
+    }
+
+    public function setVentaId($venta_id){
+        $this->venta_id = $venta_id;
+    }
+
+    public function getProductoId(){
+        return $this->producto_id;
+    }
+
+    public function setProductoId($producto_id){
+        $this->producto_id = $producto_id;
+    }
+
+    public function getCantidad(){
+        return $this->cantidad;
+    }
+
+    public function setCantidad($cantidad){
+        $this->cantidad = $cantidad;
+    }
+
+    public function getPrecio(){
+        return $this->precio;
+    }
+
+    public function setPrecio($precio){
+        $this->precio = $precio;
+    }
+
+    public function registrar(Salida $salida){
         try{
-            $consulta = parent::connect()->prepare("SELECT id, documento, CONCAT(nombre, ' ', apellido) AS nombre, telefono, estatus, created_at FROM clientes WHERE estatus='ACTIVO' ORDER BY created_at DESC");
+            $consulta = parent::connect()->prepare("INSERT INTO salidas(venta_id, producto_id, cantidad, precio) VALUES 
+                                                                     (:venta_id, :producto_id, :cantidad, :precio)");
+
+            $venta_id = $salida->getVentaId();
+            $producto_id = $salida->getProductoId();
+            $cantidad = $salida->getCantidad();
+            $precio = $salida->getPrecio();
+
+            $consulta->bindParam(":venta_id", $venta_id);
+            $consulta->bindParam(":producto_id", $producto_id);
+            $consulta->bindParam(":cantidad", $cantidad);
+            $consulta->bindParam(":precio", $precio);
+
             $consulta->execute();
-            
-            return $consulta->fetchAll(PDO::FETCH_OBJ);
-            
-        } catch (Exception $ex) {
-            die($ex->getMessage());
+
+            return true;
+
+        }catch(Exception $ex){
+            return $ex->message();
         }
     }
-    
-    public function registrar(Cliente $c){
-        try{
-            $consulta = parent::connect()->prepare("INSERT INTO clientes(documento, nombre, apellido, direccion, telefono, email, estatus) "
-                . "VALUES (:documento, :nombre, :apellido, :direccion, :telefono, :email, :estatus)");
-        
-            //$id = $u->getId();
-            $documento= $c->getTipoDocumento()."-".$c->getDocumento();
-            $nombre = $c->getNombre();
-            $apellido = $c->getApellido();
-            $direccion = $c->getDireccion();
-            $telefono = $c->getTelefono();
-            $email = $c->getEmail();
-            $estatus = $c->getEstatus();
-            
-            $consulta->bindParam(":documento", $documento);
-            $consulta->bindParam(":nombre", $nombre);
-            $consulta->bindParam(":apellido", $apellido);
-            $consulta->bindParam(":direccion", $direccion);
-            $consulta->bindParam(":telefono", $telefono);
-            $consulta->bindParam(":email", $email);
-            $consulta->bindParam(":estatus", $estatus);
-
-            $consulta->execute();
-            
-            $alerta= [
-            'alerta' => 'simple',
-            'titulo' => 'Operacion Exitosa...!!!',
-            'texto' => 'Cliente registrado satisfactoriamente',
-            'tipo' => 'success'
-            ];
-            
-            return $alerta;
-            
-        } catch (Exception $ex) {
-            
-            $alerta= [
-            'alerta' => 'simple',
-            'titulo' => 'Error Inesperado...!!!',
-            'texto' => 'Se produjo un error inesperado, Por favor verifique los datos e intente nuevamente',
-            'tipo' => 'error'
-            ];
-            
-            return $alerta;
-            die();
-        }
-    }
-
-    public function actualizar(Cliente $c){
-        try{
-            $consulta = parent::connect()->prepare("UPDATE clientes SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, estatus=:estatus WHERE id=:id");
-
-
-            $id = $c->getId();
-            $documento= $c->getTipoDocumento()."-".$c->getDocumento();
-            $nombre = $c->getNombre();
-            $apellido = $c->getApellido();
-            $direccion = $c->getDireccion();
-            $telefono = $c->getTelefono();
-            $email = $c->getEmail();
-            $estatus = "ACTIVO";
-            
-            $consulta->bindParam(":id", $id);
-            $consulta->bindParam(":documento", $documento);
-            $consulta->bindParam(":nombre", $nombre);
-            $consulta->bindParam(":apellido", $apellido);
-            $consulta->bindParam(":direccion", $direccion);
-            $consulta->bindParam(":telefono", $telefono);
-            $consulta->bindParam(":email", $email);
-            $consulta->bindParam(":estatus", $estatus);
-
-            return $consulta->execute();
-                    
-        } catch (Exception $ex) {
-            
-            // die("Error: " . $ex->getMessage());
-        }
-    }
-
 }
