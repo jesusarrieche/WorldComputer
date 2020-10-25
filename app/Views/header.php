@@ -50,7 +50,17 @@
         <li><a href="<?= ROOT;?>Empleado"><i class="fa fa-fw fa-wrench"></i> Empleados</a></li>
         <li><a href="<?= ROOT;?>Cliente"><i class="fa fa-fw fa-users"></i> Clientes</a></li>
         <li><a href="<?= ROOT;?>Proveedor"><i class="fa fa-fw fa-truck"></i> Proveedores</a></li>
-        <li><a href="<?= ROOT;?>Servicio"><i class="fa fa-fw fa-handshake"></i> Servicios</a></li>
+        <li>
+            <a href="#services_collapse" data-toggle="collapse">
+                <i class="fa fa-fw fa-handshake"></i> Servicios
+            </a>
+
+            <ul id="services_collapse" class="list-unstyled collapse">
+                <li><a href="<?= ROOT;?>Servicio"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
+                <li><a href="<?= ROOT;?>Servicio/create"><i class="fa fa-fw fa-plus-circle"></i> Crear</a></li>
+
+            </ul>
+        </li>
         <li>
             <a href="#inventory_collapse" data-toggle="collapse">
                 <i class="fa fa-fw fa-chart-area"></i> Inventario

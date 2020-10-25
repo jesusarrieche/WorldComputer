@@ -85,6 +85,64 @@
 
                 <hr class="bg-secondary">
 
+                <hr class="bg-secondary">
+
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Empleado</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row form-row">
+                                    <label for="Nombre" class="col-form-label col-lg-2"><strong>Empleado</strong> </label>
+                                    <div class="col-lg-8 form-group">
+                                
+                                        <select id="listadoEmpleados" class="form-control select2">
+                                            <option value="">-</option>
+
+                                            <?php 
+                                            #===== update to services table ====#
+                                            
+                                                foreach($empleados as $empleado): 
+                                            ?>
+
+                                                <option value="<?= $empleado->id; ?>"><?= $empleado->nombre; ?></option>
+
+                                            <?php 
+                                                endforeach; 
+                                            ?>
+
+                                        </select>
+                                    </div>
+    
+                                    <div class="col-lg-2">
+                                        <button class="btn btn-info" id="agregarEmpleado">
+                                            <i class="fas fa-wrench"></i> Agregar Empleado
+                                        </button>
+                                    </div>
+                                </div>
+    
+                                <div class="row form-row">
+                                    <label for="Direccion" class="col-form-label col-lg-2"><strong>Nombre:</strong> </label>
+                                    <div class="col-lg-7 form-group">
+                                        <input type="text" class="form-control-plaintext" id="nombreEmpleado" disabled value="N/A">
+                                    </div>
+    
+                                </div>
+                                
+                                <div class="row form-row">
+                                    
+                                    <label for="Direccion" class="col-form-label col-lg-1"><strong>cedula:</strong> </label>
+                                    <div class="col-lg-2 form-group">
+                                        <input type="text" class="form-control-plaintext" id="cedulaEmpleado" disabled value="N/A">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col">
                         <div class="card">
@@ -124,7 +182,7 @@
                                 <div class="row form-row">
                                     <label for="Direccion" class="col-form-label col-lg-2"><strong>Descripcion:</strong> </label>
                                     <div class="col-lg-7 form-group">
-                                        <input type="text" class="form-control-plaintext" id="nombreServicio" disabled value="N/A">
+                                        <input type="text" class="form-control-plaintext" id="descripcionServicio" disabled value="N/A">
                                     </div>
     
                                 </div>
@@ -136,7 +194,7 @@
                                         <input type="text" class="form-control-plaintext" id="precioServicio" disabled value="N/A">
                                     </div>
                                 </div>
-
+                                <!--
                                 <div class="form-row">
                 
                                     <label for="documento" class=" col-form-label col-md-2">
@@ -147,69 +205,14 @@
                                     </div>
                                 
                                 </div>
+                                -->
                             </div>
                         </div>
                     </div>
                 </div>
               
 
-                <hr class="bg-secondary">
-
-                <div class="row">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Empleado</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row form-row">
-                                    <label for="Nombre" class="col-form-label col-lg-2"><strong>Empleado</strong> </label>
-                                    <div class="col-lg-8 form-group">
-                                
-                                        <select id="listadoEmpleado" class="form-control select2">
-                                            <option value="">-</option>
-
-                                            <?php 
-                                            #===== update to services table ====#
-                                            
-                                                foreach($empleados as $empleado): 
-                                            ?>
-
-                                                <option value="<?= $empleado->id; ?>"><?= $empleado->nombre; ?></option>
-
-                                            <?php 
-                                                endforeach; 
-                                            ?>
-
-                                        </select>
-                                    </div>
-    
-                                    <div class="col-lg-2">
-                                        <button class="btn btn-info" id="agregarEmpleado">
-                                            <i class="fas fa-wrench"></i> Agregar Empleado
-                                        </button>
-                                    </div>
-                                </div>
-    
-                                <div class="row form-row">
-                                    <label for="Direccion" class="col-form-label col-lg-2"><strong>Descripcion:</strong> </label>
-                                    <div class="col-lg-7 form-group">
-                                        <input type="text" class="form-control-plaintext" id="nombreEmpleado" disabled value="N/A">
-                                    </div>
-    
-                                </div>
-                                
-                                <div class="row form-row">
-                                    
-                                    <label for="Direccion" class="col-form-label col-lg-1"><strong>Precio:</strong> </label>
-                                    <div class="col-lg-2 form-group">
-                                        <input type="text" class="form-control-plaintext" id="precioServicio" disabled value="N/A">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
               
                 
 
@@ -220,14 +223,11 @@
                         <table class="table table-striped" id="tservicios">
                             <thead class=" thead-dark">
                                 <tr>
-                                <th scope="col">Codigo</th>
                                 <th scope="col">Cliente</th>
                                 <th scope="col">Empleado</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Precio</th>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Acción</th>
+                                <th scope="col">Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody id="cuerpo">
@@ -280,6 +280,7 @@
 <script>
     let clientes = <?= json_encode($clientes) ?>;
     let servicios = <?= json_encode($servicios) ?>;    
+    let empleados = <?= json_encode($empleados) ?>;    
 </script>
 
 <script src="<?= ROOT; ?>public/assets/js/servicio/create.js"></script>
