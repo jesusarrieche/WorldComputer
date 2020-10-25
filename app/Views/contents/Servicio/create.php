@@ -116,7 +116,7 @@
     
                                     <div class="col-lg-2">
                                         <button class="btn btn-info" id="agregarServicio">
-                                            <i class="fas fa-shopping-cart"></i> Agregar Servicio
+                                            <i class="fas fa-handshake"></i> Agregar Servicio
                                         </button>
                                     </div>
                                 </div>
@@ -135,6 +135,17 @@
                                     <div class="col-lg-2 form-group">
                                         <input type="text" class="form-control-plaintext" id="precioServicio" disabled value="N/A">
                                     </div>
+                                </div>
+
+                                <div class="form-row">
+                
+                                    <label for="documento" class=" col-form-label col-md-2">
+                                        <i class="fas fa-clock"></i>
+                                        <strong>Horas de trabajo:</strong></label>
+                                    <div class="col-md-2">
+                                        <input type="number" name="horasServicio" class="form-control" placeholder="Horas de trabajo">
+                                    </div>
+                                
                                 </div>
                             </div>
                         </div>
@@ -175,7 +186,7 @@
     
                                     <div class="col-lg-2">
                                         <button class="btn btn-info" id="agregarEmpleado">
-                                            <i class="fas fa-shopping-cart"></i> Agregar Empleado
+                                            <i class="fas fa-wrench"></i> Agregar Empleado
                                         </button>
                                     </div>
                                 </div>
