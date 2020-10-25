@@ -1,5 +1,5 @@
 <div class=" container-fluid p-2">
-    <form action="<?= ROOT;?>Compra/guardar" method="post" id="formularioCompra">
+    <form action="<?= ROOT;?>Servicio/guardar" method="post" id="Servicio">
         <div class="card">
             <div class=" card-header bg-gray">
                 <div class="row">
@@ -200,7 +200,7 @@
                 <div class="row justify-content-center">
                     <div class="col"></div>
                     <div class="col">
-                        <button type="submit" class="btn btn-block btn-success"><i class=" fas fa-save"></i> Registrar Compra</button>
+                        <button type="submit" class="btn btn-block btn-success"><i class=" fas fa-save"></i> Registrar servicio</button>
                     </div>
                     <div class="col"></div>
                 </div>
@@ -215,4 +215,4 @@
     let servicios = <?= json_encode($servicios) ?>;    
 </script>
 
-<script src="<?= ROOT; ?>public/assets/js/compra/create.js"></script>
+<script src="<?= ROOT; ?>public/assets/js/servicio/create.js"></script>
