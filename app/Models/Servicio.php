@@ -7,33 +7,33 @@ use System\Core\Model;
 
 class Servicio extends Model{
 
-    private $venta_id;
-    private $producto_id;
-    private $cantidad;
+    private $servicio_id;
+    private $descripcion;
+    private $nombre;
     private $precio;
 
-    public function getVentaId(){
-        return $this->venta_id;
+    public function getServicioId(){
+        return $this->servicio_id;
     }
 
-    public function setVentaId($venta_id){
-        $this->venta_id = $venta_id;
+    public function setServicioId($servicio_id){
+        $this->servicio_id = $servicio_id;
     }
 
     public function getProductoId(){
-        return $this->producto_id;
+        return $this->descripcion;
     }
 
-    public function setProductoId($producto_id){
-        $this->producto_id = $producto_id;
+    public function setProductoId($descripcion){
+        $this->descripcion = $descripcion;
     }
 
-    public function getCantidad(){
-        return $this->cantidad;
+    public function getnombre(){
+        return $this->nombre;
     }
 
-    public function setCantidad($cantidad){
-        $this->cantidad = $cantidad;
+    public function setnombre($nombre){
+        $this->nombre = $nombre;
     }
 
     public function getPrecio(){
@@ -44,27 +44,15 @@ class Servicio extends Model{
         $this->precio = $precio;
     }
 
-    public function registrar(Salida $salida){
+    public function listar(){
         try{
-            $consulta = parent::connect()->prepare("INSERT INTO salidas(venta_id, producto_id, cantidad, precio) VALUES 
-                                                                     (:venta_id, :producto_id, :cantidad, :precio)");
-
-            $venta_id = $salida->getVentaId();
-            $producto_id = $salida->getProductoId();
-            $cantidad = $salida->getCantidad();
-            $precio = $salida->getPrecio();
-
-            $consulta->bindParam(":venta_id", $venta_id);
-            $consulta->bindParam(":producto_id", $producto_id);
-            $consulta->bindParam(":cantidad", $cantidad);
-            $consulta->bindParam(":precio", $precio);
-
+            $consulta = parent::connect()->prepare("SELECT id, nombre, descripcion, precio, estatus, created_at FROM servicios WHERE estatus='ACTIVO' ORDER BY created_at DESC");
             $consulta->execute();
-
-            return true;
-
-        }catch(Exception $ex){
-            return $ex->message();
+            
+            return $consulta->fetchAll(PDO::FETCH_OBJ);
+            
+        } catch (Exception $ex) {
+            die($ex->getMessage());
         }
     }
 }
