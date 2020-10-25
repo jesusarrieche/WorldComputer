@@ -13,7 +13,6 @@
                 </div>
             </div>
 
-
             <div class="card-body">
                 
                 <!--
@@ -117,7 +116,7 @@
     
                                     <div class="col-lg-2">
                                         <button class="btn btn-info" id="agregarServicio">
-                                            <i class="fas fa-shopping-cart"></i> Agregar
+                                            <i class="fas fa-shopping-cart"></i> Agregar Servicio
                                         </button>
                                     </div>
                                 </div>
@@ -137,9 +136,65 @@
                                         <input type="text" class="form-control-plaintext" id="precioServicio" disabled value="N/A">
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
 
-    
+                <hr class="bg-secondary">
+
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Empleado</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row form-row">
+                                    <label for="Nombre" class="col-form-label col-lg-2"><strong>Empleado</strong> </label>
+                                    <div class="col-lg-8 form-group">
                                 
+                                        <select id="listadoEmpleado" class="form-control select2">
+                                            <option value="">-</option>
+
+                                            <?php 
+                                            #===== update to services table ====#
+                                            
+                                                foreach($empleados as $empleado): 
+                                            ?>
+
+                                                <option value="<?= $empleado->id; ?>"><?= $empleado->nombre; ?></option>
+
+                                            <?php 
+                                                endforeach; 
+                                            ?>
+
+                                        </select>
+                                    </div>
+    
+                                    <div class="col-lg-2">
+                                        <button class="btn btn-info" id="agregarEmpleado">
+                                            <i class="fas fa-shopping-cart"></i> Agregar Empleado
+                                        </button>
+                                    </div>
+                                </div>
+    
+                                <div class="row form-row">
+                                    <label for="Direccion" class="col-form-label col-lg-2"><strong>Descripcion:</strong> </label>
+                                    <div class="col-lg-7 form-group">
+                                        <input type="text" class="form-control-plaintext" id="nombreEmpleado" disabled value="N/A">
+                                    </div>
+    
+                                </div>
+                                
+                                <div class="row form-row">
+                                    
+                                    <label for="Direccion" class="col-form-label col-lg-1"><strong>Precio:</strong> </label>
+                                    <div class="col-lg-2 form-group">
+                                        <input type="text" class="form-control-plaintext" id="precioServicio" disabled value="N/A">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -154,13 +209,14 @@
                         <table class="table table-striped" id="tservicios">
                             <thead class=" thead-dark">
                                 <tr>
-                                    <th scope="col">Codigo</th>
-                                    <th>Descripcion</th>    
-                                    <th>Cantidad</th>
-                                    <th>Stock</th>
-                                    <th>Precio Unitario</th>
-                                    <th>Total</th>
-                                    <th>Eliminar</th>
+                                <th scope="col">Codigo</th>
+                                <th scope="col">Cliente</th>
+                                <th scope="col">Empleado</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Acción</th>
                                 </tr>
                             </thead>
                             <tbody id="cuerpo">

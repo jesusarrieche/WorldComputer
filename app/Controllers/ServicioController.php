@@ -23,11 +23,9 @@ class ServicioController extends Controller{
   private $servicio;
 
   public function __construct() {
-      $this->servicio = new Servicio;
-      $this->producto = new Producto;
-      $this->proveedor = new Proveedor;
-      $this->compra = new Compra;
       $this->cliente = new Cliente;
+      $this->servicio = new Servicio;
+      $this->empleado = new Empleado;
   }
 
   public function index(){
@@ -37,19 +35,15 @@ class ServicioController extends Controller{
 
   public function create(){
 
-    $num_documento = $this->compra->formatoDocumento($this->compra->ultimoDocumento());
-    $proveedores = $this->proveedor->getAll('proveedores', "estatus = 'ACTIVO'");
     $clientes = $this->cliente->listar();
     $servicios = $this->servicio->listar();
-    $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO'");
+    $empleados = $this->empleado->listarCargo('TECNICO');
 
     return View::getView('Servicio.create', 
         [ 
-            'productos' => $productos, 
-            'proveedores' => $proveedores,
             'clientes' => $clientes,
             'servicios' => $servicios,
-            'numeroDocumento' => $num_documento
+            'empleados' => $empleados,
         ]);
 }
 

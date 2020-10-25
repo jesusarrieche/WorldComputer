@@ -26,6 +26,19 @@ class Empleado extends Persona{
             die($ex->getMessage());
         }
     }
+
+    public function listarCargo( $cargo ){
+        try{
+            $consulta = parent::connect()->prepare("SELECT id, documento, CONCAT(nombre, ' ', apellido) AS nombre, telefono, cargo, estatus, created_at FROM empleados WHERE estatus='ACTIVO' AND cargo = :cargo ORDER BY created_at DESC");
+            $consulta->bindParam(":cargo", $cargo);
+            $consulta->execute();
+            
+            return $consulta->fetchAll(PDO::FETCH_OBJ);
+            
+        } catch (Exception $ex) {
+            die($ex->getMessage());
+        }
+    }
     
     public function registrar(Empleado $c){
         try{
