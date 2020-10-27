@@ -1,5 +1,5 @@
 <div class=" container-fluid p-2">
-    <form action="<?= ROOT;?>Servicio/guardar" method="post" id="Servicio">
+    <form action="<?= ROOT;?>Servicio/guardar" method="post" id="formularioServicio">
         <div class="card">
             <div class=" card-header bg-gray">
                 <div class="row">
@@ -281,6 +281,8 @@
     let clientes = <?= json_encode($clientes) ?>;
     let servicios = <?= json_encode($servicios) ?>;    
     let empleados = <?= json_encode($empleados) ?>;    
+    let backUrl = <?= ROOT ?> + 'Servicio';
+    console.log(backUrl);
 </script>
 
 <script src="<?= ROOT; ?>public/assets/js/servicio/create.js"></script>

@@ -111,4 +111,26 @@ $(document).ready(function () {
 
     });
 
+    // Eliminar Articulo de la Lista
+    $('tbody').on('click', '.eliminar',function (e) { 
+        e.preventDefault();
+        
+        $(this).parents('tr').remove();
+
+    });
+
+
+    $('#formularioServicio').submit(function (e){
+        e.preventDefault();
+    
+        Swal.fire(
+            'Servicios Agregados',
+            'Servicios Agregados correctamente',
+            'success'   
+        ).then((result) => {
+
+            window.location.replace(backUrl);
+        })
+    })
+
 })
