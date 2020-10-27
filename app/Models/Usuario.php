@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Exception;
 use PDO;
-use System\Core\Model;
 
 class Usuario extends Persona{
 
@@ -128,6 +127,26 @@ class Usuario extends Persona{
         } catch (Exception $ex) {
             
             // die("Error: " . $ex->getMessage());
+        }
+    }
+
+    /**
+     * SECURITY
+     */
+    
+    public function checkUser(Usuario $user) {
+        try {
+            $query = parent::connect()->prepare("SELECT documento, nombre, apellido, email, usuario, estatus FROM usuarios WHERE usuario=:usuario AND password=:password");
+            
+            $query->bindParam(":usuario", $user->usuario);
+            $query->bindParam(":password", $user->password);
+            
+            $query->execute();
+            
+            return $query->fetch(PDO::FETCH_OBJ);
+            
+        } catch (Exception $e) {
+            die($e->getMessage());
         }
     }
 }

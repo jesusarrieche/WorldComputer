@@ -2,6 +2,7 @@
 
 namespace System\Core;
 
+use Exception;
 use PDO;
 
 class Model extends Database{
