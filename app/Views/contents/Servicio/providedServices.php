@@ -1,10 +1,10 @@
 <div class="content p-4 dataTables_wrapper">
-    <h2 class="mb-4">Gestion de Servicio</h2>
+    <h2 class="mb-4">Gestion de Servicios Prestados</h2>
 
     <div class="card mb-4">
         <div class="card-header bg-white">
           <a class="btn btn-primary" href="<?= ROOT;?>Servicio/create">
-            <i class="fas fa-plus-square"></i> Agregar Servicio
+            <i class="fas fa-plus-square"></i> Agregar Servicio Prestado
           </a>
         </div>
         <div class="card-body">
@@ -12,15 +12,45 @@
             <thead class="thead-dark">
               <tr>
                 <th scope="col">Codigo</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Empleado</th>
                 <th scope="col">Nombre</th>
-                <th scope="col">Descripción</th>
                 <th scope="col">Precio</th>
+                <th scope="col">Fecha</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Acción</th>
               </tr>
             </thead>
             <tbody>
-                
+                <tr>
+                    <td>0001</td>
+                    <td>CLI-012831</td>
+                    <td>EMP-917231</td>
+                    <td>Mantenimiento</td>
+                    <td>5$</td>
+                    <td>01/01/2020</td>
+                    
+                    <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a></td>
+                    <td>
+                        <a href="#" class='mostrar btn btn-info'><i class='fas fa-search'></i></a>
+                        <a href="#" class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>0002</td>
+                    <td>CLI-012831</td>
+                    <td>EMP-917231</td>
+                    <td>Mantenimiento</td>
+                    <td>5$</td>
+                    <td>01/03/2020</td>
+                    
+                    <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a></td>
+                    <td>
+                        <a href="#" class='mostrar btn btn-info'><i class='fas fa-search'></i></a>
+                        <a href="#" class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>
+                    </td>
+                </tr>
             </tbody>
           </table>
         </div>

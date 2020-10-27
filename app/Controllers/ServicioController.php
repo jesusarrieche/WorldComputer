@@ -33,6 +33,38 @@ class ServicioController extends Controller{
     return View::getView('Servicio.index');
   }
 
+  public function listar(){
+
+    $method = $_SERVER['REQUEST_METHOD'];
+
+        if( $method != 'POST'){
+        http_response_code(404);
+        return false;
+        }
+
+        $servicios = $this->servicio->listar();
+
+        foreach($servicios as $servicio){
+
+        $servicio->button = 
+        "<a href='/WorldComputer/servicio/mostrar/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+        "<a href='/WorldComputer/servicio/mostrar/". $this->encriptar($servicio->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
+        "<a href='". $this->encriptar($servicio->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
+
+    }
+
+    http_response_code(200);
+
+    echo json_encode([
+    'data' => $servicios
+    ]);
+
+}
+
+  public function ProvidedServices () {
+    return View::getView('Servicio.providedServices');
+  }
+
   public function create(){
 
     $clientes = $this->cliente->listar();

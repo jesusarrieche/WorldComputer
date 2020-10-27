@@ -56,8 +56,8 @@
             </a>
 
             <ul id="services_collapse" class="list-unstyled collapse">
-                <li><a href="<?= ROOT;?>Servicio"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
-                <li><a href="<?= ROOT;?>Servicio/create"><i class="fa fa-fw fa-plus-circle"></i> Crear</a></li>
+                <li><a href="<?= ROOT;?>Servicio"><i class="fa fa-fw fa-bookmark"></i> Servicios</a></li>
+                <li><a href="<?= ROOT;?>Servicio/ProvidedServices"><i class="fa fa-fw fa-bookmark"></i> Servicios Prestados</a></li>
 
             </ul>
         </li>
