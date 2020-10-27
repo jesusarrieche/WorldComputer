@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace app\Controllers;
 
 use App\Models\Usuario;
 use App\Traits\Utility;
@@ -52,105 +52,103 @@ class UsuarioController extends Controller{
 
     public function guardar(){
 
-    $method = $_SERVER['REQUEST_METHOD'];
+        $method = $_SERVER['REQUEST_METHOD'];
 
-    if( $method != 'POST'){
-    http_response_code(404);
-    return false;
-
-
-    }
-
-    $contrasena = $this->encriptar(strtoupper($this->limpiaCadena($_POST['contrasena'])));
-
-    $usuario = new Usuario();
-
-    $usuario->setId($_POST['id']);
-    $usuario->setTipoDocumento($_POST['inicial_documento']);
-    $usuario->setDocumento($_POST['documento']);
-    $usuario->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
-    $usuario->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
-    $usuario->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
-    $usuario->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
-    $usuario->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
-    $usuario->setEstatus("ACTIVO");
-    $usuario->setUsuario(strtoupper($this->limpiaCadena($_POST['usuario'])));
-    $usuario->setPassword($contrasena);
-    $usuario->setRolId(strtoupper($this->limpiaCadena($_POST['rolUsuario'])));
-
-    $documento = $usuario->getTipoDocumento()."-".$usuario->getDocumento();
-
-    $consultaDocumento = $this->usuario->query("SELECT * FROM usuarios WHERE documento='$documento'" ); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
-
-    if ($consultaDocumento->rowCount() >= 1) {
-
-    http_response_code(200);
-
-    echo json_encode([
-        'titulo' => 'Documento Registrado',
-        'mensaje' => $documento . ' Se encuentra registrado en nuestro sistema',
-        'tipo' => 'error'
-    ]);
-
-    return false;
-
-    } else {
-
-        if($this->usuario->registrar($usuario)) {
-            http_response_code(200);
-
-            echo json_encode([
-            'titulo' => 'Registro Exitoso',
-            'mensaje' => 'Cliente registrado en nuestro sistema',
-            'tipo' => 'success'
-            ]);    
-        } else{
-
-            echo json_encode([
-            'titulo' => 'Error',
-            'mensaje' => $this->usuario->getError(),
-            'tipo' => 'error'
-            ]);  
+        if( $method != 'POST'){
+            http_response_code(404);
+            return false;
         }
-    }
+
+        $contrasena = $this->encriptar(strtoupper($this->limpiaCadena($_POST['contrasena'])));
+
+        $usuario = new Usuario();
+
+        $usuario->setId($_POST['id']);
+        $usuario->setTipoDocumento($_POST['inicial_documento']);
+        $usuario->setDocumento($_POST['documento']);
+        $usuario->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
+        $usuario->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
+        $usuario->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
+        $usuario->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
+        $usuario->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
+        $usuario->setEstatus("ACTIVO");
+        $usuario->setUsuario(strtoupper($this->limpiaCadena($_POST['usuario'])));
+        $usuario->setPassword($contrasena);
+        $usuario->setRolId(strtoupper($this->limpiaCadena($_POST['rolUsuario'])));
+
+        $documento = $usuario->getTipoDocumento()."-".$usuario->getDocumento();
+
+        $consultaDocumento = $this->usuario->query("SELECT * FROM usuarios WHERE documento='$documento'" ); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
+
+        if ($consultaDocumento->rowCount() >= 1) {
+
+        http_response_code(200);
+
+        echo json_encode([
+            'titulo' => 'Documento Registrado',
+            'mensaje' => $documento . ' Se encuentra registrado en nuestro sistema',
+            'tipo' => 'error'
+        ]);
+
+        return false;
+
+        } else {
+
+            if($this->usuario->registrar($usuario)) {
+                http_response_code(200);
+
+                echo json_encode([
+                'titulo' => 'Registro Exitoso',
+                'mensaje' => 'Cliente registrado en nuestro sistema',
+                'tipo' => 'success'
+                ]);    
+            } else{
+
+                echo json_encode([
+                'titulo' => 'Error',
+                'mensaje' => $this->usuario->getError(),
+                'tipo' => 'error'
+                ]);  
+            }
+        }
 
 
     }
 
     public function actualizar(){
 
-    $usuario = new Usuario();
+        $usuario = new Usuario();
 
-    $usuario->setId($_POST['id']);
-    $usuario->setTipoDocumento($_POST['inicial_documento']);
-    $usuario->setDocumento($_POST['documento']);
-    $usuario->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
-    $usuario->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
-    $usuario->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
-    $usuario->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
-    $usuario->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
-    $usuario->setUsuario(strtoupper($this->limpiaCadena($_POST['usuario'])));
-    $usuario->setEstatus("ACTIVO");
+        $usuario->setId($_POST['id']);
+        $usuario->setTipoDocumento($_POST['inicial_documento']);
+        $usuario->setDocumento($_POST['documento']);
+        $usuario->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
+        $usuario->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
+        $usuario->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
+        $usuario->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
+        $usuario->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
+        $usuario->setUsuario(strtoupper($this->limpiaCadena($_POST['usuario'])));
+        $usuario->setEstatus("ACTIVO");
 
-    if($this->usuario->actualizar($usuario)){
-    http_response_code(200);
+        if($this->usuario->actualizar($usuario)){
+        http_response_code(200);
 
-    echo json_encode([
-        'titulo' => 'Actualizacion Exitosa',
-        'mensaje' => 'Registro actualizado en nuestro sistema',
-        'tipo' => 'success'
-    ]);
-    }else{
-    http_response_code(404);
+        echo json_encode([
+            'titulo' => 'Actualizacion Exitosa',
+            'mensaje' => 'Registro actualizado en nuestro sistema',
+            'tipo' => 'success'
+        ]);
+        }else{
+        http_response_code(404);
 
-    echo json_encode([
-        'titulo' => 'Error al Actualizar',
-        'mensaje' => 'Ocurrio un error durante la actualizacion',
-        'tipo' => 'error'
-    ]);
-    }
+        echo json_encode([
+            'titulo' => 'Error al Actualizar',
+            'mensaje' => 'Ocurrio un error durante la actualizacion',
+            'tipo' => 'error'
+        ]);
+        }
 
-    }
+        }
 
     public function mostrar($param){
     
@@ -166,34 +164,34 @@ class UsuarioController extends Controller{
     }
 
     public function eliminar($id){
-    
-    $method = $_SERVER['REQUEST_METHOD'];
+        
+        $method = $_SERVER['REQUEST_METHOD'];
 
-    if( $method != 'DELETE'){
-    http_response_code(404);
-    return false;
-    }
-    $id = $this->desencriptar($id);
-
-    
-    if($this->usuario->eliminar("usuarios", $id)){
-
-        http_response_code(200);
-
-        echo json_encode([
-            'titulo' => 'Registro eliminado!',
-            'mensaje' => 'Registro eliminado en nuestro sistema',
-            'tipo' => 'success'
-        ]);
-    }else{
+        if( $method != 'DELETE'){
         http_response_code(404);
+        return false;
+        }
+        $id = $this->desencriptar($id);
 
-        echo json_encode([
-            'titulo' => 'Ocurio un error!',
-            'mensaje' => 'No se pudo eliminar el registro',
-            'tipo' => 'error'
-        ]);
-    }
+        
+        if($this->usuario->eliminar("usuarios", $id)){
+
+            http_response_code(200);
+
+            echo json_encode([
+                'titulo' => 'Registro eliminado!',
+                'mensaje' => 'Registro eliminado en nuestro sistema',
+                'tipo' => 'success'
+            ]);
+        }else{
+            http_response_code(404);
+
+            echo json_encode([
+                'titulo' => 'Ocurio un error!',
+                'mensaje' => 'No se pudo eliminar el registro',
+                'tipo' => 'error'
+            ]);
+        }
 
     
     }

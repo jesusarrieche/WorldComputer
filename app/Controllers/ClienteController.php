@@ -19,7 +19,6 @@ class ClienteController extends Controller{
   }
 
   public function index(){
-    session_start();
     return View::getView('Cliente.index');
   }
   

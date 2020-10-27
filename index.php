@@ -4,20 +4,46 @@ require_once 'vendor/autoload.php';
 
 $router = new \System\Core\Router();
 
+if(!isset($_SESSION)) {
+    session_start();
+}
 
-if( $router->getController() == 'Api' ){
-    $controller = "App\\Api\\" . $router->getController();
-    $method = $router->getMethod();
-    $param = $router->getParam();
+// $_SESSION['isAuth'] = false;
 
-    $controller = new $controller();
-    $controller->$method($param);
+// session_destroy();
 
-}else{
-    $controller = "App\\Controllers\\" . $router->getController() . "Controller";
+// var_dump($_SESSION);
+
+
+if(!empty($_SESSION['usuario'])) {
+    
+    if( $router->getController() == 'api' ){
+        $controller = "App\\Api\\" . $router->getController();
+        $method = $router->getMethod();
+        $param = $router->getParam();
+    
+        $controller = new $controller();
+        $controller->$method($param);
+    
+    }else{
+        $controller = "App\\Controllers\\" . $router->getController() . "Controller";
+        $method = $router->getMethod();
+        $param = $router->getParam();
+        
+        $controller = new $controller();
+        $controller->$method($param);
+    }
+    
+} else {
+    
+    $controller = "App\\Controllers\\LoginController";
     $method = $router->getMethod();
     $param = $router->getParam();
     
     $controller = new $controller();
     $controller->$method($param);
 }
+
+
+
+

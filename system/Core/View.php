@@ -28,6 +28,21 @@ class View {
 
 
     }
+    
+    public static function getSingleView($path, $key=null, $value=null) {
+        $path = str_replace('.', '/', $path) . '.php';
+        
+        if(!is_null($key)) {
+            if(is_array($key)) {
+                extract($key, EXTR_PREFIX_SAME, '');
+            } else {
+                ${$key} = $value;
+            }
+        }
+        
+        require VIEWS . 'contents/' . $path;
+        
+    }
 
     public static function getViewPDF($path, $key=null, $value=null){
 

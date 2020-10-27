@@ -19,7 +19,6 @@ class EmpleadoController extends Controller{
   }
 
   public function index(){
-    session_start();
     return View::getView('Empleado.index');
   }
   
