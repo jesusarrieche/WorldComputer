@@ -34,7 +34,7 @@ $(document).ready(function() {
         console.log("GetNotifications");
         $.ajax({
             type: "POST",
-            url: "/WorldComputer/notificacion/listar",
+            url: "/WorldComputer/Notificacion/listar",
             cache: false,
             contentType: false,
             processData: false,
