@@ -96,4 +96,35 @@ class ServicioController extends Controller{
       ]);
     }
 
+
+    public function eliminar($id){
+    
+      $method = $_SERVER['REQUEST_METHOD'];
+
+      if( $method != 'DELETE'){
+      http_response_code(404);
+      return false;
+      }
+      $id = $this->desencriptar($id);
+
+      
+      if($this->servicio->eliminar("servicios", $id)){
+
+          http_response_code(200);
+
+          echo json_encode([
+              'titulo' => 'Registro eliminado!',
+              'mensaje' => 'Registro eliminado en nuestro sistema',
+              'tipo' => 'success'
+          ]);
+      }else{
+          http_response_code(404);
+
+          echo json_encode([
+              'titulo' => 'Ocurio un error!',
+              'mensaje' => 'No se pudo eliminar el registro',
+              'tipo' => 'error'
+          ]);
+      }
+    }
 }
