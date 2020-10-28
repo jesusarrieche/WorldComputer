@@ -24,10 +24,10 @@
             <tbody>
                 <tr>
                     <td>0001</td>
-                    <td>CLI-012831</td>
-                    <td>EMP-917231</td>
+                    <td>CLI-0003</td>
+                    <td>EMP-0010</td>
                     <td>Mantenimiento</td>
-                    <td>5$</td>
+                    <td>3500</td>
                     <td>01/01/2020</td>
                     
                     <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a></td>
@@ -39,10 +39,10 @@
 
                 <tr>
                     <td>0002</td>
-                    <td>CLI-012831</td>
-                    <td>EMP-917231</td>
+                    <td>CLI-0039</td>
+                    <td>EMP-0010</td>
                     <td>Mantenimiento</td>
-                    <td>5$</td>
+                    <td>3500</td>
                     <td>01/03/2020</td>
                     
                     <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a></td>
