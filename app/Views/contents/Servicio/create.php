@@ -281,7 +281,7 @@
     let clientes = <?= json_encode($clientes) ?>;
     let servicios = <?= json_encode($servicios) ?>;    
     let empleados = <?= json_encode($empleados) ?>;    
-    let backUrl = <?= ROOT ?> + 'Servicio';
+    let backUrl = <?= ROOT ?> + 'Servicio/ProvidedServices';
     console.log(backUrl);
 </script>
 
