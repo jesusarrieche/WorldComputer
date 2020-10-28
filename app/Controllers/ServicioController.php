@@ -47,8 +47,8 @@ class ServicioController extends Controller{
         foreach($servicios as $servicio){
 
         $servicio->button = 
-        "<a href='/WorldComputer/servicio/mostrar/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-        "<a href='/WorldComputer/servicio/mostrar/". $this->encriptar($servicio->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
+        "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+        "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
         "<a href='". $this->encriptar($servicio->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
 
     }
@@ -77,6 +77,23 @@ class ServicioController extends Controller{
             'servicios' => $servicios,
             'empleados' => $empleados,
         ]);
-}
+  }
+
+  /**
+    CRUD
+  ***/
+
+    public function mostrar($param){
+    
+      $param = $this->desencriptar($param);
+
+      $servicio = $this->servicio->getOne('servicios', $param);
+
+      http_response_code(200);
+
+      echo json_encode([
+      'data' => $servicio
+      ]);
+    }
 
 }

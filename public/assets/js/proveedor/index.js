@@ -10,7 +10,7 @@ let table = $('#datatable').DataTable({
     searching: true,
     ajax: {
         method: 'POST',
-        url: '/WorldComputer/proveedor/listar'
+        url: '/WorldComputer/Proveedor/listar'
     },
     columns: [
         { data: 'documento' },

@@ -3,9 +3,9 @@
 
     <div class="card mb-4">
         <div class="card-header bg-white">
-          <a class="btn btn-primary" href="<?= ROOT;?>Servicio/create">
-            <i class="fas fa-plus-square"></i> Agregar Servicio
-          </a>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarServicio">
+            <i class="fas fa-plus-circle"></i> Agregar Servicio
+          </button>
         </div>
         <div class="card-body">
           <table class="table" id="datatable">
@@ -27,108 +27,127 @@
     </div>
 </div>
 
-<!-- Modal Detalle Compra -->
-<div class="modal fade" id="modalDetalleCompra" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
 
-        <div class="card">
-
-            <div class="card-header">
-                <div class="row justify-content-center">
-                    <h2 class="card-tittle text-center">Detalle Servicio</h2>
+<!-- Modal de Registro -->
+<div class="modal fade " id="agregarServicio" tabindex="-1" role="dialog" aria-labelledby="agregarServicioLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="agregarServicioLabel">Agregar Servicio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="#" method="POST" enctype="multipart/form-data" id="formularioRegistrarServicio">
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <input  name="id" id="id" hidden>
+                    <label for="agregarNombre">Nombre:</label>
+                    <input type="text" name="agregarNombre" id="agregarNombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
+                </div>
+                <div class="col-md-6">
+                    <label for="agregarPrecio">Precio:</label>
+                    <input type="number" name="agregarPrecio" id="agregarPrecio" maxlength="30" required="required" class="form-control" placeholder="Precio">
                 </div>
             </div>
 
-            <div class="card-body">
-                <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-2"><strong>CODIGO:</strong> </label>
-                    <div class="col-md-2">
-                        <input type="text" class="form-control-plaintext" id="numero_compra" disabled>
-                    </div>
-                </div>
-
-                <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-md-2"><strong>REFERENCIA:</strong></label>
-                    <div class="col-md-2">
-                        <input type="text" id="documento_referencia" class="form-control-plaintext" value="FACTURA" disabled>
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="row pl-5">
-                    <h4>PROVEEDOR</h4>
-                </div>
-
-                <div class="row pl-5">
-                    <label for="" class="col-form-label col-md-2"><strong>RAZON SOCIAL:</strong></label>
-                    <div class="col-md-3">
-                        <input type="text" id="nombre_proveedor" class="form-control-plaintext" value="MICROTECH" disabled>
-                    </div>
-
-                    <label for="" class="col-form-label col-md-2"><strong>RIF:</strong></label>
-                    <div class="col-md-3">
-                        <input type="text" id="rif_proveedor" class="form-control-plaintext" value="J-26540950" disabled>
-                    </div>
-                </div>
-
-                <div class="row pl-5">
-                    <label for="" class="col-form-label col-md-2"><strong>DIRECCION:</strong></label>
-                    <div class="col-md-3">
-                        <input type="text" id="direccion_proveedor" class="form-control-plaintext" value="BARQUISIMETO" disabled>
-                    </div>
-
-                    
-                </div>
-
-                <hr>
-
-                <div class="row justify-content-center pl-5">
-                    <h4>PRODUCTOS</h4>
-                </div>
-
-                <div class="row">
-                    <div class=" table-responsive">
-                        <table class="table table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>CANTIDAD</th>
-                                    <th>CODIGO</th>
-                                    <th>PRODUCTO</th>
-                                    <th>COSTO</th>
-                                    <th>IMPORTE</th>
-                                </tr>
-                            </thead>
-    
-                            <tbody id="cuerpo">
-    
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-                <hr>
-                <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-2"><strong>TOTAL:</strong> </label>
-                    <div class="col-md-2">
-                        <input type="text" class="form-control-plaintext" id="total" disabled>
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="row justify-content-center">
-                    <button class="btn btn-secondary" data-dismiss="modal"> <i class="fas fa-window-close"></i> Cerrar</button>
-                </div>
+            <div class="form-group">
+                <label for="agregarDescripcion">Descripción</label>
+                <textarea class="form-control" id="agregarDescripcion" placeholder="Descripción del servicio" rows="3"></textarea>
+            </div>
             
+            <div class="modal-footer">
+              <button type="submit"  class="btn btn-success m-2">Enviar</button>
+              <button type="reset" class="btn btn-danger m-2">Limpiar</button>
+            </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- Modal de mostrar -->
+<div class="modal fade " id="modalMostrarServicio" tabindex="-1" role="dialog" aria-labelledby="mostrarServicioLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mostrarServicioLabel">mostrar Servicio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="#" method="POST" enctype="multipart/form-data" id="formularioMostrarServicio">
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <input  name="id" id="id" hidden>
+                    <label for="mostrarNombre">Nombre:</label>
+                    <input disabled type="text" name="mostrarNombre" id="mostrarNombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
+                </div>
+                <div class="col-md-6">
+                    <label for="mostrarPrecio">Precio:</label>
+                    <input disabled type="number" name="mostrarPrecio" id="mostrarPrecio" maxlength="30" required="required" class="form-control" placeholder="Precio">
+                </div>
             </div>
 
-
-        </div>
-
-        </div>
+            <div class="form-group">
+                <label for="mostrarDescripcion">Descripción</label>
+                <textarea disabled class="form-control" id="mostrarDescripcion" placeholder="Descripción del servicio" rows="3"></textarea>
+            </div>
+            
+            <div class="modal-footer">
+              <button type="submit"  class="btn btn-success m-2">Enviar</button>
+              <button type="reset" class="btn btn-danger m-2">Limpiar</button>
+            </div>
+        </form>
+      </div>
+      
     </div>
+  </div>
+</div>
+
+
+
+<!-- Modal de Actualizar -->
+<div class="modal fade " id="modalActualizarServicio" tabindex="-1" role="dialog" aria-labelledby="actualizarServicioLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="actualizarServicioLabel">actualizar Servicio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="#" method="POST" enctype="multipart/form-data" id="formularioActualizarServicio">
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <input  name="id" id="id" hidden>
+                    <label for="actualizarNombre">Nombre:</label>
+                    <input type="text" name="actualizarNombre" id="actualizarNombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
+                </div>
+                <div class="col-md-6">
+                    <label for="actualizarPrecio">Precio:</label>
+                    <input type="number" name="actualizarPrecio" id="actualizarPrecio" maxlength="30" required="required" class="form-control" placeholder="Precio">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="actualizarDescripcion">Descripción</label>
+                <textarea class="form-control" id="actualizarDescripcion" placeholder="Descripción del servicio" rows="3"></textarea>
+            </div>
+            
+            <div class="modal-footer">
+              <button type="submit"  class="btn btn-success m-2">Enviar</button>
+              <button type="reset" class="btn btn-danger m-2">Limpiar</button>
+            </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
 </div>
 
 <script src="<?= ROOT; ?>public/assets/js/servicio/index.js"></script>

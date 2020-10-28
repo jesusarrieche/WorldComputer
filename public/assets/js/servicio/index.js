@@ -42,4 +42,40 @@ $(document).ready(function () {
                     }
         }
     });
+    //script mostrar servicio
+    const mostrarServicio = (href, formulario, modal, action) => {
+        $.ajax({
+            type: "POST",
+            url: href,
+            success: function (response) {
+                let json = JSON.parse(response);
+            
+    
+                $(formulario).find('input#id').val(json.data.id);
+                $(formulario).find('input#'+action+'Nombre').val(json.data.nombre);
+                $(formulario).find('input#'+action+'Precio').val(json.data.precio);
+                $(formulario).find('#'+action+'Descripcion').val(json.data.descripcion);
+    
+                $(modal).modal('show');
+    
+            },
+            error: function(response) {
+             console.log(response.getAllResponseHeaders())
+         }
+        });
+    }
+
+    // Mostrar Servicio
+    $('body').on('click', '.mostrar', function (e) { 
+        e.preventDefault();
+    
+        mostrarServicio($(this).attr('href'),'form#formularioMostrarServicio','#modalMostrarServicio','mostrar');
+    });
+
+    // Actualizar Servicio
+    $('body').on('click', '.editar', function (e) { 
+        e.preventDefault();
+    
+        mostrarServicio($(this).attr('href'),'form#formularioActualizarServicio','#modalActualizarServicio','actualizar');
+    });
 })
