@@ -2,6 +2,7 @@
 
 namespace app\Controllers;
 
+use App\Models\Rol;
 use App\Models\Usuario;
 use App\Traits\Utility;
 use System\Core\Controller;
@@ -13,13 +14,18 @@ class UsuarioController extends Controller{
     use Utility;
     
     private $usuario;
+    private $rol;
     
     public function __construct() {
         $this->usuario = new Usuario;
+        $this->rol = new Rol();
     }
 
     public function index(){
-        return View::getView('Usuario.index');
+
+        $roles = $this->rol->listar();
+        
+        return View::getView('Usuario.index', 'roles', $roles);
     }
 
     public function listar(){
