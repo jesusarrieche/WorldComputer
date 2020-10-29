@@ -45,12 +45,15 @@ class Usuario extends Persona{
 
     public function listar(){
         try{
+
+            $user = $_SESSION['usuario'];
+
             $consulta = parent::connect()->prepare("SELECT u.id, u.documento, CONCAT(u.nombre, ' ', u.apellido) AS nombre, u.usuario, r.nombre AS rol, u.telefono, u.estatus FROM 
                 usuarios u
                     JOIN
                 roles r
                     ON r.id = u.rol_id
-                WHERE u.estatus='ACTIVO' ORDER BY u.created_at DESC");
+                WHERE u.estatus='ACTIVO' AND u.usuario != '$user' ORDER BY u.created_at DESC");
 
             $consulta->execute();
             

@@ -47,10 +47,10 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Usuario</a>
+                <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?= empty($_SESSION['usuario']) ? 'Usuario' : $_SESSION['usuario'] ?></a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
-                    <a href="#" class="dropdown-item">Profile</a>
-                    <a href="" id="logout" class="dropdown-item">Logout</a>
+                    <a href="#" class="dropdown-item">Perfil</a>
+                    <a href="" id="logout" class="dropdown-item">Salir</a>
                 </div>
             </li>
         </ul>
