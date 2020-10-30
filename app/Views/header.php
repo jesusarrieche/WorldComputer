@@ -79,16 +79,9 @@
         <li><a href="<?= ROOT;?>Compra"><i class="fa fa-fw fa-shopping-cart"></i> Compras</a></li>
         <li><a href="<?= ROOT;?>Venta"><i class="fa fa-fw fa-dollar-sign"></i> Ventas</a></li>
         <!-- <li><a href="<?= ROOT;?>Venta/Crear"><i class="fa fa-fw fa-shopping-basket"></i> Caja</a></li> -->
-        <li><a href="<?= ROOT;?>Reporte"><i class="fa fa-fw fa-calendar"></i> Reportes</a></li>
-        <li>
-            <a href="#sm_expand_1" data-toggle="collapse">
-                <i class="fa fa-fw fa-sitemap"></i> Gestion de Productos
-            </a>
-            <ul id="sm_expand_1" class="list-unstyled collapse">
-                <li><a href="<?= ROOT;?>Producto"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
-                <li><a href="<?= ROOT;?>Categoria"><i class="fa fa-fw fa-tag"></i> Categoría</a></li>
-            </ul>
-        </li>
+    
+        <li><a href="<?= ROOT;?>Producto"><i class="fa fa-fw fa-sitemap"></i> Productos</a></li>
+        <li><a href="<?= ROOT;?>Categoria"><i class="fa fa-fw fa-tag"></i> Categorías</a></li>
         <li>
             <a href="#sm_expand_2" data-toggle="collapse">
                 <i class="fa fa-fw fa-globe"></i> Permisos
@@ -97,5 +90,7 @@
                 <li><a href="<?= ROOT;?>Rol"><i class="fa fa-fw fa-address-card"></i> Roles</a></li>
             </ul>
         </li>
+
+        <li><a href="<?= ROOT;?>Reporte"><i class="fa fa-fw fa-calendar"></i> Reportes</a></li>
     </ul>
 </div>
