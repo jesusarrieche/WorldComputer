@@ -65,7 +65,9 @@ class ServicioController extends Controller{
 
   public function ProvidedServices () {
 
-    
+    $empleados = $this->empleado->listarCargo('TECNICO');
+    $ventas = $this->venta->listar();
+    $servicios = $this->servicio->listar();
 
     return View::getView('Servicio.providedServices');
   }
@@ -84,9 +86,8 @@ class ServicioController extends Controller{
         foreach($servicios as $servicio){
 
         $servicio->button = 
-        "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-        "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
-        "<a href='". $this->encriptar($servicio->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
+                "<a href='/WorldComputer/Servicio/mostrarPrestado/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+                "<a href='/WorldComputer/Servicio/servicioPrestadoPDF/". $this->encriptar($servicio->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
 
     }
 
@@ -149,6 +150,19 @@ class ServicioController extends Controller{
         'titulo' => 'Venta Registrada!',
         'mensaje' => $mensaje,
         'tipo' => 'success'
+      ]);
+    }
+
+    public function mostrarPrestado($param){
+    
+      $param = $this->desencriptar($param);
+
+      $servicio = $this->servicio->getOne('detalle_servicio', $param);
+
+      http_response_code(200);
+
+      echo json_encode([
+      'data' => $servicio
       ]);
     }
 
