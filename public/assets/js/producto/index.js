@@ -57,13 +57,8 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-<<<<<<< HEAD
             url: "/Unidad/listar",
-            success: function (response) {
-=======
-            url: "/WorldComputer/unidad/listar",
             success: function(response) {
->>>>>>> jesus
                 json = JSON.parse(response);
 
 
@@ -90,13 +85,8 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-<<<<<<< HEAD
             url: "/Categoria/listar",
-            success: function (response) {
-=======
-            url: "/WorldComputer/categoria/listar",
             success: function(response) {
->>>>>>> jesus
                 let json = JSON.parse(response);
 
 
@@ -216,13 +206,7 @@ $(document).ready(function() {
             cache: false,
             contentType: false,
             processData: false,
-<<<<<<< HEAD
-            success: function (response) {
-=======
             success: function(response) {
-                debugger
-
->>>>>>> jesus
                 let json = JSON.parse(response);
                 if (json.tipo == 'success') {
 
@@ -252,13 +236,8 @@ $(document).ready(function() {
     const eliminarProducto = (id) => {
         $.ajax({
             type: "DELETE",
-<<<<<<< HEAD
             url: "/Producto/eliminar/" + id,
-            success: function (response) {
-=======
-            url: "/WorldComputer/producto/eliminar/" + id,
             success: function(response) {
->>>>>>> jesus
                 const json = JSON.parse(response);
                 if (json.tipo == 'success') {
                     Swal.fire(
@@ -279,13 +258,8 @@ $(document).ready(function() {
     const habilitarProducto = (id) => {
         $.ajax({
             type: "HABILITAR",
-<<<<<<< HEAD
             url: "/Producto/habilitar/" + id,
-            success: function (response) {
-=======
-            url: "/WorldComputer/producto/habilitar/" + id,
             success: function(response) {
->>>>>>> jesus
                 const json = JSON.parse(response);
                 if (json.tipo == 'success') {
                     Swal.fire(
@@ -307,15 +281,9 @@ $(document).ready(function() {
     const generarCodigo = (letra, longitud, numeroFinal, elemento) => {
         $.ajax({
             type: "POST",
-<<<<<<< HEAD
             url: "/Api/generarCodigo",
-            data: { letra: letra, longitud: longitud, numero: numeroFinal},
-            success: function (response) {
-=======
-            url: "/WorldComputer/api/generarCodigo",
             data: { letra: letra, longitud: longitud, numero: numeroFinal },
             success: function(response) {
->>>>>>> jesus
                 let json = JSON.parse(response);
 
                 document.querySelector(elemento).value = json.data;
