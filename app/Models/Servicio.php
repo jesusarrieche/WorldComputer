@@ -55,4 +55,42 @@ class Servicio extends Model{
             die($ex->getMessage());
         }
     }
+
+    public function listarPrestados(){
+        try{
+            $consulta = parent::connect()->prepare("SELECT id, cantidad, precio, empleado_id, venta_id, servicio_id, created_at FROM detalle_servicio  ORDER BY created_at DESC");
+            $consulta->execute();
+            
+            return $consulta->fetchAll(PDO::FETCH_OBJ);
+            
+        } catch (Exception $ex) {
+            die($ex->getMessage());
+        }
+    }
+
+    public function añadirDetalles($data){
+        try{
+            $dbh = parent::connect();
+
+            $consulta = $dbh->prepare("INSERT INTO detalle_servicio(cantidad, precio, empleado_id, venta_id, servicio_id) VALUES (:cantidad, :precio, :empleado_id, :venta_id, :servicio_id)");
+
+            $consulta->bindParam(":cantidad", $data['cantidad']);
+            $consulta->bindParam(":precio", $data['precio']);
+            $consulta->bindParam(":empleado_id", $data['empleado_id']);
+            $consulta->bindParam(":venta_id", $data['venta_id']);
+            $consulta->bindParam(":servicio_id", $data['servicio_id']);
+
+
+            $consulta->execute();
+
+            $lastId = $dbh->lastInsertId();
+            
+            return $lastId;
+            
+        } catch (Exception $ex) {
+            die($ex->getMessage());
+        }
+    }
+
+
 }

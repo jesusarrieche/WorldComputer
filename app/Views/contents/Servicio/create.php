@@ -1,5 +1,5 @@
 <div class=" container-fluid p-2">
-    <form action="<?= ROOT;?>Servicio/guardar" method="post" id="formularioServicio">
+    <form action="<?= ROOT;?>Servicio/agregar" method="post" id="formularioServicio">
         <div class="card">
             <div class=" card-header bg-gray">
                 <div class="row">
@@ -124,6 +124,7 @@
                                 </div>
     
                                 <div class="row form-row">
+                                    <input type="text" name="empleado" id="empleado" hidden>
                                     <label for="Direccion" class="col-form-label col-lg-2"><strong>Nombre:</strong> </label>
                                     <div class="col-lg-7 form-group">
                                         <input type="text" class="form-control-plaintext" id="nombreEmpleado" disabled value="N/A">
@@ -180,6 +181,7 @@
                                 </div>
     
                                 <div class="row form-row">
+                                    <input type="text" name="servicio" id="servicio" hidden>
                                     <label for="Direccion" class="col-form-label col-lg-2"><strong>Descripcion:</strong> </label>
                                     <div class="col-lg-7 form-group">
                                         <input type="text" class="form-control-plaintext" id="descripcionServicio" disabled value="N/A">
@@ -191,7 +193,7 @@
                                     
                                     <label for="Direccion" class="col-form-label col-lg-1"><strong>Precio:</strong> </label>
                                     <div class="col-lg-2 form-group">
-                                        <input type="text" class="form-control-plaintext" id="precioServicio" disabled value="N/A">
+                                        <input type="text" class="form-control-plaintext" id="precioServicio" name="precioServicio" value="N/A">
                                     </div>
                                 </div>
                                 <!--
@@ -218,51 +220,7 @@
 
                 <hr class="bg-secondary">
 
-                <div class="row form-row table-responsive">
-                    
-                        <table class="table table-striped" id="tservicios">
-                            <thead class=" thead-dark">
-                                <tr>
-                                <th scope="col">Cliente</th>
-                                <th scope="col">Empleado</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Precio</th>
-                                <th scope="col">Eliminar</th>
-                                </tr>
-                            </thead>
-                            <tbody id="cuerpo">
-                                
-                            </tbody>
-                            
-                        </table>
-                        
-                </div>
-
-                <br><br> 
-
-                <div class="row">
-                    <table class="table" id="tablaServicios">
-                        <tbody>
-                            <!-- <tr>
-                                <td>IVA</td>
-                                <td>6.560</td>
-                            </tr> 
-                            <tr>
-                                <td>Sub-Total</td>
-                                <td>0</td>
-                            </tr> -->
-                            <tr class="bg-info">
-                                <td><strong class="text-white">Total</strong></td>
-                                <td> 
-                                    <strong>
-                                        <input type="text" class="form-control-plaintext text-white" id="totalVenta" disabled>
-                                        <input type="text" hidden id="total" name="total">
-                                    </strong>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                
 
                 <div class="row justify-content-center">
                     <div class="col"></div>

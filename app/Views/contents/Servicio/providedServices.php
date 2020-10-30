@@ -12,45 +12,16 @@
             <thead class="thead-dark">
               <tr>
                 <th scope="col">Codigo</th>
-                <th scope="col">Cliente</th>
-                <th scope="col">Empleado</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Acción</th>
+                <th scope="col">cantidad</th>
+                <th scope="col">precio</th>
+                <th scope="col">empleado_id</th>
+                <th scope="col">venta_id</th>
+                <th scope="col">servicio_id</th>
+                <th scope="col">created_at</th>
+                <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>0001</td>
-                    <td>CLI-0003</td>
-                    <td>EMP-0010</td>
-                    <td>Mantenimiento</td>
-                    <td>3500</td>
-                    <td>01/01/2020</td>
-                    
-                    <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a></td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'><i class='fas fa-search'></i></a>
-                        <a href="#" class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>0002</td>
-                    <td>CLI-0039</td>
-                    <td>EMP-0010</td>
-                    <td>Mantenimiento</td>
-                    <td>3500</td>
-                    <td>01/03/2020</td>
-                    
-                    <td><a href="#" class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a></td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'><i class='fas fa-search'></i></a>
-                        <a href="#" class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>
-                    </td>
-                </tr>
             </tbody>
           </table>
         </div>
@@ -161,4 +132,4 @@
     </div>
 </div>
 
-<script src="<?= ROOT; ?>public/assets/js/servicio/index.js"></script>
+<script src="<?= ROOT; ?>public/assets/js/servicio/providedServices.js"></script>

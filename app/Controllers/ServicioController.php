@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Servicio;
 use App\Models\Cliente;
 use App\Models\Empleado;
+use App\Models\Venta;
 
 use App\Models\Producto;
 
@@ -26,6 +27,7 @@ class ServicioController extends Controller{
       $this->cliente = new Cliente;
       $this->servicio = new Servicio;
       $this->empleado = new Empleado;
+      $this->venta = new Venta;
   }
 
   public function index(){
@@ -62,8 +64,39 @@ class ServicioController extends Controller{
 }
 
   public function ProvidedServices () {
+
+    
+
     return View::getView('Servicio.providedServices');
   }
+
+  public function listarPrestados(){
+
+    $method = $_SERVER['REQUEST_METHOD'];
+
+        if( $method != 'POST'){
+        http_response_code(404);
+        return false;
+        }
+
+        $servicios = $this->servicio->listarPrestados();
+
+        foreach($servicios as $servicio){
+
+        $servicio->button = 
+        "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+        "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
+        "<a href='". $this->encriptar($servicio->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
+
+    }
+
+    http_response_code(200);
+
+    echo json_encode([
+    'data' => $servicios
+    ]);
+
+}
 
   public function create(){
 
@@ -82,6 +115,42 @@ class ServicioController extends Controller{
   /**
     CRUD
   ***/
+
+    public function agregar(){
+
+      #=== VENTA ===#
+      
+      $venta = new Venta;
+
+      $num_documento = $this->venta->formatoDocumento($this->venta->ultimoDocumento());
+
+      $venta->setNumeroDocumento($num_documento);
+      $venta->setPersonaId($_POST['cliente']);
+
+      $lastId = $venta->registrar($venta);
+
+      #=== DETALLES SERVICIO ===#
+
+      $servicioData = [
+        'cantidad' => 1,
+        'precio' => $_POST['precioServicio'],
+        'empleado_id' => $_POST['empleado'],
+        'venta_id' => $lastId,
+        'servicio_id' => $_POST['servicio']
+      ];
+    
+      $detalleServicio = $this->servicio->añadirDetalles($servicioData);
+
+      $mensaje = 'Se ha registrado venta: '. $lastId . ' y servicio: '. $detalleServicio;
+
+      http_response_code(200);
+
+      echo json_encode([
+        'titulo' => 'Venta Registrada!',
+        'mensaje' => $mensaje,
+        'tipo' => 'success'
+      ]);
+    }
 
     public function mostrar($param){
     
