@@ -23,4 +23,5 @@ class Api extends Model {
             'data' => $codigo
         ]);
     }
+
 }
