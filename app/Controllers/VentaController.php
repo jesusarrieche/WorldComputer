@@ -14,10 +14,10 @@ use System\Core\View;
 
 class VentaController extends Controller{
 
-    private Cliente $cliente;
-    private Producto $producto;
-    private Venta $venta;
-    private DetalleVenta $detalleVenta;
+    private  $cliente;
+    private  $producto;
+    private  $venta;
+    private  $detalleVenta;
     // private Salida $salida;
 
     use Utility;
@@ -70,8 +70,8 @@ class VentaController extends Controller{
                 }
 
                 $venta->button = 
-                "<a href='/WorldComputer/venta/mostrar/". $this->encriptar($venta->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-                "<a href='/WorldComputer/venta/ventaPDF/". $this->encriptar($venta->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
+                "<a href='/WorldComputer/Venta/mostrar/". $this->encriptar($venta->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+                "<a href='/WorldComputer/Venta/ventaPDF/". $this->encriptar($venta->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
             }
 
         http_response_code(200);

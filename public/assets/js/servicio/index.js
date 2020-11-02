@@ -13,7 +13,6 @@ $(document).ready(function () {
             { data: "nombre" },
             { data: 'descripcion' },
             { data: 'precio' },
-            { data: 'estatus' },
             { data: 'button' }
         ],
 
