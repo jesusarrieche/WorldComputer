@@ -31,7 +31,6 @@ class ServicioController extends Controller{
   }
 
   public function index(){
-    session_start();
     return View::getView('Servicio.index');
   }
 
