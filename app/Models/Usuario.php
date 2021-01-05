@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Exception;
 use PDO;
-use System\Core\Model;
 
 class Usuario extends Persona{
 
@@ -46,12 +45,15 @@ class Usuario extends Persona{
 
     public function listar(){
         try{
+
+            $user = $_SESSION['usuario'];
+
             $consulta = parent::connect()->prepare("SELECT u.id, u.documento, CONCAT(u.nombre, ' ', u.apellido) AS nombre, u.usuario, r.nombre AS rol, u.telefono, u.estatus FROM 
                 usuarios u
                     JOIN
                 roles r
                     ON r.id = u.rol_id
-                WHERE u.estatus='ACTIVO' ORDER BY u.created_at DESC");
+                WHERE u.estatus='ACTIVO' AND u.usuario != '$user' ORDER BY u.created_at DESC");
 
             $consulta->execute();
             
@@ -128,6 +130,26 @@ class Usuario extends Persona{
         } catch (Exception $ex) {
             
             // die("Error: " . $ex->getMessage());
+        }
+    }
+
+    /**
+     * SECURITY
+     */
+    
+    public function checkUser(Usuario $user) {
+        try {
+            $query = parent::connect()->prepare("SELECT documento, nombre, apellido, email, usuario, estatus FROM usuarios WHERE usuario=:usuario AND password=:password");
+            
+            $query->bindParam(":usuario", $user->usuario);
+            $query->bindParam(":password", $user->password);
+            
+            $query->execute();
+            
+            return $query->fetch(PDO::FETCH_OBJ);
+            
+        } catch (Exception $e) {
+            die($e->getMessage());
         }
     }
 }
