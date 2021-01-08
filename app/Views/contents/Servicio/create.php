@@ -1,5 +1,5 @@
 <div class=" container-fluid p-2">
-    <form action="<?= ROOT;?>Servicio/agregar" method="post" id="formularioServicio">
+    <form action="<?= ROOT;?>Servicio/agregarPrestado" method="post" id="formularioServicio">
         <div class="card">
             <div class=" card-header bg-gray">
                 <div class="row">

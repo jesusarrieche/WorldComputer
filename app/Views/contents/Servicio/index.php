@@ -32,10 +32,8 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="agregarServicioLabel">Agregar Servicio</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h2 class="card-tittle text-center">Nuevo Servicio</h2>
+        <hr>
       </div>
       <div class="modal-body">
         <form action="#" method="POST" enctype="multipart/form-data" id="formularioRegistrarServicio">
@@ -56,7 +54,8 @@
                 <textarea class="form-control" id="agregarDescripcion" placeholder="Descripción del servicio" rows="3"></textarea>
             </div>
             
-            <div class="modal-footer">
+            <div class="modal-footer d-flex justify-content-center">
+            <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
               <button type="submit"  class="btn btn-success m-2">Enviar</button>
               <button type="reset" class="btn btn-danger m-2">Limpiar</button>
             </div>
@@ -72,33 +71,30 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="mostrarServicioLabel">mostrar Servicio</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h2 class="card-tittle text-center">Servicio</h2>
+        <hr>
       </div>
       <div class="modal-body">
         <form action="#" method="POST" enctype="multipart/form-data" id="formularioMostrarServicio">
             <div class="row form-group">
                 <div class="col-md-6">
                     <input  name="id" id="id" hidden>
-                    <label for="mostrarNombre">Nombre:</label>
-                    <input disabled type="text" name="mostrarNombre" id="mostrarNombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
+                    <label for="mostrarNombre"><strong>Nombre:</strong></label>
+                    <input disabled type="text" name="mostrarNombre" id="mostrarNombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control-plaintext" placeholder="Nombre">
                 </div>
                 <div class="col-md-6">
-                    <label for="mostrarPrecio">Precio:</label>
-                    <input disabled type="number" name="mostrarPrecio" id="mostrarPrecio" maxlength="30" required="required" class="form-control" placeholder="Precio">
+                    <label for="mostrarPrecio"><strong>Precio:</strong></label>
+                    <input disabled type="number" name="mostrarPrecio" id="mostrarPrecio" maxlength="30" required="required" class="form-control-plaintext" placeholder="Precio">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="mostrarDescripcion">Descripción</label>
-                <textarea disabled class="form-control" id="mostrarDescripcion" placeholder="Descripción del servicio" rows="3"></textarea>
+                <label for="mostrarDescripcion"><strong>Descripción:</strong></label>
+                <textarea disabled class="form-control-plaintext" id="mostrarDescripcion" placeholder="Descripción del servicio" rows="3"></textarea>
             </div>
             
-            <div class="modal-footer">
-              <button type="submit"  class="btn btn-success m-2">Enviar</button>
-              <button type="reset" class="btn btn-danger m-2">Limpiar</button>
+            <div class="form-row justify-content-center">
+                <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
             </div>
         </form>
       </div>
@@ -114,31 +110,30 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="actualizarServicioLabel">actualizar Servicio</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h2 class="card-tittle text-center">Actualizar Servicio</h2>
+        <hr>
       </div>
       <div class="modal-body">
         <form action="#" method="POST" enctype="multipart/form-data" id="formularioActualizarServicio">
             <div class="row form-group">
                 <div class="col-md-6">
                     <input  name="id" id="id" hidden>
-                    <label for="actualizarNombre">Nombre:</label>
+                    <label for="actualizarNombre"><strong>Nombre:</strong></label>
                     <input type="text" name="actualizarNombre" id="actualizarNombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
                 </div>
                 <div class="col-md-6">
-                    <label for="actualizarPrecio">Precio:</label>
+                    <label for="actualizarPrecio"><strong>Precio:</strong></label>
                     <input type="number" name="actualizarPrecio" id="actualizarPrecio" maxlength="30" required="required" class="form-control" placeholder="Precio">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="actualizarDescripcion">Descripción</label>
+                <label for="actualizarDescripcion"><strong>Descripción:</strong></label>
                 <textarea class="form-control" id="actualizarDescripcion" placeholder="Descripción del servicio" rows="3"></textarea>
             </div>
             
-            <div class="modal-footer">
+            <div class="modal-footer d-flex justify-content-center">
+              <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
               <button type="submit"  class="btn btn-success m-2">Enviar</button>
               <button type="reset" class="btn btn-danger m-2">Limpiar</button>
             </div>

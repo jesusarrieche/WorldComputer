@@ -112,11 +112,9 @@ class ServicioController extends Controller{
         ]);
   }
 
-  /**
-    CRUD
-  ***/
+  // CRUD Servicios Prestados
 
-    public function agregar(){
+    public function agregarPrestado(){
 
       #=== VENTA ===#
       
@@ -164,7 +162,7 @@ class ServicioController extends Controller{
       'data' => $servicio
       ]);
     }
-
+    // CRUD Servicios
     public function mostrar($param){
     
       $param = $this->desencriptar($param);

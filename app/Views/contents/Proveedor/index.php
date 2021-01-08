@@ -31,14 +31,11 @@
 <!-- Modal de Registro -->
 <div class="modal fade " id="agregarProveedor" tabindex="-1" role="dialog" aria-labelledby="agregarProveedorLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="agregarProveedorLabel">Agregar Proveedor</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-center">Registrar Proveedor</h2>
       </div>
-      <div class="modal-body">
+      <div class="card-body">
         <form action="#" method="POST" enctype="multipart/form-data" id="formularioRegistrarProveedor">
             <div class="form-group">
                 <input  name="id" id="id" hidden>
@@ -76,9 +73,12 @@
                     <input type="text" name="direccion" id="direccion" pattern="[A-Za-z0-9/ ]+" required maxlength="150" class="form-control" placeholder="Direccion" >
                 </div>
             </div>
-            <div class="modal-footer">
-              <button type="submit"  class="btn btn-success m-2">Enviar</button>
-              <button type="reset" class="btn btn-danger m-2">Limpiar</button>
+            <hr class="bg-secondary">
+
+            <div class="row form-group justify-content-md-center">
+                <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
+                <button type="submit"  class="btn btn-success m-2">Enviar</button>
+                <button type="reset" class="btn btn-danger m-2">Limpiar</button>
             </div>
         </form>
       </div>

@@ -1,5 +1,5 @@
 <div class="content p-4 dataTables_wrapper">
-    <h2 class="mb-4">Gestion de Categorias</h2>
+    <h2 class="mb-4">Gestión de Categorías</h2>
 
     <div class="card mb-4">
         <div class="card-header bg-white">
@@ -32,7 +32,7 @@
 
         <div class="card">
         <div class="card-body">
-            <h2 class="card-tittle text-center">Nueva Categoria</h2>
+            <h2 class="card-tittle text-center">Nueva Categoría</h2>
             <hr>
           
                 <form action="#" method="POST" id="formularioRegistrarCategoria" enctype="multipart/form-data">
@@ -48,7 +48,8 @@
                     </div>
 
 
-                    <div class="form-row justify-content-center">
+                    <div class="form-row justify-content-center align-items-center">
+                        <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
                         <button class="btn btn-success" type="submit">Enviar</button>
                     </div>
                     
@@ -69,7 +70,7 @@
 
         <div class="card">
         <div class="card-body">
-            <h2 class="card-tittle text-center">Nuevo Categoria</h2>
+            <h2 class="card-tittle text-center">Categoría</h2>
             <hr>
             <form action="#" method="POST" id="formularioMostrarCategoria" enctype="multipart/form-data">
 
@@ -85,7 +86,7 @@
 
 
                 <div class="form-row justify-content-center">
-                    <button class="btn btn-success" data-dismiss="modal">Atras</button>
+                    <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
                 </div>
                 
             </form>
@@ -105,7 +106,7 @@
 
         <div class="card">
         <div class="card-body">
-            <h2 class="card-tittle text-center">Nuevo Categoria</h2>
+            <h2 class="card-tittle text-center">Actualizar Categoría</h2>
             <hr>
           
             <form action="#" method="POST" id="formularioActualizarCategoria" enctype="multipart/form-data">
@@ -121,7 +122,8 @@
                 </div>
 
 
-                <div class="form-row justify-content-center">
+                <div class="form-row justify-content-center align-items-center">
+                    <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
                     <button class="btn btn-success" type="submit">Enviar</button>
                 </div>
                 
