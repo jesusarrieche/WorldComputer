@@ -39,12 +39,12 @@
 
                     <div class="form-group">
                         <label for="nombre"> <i class="fas fa-tag"></i> Nombre Categoria</label>
-                        <input type="text" name="nombre" id="nombre" class="form-control" onkeyup = "this.value=this.value.toUpperCase()" placeholder="ej. cajas">
+                        <input type="text" name="nombre" id="nombre" class="form-control" onkeyup = "this.value=this.value.toUpperCase()" maxlength="50" placeholder="ej. cajas">
                     </div>
                     
                     <div class="form-group">
                         <label for="descripcion"> <i class="fas fa-id-card-alt"></i> Descripcion</label>
-                        <textarea name="descripcion" onkeyup = "this.value=this.value.toUpperCase()" id="descripcion" class="form-control" cols="30" rows="3" placeholder="descripcion de la categoria..."></textarea>
+                        <textarea name="descripcion" onkeyup = "this.value=this.value.toUpperCase()" id="descripcion" class="form-control" cols="30" rows="3" placeholder="descripcion de la categoria..." maxlength="200"></textarea>
                     </div>
 
 
@@ -65,7 +65,7 @@
 
 <!-- Modal Mostrar -->
 <div class="modal fade" id="modalMostrarCategoria" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog ">
         <div class="modal-content">
 
         <div class="card">

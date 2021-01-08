@@ -163,6 +163,66 @@ class ServicioController extends Controller{
       ]);
     }
     // CRUD Servicios
+    public function guardar(){
+
+      $method = $_SERVER['REQUEST_METHOD'];
+  
+      if( $method != 'POST'){
+        http_response_code(404);
+        return false;
+      }
+  
+      $servicio = new Servicio();
+  
+      $servicio->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
+      $servicio->setPrecio($_POST['precio']);
+
+      if($_POST['descripcion'] != ''){
+          $servicio->setDescripcion(strtoupper($this->limpiaCadena($_POST['descripcion'])));
+      }else{
+          $servicio->setDescripcion('N/A');
+      }
+  
+
+      $nombre = $servicio->getNombre();
+
+      $consulta = $this->servicio->query("SELECT * FROM servicios WHERE nombre='$nombre'" ); // Verifica inexistencia de categoría, si es igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
+  
+      if ($consulta->rowCount() >= 1) {
+  
+        http_response_code(200);
+        
+        echo json_encode([
+          'titulo' => 'Servicio Registrado',
+          'mensaje' => $nombre . ' Se encuentra registrado en nuestro sistema',
+          'tipo' => 'error'
+        ]);
+  
+        return false;
+  
+      }
+  
+      if($this->servicio->registrar($servicio)){
+          http_response_code(200);
+      
+          echo json_encode([
+            'titulo' => 'Registro Exitoso',
+            'mensaje' => 'Servicio registrado en nuestro sistema',
+            'tipo' => 'success'
+          ]);
+      }else{
+          http_response_code(200);
+      
+          echo json_encode([
+            'titulo' => 'Error Inesperado',
+            'mensaje' => 'Ocurrio un error durante la operacion!',
+            'tipo' => 'error'
+          ]);
+      }
+  
+  
+  
+  }
     public function mostrar($param){
     
       $param = $this->desencriptar($param);
@@ -175,7 +235,63 @@ class ServicioController extends Controller{
       'data' => $servicio
       ]);
     }
+    public function actualizar(){
 
+      $method = $_SERVER['REQUEST_METHOD'];
+    
+        if( $method != 'POST'){
+          http_response_code(404);
+          return false;
+        }
+    
+        $servicio = new Servicio();
+        $servicio->setId($_POST['id']);
+    
+        $servicio->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
+        $servicio->setPrecio($_POST['precio']);
+
+        if($_POST['descripcion'] != ''){
+            $servicio->setDescripcion(strtoupper($this->limpiaCadena($_POST['descripcion'])));
+        }else{
+            $servicio->setDescripcion('N/A');
+        }
+
+        $id = $servicio->getId(); 
+        $nombre = $servicio->getNombre();
+    
+        $consulta = $this->servicio->query("SELECT * FROM servicios WHERE nombre='$nombre' AND id<>$id");
+
+        if( $consulta->rowCount() >= 1 ){
+          http_response_code(200);
+    
+          echo json_encode([
+            'titulo' => "Servicio $nombre ya existe!",
+            'mensaje' => 'Por favor intente de nuevo',
+            'tipo' => 'error'
+          ]);
+
+          return false;
+        }
+
+        if($this->servicio->actualizar($servicio)){
+          http_response_code(200);
+    
+          echo json_encode([
+            'titulo' => 'Actualización Exitosa',
+            'mensaje' => 'Registro actualizado en nuestro sistema',
+            'tipo' => 'success'
+          ]);
+        }else{
+          http_response_code(200);
+    
+          echo json_encode([
+            'titulo' => 'Error al Actualizar',
+            'mensaje' => 'Ocurrio un error durante la actualización',
+            'tipo' => 'error'
+          ]);
+        }
+    
+    }
 
     public function eliminar($id){
     

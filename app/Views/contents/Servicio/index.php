@@ -1,9 +1,9 @@
 <div class="content p-4 dataTables_wrapper">
-    <h2 class="mb-4">Gestion de Servicio</h2>
+    <h2 class="mb-4">Gestión de Servicio</h2>
 
     <div class="card mb-4">
         <div class="card-header bg-white">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarServicio">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroServicio">
             <i class="fas fa-plus-circle"></i> Agregar Servicio
           </button>
         </div>
@@ -28,11 +28,11 @@
 
 
 <!-- Modal de Registro -->
-<div class="modal fade " id="agregarServicio" tabindex="-1" role="dialog" aria-labelledby="agregarServicioLabel" aria-hidden="true">
+<div class="modal fade " id="modalRegistroServicio" tabindex="-1" role="dialog" aria-labelledby="modalRegistroServicioLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="card-tittle text-center">Nuevo Servicio</h2>
+      <div class="modal-header justify-content-center">
+        <h2 class="">Nuevo Servicio</h2>
         <hr>
       </div>
       <div class="modal-body">
@@ -40,18 +40,18 @@
             <div class="row form-group">
                 <div class="col-md-6">
                     <input  name="id" id="id" hidden>
-                    <label for="agregarNombre">Nombre:</label>
-                    <input type="text" name="agregarNombre" id="agregarNombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="50" required="required" class="form-control" placeholder="Nombre">
                 </div>
                 <div class="col-md-6">
-                    <label for="agregarPrecio">Precio:</label>
-                    <input type="number" name="agregarPrecio" id="agregarPrecio" maxlength="30" required="required" class="form-control" placeholder="Precio">
+                    <label for="precio">Precio:</label>
+                    <input type="number" name="precio" id="precio"  required="required" class="form-control" placeholder="Precio">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="agregarDescripcion">Descripción</label>
-                <textarea class="form-control" id="agregarDescripcion" placeholder="Descripción del servicio" rows="3"></textarea>
+                <label for="descripcion">Descripción</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripción del servicio" rows="3" maxlength="200"></textarea>
             </div>
             
             <div class="modal-footer d-flex justify-content-center">
@@ -70,7 +70,7 @@
 <div class="modal fade " id="modalMostrarServicio" tabindex="-1" role="dialog" aria-labelledby="mostrarServicioLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header justify-content-center">
         <h2 class="card-tittle text-center">Servicio</h2>
         <hr>
       </div>
@@ -79,18 +79,18 @@
             <div class="row form-group">
                 <div class="col-md-6">
                     <input  name="id" id="id" hidden>
-                    <label for="mostrarNombre"><strong>Nombre:</strong></label>
-                    <input disabled type="text" name="mostrarNombre" id="mostrarNombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control-plaintext" placeholder="Nombre">
+                    <label for="nombre"><strong>Nombre:</strong></label>
+                    <input disabled type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="50" required="required" class="form-control-plaintext" placeholder="Nombre">
                 </div>
                 <div class="col-md-6">
-                    <label for="mostrarPrecio"><strong>Precio:</strong></label>
-                    <input disabled type="number" name="mostrarPrecio" id="mostrarPrecio" maxlength="30" required="required" class="form-control-plaintext" placeholder="Precio">
+                    <label for="precio"><strong>Precio:</strong></label>
+                    <input disabled type="number" name="precio" id="precio" maxlength="200" required="required" class="form-control-plaintext" placeholder="Precio">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="mostrarDescripcion"><strong>Descripción:</strong></label>
-                <textarea disabled class="form-control-plaintext" id="mostrarDescripcion" placeholder="Descripción del servicio" rows="3"></textarea>
+                <label for="descripcion"><strong>Descripción:</strong></label>
+                <textarea disabled class="form-control-plaintext" id="descripcion" name="descripcion" placeholder="Descripción del servicio" rows="3"></textarea>
             </div>
             
             <div class="form-row justify-content-center">
@@ -109,7 +109,7 @@
 <div class="modal fade " id="modalActualizarServicio" tabindex="-1" role="dialog" aria-labelledby="actualizarServicioLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header justify-content-center">
         <h2 class="card-tittle text-center">Actualizar Servicio</h2>
         <hr>
       </div>
@@ -118,18 +118,18 @@
             <div class="row form-group">
                 <div class="col-md-6">
                     <input  name="id" id="id" hidden>
-                    <label for="actualizarNombre"><strong>Nombre:</strong></label>
-                    <input type="text" name="actualizarNombre" id="actualizarNombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
+                    <label for="nombre"><strong>Nombre:</strong></label>
+                    <input type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="50" required="required" class="form-control" placeholder="Nombre">
                 </div>
                 <div class="col-md-6">
-                    <label for="actualizarPrecio"><strong>Precio:</strong></label>
-                    <input type="number" name="actualizarPrecio" id="actualizarPrecio" maxlength="30" required="required" class="form-control" placeholder="Precio">
+                    <label for="precio"><strong>Precio:</strong></label>
+                    <input type="number" name="precio" id="precio" maxlength="30" required="required" class="form-control" placeholder="Precio">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="actualizarDescripcion"><strong>Descripción:</strong></label>
-                <textarea class="form-control" id="actualizarDescripcion" placeholder="Descripción del servicio" rows="3"></textarea>
+                <label for="descripcion"><strong>Descripción:</strong></label>
+                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripción del servicio" rows="3" maxlength="200"></textarea>
             </div>
             
             <div class="modal-footer d-flex justify-content-center">

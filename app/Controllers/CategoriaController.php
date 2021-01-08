@@ -83,14 +83,14 @@ class CategoriaController extends Controller{
 
         $nombre = $categoria->getNombre();
 
-        $consulta = $this->categoria->query("SELECT * FROM categorias WHERE nombre='$nombre'" ); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
+        $consulta = $this->categoria->query("SELECT * FROM categorias WHERE nombre='$nombre'" ); // Verifica inexistencia de categoría, si es igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
     
         if ($consulta->rowCount() >= 1) {
     
           http_response_code(200);
           
           echo json_encode([
-            'titulo' => 'Documento Registrado',
+            'titulo' => 'Categoría Registrada',
             'mensaje' => $nombre . ' Se encuentra registrado en nuestro sistema',
             'tipo' => 'error'
           ]);

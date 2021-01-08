@@ -41,6 +41,46 @@ $(document).ready(function () {
                     }
         }
     });
+    const registrarServicio = (datos) => {
+
+        $.ajax({
+            type: "POST",
+            url: "/WorldComputer/Servicio/guardar",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                let json = JSON.parse(response);
+                
+                if( json.tipo == 'success'){
+    
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                    );
+        
+                    table.ajax.reload();
+        
+                    $('#modalRegistroServicio').modal('hide');
+                    $('#formularioRegistrarServicio').trigger('reset');
+                }else{
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                    );
+                }
+    
+            },
+            error: (response) => {
+                console.log(response);
+                
+            }
+        });
+    
+    }
     //script mostrar servicio
     const mostrarServicio = (href, formulario, modal, action) => {
         $.ajax({
@@ -51,9 +91,9 @@ $(document).ready(function () {
             
     
                 $(formulario).find('input#id').val(json.data.id);
-                $(formulario).find('input#'+action+'Nombre').val(json.data.nombre);
-                $(formulario).find('input#'+action+'Precio').val(json.data.precio);
-                $(formulario).find('#'+action+'Descripcion').val(json.data.descripcion);
+                $(formulario).find('input#nombre').val(json.data.nombre);
+                $(formulario).find('input#precio').val(json.data.precio);
+                $(formulario).find('#descripcion').val(json.data.descripcion);
     
                 $(modal).modal('show');
     
@@ -64,6 +104,41 @@ $(document).ready(function () {
         });
     }
 
+    const actualizarServicio = (datos) => {
+        $.ajax({
+            type: "POST",
+            url: "/WorldComputer/Servicio/actualizar",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                let json = JSON.parse(response);
+                
+                if( json.tipo == 'success'){
+    
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                    );
+        
+                    table.ajax.reload();
+        
+                    $('#modalActualizarServicio').modal('hide');
+                }else{
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                    );
+                }
+            },
+            error(response){
+                console.log(response);
+            }
+        });
+    }
     const eliminarServicio = (id) => {
         $.ajax({
             type: "DELETE",
@@ -86,7 +161,16 @@ $(document).ready(function () {
         });
     }
     
+/* Eventos */
+    //Registrar Servicio
+    $('#formularioRegistrarServicio').submit(function (e) { 
+        e.preventDefault();
 
+        let datos = new FormData(document.querySelector('#formularioRegistrarServicio'));
+    //  console.log(datos.get('documento'));
+
+        registrarServicio(datos);   
+    });
     // Mostrar Servicio
     $('body').on('click', '.mostrar', function (e) { 
         e.preventDefault();
@@ -100,7 +184,14 @@ $(document).ready(function () {
     
         mostrarServicio($(this).attr('href'),'form#formularioActualizarServicio','#modalActualizarServicio','actualizar');
     });
-
+    $('#formularioActualizarServicio').submit(function (e) {
+        e.preventDefault();
+    
+        const datos = new FormData(document.querySelector('#formularioActualizarServicio'));
+    
+        // console.log(datos.get('id'));
+        actualizarServicio(datos);
+    });
     // Eliminar Servicio
     $('body').on('click', '.eliminar', function (e) {
         e.preventDefault();
