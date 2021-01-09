@@ -10,11 +10,12 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: '/FrameworkJD/rol/listar'
+            url: 'rol/listar'
         },
         columns: [
             { data: 'numero' },
             { data: 'nombre' },
+            { data: 'descripcion' },
             { data: 'button' }
         ],
     
@@ -133,7 +134,7 @@ $(document).ready(function () {
     
         $.ajax({
             type: "POST",
-            url: "/FrameworkJD/cliente/guardar",
+            url: "rol/guardar",
             data: datos,
             cache: false,
             contentType: false,
@@ -170,7 +171,7 @@ $(document).ready(function () {
     
     
     
-        // fetch('/FrameworkJD/cliente/guardar', { method: 'POST', body: datos })
+        // fetch('cliente/guardar', { method: 'POST', body: datos })
         // .then((response) => {
         //     console.log(response);
         //     return response.json();
@@ -193,7 +194,7 @@ $(document).ready(function () {
     const actualizarRol = (datos) => {
         $.ajax({
             type: "POST",
-            url: "/FrameworkJD/cliente/actualizar",
+            url: "cliente/actualizar",
             data: datos,
             cache: false,
             contentType: false,
@@ -229,7 +230,7 @@ $(document).ready(function () {
     const eliminarRol = (id) => {
         $.ajax({
             type: "DELETE",
-            url: "/FrameworkJD/cliente/eliminar/" + id,
+            url: "cliente/eliminar/" + id,
             success: function (response) {
                 const json = JSON.parse(response);
                 if(json.tipo == 'success'){
@@ -311,6 +312,9 @@ $(document).ready(function () {
           })
         console.log($(this).attr('href'));
     });
+
+    // var sel = $('input[value="1"]');
+    // $(sel).attr('checked', 'true');
     
-    });
+});
     

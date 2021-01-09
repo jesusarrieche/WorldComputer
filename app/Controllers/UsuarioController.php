@@ -42,8 +42,8 @@ class UsuarioController extends Controller{
         foreach($usuarios as $usuario){
 
             $usuario->button = 
-            "<a href='/WorldComputer/Usuario/mostrar/". $this->encriptar($usuario->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-            "<a href='/WorldComputer/Usuario/mostrar/". $this->encriptar($usuario->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
+            "<a href='Usuario/mostrar/". $this->encriptar($usuario->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+            "<a href='Usuario/mostrar/". $this->encriptar($usuario->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
             "<a href='". $this->encriptar($usuario->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
 
         }

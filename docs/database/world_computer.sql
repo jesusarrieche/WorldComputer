@@ -648,32 +648,31 @@ INSERT INTO permisos(nombre) VALUES
 ('editar empleados'),
 ('eliminar empleados'),
 
-('vehiculos'),
-('registrar vehiculos'),
-('editar vehiculos'),
-('eliminar vehiculos'),
-
-('ordenes'),
-('registrar ordenes'),
-('editar ordenes'),
-('anular ordenes'),
+('proveedores'),
+('registrar proveedores'),
+('editar proveedores'),
+('eliminar proveedores'),
 
 ('inventario'),
-
-('categorias'),
-('registrar categorias'),
-('editar categorias'),
-('eliminar categorias'),
 
 ('productos'),
 ('registrar productos'),
 ('editar productos'),
 ('eliminar productos'),
 
-('proveedores'),
-('registrar proveedores'),
-('editar proveedores'),
-('eliminar proveedores'),
+('categorias'),
+('registrar categorias'),
+('editar categorias'),
+('eliminar categorias'),
+
+('servicios'),
+('registrar servicios'),
+('editar servicios'),
+('eliminar servicios'),
+
+('servicios prestados'),
+('registrar servicios prestados'),
+('anular servicios prestados'),
 
 ('compras'),
 ('registrar compras'),
@@ -683,12 +682,12 @@ INSERT INTO permisos(nombre) VALUES
 ('registrar ventas'),
 ('anular ventas'),
 
-('reportes'),
-
 ('roles'),
 ('registrar roles'),
 ('editar roles'),
-('eliminar roles');
+('eliminar roles'),
+
+('reportes');
 
 /* Roles con permisos*/
 INSERT INTO rol_permiso(rol_id, permiso_id) VALUES 
@@ -716,6 +715,7 @@ INSERT INTO rol_permiso(rol_id, permiso_id) VALUES
 ('1','22'),
 ('1','23'),
 ('1','24'),
+('1','25'),
 ('1','26'),
 ('1','27'),
 ('1','28'),
@@ -734,48 +734,18 @@ INSERT INTO rol_permiso(rol_id, permiso_id) VALUES
 ('1','41'),
 ('1','42'),
 ('1','43'),
-('1','44'),
 
 ('2','5'),
 ('2','6'),
 ('2','7'),
 ('2','8'),
-('2','9'),
-('2','10'),
-('2','11'),
-('2','12'),
-('2','13'),
-('2','14'),
-('2','15'),
-('2','16'),
+
+
 ('2','17'),
-('2','18'),
-('2','19'),
-('2','20'),
-('2','21'),
-('2','22'),
-('2','23'),
-('2','24'),
-('2','25'),
-('2','26'),
-('2','27'),
-('2','28'),
-('2','29'),
-('2','30'),
-('2','31'),
-('2','32'),
-('2','33'),
-('2','34'),
-('2','35'),
+
 ('2','36'),
 ('2','37'),
-('2','38'),
-('2','39'),
-('2','40'),
-('2','41'),
-('2','42'),
-('2','43'),
-('2','44');
+('2','38');
 
 -- USUARIO
 INSERT INTO usuarios(rol_id, documento, nombre, apellido, direccion, telefono, email, usuario, password, estatus) VALUES 
@@ -955,7 +925,7 @@ v_salidas_totales s
     JOIN
 categorias c 
 	ON p.categoria_id = c.id
--- WHERE p.estatus = 'ACTIVO'
+-- WHERE p.estatus = 'ACTIVO' 
 GROUP BY p.id, p.codigo, p.nombre, p.precio_venta, p.stock_min, p.stock_max  
 ORDER BY `p`.`id` ASC;
 

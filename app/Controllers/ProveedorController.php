@@ -47,8 +47,8 @@ class ProveedorController extends Controller{
             foreach($proveedores as $proveedor){
 
             $proveedor->button = 
-            "<a href='/WorldComputer/proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-            "<a href='/WorldComputer/proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
+            "<a href='proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+            "<a href='proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
             "<a href='". $this->encriptar($proveedor->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
 
         }

@@ -1,5 +1,5 @@
 <div class="content p-4 dataTables_wrapper">
-    <h2 class="mb-4">Gestion de Roles</h2>
+    <h2 class="mb-4">Gestión de Roles</h2>
 
     <div class="card mb-4">
         <div class="card-header bg-white">
@@ -13,6 +13,7 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Rol</th>
+                <th scope="col">Descripción</th>
                 <th scope="col">Acción</th>
               </tr>
             </thead>
@@ -79,10 +80,10 @@
                             <h4 class="text-center">Listado de Permisos</h4>
                             <hr>
 
-                            <div class="form-row">
+                            <div class="form-row p-1">
 
                                 <div class="col-md-6">
-                                
+                                    <hr class="bg-secondary">
                                 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
@@ -116,9 +117,8 @@
                                     </div>
 
                                 </div>
-                                <hr class="bg-secondary">
                                 <div class="col-md-6">
-
+                                    <hr class="bg-secondary">
                                     <div class="row">
                                         <div class="col-md">
 
@@ -163,12 +163,10 @@
                                 
                             </div>
 
-                            <hr class="bg-secondary">
-
-                            <div class="form-row">
+                            <div class="form-row p-1">
 
                                 <div class="col-md-6">
-                                
+                                    <hr class="bg-secondary">
                                 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
@@ -202,16 +200,16 @@
                                     </div>
 
                                 </div>
-                                <hr class="bg-secondary">
+                                
                                 <div class="col-md-6">
-
+                                    <hr class="bg-secondary">
                                     <div class="row">
                                         <div class="col-md">
 
                                             <div class="row">
                                                 <div class="custom-control custom-checkbox pr-3">
                                                     <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck12" value="13">
-                                                    <label class="custom-control-label" for="customCheck12"><strong>Vehiculos</strong></label>
+                                                    <label class="custom-control-label" for="customCheck12"><strong>Proveedores</strong></label>
                                                 </div>
                                             </div>
 
@@ -249,54 +247,16 @@
                                 
                             </div>
 
-                            <hr class="bg-secondary">
-
-                            <div class="form-row">
-
-                                <div class="col-md-6">
-                                
-                                
-                                    <div class="row">
-                                        <div class="custom-control custom-checkbox pr-3">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck81" value="17">
-                                            <label class="custom-control-label" for="customCheck81"><strong>Ordenes</strong></label>
-                                        </div>
-                                    </div>
-
-                                    <hr>
-
-                                    <div class="row">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck91" value="18">
-                                            <label class="custom-control-label" for="customCheck91">Registrar</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="custom-control custom-checkbox pr-3">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck101" value="19">
-                                            <label class="custom-control-label" for="customCheck101">Editar</label>
-                                        </div>
-                                    </div>
-            
-
-                                    <div class="row">
-                                        <div class="custom-control custom-checkbox pr-3">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck111" value="20">
-                                            <label class="custom-control-label" for="customCheck111">Anular</label>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <hr class="bg-secondary">
-                                <div class="col-md-6">
-
+                                    
+                            <div class="form-row p-1">
+                                <div class="col-md-4">
+                                    <hr class="bg-secondary">
                                     <div class="row">
                                         <div class="col-md">
 
                                             <div class="row">
                                                 <div class="custom-control custom-checkbox pr-3">
-                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck121" value="21">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck121" value="17">
                                                     <label class="custom-control-label" for="customCheck121"><strong>Inventario</strong></label>
                                                 </div>
                                             </div>
@@ -307,21 +267,11 @@
                                     </div>
 
                                 </div>
-
-                                <hr>
-                                
-                            </div>
-
-                            <hr class="bg-secondary">
-
-                            <div class="form-row">
-
-                                <div class="col-md-6">
-                                
-                                
+                                <div class="col-md-4">
+                                    <hr class="bg-secondary">                                
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck22" value="26">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck22" value="18">
                                             <label class="custom-control-label" for="customCheck22"><strong>Productos</strong></label>
                                         </div>
                                     </div>
@@ -330,14 +280,14 @@
 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck23" value="27">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck23" value="19">
                                             <label class="custom-control-label" for="customCheck23">Registrar</label>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck24" value="28">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck24" value="20">
                                             <label class="custom-control-label" for="customCheck24">Editar</label>
                                         </div>
                                     </div>
@@ -345,15 +295,14 @@
 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck25" value="29">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck25" value="21">
                                             <label class="custom-control-label" for="customCheck25">Eliminar</label>
                                         </div>
                                     </div>
 
                                 </div>
-                                <hr class="bg-secondary">
-                                <div class="col-md-6">
-
+                                <div class="col-md-4">
+                                    <hr class="bg-secondary">
                                     <div class="row">
                                         <div class="col-md">
 
@@ -395,17 +344,81 @@
 
                                 
                             </div>
-
-                            <hr class="bg-secondary">
-
-                            <div class="form-row">
+                            <div class="form-row p-1">
 
                                 <div class="col-md-6">
-                                
+                                    <hr class="bg-secondary">
                                 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck16" value="34">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck81" value="26">
+                                            <label class="custom-control-label" for="customCheck81"><strong>Servicios</strong></label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck91" value="27">
+                                            <label class="custom-control-label" for="customCheck91">Registrar</label>
+                                        </div>
+                                    </div>            
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck910" value="28">
+                                            <label class="custom-control-label" for="customCheck910">Editar</label>
+                                        </div>
+                                    </div>            
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck101" value="29">
+                                            <label class="custom-control-label" for="customCheck101">Eliminar</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">
+                                
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck081" value="30">
+                                            <label class="custom-control-label" for="customCheck081"><strong>Servicios Prestados</strong></label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck091" value="31">
+                                            <label class="custom-control-label" for="customCheck091">Registrar</label>
+                                        </div>
+                                    </div>
+
+            
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck0101" value="32">
+                                            <label class="custom-control-label" for="customCheck0101">Anular</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
+                                
+                            </div>
+
+                            <div class="form-row p-1">
+
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">                            
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck16" value="33">
                                             <label class="custom-control-label" for="customCheck16"><strong>Compras</strong></label>
                                         </div>
                                     </div>
@@ -414,28 +427,27 @@
 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck17" value="35">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck17" value="34">
                                             <label class="custom-control-label" for="customCheck17">Registrar</label>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck18" value="36"> 
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck18" value="35"> 
                                             <label class="custom-control-label" for="customCheck18">Anular</label>
                                         </div>
                                     </div>
 
                                 </div>
-                                <hr class="bg-secondary">
                                 <div class="col-md-6">
-
+                                    <hr class="bg-secondary">
                                     <div class="row">
                                         <div class="col-md">
 
                                             <div class="row">
                                                 <div class="custom-control custom-checkbox pr-3">
-                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck19" value="37">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck19" value="36">
                                                     <label class="custom-control-label" for="customCheck19"><strong>Ventas</strong></label>
                                                 </div>
                                             </div>
@@ -444,14 +456,14 @@
 
                                             <div class="row">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck20" value="38">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck20" value="37">
                                                     <label class="custom-control-label" for="customCheck20">Registrar</label>
                                                 </div>
                                             </div>                    
     
                                             <div class="row">
                                                 <div class="custom-control custom-checkbox pr-3">
-                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck21" value="39">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck21" value="38">
                                                     <label class="custom-control-label" for="customCheck21">Anular</label>
                                                 </div>
                                             </div>
@@ -466,16 +478,13 @@
                                 
                             </div>
 
-                            <hr class="bg-secondary">
-
-                            <div class="form-row">
-
+                            <div class="form-row p-1">
                                 <div class="col-md-6">
-                                
+                                    <hr class="bg-secondary">                               
                                 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck161" value="41">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck161" value="39">
                                             <label class="custom-control-label" for="customCheck161"><strong>Roles</strong></label>
                                         </div>
                                     </div>
@@ -484,59 +493,35 @@
 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck171" value="42">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck171" value="40">
                                             <label class="custom-control-label" for="customCheck171">Registrar</label>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck181" value="43"> 
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck181" value="41"> 
                                             <label class="custom-control-label" for="customCheck181">Editar</label>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
-                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck1811" value="44"> 
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck1811" value="42"> 
                                             <label class="custom-control-label" for="customCheck1811">Eliminar</label>
                                         </div>
                                     </div>
 
                                 </div>
-                                <hr class="bg-secondary">
                                 <div class="col-md-6">
-
+                                    <hr class="bg-secondary">
                                     <div class="row">
                                         <div class="col-md">
 
                                             <div class="row">
                                                 <div class="custom-control custom-checkbox pr-3">
-                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck1612" value="30">
-                                                    <label class="custom-control-label" for="customCheck1612"><strong>Proveedores</strong></label>
-                                                </div>
-                                            </div>
-
-                                            <hr>
-
-                                            <div class="row">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck1712" value="31">
-                                                    <label class="custom-control-label" for="customCheck1712">Registrar</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="custom-control custom-checkbox pr-3">
-                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck1812" value="32"> 
-                                                    <label class="custom-control-label" for="customCheck1812">Editar</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="custom-control custom-checkbox pr-3">
-                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck18112" value="33"> 
-                                                    <label class="custom-control-label" for="customCheck18112">Eliminar</label>
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck16123" value="43">
+                                                    <label class="custom-control-label" for="customCheck16123"><strong>Reportes</strong></label>
                                                 </div>
                                             </div>
 
@@ -547,32 +532,6 @@
                                 
                             </div>
 
-                            <hr class="bg-secondary">
-
-                            <div class="form-row">
-
-                                <div class="col-md-6">
-                                </div>
-                                <hr class="bg-secondary">
-                                <div class="col-md-6">
-
-                                    <div class="row">
-                                        <div class="col-md">
-
-                                            <div class="row">
-                                                <div class="custom-control custom-checkbox pr-3">
-                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheck16123" value="40">
-                                                    <label class="custom-control-label" for="customCheck16123"><strong>Reportes</strong></label>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                                
-
-                            </div>
                             <hr>
 
                             <div class="row form-group justify-content-md-center">
@@ -717,6 +676,6 @@
     </div>
 
 
-    <!--<script src="<?//= ROOT; ?>public/assets/js/rol/index.js"></script>-->
+    <script src="<?= ROOT; ?>public/assets/js/rol/index.js"></script>
 
 

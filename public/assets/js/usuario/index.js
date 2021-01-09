@@ -10,7 +10,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: '/Usuario/listar'
+            url: 'Usuario/listar'
         },
         columns: [
             { data: 'documento' },
@@ -130,7 +130,7 @@ $(document).ready(function () {
     const registrarUsuario = (datos) => {
         $.ajax({
             type: "POST",
-            url: "/WorldComputer/Usuario/guardar",
+            url: "Usuario/guardar",
             data: datos,
             contentType: false,
             processData: false,
@@ -166,7 +166,7 @@ $(document).ready(function () {
         });
 
     
-        // fetch('/WorldComputer/cliente/guardar', { method: 'POST', body: datos })
+        // fetch('cliente/guardar', { method: 'POST', body: datos })
         // .then((response) => {
         //     console.log(response);
         //     return response.json();
@@ -189,7 +189,7 @@ $(document).ready(function () {
     const actualizarUsuario = (datos) => {
         $.ajax({
             type: "POST",
-            url: "/WorldComputer/Usuario/actualizar",
+            url: "Usuario/actualizar",
             data: datos,
             cache: false,
             contentType: false,
@@ -225,7 +225,7 @@ $(document).ready(function () {
     const eliminarUsuario = (id) => {
         $.ajax({
             type: "DELETE",
-            url: "/WorldComputer/Usuario/eliminar/" + id,
+            url: "Usuario/eliminar/" + id,
             success: function (response) {
                 const json = JSON.parse(response);
                 if(json.tipo == 'success'){

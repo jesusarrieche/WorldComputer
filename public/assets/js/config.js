@@ -1,3 +1,3 @@
 const GLOBAL = {
-    URL: "HOAL"
+    URL: ""
 }

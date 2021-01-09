@@ -25,17 +25,17 @@ class ProductoController extends Controller{
 
         $param = $this->desencriptar($param);
 
-        $producto = $this->producto->query("SELECT p.id, c.id AS categoria_id, u.id AS unidad_id, p.codigo, p.nombre, c.nombre AS categoria, u.nombre AS unidad, p.precio_porcentaje AS porcentaje, p.precio_venta AS precio, p.descripcion, IFNULL(e.total_entrada - s.total_salida,0) AS stock, p.stock_min, p.stock_max, p.estatus 
+        $producto = $this->producto->query("SELECT p.id, c.id AS categoria_id, u.id AS unidad_id, p.codigo, p.nombre, c.nombre AS categoria, u.nombre AS unidad, p.precio_porcentaje AS porcentaje, p.precio_venta AS precio, p.descripcion, IFNULL(e.total - s.total,0) AS stock, p.stock_min, p.stock_max, p.estatus 
             FROM productos p
             JOIN categorias c 
                 ON p.categoria_id = c.id
             JOIN unidades u
                 ON p.unidad_id = u.id
             LEFT JOIN
-            v_entradas e
+            v_entradas_totales e
                 ON p.id = e.id
             LEFT JOIN
-            v_salidas s 
+            v_salidas_totales s 
                 ON p.id = s.id
             WHERE p.id = '$param' LIMIT 1");
         $producto = $producto->fetch(PDO::FETCH_OBJ);                                    
@@ -63,8 +63,8 @@ class ProductoController extends Controller{
             foreach($productos as $producto){
 
             $producto->button = 
-            "<a href='/WorldComputer/producto/mostrar/". $this->encriptar($producto->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-            "<a href='/WorldComputer/producto/mostrar/". $this->encriptar($producto->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>";
+            "<a href='producto/mostrar/". $this->encriptar($producto->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+            "<a href='producto/mostrar/". $this->encriptar($producto->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>";
             if($producto->estatus == "ACTIVO"){
                 $producto->button .= "<a href='". $this->encriptar($producto->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
             }
