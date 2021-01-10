@@ -50,78 +50,39 @@ $(document).ready(function () {
     /**
      * FUNCIONES
      */
-
-    const cargarPermisos = () => {
-        $.ajax({
-            type: "POST",
-            url: href,
-            success: function (response) {
-                let json = JSON.parse(response);
-    
-                if(modal == '#modalActualizarRol'){
-                    let doc = json.data.documento.split('-');
-                    let inicial = doc[0];
-                    let documento = doc[1];
-    
-                    console.log(doc);
-                    $(formulario).find('input#documento').val(documento);
-                    $(formulario).find('select#inicial_documento').val(inicial);
-    
-                }else{
-                    $(formulario).find('input#documento').val(json.data.documento);
-    
-                }
-    
-    
-                $(formulario).find('input#id').val(json.data.id);
-                $(formulario).find('input#nombre').val(json.data.nombre);
-                $(formulario).find('input#apellido').val(json.data.apellido);
-                $(formulario).find('input#telefono').val(json.data.telefono);
-                $(formulario).find('input#correo').val(json.data.email);
-                $(formulario).find('input#direccion').val(json.data.direccion);
-    
-                $(modal).modal('show');
-                
-    
-            },
-            error: (response) => {
-                console.log(response);
-            }
-        });
-    }
-    
     const mostrarRol = (href, formulario, modal) => {
     
         $.ajax({
             type: "POST",
             url: href,
             success: function (response) {
-                let json = JSON.parse(response);
-    
-                if(modal == '#modalActualizarRol'){
-                    let doc = json.data.documento.split('-');
-                    let inicial = doc[0];
-                    let documento = doc[1];
-    
-                    console.log(doc);
-                    $(formulario).find('input#documento').val(documento);
-                    $(formulario).find('select#inicial_documento').val(inicial);
-    
-                }else{
-                    $(formulario).find('input#documento').val(json.data.documento);
-    
-                }
-    
-    
-                $(formulario).find('input#id').val(json.data.id);
-                $(formulario).find('input#nombre').val(json.data.nombre);
-                $(formulario).find('input#apellido').val(json.data.apellido);
-                $(formulario).find('input#telefono').val(json.data.telefono);
-                $(formulario).find('input#correo').val(json.data.email);
-                $(formulario).find('input#direccion').val(json.data.direccion);
-    
-                $(modal).modal('show');
                 
+                let json = JSON.parse(response);
+                var permisos = $('#formularioActualizarRol').find('input[name="permisos[]"]');
+                $.each(permisos, function (j, element) { 
+                    $(element).click();
+                }); 
+                $(formulario).trigger('reset');
+                $(formulario).find('input#nombre').val(json.data[0].nombre);
+                $(formulario).find('textarea#descripcion').val(json.data[0].descripcion);
+                if(modal == '#modalActualizarRol'){
+                    $(formulario).find('input#id').val(json.data[0].id); 
+                    $.each(json.data, function (j, element) { 
+                        var permiso = $('#formularioActualizarRol').find('input[value="'+element.permiso_id+'"]');
+                        permiso.click();
+                        permiso.data('s',true);
+                        console.log(permiso);
+                    });
+                }else{
+                    $('#listaPermisos').html('');
+                    $.each(json.data, function (j, element) { 
+                        var li = $('<li>');
+                        li.text(element.permiso);
+                        $('#listaPermisos').append(li);
+                    });
+    
+                }     
+                $(modal).modal('show');                
     
             },
             error: (response) => {
@@ -140,6 +101,7 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
+                console.log(response);
                 let json = JSON.parse(response);
                 
                 if( json.tipo == 'success'){
@@ -161,7 +123,7 @@ $(document).ready(function () {
                         json.tipo
                     );
                 }
-    
+                
             },
             error: (response) => {
                 console.log(response);
@@ -169,32 +131,12 @@ $(document).ready(function () {
             }
         });
     
-    
-    
-        // fetch('cliente/guardar', { method: 'POST', body: datos })
-        // .then((response) => {
-        //     console.log(response);
-        //     return response.json();
-        // })
-        // .then((json) => {
-        //     Swal.fire(
-        //         json.titulo,
-        //         json.mensaje,
-        //         json.tipo
-        //     )
-    
-        //     table.ajax.reload();
-        //     
-        // })
-        // .catch( (response) => {
-        //     console.log(response);
-        // });
     }
     
     const actualizarRol = (datos) => {
         $.ajax({
             type: "POST",
-            url: "cliente/actualizar",
+            url: "rol/actualizar",
             data: datos,
             cache: false,
             contentType: false,
@@ -230,7 +172,7 @@ $(document).ready(function () {
     const eliminarRol = (id) => {
         $.ajax({
             type: "DELETE",
-            url: "cliente/eliminar/" + id,
+            url: "rol/eliminar/" + id,
             success: function (response) {
                 const json = JSON.parse(response);
                 if(json.tipo == 'success'){
@@ -254,13 +196,29 @@ $(document).ready(function () {
      */
     
     $('#formularioRegistrarRol').submit(function (e) { 
-         e.preventDefault();
+        e.preventDefault();
+        var ba = false;
+        var permisos = $(this).find('input[name="permisos[]"]');                   
+        $.each(permisos, function (j, element) {  
+                      
+            if(element.checked==true){
+                ba = true;
+            }
+        });
+        if (!ba) {
+            Swal.fire(
+                'Indique los Permisos',
+                'Debe seleccionar al menos 1 permiso',
+                'warning'
+            );
+            return false;
+        }
     
-         let datos = new FormData(document.querySelector('#formularioRegistrarRol'));
-    
-        //  console.log(datos.get('documento'));
-    
-         registrarRol(datos);   
+        let datos = new FormData(document.querySelector('#formularioRegistrarRol'));
+
+    //  console.log(datos.get('documento'));
+
+        registrarRol(datos);   
     });
     
     // Mostrar Rol
@@ -281,7 +239,22 @@ $(document).ready(function () {
     
     $('#formularioActualizarRol').submit(function (e) {
         e.preventDefault();
-    
+        var ba = false;
+        var permisos = $(this).find('input[name="permisos[]"]');                   
+        $.each(permisos, function (j, element) {  
+                      
+            if(element.checked==true){
+                ba = true;
+            }
+        });
+        if (!ba) {
+            Swal.fire(
+                'Indique los Permisos',
+                'Debe seleccionar al menos 1 permiso',
+                'warning'
+            );
+            return false;
+        }
         const datos = new FormData(document.querySelector('#formularioActualizarRol'));
     
         console.log(datos.get('id'));
@@ -312,7 +285,29 @@ $(document).ready(function () {
           })
         console.log($(this).attr('href'));
     });
-
+    //Función para marcar varias casillas de permisos
+    $('[name="permisos[]"]').on('click',function () {  
+        var hermano = $(this).siblings();
+        var padre = $(this).parent();
+        var abuelo = $(padre).parent();
+        var otros = $(abuelo).siblings();
+        var label = $(hermano).children();
+        var actual = $(this);
+        if ($(this).data('s')) {
+            $(this).removeData('s');
+        }
+        else{
+            $(this).data('s',true);
+        }
+        if (label.text() != "") {
+            var per = $(otros).find('[name="permisos[]"]');
+            $(per).each(function (index, element) {
+                if ($(actual).data('s') != $(element).data('s')) {
+                    $(element).click();  
+                }                
+            });           
+        }        
+    });
     // var sel = $('input[value="1"]');
     // $(sel).attr('checked', 'true');
     

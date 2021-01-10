@@ -105,7 +105,7 @@ class UsuarioController extends Controller{
 
                 echo json_encode([
                 'titulo' => 'Registro Exitoso',
-                'mensaje' => 'Cliente registrado en nuestro sistema',
+                'mensaje' => 'Usuario registrado en nuestro sistema',
                 'tipo' => 'success'
                 ]);    
             } else{
@@ -148,13 +148,13 @@ class UsuarioController extends Controller{
         http_response_code(404);
 
         echo json_encode([
-            'titulo' => 'Error al Actualizar',
-            'mensaje' => 'Ocurrio un error durante la actualizacion',
+            'titulo' => 'Error',
+            'mensaje' => $this->usuario->getError(),
             'tipo' => 'error'
-        ]);
+        ]);  
         }
 
-        }
+    }
 
     public function mostrar($param){
     

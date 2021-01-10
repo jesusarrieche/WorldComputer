@@ -127,9 +127,9 @@ class Usuario extends Persona{
 
             return $consulta->execute();
                     
-        } catch (Exception $ex) {
-            
-            // die("Error: " . $ex->getMessage());
+        } catch (Exception $ex) {            
+            $this->error = $ex->getMessage();
+            return false;
         }
     }
 

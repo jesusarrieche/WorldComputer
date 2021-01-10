@@ -30,7 +30,7 @@
     <title>WORLD & COMPUTER</title>
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-expand navbar-dark bg-primary">
+<nav class="navbar navbar-expand navbar-dark bg-primary w-100">
     <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
     <a class="navbar-brand" href="<?= ROOT;?>"><i class="fas fa-desktop"></i> World & Computer</a>
     <div class="navbar-collapse collapse">
@@ -60,50 +60,50 @@
 	<!-- MENU -->
 <div class="d-flex">
 	<div class="sidebar sidebar-dark bg-dark">
-    <ul class="list-unstyled">
-        <li><a href="<?= ROOT;?>Usuario"><i class="fa fa-fw fa-user"></i> Usuarios</a></li>
-        <li><a href="<?= ROOT;?>Empleado"><i class="fa fa-fw fa-wrench"></i> Empleados</a></li>
-        <li><a href="<?= ROOT;?>Cliente"><i class="fa fa-fw fa-users"></i> Clientes</a></li>
-        <li><a href="<?= ROOT;?>Proveedor"><i class="fa fa-fw fa-truck"></i> Proveedores</a></li>
-        <li>
-            <a href="#inventory_collapse" data-toggle="collapse">
-                <i class="fa fa-fw fa-chart-area"></i> Inventario
-            </a>
+        <ul class="list-unstyled">
+            <li><a href="<?= ROOT;?>Usuario"><i class="fa fa-fw fa-user"></i> Usuarios</a></li>
+            <li><a href="<?= ROOT;?>Empleado"><i class="fa fa-fw fa-wrench"></i> Empleados</a></li>
+            <li><a href="<?= ROOT;?>Cliente"><i class="fa fa-fw fa-users"></i> Clientes</a></li>
+            <li><a href="<?= ROOT;?>Proveedor"><i class="fa fa-fw fa-truck"></i> Proveedores</a></li>
+            <li>
+                <a href="#inventory_collapse" data-toggle="collapse">
+                    <i class="fa fa-fw fa-chart-area"></i> Inventario
+                </a>
 
-            <ul id="inventory_collapse" class="list-unstyled collapse">
-                <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
-                <!-- <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-down"></i> Cargos de Inventario</a></li>
-                <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-up"></i> Descargos de Inventario</a></li> -->
+                <ul id="inventory_collapse" class="list-unstyled collapse">
+                    <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
+                    <!-- <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-down"></i> Cargos de Inventario</a></li>
+                    <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-up"></i> Descargos de Inventario</a></li> -->
 
-            </ul>
-        </li>
-        <li>
-            <a href="#services_collapse" data-toggle="collapse">
-                <i class="fa fa-fw fa-handshake"></i> Servicios
-            </a>
+                </ul>
+            </li>
+            <li>
+                <a href="#services_collapse" data-toggle="collapse">
+                    <i class="fa fa-fw fa-handshake"></i> Servicios
+                </a>
 
-            <ul id="services_collapse" class="list-unstyled collapse">
-                <li><a href="<?= ROOT;?>Servicio"><i class="fa fa-fw fa-bookmark"></i> Servicios</a></li>
-                <li><a href="<?= ROOT;?>Servicio/ProvidedServices"><i class="fa fa-fw fa-bookmark"></i> Servicios Prestados</a></li>
+                <ul id="services_collapse" class="list-unstyled collapse">
+                    <li><a href="<?= ROOT;?>Servicio"><i class="fa fa-fw fa-bookmark"></i> Servicios</a></li>
+                    <li><a href="<?= ROOT;?>Servicio/ProvidedServices"><i class="fa fa-fw fa-bookmark"></i> Servicios Prestados</a></li>
 
-            </ul>
-        </li>
+                </ul>
+            </li>
+            
+            <li><a href="<?= ROOT;?>Compra"><i class="fa fa-fw fa-shopping-cart"></i> Compras</a></li>
+            <li><a href="<?= ROOT;?>Venta"><i class="fa fa-fw fa-dollar-sign"></i> Ventas</a></li>
+            <!-- <li><a href="<?= ROOT;?>Venta/Crear"><i class="fa fa-fw fa-shopping-basket"></i> Caja</a></li> -->
         
-        <li><a href="<?= ROOT;?>Compra"><i class="fa fa-fw fa-shopping-cart"></i> Compras</a></li>
-        <li><a href="<?= ROOT;?>Venta"><i class="fa fa-fw fa-dollar-sign"></i> Ventas</a></li>
-        <!-- <li><a href="<?= ROOT;?>Venta/Crear"><i class="fa fa-fw fa-shopping-basket"></i> Caja</a></li> -->
-    
-        <li><a href="<?= ROOT;?>Producto"><i class="fa fa-fw fa-sitemap"></i> Productos</a></li>
-        <li><a href="<?= ROOT;?>Categoria"><i class="fa fa-fw fa-tag"></i> Categorías</a></li>
-        <li>
-            <a href="#sm_expand_2" data-toggle="collapse">
-                <i class="fa fa-fw fa-globe"></i> Permisos
-            </a>
-            <ul id="sm_expand_2" class="list-unstyled collapse">
-                <li><a href="<?= ROOT;?>Rol"><i class="fa fa-fw fa-address-card"></i> Roles</a></li>
-            </ul>
-        </li>
+            <li><a href="<?= ROOT;?>Producto"><i class="fa fa-fw fa-sitemap"></i> Productos</a></li>
+            <li><a href="<?= ROOT;?>Categoria"><i class="fa fa-fw fa-tag"></i> Categorías</a></li>
+            <li>
+                <a href="#sm_expand_2" data-toggle="collapse">
+                    <i class="fa fa-fw fa-globe"></i> Permisos
+                </a>
+                <ul id="sm_expand_2" class="list-unstyled collapse">
+                    <li><a href="<?= ROOT;?>Rol"><i class="fa fa-fw fa-address-card"></i> Roles</a></li>
+                </ul>
+            </li>
 
-        <li><a href="<?= ROOT;?>Reporte"><i class="fa fa-fw fa-calendar"></i> Reportes</a></li>
-    </ul>
-</div>
+            <li><a href="<?= ROOT;?>Reporte"><i class="fa fa-fw fa-calendar"></i> Reportes</a></li>
+        </ul>
+    </div>

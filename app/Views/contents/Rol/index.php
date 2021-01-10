@@ -69,12 +69,12 @@
 
                             <div class="form-group">
                                 <label for="nombre">Nombre del Rol</label>
-                                <input type="text" class="form-control">
+                                <input type="text" name="nombre" class="form-control" pattern="[A-Za-z ]+" maxlength="40" required title="Ingrese un nombre. Solo letras">
                             </div>
 
                             <div class="form-group">
                                 <label for="nombre">Descripcion del Rol</label>
-                                <textarea name="descripcionRol" id="descripcionRol" cols="30" rows="2" class="form-control"></textarea>
+                                <textarea name="descripcion" id="descripcion" cols="30" rows="2" class="form-control" maxlength="45"></textarea>
                             </div>
 
                             <h4 class="text-center">Listado de Permisos</h4>
@@ -558,38 +558,19 @@
                     </div>
                     <div class="card-body">
                         <form id="formularioMostrarRol">
-                            <div class="row form-group">
-                                <input  name="id" id="id" value="" hidden>
-                                <label for="nombre" class="col-form-label col-md-2"><strong>Nombre:</strong></label>
-                                <div class="col-md-4 ">
-                                    <input type="text" name="nombre" id="nombre" value="" class="form-control-plaintext" disabled placeholder="Nombre">
-                                </div> 
-
-                                <label for="apellido" class="col-form-label col-md-2"><strong>Apellido:</strong></label>
-                                <div class="col-md-4 ">
-                                    <input type="text" name="apellido" id="apellido" class="form-control-plaintext" disabled placeholder="Apellido">
-                                </div>
-                            </div>
-
-                            <div class="row form-group">
-                                <label for="cedula_cliente" class="col-form-label col-md-2"><strong>Cedula|RIF:</strong></label>
-                              
-                                <div class="col-md-4">
-                                    <input type="text" id="documento" class="form-control-plaintext" placeholder="Identificaion" disabled>
-                                </div>
-                                <label for="telefono" class="col-form-label col-md-2"><strong>Telefono:</strong></label>
-                                <div class="col-md-4 ">
-                                    <input type="tel" id="telefono" class="form-control-plaintext" disabled placeholder="Telefono">
-                                </div>
-                            </div>
                             <div class="form-group">
-                                <label for="correo"><strong>Correo:</strong></label>
-                                <input type="email" id="correo" class="form-control-plaintext" disabled placeholder="Correo Electronico">
+                                <label for="nombre"><strong>Nombre del Rol</strong></label>
+                                <input type="text" name="nombre" id="nombre" class="form-control-plaintext" pattern="[A-Za-z ]+" maxlength="40" required title="Ingrese un nombre. Solo letras" disabled>
                             </div>
 
                             <div class="form-group">
-                                <label for="direccion"><strong>Direccion:</strong></label> 
-                                <input type="text" id="direccion" class="form-control-plaintext" disabled placeholder="Direccion" > 
+                                <label for="descripcion"><strong>Descripcion del Rol</strong></label>
+                                <textarea name="descripcion" id="descripcion" cols="30" rows="2" class="form-control-plaintext" maxlength="45" disabled></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="permisos"><strong>Listado de Permisos</strong></label>
+                                <ul id="listaPermisos" class="m-2 p-2">
+                                </ul>
                             </div>
 
                             <hr class="bg-secondary">
@@ -616,56 +597,479 @@
                     </div>
                     <div class="card-body">
                         <form action="#" method="POST" enctype="multipart/form-data" id="formularioActualizarRol">
-                            <div class="row form-group">
-                                <input  name="id" id="id" hidden>
-                                <label for="nombre" class="col-form-label col-md-2">Nombre:</label>
-                                <div class="col-md-4 ">
-                                    <input type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
-                                </div> 
-
-                                <label for="apellido" class="col-form-label col-md-2">Apellido:</label>
-                                <div class="col-md-4 ">
-                                    <input type="text" name="apellido" id="apellido" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required"  class="form-control" placeholder="Apellido">
-                                </div>
+                            <input type="hidden" id="id" name="id">
+                            <div class="form-group">
+                                <label for="nombre">Nombre del Rol</label>
+                                <input type="text" id="nombre" name="nombre" class="form-control" pattern="[A-Za-z ]+" maxlength="40" required title="Ingrese un nombre. Solo letras">
                             </div>
 
-                            <div class="row form-group">
-                                <label for="cedula_cliente" class="col-form-label col-md-2">Cedula/RIF:</label>
-                                <div class="col-md-1 ">
-                                    <select class="form-control pl-0 pr-0" name="inicial_documento" id="inicial_documento" required="">
-                                        <option value="" selected="">-</option>
-                                        <option value="V">V</option>
-                                        <option value="E">E</option>
-                                        <option value="J">J</option>
-                                        <option value="G">G</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="text" pattern="[0-9]{6,8}" name="documento" id="documento" minlength="6" maxlength="8" title="Ingrese entre 6 y 8 digitos" class="form-control" placeholder="Identificaion" required="">
-                                </div>
-                                <label for="telefono" class="col-form-label col-md-2">Telefono:</label>
-                                <div class="col-md-4 ">
-                                    <input type="tel" name="telefono" id="telefono" title="Debe Contener minimo 11 Caracteres numericos" minlength="10"  maxlength="12" pattern="[0-9-]+" required class="form-control" placeholder="Telefono">
-                                </div>
+                            <div class="form-group">
+                                <label for="nombre">Descripcion del Rol</label>
+                                <textarea name="descripcion" id="descripcion" cols="30" rows="2" class="form-control" maxlength="45"></textarea>
                             </div>
-                            <div class="row form-group">
-                                <label for="correo" class="col-form-label col-md-2">Correo:</label>
-                                <div class="col-md-4 ">
-                                    <input type="email" name="correo" id="correo" required class="form-control" placeholder="Correo Electronico">
+
+                            <h4 class="text-center">Listado de Permisos</h4>
+                            <hr>
+
+                            <div class="form-row p-1">
+
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">
+                                
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU1" value="1">
+                                            <label class="custom-control-label" for="customCheckU1"><strong>Usuarios</strong></label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU2" value="2">
+                                            <label class="custom-control-label" for="customCheckU2">Registrar</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU3" value="3">
+                                            <label class="custom-control-label" for="customCheckU3">Editar</label>
+                                        </div>
+                                    </div>
+            
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU4" value="4">
+                                            <label class="custom-control-label" for="customCheckU4">Eliminar</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">
+                                    <div class="row">
+                                        <div class="col-md">
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU5" value="5">
+                                                    <label class="custom-control-label" for="customCheckU5"><strong>Clientes</strong></label>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU6" value="6">
+                                                    <label class="custom-control-label" for="customCheckU6">Registrar</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU7" value="7">
+                                                    <label class="custom-control-label" for="customCheckU7">Editar</label>
+                                                </div>
+                                            </div>
+                    
+    
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU27" value="8">
+                                                    <label class="custom-control-label" for="customCheckU27">Eliminar</label>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
+
+                                
+                            </div>
+
+                            <div class="form-row p-1">
+
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">
+                                
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU8" value="9">
+                                            <label class="custom-control-label" for="customCheckU8"><strong>Empleados</strong></label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU9" value="10">
+                                            <label class="custom-control-label" for="customCheckU9">Registrar</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU10" value="11">
+                                            <label class="custom-control-label" for="customCheckU10">Editar</label>
+                                        </div>
+                                    </div>
+            
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU11" value="12">
+                                            <label class="custom-control-label" for="customCheckU11">Eliminar</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">
+                                    <div class="row">
+                                        <div class="col-md">
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU12" value="13">
+                                                    <label class="custom-control-label" for="customCheckU12"><strong>Proveedores</strong></label>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU13" value="14">
+                                                    <label class="custom-control-label" for="customCheckU13">Registrar</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU14" value="15">
+                                                    <label class="custom-control-label" for="customCheckU14">Editar</label>
+                                                </div>
+                                            </div>
+                    
+    
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU15" value="16">
+                                                    <label class="custom-control-label" for="customCheckU15">Eliminar</label>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
                                 </div>
 
-                                <label for="direccion" class="col-form-label col-md-2">Direccion:</label>
+                                <hr>
+                                
+                            </div>
+
+                                    
+                            <div class="form-row p-1">
                                 <div class="col-md-4">
-                                    <input type="text" name="direccion" id="direccion" pattern="[A-Za-z0-9/ ]+" required maxlength="150" class="form-control" placeholder="Direccion" >
+                                    <hr class="bg-secondary">
+                                    <div class="row">
+                                        <div class="col-md">
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU121" value="17">
+                                                    <label class="custom-control-label" for="customCheckU121"><strong>Inventario</strong></label>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                        </div>
+                                    </div>
+
                                 </div>
+                                <div class="col-md-4">
+                                    <hr class="bg-secondary">                                
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU22" value="18">
+                                            <label class="custom-control-label" for="customCheckU22"><strong>Productos</strong></label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU23" value="19">
+                                            <label class="custom-control-label" for="customCheckU23">Registrar</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU24" value="20">
+                                            <label class="custom-control-label" for="customCheckU24">Editar</label>
+                                        </div>
+                                    </div>
+            
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU25" value="21">
+                                            <label class="custom-control-label" for="customCheckU25">Eliminar</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <hr class="bg-secondary">
+                                    <div class="row">
+                                        <div class="col-md">
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU262" value="22">
+                                                    <label class="custom-control-label" for="customCheckU262"><strong>Categorias (Productos)</strong></label>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU263" value="23">
+                                                    <label class="custom-control-label" for="customCheckU263">Registrar</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU264" value="24">
+                                                    <label class="custom-control-label" for="customCheckU264">Editar</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU265" value="25">
+                                                    <label class="custom-control-label" for="customCheckU265">Eliminar</label>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
+
+                                
                             </div>
+                            <div class="form-row p-1">
+
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">
+                                
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU81" value="26">
+                                            <label class="custom-control-label" for="customCheckU81"><strong>Servicios</strong></label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU91" value="27">
+                                            <label class="custom-control-label" for="customCheckU91">Registrar</label>
+                                        </div>
+                                    </div>            
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU910" value="28">
+                                            <label class="custom-control-label" for="customCheckU910">Editar</label>
+                                        </div>
+                                    </div>            
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU101" value="29">
+                                            <label class="custom-control-label" for="customCheckU101">Eliminar</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">
+                                
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU081" value="30">
+                                            <label class="custom-control-label" for="customCheckU081"><strong>Servicios Prestados</strong></label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU091" value="31">
+                                            <label class="custom-control-label" for="customCheckU091">Registrar</label>
+                                        </div>
+                                    </div>
+
+            
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU0101" value="32">
+                                            <label class="custom-control-label" for="customCheckU0101">Anular</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
+                                
+                            </div>
+
+                            <div class="form-row p-1">
+
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">                            
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU16" value="33">
+                                            <label class="custom-control-label" for="customCheckU16"><strong>Compras</strong></label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU17" value="34">
+                                            <label class="custom-control-label" for="customCheckU17">Registrar</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU18" value="35"> 
+                                            <label class="custom-control-label" for="customCheckU18">Anular</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">
+                                    <div class="row">
+                                        <div class="col-md">
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU19" value="36">
+                                                    <label class="custom-control-label" for="customCheckU19"><strong>Ventas</strong></label>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU20" value="37">
+                                                    <label class="custom-control-label" for="customCheckU20">Registrar</label>
+                                                </div>
+                                            </div>                    
+    
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU21" value="38">
+                                                    <label class="custom-control-label" for="customCheckU21">Anular</label>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
+
+                                
+                            </div>
+
+                            <div class="form-row p-1">
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">                               
+                                
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU161" value="39">
+                                            <label class="custom-control-label" for="customCheckU161"><strong>Roles</strong></label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU171" value="40">
+                                            <label class="custom-control-label" for="customCheckU171">Registrar</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU181" value="41"> 
+                                            <label class="custom-control-label" for="customCheckU181">Editar</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="custom-control custom-checkbox pr-3">
+                                            <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU1811" value="42"> 
+                                            <label class="custom-control-label" for="customCheckU1811">Eliminar</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <hr class="bg-secondary">
+                                    <div class="row">
+                                        <div class="col-md">
+
+                                            <div class="row">
+                                                <div class="custom-control custom-checkbox pr-3">
+                                                    <input type="checkbox" name="permisos[]" class="custom-control-input" id="customCheckU16123" value="43">
+                                                    <label class="custom-control-label" for="customCheckU16123"><strong>Reportes</strong></label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>  
+                                
+                            </div>
+
+                            <hr>
 
                             <hr class="bg-secondary">
 
                             <div class="row form-group justify-content-md-center">
                                 <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
                                 <button type="submit"  class="btn btn-success m-2">Enviar</button>
-                                <button type="reset" class="btn btn-danger m-2">Limpiar</button>
                             </div>
                         </form>
                     </div>
