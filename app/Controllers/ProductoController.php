@@ -189,7 +189,7 @@ class ProductoController extends Controller{
         $producto->setCodigo(strtoupper($this->limpiaCadena($_POST['codigo'])));
         $producto->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
         $producto->setPrecioPorcentaje((strtoupper($this->limpiaCadena($_POST['porcentaje']))));
-        $producto->setPrecioVenta($this->limpiaCadena($_POST['precio']));
+        // $producto->setPrecioVenta($this->limpiaCadena($_POST['precio']));
         $producto->setDescripcion((strtoupper($this->limpiaCadena($_POST['descripcion']))));
         $producto->setStockMin($this->limpiaCadena($_POST['stock_min']));
         $producto->setStockMax($this->limpiaCadena($_POST['stock_max']));
@@ -234,8 +234,8 @@ class ProductoController extends Controller{
         } else {
 
             //Actualizacion de precio
-            $consulta3 = $this->producto->query("SELECT e.precio FROM 
-                entradas e
+            $consulta3 = $this->producto->query("SELECT e.costo FROM 
+                detalle_compra e
                     JOIN
                 productos p
                     ON e.producto_id = p.id

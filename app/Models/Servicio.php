@@ -11,6 +11,13 @@ class Servicio extends Model{
     private $descripcion;
     private $nombre;
     private $precio;
+    
+    private $codigo;
+    private $cliente_id;
+    private $empleado_id;
+    private $venta_id;
+    private $servicios_id;
+    private $servicios_precio;
 
     public function getId(){
         return $this->id;
@@ -28,11 +35,11 @@ class Servicio extends Model{
         $this->descripcion = $descripcion;
     }
 
-    public function getnombre(){
+    public function getNombre(){
         return $this->nombre;
     }
 
-    public function setnombre($nombre){
+    public function setNombre($nombre){
         $this->nombre = $nombre;
     }
 
@@ -49,6 +56,61 @@ class Servicio extends Model{
 
     public function setDescripcion($descripcion){
         $this->descripcion = $descripcion;
+    }
+    //Funciones de Servicios Prestados
+    public function getCodigo(){
+        return $this->codigo;
+    }
+    public function setCodigo($codigo){
+        $this->codigo = $codigo;
+    }
+    public function getCliente_id(){
+        return $this->cliente_id;
+    }
+
+    public function setCliente_id($cliente_id){
+        $this->cliente_id = $cliente_id;
+    }
+    public function getEmpleado_id(){
+        return $this->empleado_id;
+    }
+    public function setEmpleado_id($empleado_id){
+        $this->empleado_id = $empleado_id;
+    }
+    public function getVenta_id(){
+        return $this->venta_id;
+    }
+    public function setVenta_id($venta_id){
+        $this->venta_id = $venta_id;
+    }
+    public function getServicios_id(){
+        return $this->servicios_id;
+    }
+    public function setServicios_id($servicios_id){
+        $this->servicios_id = $servicios_id;
+    }
+    public function getServicios_precio(){
+        return $this->servicios_precio;
+    }
+    public function setServicios_precio($servicios_precio){
+        $this->servicios_precio = $servicios_precio;
+    }
+
+    public function formatoDocumento($ultimoDocumento){
+       
+        $ultimoDocumento += 1;
+        $result = str_pad($ultimoDocumento, 9,'0',STR_PAD_LEFT);
+        
+        return $result;
+    }
+    public function ultimoDocumento(){
+        try {
+            $consulta = parent::connect()->prepare("SELECT codigo FROM servicios_prestados ORDER BY id DESC LIMIT 1");
+            $consulta->execute();
+            return $consulta->fetch(PDO::FETCH_COLUMN);
+        } catch (Exception $ex){
+            return $ex->message();
+        }
     }
     // Servicios
     public function listar(){
@@ -107,6 +169,43 @@ class Servicio extends Model{
         }
     }
     // Servicios Prestados
+    public function registrarPrestado(Servicio $s)
+    {
+        try {
+            $dbh = parent::connect();
+            $consulta = $dbh->prepare("INSERT INTO servicios_prestados (codigo, empleado_id, cliente_id, venta_id)
+                VALUES (:codigo, :empleado_id, :cliente_id, :venta_id)");
+
+            $codigo = $s->getCodigo();
+            $empleado_id = $s->getEmpleado_id();
+            $cliente_id = $s->getCliente_id();
+            $venta_id = $s->getVenta_id();
+            
+            $consulta->bindParam(':codigo', $codigo);
+            $consulta->bindParam(':empleado_id', $empleado_id);
+            $consulta->bindParam(':cliente_id', $cliente_id);
+            $consulta->bindParam(':venta_id', $venta_id);
+            $consulta->execute();
+            $lastId = $dbh->lastInsertId();
+
+            $servicios_id = $s->getServicios_id();
+            $servicios_precio = $s->getServicios_precio();
+            $i = 0;
+            foreach ($servicios_id as $s) {
+                $consulta = $dbh->prepare("INSERT INTO detalle_servicio 
+                    (servicio_prestado_id, servicio_id, precio)
+                    VALUES (:servicio_prestado_id, :servicio_id, :precio)");
+                $consulta->bindParam(':servicio_prestado_id',$lastId);
+                $consulta->bindParam(':servicio_id',$servicios_id[$i]);
+                $consulta->bindParam(':precio',$servicios_precio[$i]);
+                $consulta->execute();
+                $i++;
+            }
+            return true;
+        } catch (Exception $ex) {
+            return $ex->getMessage(); 
+        }
+    }
     public function listarPrestados(){
         try{
             $consulta = parent::connect()->prepare("SELECT id, cantidad, precio, empleado_id, venta_id, servicio_id, created_at FROM detalle_servicio  ORDER BY created_at DESC");

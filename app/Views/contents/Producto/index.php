@@ -67,7 +67,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <i class="fas fa-box"></i> <label for="nombre">Nombre</label>
-                            <input name="nombre" id="nombre" type="text" class=" form-control" placeholder="Nombre" required >
+                            <input name="nombre" id="nombre" type="text" class=" form-control" maxlength="45" placeholder="Nombre" required >
                         </div>
 
                         <div class="form-group col-md-6">
@@ -243,7 +243,7 @@
                 <form action="#" method="POST" id="formularioActualizarProducto" enctype="multipart/form-data">
 
                     <input name="id" id="id" hidden >
-                    <input type="number" name="precio" id="precio" hidden>
+                    <!-- <input type="number" name="precio" id="precio" hidden> -->
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -263,7 +263,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <i class="fas fa-box"></i> <label for="nombre">Nombre</label>
-                            <input name="nombre" id="nombre" type="text" class=" form-control" placeholder="Nombre" required >
+                            <input name="nombre" id="nombre" type="text" class=" form-control" placeholder="Nombre" maxlength="45" required >
                         </div>
 
                         <div class="form-group col-md-6">

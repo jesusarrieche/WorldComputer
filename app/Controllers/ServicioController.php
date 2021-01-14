@@ -6,7 +6,7 @@ use App\Models\Servicio;
 use App\Models\Cliente;
 use App\Models\Empleado;
 use App\Models\Venta;
-
+use App\Models\DetalleVenta;
 use App\Models\Producto;
 
 use App\Models\Compra;
@@ -27,40 +27,15 @@ class ServicioController extends Controller{
       $this->cliente = new Cliente;
       $this->servicio = new Servicio;
       $this->empleado = new Empleado;
+      $this->producto = new Producto;
       $this->venta = new Venta;
+      $this->detalleVenta = new DetalleVenta;
   }
 
   public function index(){
     return View::getView('Servicio.index');
   }
 
-  public function listar(){
-
-    $method = $_SERVER['REQUEST_METHOD'];
-
-        if( $method != 'POST'){
-        http_response_code(404);
-        return false;
-        }
-
-        $servicios = $this->servicio->listar();
-
-        foreach($servicios as $servicio){
-
-        $servicio->button = 
-        "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-        "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
-        "<a href='". $this->encriptar($servicio->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
-
-    }
-
-    http_response_code(200);
-
-    echo json_encode([
-    'data' => $servicios
-    ]);
-
-}
 
   public function ProvidedServices () {
 
@@ -100,54 +75,86 @@ class ServicioController extends Controller{
 
   public function create(){
 
-    $clientes = $this->cliente->listar();
+    $clientes = $this->cliente->getAll('clientes', "estatus = 'ACTIVO'");
+    $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO' AND stock > 0 AND precio_venta != 'null'");
     $servicios = $this->servicio->listar();
     $empleados = $this->empleado->listarCargo('TECNICO');
+    $iva = $this->servicio->getValorColumna('impuestos','valor','id = 2');
 
     return View::getView('Servicio.create', 
         [ 
             'clientes' => $clientes,
             'servicios' => $servicios,
+            'productos' => $productos,
             'empleados' => $empleados,
+            'iva' => $iva
         ]);
   }
 
   // CRUD Servicios Prestados
 
     public function agregarPrestado(){
-
       #=== VENTA ===#
+ 
+      if (isset($_POST['productos'])) {
+        $venta = new Venta;
+        $num_documento = $this->venta->formatoDocumento($this->venta->ultimoDocumento());
+        $venta->setNumeroDocumento($num_documento);
+        $venta->setPersonaId($_POST['cliente']);
+        $venta->setTotal($_POST['total']);
+        $lastId = $venta->registrar($venta);
+
+        $productos = $_POST['productos'];
+        $cantidad = $_POST['cantidades'];
+        $precio = $_POST['precios'];
+        $contador = 0;
+        foreach($productos AS $producto){
+
+            $detalleVenta = new DetalleVenta();
+            $detalleVenta->setProductoId($productos[$contador]);
+            $detalleVenta->setVentaId($lastId);
+            $detalleVenta->setCantidad($cantidad[$contador]);
+            $detalleVenta->setPrecio($precio[$contador]);
+
+            $this->detalleVenta->registrar($detalleVenta);
+
+            $contador++;
+        }
+      }
       
-      $venta = new Venta;
-
-      $num_documento = $this->venta->formatoDocumento($this->venta->ultimoDocumento());
-
-      $venta->setNumeroDocumento($num_documento);
-      $venta->setPersonaId($_POST['cliente']);
-
-      $lastId = $venta->registrar($venta);
-
       #=== DETALLES SERVICIO ===#
+      $servicio = new Servicio();
+      $num_documento = $this->servicio->formatoDocumento($this->servicio->ultimoDocumento());
+      $servicio->setCodigo($num_documento);
+      $servicio->setCliente_id($_POST['cliente']);
+      $servicio->setEmpleado_id($_POST['empleado']);
+      if (isset($lastId)) {
+        $servicio->setVenta_id($lastId);
+      }      
+      $servicio->setServicios_id($_POST['servicios']);
+      $servicio->setServicios_precio($_POST['servicios_precio']);
+      $result = $this->servicio->registrarPrestado($servicio);
 
-      $servicioData = [
-        'cantidad' => 1,
-        'precio' => $_POST['precioServicio'],
-        'empleado_id' => $_POST['empleado'],
-        'venta_id' => $lastId,
-        'servicio_id' => $_POST['servicio']
-      ];
-    
-      $detalleServicio = $this->servicio->añadirDetalles($servicioData);
+      if ($result) {
+        http_response_code(200);
 
-      $mensaje = 'Se ha registrado venta: '. $lastId . ' y servicio: '. $detalleServicio;
+        echo json_encode([
+          'titulo' => 'Servicio Prestado Registrado!',
+          'mensaje' => 'Se ha registrado correctamente el servicio prestado',
+          'tipo' => 'success'
+        ]);
+      }
+      else{
+        http_response_code(200);
 
-      http_response_code(200);
+        echo json_encode([
+          'titulo' => 'Error al Registrar!',
+          'mensaje' => 'Ocurrió un error inesperado al registrar el servicio prestado',
+          'tipo' => 'error'
+        ]);
+      }
 
-      echo json_encode([
-        'titulo' => 'Venta Registrada!',
-        'mensaje' => $mensaje,
-        'tipo' => 'success'
-      ]);
+      
     }
 
     public function mostrarPrestado($param){
@@ -163,6 +170,34 @@ class ServicioController extends Controller{
       ]);
     }
     // CRUD Servicios
+
+    public function listar(){
+
+      $method = $_SERVER['REQUEST_METHOD'];
+  
+          if( $method != 'POST'){
+          http_response_code(404);
+          return false;
+          }
+  
+          $servicios = $this->servicio->listar();
+  
+          foreach($servicios as $servicio){
+  
+          $servicio->button = 
+          "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+          "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
+          "<a href='". $this->encriptar($servicio->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
+  
+      }
+  
+      http_response_code(200);
+  
+      echo json_encode([
+      'data' => $servicios
+      ]);
+  
+  }
     public function guardar(){
 
       $method = $_SERVER['REQUEST_METHOD'];

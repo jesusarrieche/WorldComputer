@@ -42,7 +42,7 @@ $(document).ready(function () {
         
         let producto = buscarProducto($('#listadoProductos').val());
         
-        Swal.fire(
+        Toast.fire(
             producto.nombre + ' Agregado',
             'Producto Agregado correctamente',
             'success'   
@@ -122,7 +122,7 @@ $(document).ready(function () {
     $('#agregarCliente').click(function (e) { 
         e.preventDefault();
 
-        Swal.fire(
+        Toast.fire(
             'Cliente agregado!',
             'Se ha seleccionado un cliente correctamente',
             'success'
@@ -159,7 +159,7 @@ $(document).ready(function () {
          * Total Venta
          */
     
-        let form = $(this)
+        let form = $(this);
     
         let totalfilas = document.querySelectorAll('.total');
         let total = 0;
@@ -208,13 +208,25 @@ $(document).ready(function () {
                 );
 
                 setTimeout(function(){
-                    location.reload();
-                },2000);
+                    window.location = "./";
+                },1000);
             },
             error: function (response) {
                 console.log(response);
             }
         });
-    })
+    });
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'bottom-start',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: false,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
 
 });

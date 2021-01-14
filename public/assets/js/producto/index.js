@@ -207,7 +207,6 @@ $(document).ready(function() {
             contentType: false,
             processData: false,
             success: function(response) {
-                debugger
 
                 let json = JSON.parse(response);
                 if (json.tipo == 'success') {

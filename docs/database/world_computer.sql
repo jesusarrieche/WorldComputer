@@ -5,10 +5,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema world_computer
 -- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema world_computer
--- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `world_computer` DEFAULT CHARACTER SET utf8 ;
 USE `world_computer` ;
 
@@ -468,16 +464,38 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `world_computer`.`servicios_prestados`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `world_computer`.`servicios_prestados` (
+  `id` INT AUTO_INCREMENT,
+  `codigo` VARCHAR(45) NOT NULL UNIQUE,
+  `fecha` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `empleado_id` INT NOT NULL,
+  `venta_id` INT,
+  `cliente_id` INT NOT NULL,
+  `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_clientes_has_ventas_clientes1`
+    FOREIGN KEY (`cliente_id`)
+    REFERENCES `world_computer`.`clientes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_servicio_venta_empleados1`
+    FOREIGN KEY (`empleado_id`)
+    REFERENCES `world_computer`.`empleados` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+-- -----------------------------------------------------
 -- Table `world_computer`.`detalle_servicio`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_servicio` (
   `id` INT AUTO_INCREMENT,
-  `cantidad` DOUBLE NOT NULL,
-  `precio` DOUBLE NOT NULL,
-  `empleado_id` INT NOT NULL,
-  `venta_id` INT NOT NULL,
-  `servicio_id` INT NOT NULL,
-
+  `servicio_prestado_id` INT NOT NULL,
+  `servicio_id` INT NOT NULL, 
+  `precio` VARCHAR(45) NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -486,14 +504,9 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`detalle_servicio` (
     REFERENCES `world_computer`.`servicios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_servicios_has_ventas_ventas1`
-    FOREIGN KEY (`venta_id`)
-    REFERENCES `world_computer`.`ventas` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_servicio_venta_empleados1`
-    FOREIGN KEY (`empleado_id`)
-    REFERENCES `world_computer`.`empleados` (`id`)
+  CONSTRAINT `fk_servicios_has_ventas_servicios_prestados1`
+    FOREIGN KEY (`servicio_prestado_id`)
+    REFERENCES `world_computer`.`servicios_prestados` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -796,10 +809,10 @@ INSERT INTO servicios(nombre, descripcion, precio) VALUES
 ('REPARACION UPS', 'Reparacion ', '2000'),
 ('FORMATEO PC', 'Instalacion SO', '3500');
 
-INSERT INTO detalle_servicio(venta_id, servicio_id, empleado_id, cantidad, precio) VALUES 
-('1', '2', '2', '1', '2000'),
-('2', '2', '3', '1', '2000'),
-('3', '2', '3', '1', '2000');
+INSERT INTO servicios_prestados(venta_id, cliente_id, empleado_id, fecha, codigo) VALUES 
+('1', '2', '2', now(), '000001'),
+('2', '2', '3', now(), '000002'),
+('3', '2', '3', now(), '000003');
 
 -- ENTRADAS
 INSERT INTO entradas(codigo, fecha, tipo, observacion) VALUES 
