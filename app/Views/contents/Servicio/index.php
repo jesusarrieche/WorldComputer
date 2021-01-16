@@ -41,7 +41,7 @@
                 <div class="col-md-6">
                     <input  name="id" id="id" hidden>
                     <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="50" required="required" class="form-control" placeholder="Nombre">
+                    <input type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="45" required="required" class="form-control" placeholder="Nombre">
                 </div>
                 <div class="col-md-6">
                     <label for="precio">Precio:</label>
@@ -51,7 +51,7 @@
 
             <div class="form-group">
                 <label for="descripcion">Descripción</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripción del servicio" rows="3" maxlength="200"></textarea>
+                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripción del servicio" rows="3" maxlength="45"></textarea>
             </div>
             
             <div class="modal-footer d-flex justify-content-center">
@@ -80,7 +80,7 @@
                 <div class="col-md-6">
                     <input  name="id" id="id" hidden>
                     <label for="nombre"><strong>Nombre:</strong></label>
-                    <input disabled type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="50" required="required" class="form-control-plaintext" placeholder="Nombre">
+                    <input disabled type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="45" required="required" class="form-control-plaintext" placeholder="Nombre">
                 </div>
                 <div class="col-md-6">
                     <label for="precio"><strong>Precio:</strong></label>
@@ -129,7 +129,7 @@
 
             <div class="form-group">
                 <label for="descripcion"><strong>Descripción:</strong></label>
-                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripción del servicio" rows="3" maxlength="200"></textarea>
+                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripción del servicio" rows="3" maxlength="45"></textarea>
             </div>
             
             <div class="modal-footer d-flex justify-content-center">

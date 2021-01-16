@@ -14,8 +14,8 @@
                 <th scope="col">Codigo</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Cliente</th>
-                <th scope="col">Estado</th>
                 <th scope="col">Acción</th>
+                <th scope="col">Estado</th>
               </tr>
             </thead>
             <tbody>
@@ -42,7 +42,7 @@
 
             <div class="card-body">
                 <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-2"><strong>Nro Venta:</strong> </label>
+                    <label for="" class="col-form-label col-md-2"><strong>Nro Venta:</strong> </label>
                     <div class="col-md-2">
                         <input type="text" class="form-control-plaintext" id="numero_venta" disabled>
                     </div>
@@ -56,19 +56,19 @@
 
                 <div class="row pl-5">
                     <label for="" class="col-form-label col-md-2"><strong>NOMBRE:</strong></label>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <input type="text" id="nombre_cliente" class="form-control-plaintext" value="MICROTECH" disabled>
                     </div>
 
                     <label for="" class="col-form-label col-md-2"><strong> CEDULA/RIF:</strong></label>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <input type="text" id="rif_cliente" class="form-control-plaintext" value="J-26540950" disabled>
                     </div>
                 </div>
 
                 <div class="row pl-5">
                     <label for="" class="col-form-label col-md-2"><strong>DIRECCION:</strong></label>
-                    <div class="col-md-3">
+                    <div class="col-md-10">
                         <input type="text" id="direccion_cliente" class="form-control-plaintext" value="BARQUISIMETO" disabled>
                     </div>
 
@@ -77,7 +77,7 @@
 
                 <hr>
 
-                <div class="row justify-content-center pl-5">
+                <div class="row justify-content-center">
                     <h4>PRODUCTOS</h4>
                 </div>
 
@@ -103,19 +103,19 @@
                 </div>
                 <hr>
                 <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-2"><strong>SUB-TOTAL:</strong> </label>
+                    <label for="" class="col-form-label col-md-2"><strong>SUB-TOTAL:</strong> </label>
                     <div class="col-md-2">
                         <input type="text" class="form-control-plaintext" id="subtotal" disabled>
                     </div>
                 </div>
                 <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-2"><strong>IVA(16.00%):</strong> </label>
+                    <label for="" class="col-form-label col-md-2"><strong>IVA(16.00%):</strong> </label>
                     <div class="col-md-2">
                         <input type="text" class="form-control-plaintext" id="impuesto" disabled>
                     </div>
                 </div>
                 <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-2"><strong>TOTAL:</strong> </label>
+                    <label for="" class="col-form-label col-md-2"><strong>TOTAL:</strong> </label>
                     <div class="col-md-2">
                         <input type="text" class="form-control-plaintext" id="total" disabled>
                     </div>

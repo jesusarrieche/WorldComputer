@@ -12,7 +12,7 @@ use App\Models\Producto;
 use App\Models\Compra;
 use App\Models\Entrada;
 use App\Models\Proveedor;
-
+use PDO;
 use App\Traits\Utility;
 use System\Core\Controller;
 use System\Core\View;
@@ -50,25 +50,30 @@ class ServicioController extends Controller{
 
     $method = $_SERVER['REQUEST_METHOD'];
 
-        if( $method != 'POST'){
-        http_response_code(404);
-        return false;
-        }
-
-        $servicios = $this->servicio->listarPrestados();
-
-        foreach($servicios as $servicio){
-
-        $servicio->button = 
-                "<a href='/WorldComputer/Servicio/mostrarPrestado/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-                "<a href='/WorldComputer/Servicio/servicioPrestadoPDF/". $this->encriptar($servicio->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
-
+    if( $method != 'POST'){
+      http_response_code(404);
+      return false;
     }
+
+    $servicios = $this->servicio->listarPrestados();
+
+    foreach($servicios as $servicio){
+      if($servicio->estatus == 'ACTIVO'){
+        $servicio->estado = "<a href='" . $this->encriptar($servicio->id) . "' class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a>";
+      }else{
+          $servicio->estado = "<a href='" . $this->encriptar($servicio->id) . "' class='btn btn-danger estatus'><i class='fas fa-window-close'></i> Anulada</a>";
+      }
+      $servicio->button = 
+        "<a href='/WorldComputer/Servicio/mostrarPrestado/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
+        "<a href='/WorldComputer/Servicio/servicioPrestadoPDF/". $this->encriptar($servicio->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
+    
+    }
+      
 
     http_response_code(200);
 
     echo json_encode([
-    'data' => $servicios
+      'data' => $servicios
     ]);
 
 }
@@ -91,7 +96,6 @@ class ServicioController extends Controller{
         ]);
   }
 
-  // CRUD Servicios Prestados
 
     public function agregarPrestado(){
       #=== VENTA ===#
@@ -157,18 +161,100 @@ class ServicioController extends Controller{
       
     }
 
-    public function mostrarPrestado($param){
-    
-      $param = $this->desencriptar($param);
+    public function cambiarEstatus($param){
+      $id = $this->desencriptar($param);
+      $servicio = $this->servicio->getOne("servicios_prestados", $id);
+      $estatus = $this->servicio->cambiarEstatus('servicios_prestados', $id);
+      if ($servicio->venta_id!=NULL) {
+        $this->servicio->cambiarEstatus('ventas',$servicio->venta_id);
+      }
 
-      $servicio = $this->servicio->getOne('detalle_servicio', $param);
+      if($estatus){
+          http_response_code(200);
 
+          echo json_encode([
+              'titulo' => 'Estatus actualizado',
+              'mensaje' => 'Estatus de la venta actualizado correctamente',
+              'tipo' => 'success'
+          ]);
+
+          exit();
+      }else {
+          http_response_code(200);
+
+          echo json_encode([
+              'titulo' => 'Error al Cambiar estatus',
+              'mensaje' => 'Ocurrio un error al intentar cambiar el estatus',
+              'tipo' => 'error'
+          ]);
+
+          exit();
+      }
+  }
+  public function mostrarPrestado($param){
+    //Servicio Prestado
+    $idServicio = $this->desencriptar($param);
+    $query0 = $this->servicio->query("SELECT s.id, s.codigo,s.venta_id,Date_format(s.fecha,'%d/%m/%Y') AS fecha, 
+      CONCAT(e.nombre,' ',e.apellido) as empleado, e.documento AS empleado_documento, e.direccion as empleado_direccion,
+      CONCAT(c.nombre,' ',c.apellido) as cliente, c.documento AS cliente_documento, c.direccion as cliente_direccion 
+      FROM servicios_prestados s INNER JOIN empleados e ON s.empleado_id=e.id 
+      INNER JOIN clientes c ON s.cliente_id=c.id
+      WHERE s.id=$idServicio");
+    $servicioPrestado = $query0->fetch(PDO::FETCH_OBJ);
+    //Servicios
+    $query01 = $this->servicio->query("SELECT s.id, s.nombre, s.descripcion, d.precio FROM detalle_servicio d
+      INNER JOIN servicios s ON d.servicio_id=s.id
+      WHERE d.servicio_prestado_id=$servicioPrestado->id");
+    $servicios = $query01->fetchAll(PDO::FETCH_OBJ);
+    //Venta
+    if ($servicioPrestado->venta_id != NULL) {
+      $idVenta = $servicioPrestado->venta_id;
+
+      $query = $this->venta->query("SELECT v.id, v.codigo, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.estatus FROM
+          ventas v
+              LEFT JOIN
+          clientes c
+              ON v.cliente_id = c.id
+          WHERE v.id = '$idVenta' AND v.estatus='ACTIVO' OR v.estatus='INACTIVADO' LIMIT 1");
+
+      $query2 = $this->venta->query("SELECT v.id, p.codigo, p.nombre, dv.cantidad, dv.precio FROM 
+          productos p 
+              JOIN
+          detalle_venta dv
+              ON p.id = dv.producto_id
+              JOIN
+          ventas v 
+              ON dv.venta_id = v.id
+          WHERE v.id = '$idVenta' AND v.estatus='ACTIVO' OR v.estatus='INACTIVADO'");
+          
+      // Encabezado Venta
+      $venta = $query->fetch(PDO::FETCH_OBJ);
+
+      // Detalles Venta
+      $productos = $query2->fetchAll(PDO::FETCH_OBJ);
+      if ($venta == false) {
+        $venta = NULL;
+      }
       http_response_code(200);
 
       echo json_encode([
-      'data' => $servicio
+          'servicio_prestado'=>$servicioPrestado,
+          'servicios'=>$servicios,
+          'venta' => $venta,
+          'productos' => $productos,
       ]);
     }
+    else{
+      http_response_code(200);
+
+      echo json_encode([
+          'servicio_prestado'=>$servicioPrestado,
+          'servicios'=>$servicios
+      ]);
+    }
+
+    exit();
+}
     // CRUD Servicios
 
     public function listar(){

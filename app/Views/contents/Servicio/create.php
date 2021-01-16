@@ -213,7 +213,7 @@
                         
                                 </div>
                                 <div class="row form-row">
-                                    <label for="totalServicios" class="col-form-label col-lg-3"><strong>Total de los Servicios:</strong> </label>
+                                    <label for="totalServicios" class="col-form-label col-lg-3"><strong>Total de los Servicios</strong> </label>
                                     <div class="col-lg-7 form-group">
                                         <input type="text" class="form-control-plaintext" id="totalServicios" disabled value="N/A">
                                     </div>

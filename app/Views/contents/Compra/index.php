@@ -14,8 +14,8 @@
                 <th scope="col">Codigo</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Proveedor</th>
-                <th scope="col">Estado</th>
                 <th scope="col">Acción</th>
+                <th scope="col">Estado</th>
               </tr>
             </thead>
             <tbody>
@@ -62,7 +62,7 @@
 
             <div class="card-body">
                 <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-2"><strong>CODIGO:</strong> </label>
+                    <label for="" class="col-form-label col-md-2"><strong>CODIGO:</strong> </label>
                     <div class="col-md-2">
                         <input type="text" class="form-control-plaintext" id="numero_compra" disabled>
                     </div>
@@ -83,19 +83,19 @@
 
                 <div class="row pl-5">
                     <label for="" class="col-form-label col-md-2"><strong>RAZON SOCIAL:</strong></label>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <input type="text" id="nombre_proveedor" class="form-control-plaintext" value="MICROTECH" disabled>
                     </div>
 
                     <label for="" class="col-form-label col-md-2"><strong>RIF:</strong></label>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <input type="text" id="rif_proveedor" class="form-control-plaintext" value="J-26540950" disabled>
                     </div>
                 </div>
 
                 <div class="row pl-5">
                     <label for="" class="col-form-label col-md-2"><strong>DIRECCION:</strong></label>
-                    <div class="col-md-3">
+                    <div class="col-md-10">
                         <input type="text" id="direccion_proveedor" class="form-control-plaintext" value="BARQUISIMETO" disabled>
                     </div>
 
@@ -104,7 +104,7 @@
 
                 <hr>
 
-                <div class="row justify-content-center pl-5">
+                <div class="row justify-content-center">
                     <h4>PRODUCTOS</h4>
                 </div>
 
@@ -130,7 +130,7 @@
                 </div>
                 <hr>
                 <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-2"><strong>TOTAL:</strong> </label>
+                    <label for="" class="col-form-label col-md-2"><strong>TOTAL:</strong> </label>
                     <div class="col-md-2">
                         <input type="text" class="form-control-plaintext" id="total" disabled>
                     </div>

@@ -208,7 +208,10 @@ class Servicio extends Model{
     }
     public function listarPrestados(){
         try{
-            $consulta = parent::connect()->prepare("SELECT id, cantidad, precio, empleado_id, venta_id, servicio_id, created_at FROM detalle_servicio  ORDER BY created_at DESC");
+            $consulta = parent::connect()->prepare("SELECT s.id, s.codigo, Date_format(s.fecha,'%d/%m/%Y') AS fecha, s.estatus, 
+                CONCAT(e.nombre,' ',e.apellido) as empleado, CONCAT(c.nombre,' ',c.apellido) as cliente
+                FROM servicios_prestados s INNER JOIN clientes c ON s.cliente_id=c.id INNER JOIN empleados e
+                ON s.empleado_id=e.id ORDER BY s.created_at DESC");
             $consulta->execute();
             
             return $consulta->fetchAll(PDO::FETCH_OBJ);
@@ -217,29 +220,48 @@ class Servicio extends Model{
             die($ex->getMessage());
         }
     }
-    public function añadirDetalles($data){
-        try{
-            $dbh = parent::connect();
+    public function cambiarEstatus($tabla,$id){
+        $conexion = parent::connect();
 
-            $consulta = $dbh->prepare("INSERT INTO detalle_servicio(cantidad, precio, empleado_id, venta_id, servicio_id) VALUES (:cantidad, :precio, :empleado_id, :venta_id, :servicio_id)");
+        try {
+            $conexion->beginTransaction();
 
-            $consulta->bindParam(":cantidad", $data['cantidad']);
-            $consulta->bindParam(":precio", $data['precio']);
-            $consulta->bindParam(":empleado_id", $data['empleado_id']);
-            $consulta->bindParam(":venta_id", $data['venta_id']);
-            $consulta->bindParam(":servicio_id", $data['servicio_id']);
+            $query = $conexion->prepare("SELECT estatus FROM $tabla WHERE id = '$id' LIMIT 1");
+            $query->execute();
+
+            $estatus = $query->fetch(PDO::FETCH_COLUMN);
+
+            if($estatus == 'ACTIVO'){
+                $query2 = $conexion->prepare("UPDATE $tabla SET estatus = 'INACTIVADO' WHERE id = '$id'");
+                // $query3 = $conexion->prepare("UPDATE $tabla2 SET estatus = 'INACTIVO' WHERE $referencia = '$id'");
+
+                $query2->execute();
+                // $query3->execute();
+
+                $conexion->commit();
+
+                return true;
+
+            }elseif($estatus == 'INACTIVADO'){
+                $query2 = $conexion->prepare("UPDATE $tabla SET estatus = 'ACTIVO' WHERE id = '$id'");
+                // $query3 = $conexion->prepare("UPDATE $tabla2 SET estatus = 'ACTIVO' WHERE $referencia = '$id'");
+
+                $query2->execute();
+                // $query3->execute();
+
+                $conexion->commit();
+
+                return true;
 
 
-            $consulta->execute();
+            }else {
+                return false;
+            }
 
-            $lastId = $dbh->lastInsertId();
-            
-            return $lastId;
-            
-        } catch (Exception $ex) {
-            die($ex->getMessage());
+        } catch (Exception $e) {
+            $conexion->rollBack();
+            return $e->getMessage();
         }
     }
-
 
 }
