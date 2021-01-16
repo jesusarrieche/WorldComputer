@@ -5,6 +5,7 @@
 define('URI', $_SERVER['REQUEST_URI']);
 define('VIEWS', 'app/Views/');
 define('ROOT', '/WorldComputer/');
+define('URL', 'http://localhost/WorldComputer/');
 
 /**
  * Encriptado

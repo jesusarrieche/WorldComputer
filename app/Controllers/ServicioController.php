@@ -255,6 +255,76 @@ class ServicioController extends Controller{
 
     exit();
 }
+public function servicioPrestadoPDF($param){
+
+  //Servicio Prestado
+  $idServicio = $this->desencriptar($param);
+  $query0 = $this->servicio->query("SELECT s.id, s.codigo,s.venta_id,Date_format(s.fecha,'%d/%m/%Y') AS fecha, 
+    CONCAT(e.nombre,' ',e.apellido) as empleado, e.documento AS empleado_documento, e.direccion as empleado_direccion,
+    CONCAT(c.nombre,' ',c.apellido) as cliente, c.documento AS cliente_documento, c.direccion as cliente_direccion 
+    FROM servicios_prestados s INNER JOIN empleados e ON s.empleado_id=e.id 
+    INNER JOIN clientes c ON s.cliente_id=c.id
+    WHERE s.id=$idServicio");
+  $servicioPrestado = $query0->fetch(PDO::FETCH_OBJ);
+  //Servicios
+  $query01 = $this->servicio->query("SELECT s.id, s.nombre, s.descripcion, d.precio FROM detalle_servicio d
+    INNER JOIN servicios s ON d.servicio_id=s.id
+    WHERE d.servicio_prestado_id=$servicioPrestado->id");
+  $servicios = $query01->fetchAll(PDO::FETCH_OBJ);
+  //Venta
+  if ($servicioPrestado->venta_id != NULL) {
+    $idVenta = $servicioPrestado->venta_id;
+
+    $query = $this->venta->query("SELECT v.id, v.codigo, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.estatus FROM
+        ventas v
+            LEFT JOIN
+        clientes c
+            ON v.cliente_id = c.id
+        WHERE v.id = '$idVenta' AND v.estatus='ACTIVO' OR v.estatus='INACTIVADO' LIMIT 1");
+
+    $query2 = $this->venta->query("SELECT v.id, p.codigo, p.nombre, dv.cantidad, dv.precio FROM 
+        productos p 
+            JOIN
+        detalle_venta dv
+            ON p.id = dv.producto_id
+            JOIN
+        ventas v 
+            ON dv.venta_id = v.id
+        WHERE v.id = '$idVenta' AND v.estatus='ACTIVO' OR v.estatus='INACTIVADO'");
+        
+    // Encabezado Venta
+    $venta = $query->fetch(PDO::FETCH_OBJ);
+
+    // Detalles Venta
+    $productos = $query2->fetchAll(PDO::FETCH_OBJ);
+    if ($venta == false) {
+      $venta = NULL;
+    }
+    ob_start();
+
+    View::getViewPDF('FormatosPDF.Servicio', [
+      'servicio_prestado'=>$servicioPrestado,
+        'servicios'=>$servicios,
+        'venta' => $venta,
+        'productos' => $productos,
+    ]);
+  }
+  else{
+    ob_start();
+
+    View::getViewPDF('FormatosPDF.Servicio', [
+      'servicio_prestado'=>$servicioPrestado,
+      'servicios'=>$servicios
+    ]);
+  }
+
+  
+
+  $html = ob_get_clean();
+
+  $this->crearPDF($html);
+
+}
     // CRUD Servicios
 
     public function listar(){
