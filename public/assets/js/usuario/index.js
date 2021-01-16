@@ -10,7 +10,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: 'Usuario/listar'
+            url: GLOBAL.URL+"Usuario/listar"
         },
         columns: [
             { data: 'documento' },
@@ -104,6 +104,9 @@ $(document).ready(function () {
                     console.log(doc);
                     $(formulario).find('input#documento').val(documento);
                     $(formulario).find('select#inicial_documento').val(inicial);
+                    $(formulario).find('select#rolUsuario').val(json.data.rol_id);
+                    $(formulario).find('input#contrasena').val("");
+                    $(formulario).find('input#confirmarContrasena').val("");
     
                 }else{
                     $(formulario).find('input#documento').val(json.data.documento);
@@ -117,6 +120,7 @@ $(document).ready(function () {
                 $(formulario).find('input#correo').val(json.data.email);
                 $(formulario).find('input#direccion').val(json.data.direccion);
                 $(formulario).find('input#usuario').val(json.data.usuario);
+                
     
                 $(modal).modal('show');
     
@@ -130,7 +134,7 @@ $(document).ready(function () {
     const registrarUsuario = (datos) => {
         $.ajax({
             type: "POST",
-            url: "Usuario/guardar",
+            url: GLOBAL.URL+"Usuario/guardar",
             data: datos,
             contentType: false,
             processData: false,
@@ -166,7 +170,7 @@ $(document).ready(function () {
         });
 
     
-        // fetch('cliente/guardar', { method: 'POST', body: datos })
+        // fetch('/WorldComputer/cliente/guardar', { method: 'POST', body: datos })
         // .then((response) => {
         //     console.log(response);
         //     return response.json();
@@ -189,7 +193,7 @@ $(document).ready(function () {
     const actualizarUsuario = (datos) => {
         $.ajax({
             type: "POST",
-            url: "Usuario/actualizar",
+            url: GLOBAL.URL+"Usuario/actualizar",
             data: datos,
             cache: false,
             contentType: false,
@@ -225,7 +229,7 @@ $(document).ready(function () {
     const eliminarUsuario = (id) => {
         $.ajax({
             type: "DELETE",
-            url: "Usuario/eliminar/" + id,
+            url: GLOBAL.URL+"Usuario/eliminar/" + id,
             success: function (response) {
                 const json = JSON.parse(response);
                 if(json.tipo == 'success'){
@@ -234,6 +238,34 @@ $(document).ready(function () {
                         'El registro ha sido eliminado!',
                         'success'
                       )
+    
+                    table.ajax.reload();
+                }
+                else{
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                      )
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+    const habilitar = (id) => {
+        $.ajax({
+            type: "HABILITAR",
+            url: GLOBAL.URL+"usuario/habilitar/" + id,
+            success: function (response) {
+                const json = JSON.parse(response);
+                if(json.tipo == 'success'){
+                    Swal.fire(
+                        'Activado!',
+                        'El usuario ha sido habilitado!',
+                        'success'
+                        )
     
                     table.ajax.reload();
                 }
@@ -249,11 +281,21 @@ $(document).ready(function () {
      */
     
     $('#formularioRegistrarUsuario').submit(function (e) { 
-         e.preventDefault();
+        e.preventDefault();
     
-         let datos = new FormData(document.querySelector('#formularioRegistrarUsuario'));
+        let datos = new FormData(document.querySelector('#formularioRegistrarUsuario'));
+        
+        if(datos.get('contrasena')==datos.get('confirmarContrasena')){
+            registrarUsuario(datos); 
+        }
+        else{
+            Swal.fire(
+                "Error",
+                "Las Contraseñas no coinciden",
+                "warning"
+            );
+        }
     
-         registrarUsuario(datos);  
     });
     
     // Mostrar Usuario
@@ -277,8 +319,17 @@ $(document).ready(function () {
     
         const datos = new FormData(document.querySelector('#formularioActualizarUsuario'));
     
-        console.log(datos.get('id'));
-        actualizarUsuario(datos);
+        if(datos.get('contrasena')==datos.get('confirmarContrasena')){
+            actualizarUsuario(datos);
+        }
+        else{
+            Swal.fire(
+                "Error",
+                "Las Contraseñas no coinciden",
+                "warning"
+            );
+        }
+        
     });
     
     
@@ -288,7 +339,7 @@ $(document).ready(function () {
     
         Swal.fire({
             title: 'Esta Seguro?',
-            text: "El cliente sera eliminado del sistema!",
+            text: "El usuario sera eliminado del sistema!",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -302,6 +353,28 @@ $(document).ready(function () {
               
             }
           })
+    });
+    //Activar el registro
+    $('body').on('click', '.estatusAnulado', function (e) {
+        e.preventDefault();
+    
+        Swal.fire({
+            title: 'Esta Seguro?',
+            text: "El usuario será habilitado en el sistema!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Si, eliminar!'
+            }).then((result) => {
+            if (result.value) {
+    
+                habilitar($(this).attr('href'));
+                
+            }
+            })
+        console.log($(this).attr('href'));
     });
     
     });

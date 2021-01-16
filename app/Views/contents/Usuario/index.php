@@ -1,5 +1,5 @@
 <div class="content p-4 dataTables_wrapper">
-    <h2 class="mb-4">Gestion de Usuarios</h2>
+    <h2 class="mb-4">Gestión de Usuario</h2>
 
     <div class="card mb-4">
         <div class="card-header bg-white">
@@ -24,6 +24,8 @@
           </table>
         </div>
     </div>
+    
+</div>
 </div>
 
 
@@ -100,20 +102,20 @@
 
                             <div class="form-group">
                                 <label for="user">Nombre de Usuario</label>
-                                <input  name="usuario" type="text" class="form-control">
+                                <input id="usuario" name="usuario" type="text" class="form-control" required minlength="8" maxlength="20">
                             </div>
 
                             <div class="form-row">
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label for="pass">Password</label>
-                                        <input type="text" class="form-control" name="contrasena">
+                                        <input type="password" class="form-control" name="contrasena" id="contrasena" required minlength="8" maxlength="20">
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label for="pass">Confirmar Password</label>
-                                        <input type="text" class="form-control">
+                                        <input type="password" class="form-control" name="confirmarContrasena" id="confirmarContrasena" required minlength="8" maxlength="20">
                                     </div>
                                 </div>
                             </div>
@@ -133,14 +135,12 @@
                             <div class="form-row" id="listadoRoles">
 
 
-
+                                <select class="form-control w-50" name="rolUsuario" id="rolUsuario">
                                 <?php foreach($roles AS $rol): ?>
-                                    <div class="custom-control custom-radio pr-3">
-                                        <input type="radio" id="<?= $rol->nombre ?>" name="rolUsuario" class="custom-control-input" value="<?= $rol->id ?>" required>
-                                        <label class="custom-control-label" for="<?= $rol->nombre ?>"><?= strtoupper($rol->nombre) ?></label>
-                                    </div>
+                                    <option value="<?=$rol->id?>"><?=$rol->nombre?></option>
+                                    
                                 <?php endforeach; ?>
-                                
+                                </select>
                             </div>
 
                             <hr>
@@ -292,20 +292,20 @@
 
                             <div class="form-group">
                                 <label for="user">Nombre de Usuario</label>
-                                <input  name="usuario" id="usuario" type="text" class="form-control">
+                                <input  id="usuario" name="usuario" type="text" class="form-control" required minlength="8" maxlength="20">
                             </div>
 
                             <div class="form-row">
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label for="pass">Password</label>
-                                        <input type="text" class="form-control" name="contrasena" id="contrasena">
+                                        <input type="password" class="form-control" name="contrasena" id="contrasena" minlength="8" maxlength="20">
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label for="pass">Confirmar Password</label>
-                                        <input type="text" class="form-control">
+                                        <input type="password" class="form-control" name="confirmarContrasena" id="confirmarContrasena" minlength="8" maxlength="20">
                                     </div>
                                 </div>
                             </div>
@@ -323,29 +323,14 @@
                             <hr>
 
                             <div class="form-row" id="listadoRoles">
-                                <div class="custom-control custom-radio pr-3">
-                                    <input type="radio" id="rolUsuario1" name="rolUsuario" class="custom-control-input" value="1">
-                                    <label class="custom-control-label" for="rolUsuario1">Super Administrador</label>
-                                </div>
-                                <div class="custom-control custom-radio pr-3">
-                                    <input type="radio" id="rolUsuario2" name="rolUsuario" class="custom-control-input">
-                                    <label class="custom-control-label" for="rolUsuario2">Administrador</label>
-                                </div>
 
-                                <div class="custom-control custom-radio pr-3">
-                                    <input type="radio" id="rolUsuario3" name="rolUsuario" class="custom-control-input">
-                                    <label class="custom-control-label" for="rolUsuario3">Vendedor</label>
-                                </div>
-                                <div class="custom-control custom-radio pr-3">
-                                    <input type="radio" id="rolUsuario4" name="rolUsuario" class="custom-control-input">
-                                    <label class="custom-control-label" for="rolUsuario4">Almacenista</label>
-                                </div>
 
-                                <div class="custom-control custom-radio pr-3">
-                                    <input type="radio" id="rolUsuario5" name="rolUsuario" class="custom-control-input">
-                                    <label class="custom-control-label" for="rolUsuario5">Recepcionista</label>
-                                </div>
-                                
+                                <select class="form-control w-50" name="rolUsuario" id="rolUsuario">
+                                <?php foreach($roles AS $rol): ?>
+                                    <option value="<?=$rol->id?>"><?=$rol->nombre?></option>
+                                    
+                                <?php endforeach; ?>
+                                </select>
                             </div>
 
                             <hr>

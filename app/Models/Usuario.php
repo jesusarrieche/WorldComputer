@@ -53,7 +53,27 @@ class Usuario extends Persona{
                     JOIN
                 roles r
                     ON r.id = u.rol_id
-                WHERE u.estatus='ACTIVO' AND u.usuario != '$user' ORDER BY u.created_at DESC");
+                WHERE u.usuario != '$user' ORDER BY u.created_at DESC");
+
+            $consulta->execute();
+            
+            return $consulta->fetchAll(PDO::FETCH_OBJ);
+            
+        } catch (Exception $ex) {
+            die($ex->getMessage());
+        }
+    }
+    public function listarActivos(){
+        try{
+
+            $user = $_SESSION['usuario'];
+
+            $consulta = parent::connect()->prepare("SELECT u.id, u.documento, CONCAT(u.nombre, ' ', u.apellido) AS nombre, u.usuario, r.nombre AS rol, u.telefono, u.estatus FROM 
+                usuarios u
+                    JOIN
+                roles r
+                    ON r.id = u.rol_id
+                WHERE u.usuario != '$user' AND u.estatus='ACTIVO' ORDER BY u.created_at DESC");
 
             $consulta->execute();
             
@@ -102,9 +122,6 @@ class Usuario extends Persona{
 
     public function actualizar(Usuario $u){
         try{
-            $consulta = parent::connect()->prepare("UPDATE usuarios SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, usuario=:usuario, estatus=:estatus WHERE id=:id");
-
-
             $id = $u->getId();
             $documento= $u->getTipoDocumento()."-".$u->getDocumento();
             $nombre = $u->getNombre();
@@ -113,8 +130,17 @@ class Usuario extends Persona{
             $telefono = $u->getTelefono();
             $email = $u->getEmail(); 
             $usuario = $u->getUsuario(); 
+            $rol_id = $u->getRolId(); 
+            $password = $u->getPassword(); 
             $estatus = "ACTIVO";
-            
+            if($password=="")
+            {
+                $consulta = parent::connect()->prepare("UPDATE usuarios SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, usuario=:usuario,rol_id=:rol_id, estatus=:estatus WHERE id=:id");
+            }
+            else{
+                $consulta = parent::connect()->prepare("UPDATE usuarios SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, usuario=:usuario,password=:password,rol_id=:rol_id, estatus=:estatus WHERE id=:id");
+                $consulta->bindParam(":password", $password);
+            }
             $consulta->bindParam(":id", $id);
             $consulta->bindParam(":documento", $documento);
             $consulta->bindParam(":nombre", $nombre);
@@ -123,11 +149,12 @@ class Usuario extends Persona{
             $consulta->bindParam(":telefono", $telefono);
             $consulta->bindParam(":email", $email);
             $consulta->bindParam(":usuario", $usuario);
+            $consulta->bindParam(":rol_id", $rol_id);
             $consulta->bindParam(":estatus", $estatus);
 
             return $consulta->execute();
                     
-        } catch (Exception $ex) {            
+        } catch (Exception $ex) {
             $this->error = $ex->getMessage();
             return false;
         }
@@ -139,7 +166,7 @@ class Usuario extends Persona{
     
     public function checkUser(Usuario $user) {
         try {
-            $query = parent::connect()->prepare("SELECT documento, nombre, apellido, email, usuario, estatus FROM usuarios WHERE usuario=:usuario AND password=:password");
+            $query = parent::connect()->prepare("SELECT id, documento, nombre, apellido, email, usuario, estatus, rol_id FROM usuarios WHERE estatus='ACTIVO' AND usuario=:usuario AND password=:password");
             
             $query->bindParam(":usuario", $user->usuario);
             $query->bindParam(":password", $user->password);

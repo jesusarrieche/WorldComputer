@@ -37,7 +37,7 @@ class LoginController extends Controller{
 
 
         $this->usuario->setUsuario($this->limpiaCadena($_POST['user']));
-        $this->usuario->setPassword($this->encriptar($_POST['password']));
+        $this->usuario->setPassword($this->encriptar($this->limpiaCadena($_POST['password'])));
         
         
         $response = $this->usuario->checkUser($this->usuario);
@@ -48,10 +48,8 @@ class LoginController extends Controller{
             // echo $response->documento;
 
             $_SESSION['usuario'] = $response->usuario;
-            $_SESSION['nombre'] = $response->nombre;
-            $_SESSION['apellido'] = $response->apellido;
-            $_SESSION['email'] = $response->email;
-            $_SESSION['estatus'] = $response->estatus;
+            $_SESSION['id'] = $response->id;
+            $_SESSION['rol'] = $response->rol_id;
 
             header('Content-Type: application/json');
             http_response_code(200);
