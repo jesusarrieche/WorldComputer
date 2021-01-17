@@ -31,11 +31,28 @@ class VentaController extends Controller{
     }
 
     public function index(){
+        $band = false;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Ventas") {     
+            $band = true;
+        }endforeach;   
+        if (!$band) {
+            header("Location: ".ROOT);
+            return false;
+        }
         return View::getView('Venta.index');
     }
 
     public function crear(){
-
+        $band = false;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Registrar Ventas") {     
+            $band = true;
+        }endforeach;   
+        if (!$band) {
+            header("Location: ".ROOT);
+            return false;
+        }
         $num_documento = $this->venta->formatoDocumento($this->venta->ultimoDocumento());
         $clientes = $this->cliente->getAll('clientes', "estatus = 'ACTIVO'");
         $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO' AND stock > 0 AND precio_venta != 'null'");
@@ -61,17 +78,27 @@ class VentaController extends Controller{
 
             $ventas = $this->venta->listar();
 
-            foreach($ventas as $venta){
+            $eliminar = false;            
+            foreach ($_SESSION['permisos'] as $p):
+                if ($p->permiso == "Anular Ventas") {     
+                $eliminar = true;
+            }endforeach;
 
-                if($venta->estatus == 'ACTIVO'){
-                    $venta->estado = "<a href='" . $this->encriptar($venta->id) . "' class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a>";
-                }else{
-                    $venta->estado = "<a href='" . $this->encriptar($venta->id) . "' class='btn btn-danger estatus'><i class='fas fa-window-close'></i> Anulada</a>";
+            foreach($ventas as $venta){
+                if ($eliminar) {
+                    if($venta->estatus == 'ACTIVO'){
+                        $venta->estado = "<a href='" . $this->encriptar($venta->id) . "' class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a>";
+                    }else{
+                        $venta->estado = "<a href='" . $this->encriptar($venta->id) . "' class='btn btn-danger estatus'><i class='fas fa-window-close'></i> Anulada</a>";
+                    }
                 }
+                else{
+                    $venta->estado=$venta->estatus;
+                }                
 
                 $venta->button = 
-                "<a href='/WorldComputer/Venta/mostrar/". $this->encriptar($venta->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-                "<a href='/WorldComputer/Venta/ventaPDF/". $this->encriptar($venta->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
+                "<a href='venta/mostrar/". $this->encriptar($venta->id) ."' class='mostrar btn btn-info mr-1 mb-1'><i class='fas fa-search'></i></a>".
+                "<a href='venta/ventaPDF/". $this->encriptar($venta->id) ."' class='pdf btn btn-danger mr-1 mb-1'><i class='fas fa-file-pdf'></i></a>";
             }
 
         http_response_code(200);

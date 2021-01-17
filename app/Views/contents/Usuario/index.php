@@ -3,7 +3,17 @@
 
     <div class="card mb-4">
         <div class="card-header bg-white">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroUsuario">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroUsuario"
+          <?php $band = false;
+                foreach ($_SESSION['permisos'] as $p):
+                    if ($p->permiso == "Registrar Usuarios") {     
+                        $band = true;
+                }endforeach;     
+                if (!$band) {
+                    echo "disabled";
+                }           
+            ?>
+          >
             <i class="fas fa-plus-square"></i> Agregar Usuarios
           </button>
         </div>

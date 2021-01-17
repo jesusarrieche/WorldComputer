@@ -1,10 +1,20 @@
 <div class="content p-4 dataTables_wrapper">
-    <h2 class="mb-4">Gestion de Compras</h2>
+    <h2 class="mb-4">Gestión de Compras</h2>
 
     <div class="card mb-4">
         <div class="card-header bg-white">
-          <a class="btn btn-primary" href="<?= ROOT;?>Compra/create">
-            <i class="fas fa-plus-square"></i> Agregar Compra
+          <a  href="<?= ROOT;?>Compra/create">
+            <button class="btn btn-primary" 
+            <?php $band = false;
+                foreach ($_SESSION['permisos'] as $p):
+                    if ($p->permiso == "Registrar Compras") {     
+                        $band = true;
+                }endforeach;     
+                if (!$band) {
+                    echo "disabled";
+                }           
+            ?>
+            ><i class="fas fa-plus-square"></i> Agregar Compra</button>
           </a>
         </div>
         <div class="card-body">

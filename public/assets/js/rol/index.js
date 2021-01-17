@@ -13,7 +13,7 @@ $(document).ready(function () {
             url: 'rol/listar'
         },
         columns: [
-            { data: 'numero' },
+            { data: 'id' },
             { data: 'nombre' },
             { data: 'descripcion' },
             { data: 'button' }

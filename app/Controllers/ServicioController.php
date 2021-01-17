@@ -33,12 +33,29 @@ class ServicioController extends Controller{
   }
 
   public function index(){
+    $band = false;
+    foreach ($_SESSION['permisos'] as $p):
+        if ($p->permiso == "Servicios") {     
+        $band = true;
+    }endforeach;   
+    if (!$band) {
+        header("Location: ".ROOT);
+        return false;
+    }
     return View::getView('Servicio.index');
   }
 
 
   public function ProvidedServices () {
-
+    $band = false;
+    foreach ($_SESSION['permisos'] as $p):
+        if ($p->permiso == "Servicios Prestados") {     
+        $band = true;
+    }endforeach;   
+    if (!$band) {
+        header("Location: ".ROOT);
+        return false;
+    }
     $empleados = $this->empleado->listarCargo('TECNICO');
     $ventas = $this->venta->listar();
     $servicios = $this->servicio->listar();
@@ -57,18 +74,28 @@ class ServicioController extends Controller{
 
     $servicios = $this->servicio->listarPrestados();
 
+    $eliminar = false;            
+    foreach ($_SESSION['permisos'] as $p):
+        if ($p->permiso == "Anular Servicios Prestados") {     
+        $eliminar = true;
+    }endforeach;
+
     foreach($servicios as $servicio){
-      if($servicio->estatus == 'ACTIVO'){
-        $servicio->estado = "<a href='" . $this->encriptar($servicio->id) . "' class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a>";
-      }else{
-          $servicio->estado = "<a href='" . $this->encriptar($servicio->id) . "' class='btn btn-danger estatus'><i class='fas fa-window-close'></i> Anulada</a>";
-      }
-      $servicio->button = 
-        "<a href='/WorldComputer/Servicio/mostrarPrestado/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-        "<a href='/WorldComputer/Servicio/servicioPrestadoPDF/". $this->encriptar($servicio->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
+        if ($eliminar) {
+            if($servicio->estatus == 'ACTIVO'){
+                $servicio->estado = "<a href='" . $this->encriptar($servicio->id) . "' class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a>";
+            }else{
+                $servicio->estado = "<a href='" . $this->encriptar($servicio->id) . "' class='btn btn-danger estatus'><i class='fas fa-window-close'></i> Anulada</a>";
+            }
+        }
+        else{
+            $servicio->estado=$servicio->estatus;
+        }                
+        $servicio->button = 
+        "<a href='mostrarPrestado/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info mr-1 mb-1'><i class='fas fa-search'></i></a>".
+        "<a href='servicioPrestadoPDF/". $this->encriptar($servicio->id) ."' class='pdf btn btn-danger mr-1 mb-1'><i class='fas fa-file-pdf'></i></a>";
     
-    }
-      
+    }      
 
     http_response_code(200);
 
@@ -79,7 +106,15 @@ class ServicioController extends Controller{
 }
 
   public function create(){
-
+    $band = false;
+    foreach ($_SESSION['permisos'] as $p):
+        if ($p->permiso == "Registrar Servicios Prestados") {     
+        $band = true;
+    }endforeach;   
+    if (!$band) {
+        header("Location: ".ROOT);
+        return false;
+    }
     $clientes = $this->cliente->getAll('clientes', "estatus = 'ACTIVO'");
     $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO' AND stock > 0 AND precio_venta != 'null'");
     $servicios = $this->servicio->listar();
@@ -331,20 +366,38 @@ public function servicioPrestadoPDF($param){
 
       $method = $_SERVER['REQUEST_METHOD'];
   
-          if( $method != 'POST'){
-          http_response_code(404);
-          return false;
-          }
-  
-          $servicios = $this->servicio->listar();
-  
-          foreach($servicios as $servicio){
-  
+      if( $method != 'POST'){
+      http_response_code(404);
+      return false;
+      }
+
+      $servicios = $this->servicio->listar();
+
+      $editar = false;
+      $eliminar = false;
+      foreach ($_SESSION['permisos'] as $p):
+          if ($p->permiso == "Editar Servicios") {     
+          $editar = true;
+      }endforeach;
+      foreach ($_SESSION['permisos'] as $p):
+          if ($p->permiso == "Eliminar Servicios") {     
+          $eliminar = true;
+      }endforeach;
+      foreach($servicios as $servicio){
+
           $servicio->button = 
-          "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-          "<a href='/WorldComputer/Servicio/mostrar/". $this->encriptar($servicio->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
-          "<a href='". $this->encriptar($servicio->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
-  
+          "<a href=".ROOT."servicio/mostrar/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
+          if ($editar) {
+              $servicio->button .= "<a href=".ROOT."servicio/mostrar/". $this->encriptar($servicio->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
+          }
+          if ($eliminar) {
+              if($servicio->estatus == "ACTIVO"){
+                  $servicio->button .= "<a href='". $this->encriptar($servicio->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
+              }
+              else{
+                  $servicio->button .= "<a href='". $this->encriptar($servicio->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
+              }
+          }
       }
   
       http_response_code(200);

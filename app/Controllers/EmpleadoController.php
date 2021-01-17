@@ -19,6 +19,15 @@ class EmpleadoController extends Controller{
   }
 
   public function index(){
+    $band = false;
+    foreach ($_SESSION['permisos'] as $p):
+        if ($p->permiso == "Empleados") {     
+        $band = true;
+    }endforeach;   
+    if (!$band) {
+        header("Location: ".ROOT);
+        return false;
+    }
     return View::getView('Empleado.index');
   }
   
@@ -33,13 +42,31 @@ class EmpleadoController extends Controller{
 
     $empleados = $this->empleado->listar();
 
+    $editar = false;
+    $eliminar = false;
+    foreach ($_SESSION['permisos'] as $p):
+        if ($p->permiso == "Editar Empleados") {     
+        $editar = true;
+    }endforeach;
+    foreach ($_SESSION['permisos'] as $p):
+        if ($p->permiso == "Eliminar Empleados") {     
+        $eliminar = true;
+    }endforeach;
     foreach($empleados as $empleado){
 
-      $empleado->button = 
-      "<a href='/WorldComputer/empleado/mostrar/". $this->encriptar($empleado->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-      "<a href='/WorldComputer/empleado/mostrar/". $this->encriptar($empleado->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
-      "<a href='". $this->encriptar($empleado->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
-
+        $empleado->button = 
+        "<a href=".ROOT."empleado/mostrar/". $this->encriptar($empleado->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
+        if ($editar) {
+            $empleado->button .= "<a href=".ROOT."empleado/mostrar/". $this->encriptar($empleado->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
+        }
+        if ($eliminar) {
+            if($empleado->estatus == "ACTIVO"){
+                $empleado->button .= "<a href='". $this->encriptar($empleado->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
+            }
+            else{
+                $empleado->button .= "<a href='". $this->encriptar($empleado->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
+            }
+        }
     }
 
     http_response_code(200);

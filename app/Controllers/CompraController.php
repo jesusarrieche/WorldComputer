@@ -29,11 +29,28 @@ class CompraController extends Controller{
     }
 
     public function index(){
+        $band = false;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Compras") {     
+            $band = true;
+        }endforeach;   
+        if (!$band) {
+            header("Location: ".ROOT);
+            return false;
+        }
         return View::getView('Compra.index');
     }
 
     public function create(){
-
+        $band = false;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Registrar Compras") {     
+            $band = true;
+        }endforeach;   
+        if (!$band) {
+            header("Location: ".ROOT);
+            return false;
+        }
         $num_documento = $this->compra->formatoDocumento($this->compra->ultimoDocumento());
         $proveedores = $this->proveedor->getAll('proveedores', "estatus = 'ACTIVO'");
         $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO'");
@@ -50,25 +67,35 @@ class CompraController extends Controller{
 
         $method = $_SERVER['REQUEST_METHOD'];
 
-            if( $method != 'POST'){
-            http_response_code(404);
-            return false;
-            }
+        if( $method != 'POST'){
+        http_response_code(404);
+        return false;
+        }
 
-            $compras = $this->compra->listar();
+        $compras = $this->compra->listar();
+        
+        $eliminar = false;            
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Anular Compras") {     
+            $eliminar = true;
+        }endforeach;
 
-            foreach($compras as $compra){
-
+        foreach($compras as $compra){
+            if ($eliminar) {
                 if($compra->estatus == 'ACTIVO'){
                     $compra->estado = "<a href='" . $this->encriptar($compra->id) . "' class='btn btn-success estatus'><i class='fas fa-check-circle'></i> Activa</a>";
                 }else{
                     $compra->estado = "<a href='" . $this->encriptar($compra->id) . "' class='btn btn-danger estatus'><i class='fas fa-window-close'></i> Anulada</a>";
                 }
-
-                $compra->button = 
-                "<a href='compra/mostrar/". $this->encriptar($compra->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-                "<a href='compra/compraPDF/". $this->encriptar($compra->id) ."' class='pdf btn btn-danger m-1'><i class='fas fa-file-pdf'></i></a>";
             }
+            else{
+                $compra->estado=$compra->estatus;
+            }                
+
+            $compra->button = 
+            "<a href='compra/mostrar/". $this->encriptar($compra->id) ."' class='mostrar btn btn-info mr-1 mb-1'><i class='fas fa-search'></i></a>".
+            "<a href='compra/compraPDF/". $this->encriptar($compra->id) ."' class='pdf btn btn-danger mr-1 mb-1'><i class='fas fa-file-pdf'></i></a>";
+        }
 
         http_response_code(200);
 

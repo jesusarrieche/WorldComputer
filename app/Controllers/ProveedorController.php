@@ -17,7 +17,16 @@ class ProveedorController extends Controller{
     }
 
     public function index(){
-        return View::getView('Proveedor.index');
+      $band = false;
+      foreach ($_SESSION['permisos'] as $p):
+          if ($p->permiso == "Proveedores") {     
+          $band = true;
+      }endforeach;   
+      if (!$band) {
+          header("Location: ".ROOT);
+          return false;
+      }
+      return View::getView('Proveedor.index');
     }
 
     public function mostrar($param){
@@ -37,20 +46,38 @@ class ProveedorController extends Controller{
 
         $method = $_SERVER['REQUEST_METHOD'];
 
-            if( $method != 'POST'){
-            http_response_code(404);
-            return false;
-            }
+        if( $method != 'POST'){
+        http_response_code(404);
+        return false;
+        }
 
-            $proveedores = $this->proveedor->listar();
+        $proveedores = $this->proveedor->listar();
 
-            foreach($proveedores as $proveedor){
+        $editar = false;
+        $eliminar = false;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Editar Proveedores") {     
+            $editar = true;
+        }endforeach;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Eliminar Proveedores") {     
+            $eliminar = true;
+        }endforeach;
+        foreach($proveedores as $proveedor){
 
             $proveedor->button = 
-            "<a href='proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-            "<a href='proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
-            "<a href='". $this->encriptar($proveedor->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
-
+            "<a href=".ROOT."proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
+            if ($editar) {
+                $proveedor->button .= "<a href=".ROOT."proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
+            }
+            if ($eliminar) {
+                if($proveedor->estatus == "ACTIVO"){
+                    $proveedor->button .= "<a href='". $this->encriptar($proveedor->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
+                }
+                else{
+                    $proveedor->button .= "<a href='". $this->encriptar($proveedor->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
+                }
+            }
         }
 
         http_response_code(200);

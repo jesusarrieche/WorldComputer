@@ -1,9 +1,19 @@
 <div class="content p-4 dataTables_wrapper">
-    <h2 class="mb-4">Gestion de Cliente</h2>
+    <h2 class="mb-4">Gestión de Cliente</h2>
 
     <div class="card mb-4">
         <div class="card-header bg-white">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroCliente">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroCliente"
+          <?php $band = false;
+                foreach ($_SESSION['permisos'] as $p):
+                    if ($p->permiso == "Registrar Clientes") {     
+                        $band = true;
+                }endforeach;     
+                if (!$band) {
+                    echo "disabled";
+                }           
+          ?>
+          >
             <i class="fas fa-plus-square"></i> Agregar Cliente
           </button>
         </div>

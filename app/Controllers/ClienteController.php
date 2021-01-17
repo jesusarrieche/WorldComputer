@@ -19,6 +19,15 @@ class ClienteController extends Controller{
   }
 
   public function index(){
+    $band = false;
+    foreach ($_SESSION['permisos'] as $p):
+        if ($p->permiso == "Clientes") {     
+        $band = true;
+    }endforeach;   
+    if (!$band) {
+        header("Location: ".ROOT);
+        return false;
+    }
     return View::getView('Cliente.index');
   }
   
@@ -33,13 +42,31 @@ class ClienteController extends Controller{
 
     $clientes = $this->cliente->listar();
 
+    $editar = false;
+    $eliminar = false;
+    foreach ($_SESSION['permisos'] as $p):
+        if ($p->permiso == "Editar Clientes") {     
+        $editar = true;
+    }endforeach;
+    foreach ($_SESSION['permisos'] as $p):
+        if ($p->permiso == "Eliminar Clientes") {     
+        $eliminar = true;
+    }endforeach;
     foreach($clientes as $cliente){
 
-      $cliente->button = 
-      "<a href='cliente/mostrar/". $this->encriptar($cliente->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-      "<a href='cliente/mostrar/". $this->encriptar($cliente->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>".
-      "<a href='". $this->encriptar($cliente->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
-
+        $cliente->button = 
+        "<a href=".ROOT."cliente/mostrar/". $this->encriptar($cliente->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
+        if ($editar) {
+            $cliente->button .= "<a href=".ROOT."cliente/mostrar/". $this->encriptar($cliente->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
+        }
+        if ($eliminar) {
+            if($cliente->estatus == "ACTIVO"){
+                $cliente->button .= "<a href='". $this->encriptar($cliente->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
+            }
+            else{
+                $cliente->button .= "<a href='". $this->encriptar($cliente->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
+            }
+        }
     }
 
     http_response_code(200);

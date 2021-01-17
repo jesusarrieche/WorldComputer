@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>W&C</title>
+    <title>WORLD & COMPUTER</title>
 
     <!-- FONTAWESOME -->
     <link href="<?= ROOT; ?>vendor/fortawesome/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
@@ -29,11 +29,7 @@
 </head>
 
 <body>
-<?php
-    if(isset($alerta)){
-        echo $alerta;
-    }
-?>
+
 <div class="container-fluid login h-100">
     <div class="row h-100 justify-content-center align-items-center">
         <div class="col-md-4">

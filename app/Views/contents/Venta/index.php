@@ -1,10 +1,20 @@
 <div class="content p-4 dataTables_wrapper">
-    <h2 class="mb-4">Gestion de Ventas</h2>
+    <h2 class="mb-4">Gestión de Ventas</h2>
 
     <div class="card mb-4">
         <div class="card-header bg-white">
-          <a class="btn btn-primary" href="<?= ROOT;?>Venta/crear">
-            <i class="fas fa-plus-square"></i> Agregar Venta
+          <a  href="<?= ROOT;?>Venta/crear">
+            <button class="btn btn-primary" 
+            <?php $band = false;
+                foreach ($_SESSION['permisos'] as $p):
+                    if ($p->permiso == "Registrar Ventas") {     
+                        $band = true;
+                }endforeach;     
+                if (!$band) {
+                    echo "disabled";
+                }           
+            ?>
+            ><i class="fas fa-plus-square"></i> Agregar Venta</button>
           </a>
         </div>
         <div class="card-body">

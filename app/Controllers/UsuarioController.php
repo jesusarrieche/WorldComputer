@@ -25,7 +25,15 @@ class UsuarioController extends Controller{
     }
 
     public function index(){
-        
+        $band = false;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Usuarios") {     
+            $band = true;
+        }endforeach;   
+        if (!$band) {
+            header("Location: ".ROOT);
+            return false;
+        }
         $roles = $this->rol->listar();
         
         return View::getView('Usuario.index', 'roles', $roles);
@@ -41,20 +49,33 @@ class UsuarioController extends Controller{
         }
 
         $usuarios = $this->usuario->listar();
-
+        $editar = false;
+        $eliminar = false;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Editar Usuarios") {     
+            $editar = true;
+        }endforeach;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Eliminar Usuarios") {     
+            $eliminar = true;
+        }endforeach;
         foreach($usuarios as $usuario){
 
             $usuario->button = 
-            "<a href=".ROOT."usuario/mostrar/". $this->encriptar($usuario->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-            "<a href=".ROOT."usuario/mostrar/". $this->encriptar($usuario->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>";
-            if($usuario->estatus == "ACTIVO"){
-                $usuario->button .= "<a href='". $this->encriptar($usuario->id) ."' class='eliminar btn btn-danger' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
+            "<a href=".ROOT."usuario/mostrar/". $this->encriptar($usuario->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
+            if ($editar) {
+                $usuario->button .= "<a href=".ROOT."usuario/mostrar/". $this->encriptar($usuario->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
             }
-            else{
-                $usuario->button .= "<a href='". $this->encriptar($usuario->id) ."' class='estatusAnulado btn btn-outline-info' title='Activar'><i class='fas fa-trash'></i></a>";
+            if ($eliminar) {
+                if($usuario->estatus == "ACTIVO"){
+                    $usuario->button .= "<a href='". $this->encriptar($usuario->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
+                }
+                else{
+                    $usuario->button .= "<a href='". $this->encriptar($usuario->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
+                }
             }
-
         }
+        
 
         http_response_code(200);
 

@@ -189,8 +189,11 @@ class Usuario extends Persona{
             
             $query->execute();
             
-            return $query->fetchAll(PDO::FETCH_OBJ);
-            
+            $permisos = $query->fetchAll(PDO::FETCH_OBJ);
+            foreach($permisos as $p){
+                $p->permiso = ucwords($p->permiso);
+            }
+            return $permisos;
         } catch (Exception $e) {
             die($e->getMessage());
         }

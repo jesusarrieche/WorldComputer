@@ -3,7 +3,17 @@
 
     <div class="card mb-4">
         <div class="card-header bg-white">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroCategoria">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroCategoria"
+          <?php $band = false;
+                foreach ($_SESSION['permisos'] as $p):
+                    if ($p->permiso == "Registrar Categorias") {     
+                        $band = true;
+                }endforeach;     
+                if (!$band) {
+                    echo "disabled";
+                }           
+            ?>
+          >
             <i class="fas fa-plus-square"></i> Agregar Categoria
           </button>
         </div>

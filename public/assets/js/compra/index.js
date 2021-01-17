@@ -8,7 +8,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: '/WorldComputer/compra/listar'
+            url: 'compra/listar'
         },
         columns: [
             { data: 'codigo' },

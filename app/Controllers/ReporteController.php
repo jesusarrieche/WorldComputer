@@ -22,6 +22,15 @@ class ReporteController extends Controller {
     }
     
     public function index(){
+        $band = false;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Reportes") {     
+            $band = true;
+        }endforeach;   
+        if (!$band) {
+            header("Location: ".ROOT);
+            return false;
+        }
         return View::getView('Reporte.index');
     }
 

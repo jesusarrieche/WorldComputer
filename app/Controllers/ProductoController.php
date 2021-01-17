@@ -18,6 +18,15 @@ class ProductoController extends Controller{
     }
 
     public function index(){
+        $band = false;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Productos") {     
+            $band = true;
+        }endforeach;   
+        if (!$band) {
+            header("Location: ".ROOT);
+            return false;
+        }
         return View::getView('Producto.index');
     }
 
@@ -53,25 +62,38 @@ class ProductoController extends Controller{
 
         $method = $_SERVER['REQUEST_METHOD'];
 
-            if( $method != 'POST'){
-            http_response_code(404);
-            return false;
-            }
+        if( $method != 'POST'){
+        http_response_code(404);
+        return false;
+        }
 
-            $productos = $this->producto->listar();
+        $productos = $this->producto->listar();
 
-            foreach($productos as $producto){
-
+        $editar = false;
+        $eliminar = false;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Editar Productos") {     
+            $editar = true;
+        }endforeach;
+        foreach ($_SESSION['permisos'] as $p):
+            if ($p->permiso == "Eliminar Productos") {     
+            $eliminar = true;
+        }endforeach;
+        foreach($productos as $producto){
+    
             $producto->button = 
-            "<a href='producto/mostrar/". $this->encriptar($producto->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>".
-            "<a href='producto/mostrar/". $this->encriptar($producto->id) ."' class='editar btn btn-warning m-1'><i class='fas fa-pencil-alt'></i></a>";
-            if($producto->estatus == "ACTIVO"){
-                $producto->button .= "<a href='". $this->encriptar($producto->id) ."' class='eliminar btn btn-danger'><i class='fas fa-trash-alt'></i></a>";
+            "<a href=".ROOT."producto/mostrar/". $this->encriptar($producto->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
+            if ($editar) {
+                $producto->button .= "<a href=".ROOT."producto/mostrar/". $this->encriptar($producto->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
             }
-            else{
-                $producto->button .= "<a href='". $this->encriptar($producto->id) ."' class='estatusAnulado btn btn-outline-info'><i class='fas fa-trash' title='ACTIVAR'></i></a>";
+            if ($eliminar) {
+                if($producto->estatus == "ACTIVO"){
+                    $producto->button .= "<a href='". $this->encriptar($producto->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
+                }
+                else{
+                    $producto->button .= "<a href='". $this->encriptar($producto->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
+                }
             }
-
         }
 
         http_response_code(200);

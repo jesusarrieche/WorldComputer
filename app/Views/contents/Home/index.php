@@ -1,4 +1,4 @@
-
+<?php var_dump($_SESSION['permisos']);?>
 <div class="content p-4">
 	<h2 class="mb-4">Inicio</h2>
 
