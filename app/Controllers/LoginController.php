@@ -50,7 +50,9 @@ class LoginController extends Controller{
             $_SESSION['usuario'] = $response->usuario;
             $_SESSION['id'] = $response->id;
             $_SESSION['rol'] = $response->rol_id;
-
+            $this->usuario->setRolId($response->rol_id);
+            $permisos = $this->usuario->obtenerPermisos($this->usuario);
+            $_SESSION['permisos'] = $permisos;
             header('Content-Type: application/json');
             http_response_code(200);
 

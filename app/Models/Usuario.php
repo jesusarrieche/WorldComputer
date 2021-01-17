@@ -179,4 +179,21 @@ class Usuario extends Persona{
             die($e->getMessage());
         }
     }
+    public function obtenerPermisos(Usuario $user) {
+        try {
+            $query = parent::connect()->prepare("SELECT p.nombre as permiso FROM roles r 
+                INNER JOIN rol_permiso rp ON r.id=rp.rol_id INNER JOIN permisos p ON rp.permiso_id=p.id WHERE r.id=:rol_id 
+                ORDER BY rp.permiso_id");
+            
+            $query->bindParam(":rol_id", $user->rol_id);
+            
+            $query->execute();
+            
+            return $query->fetchAll(PDO::FETCH_OBJ);
+            
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
 }
