@@ -194,6 +194,9 @@ class UsuarioController extends Controller{
                 $_SESSION['usuario'] = $usuario->getUsuario();
                 $_SESSION['id'] = $usuario->getId();
                 $_SESSION['rol'] = $usuario->getRolId();
+                $this->usuario->setRolId($usuario->getRolId());
+                $permisos = $this->usuario->obtenerPermisos($this->usuario);
+                $_SESSION['permisos'] = $permisos;
             }
             http_response_code(200);
 

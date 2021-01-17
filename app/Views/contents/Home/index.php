@@ -1,11 +1,11 @@
-<?php var_dump($_SESSION['permisos']);?>
+
 <div class="content p-4">
 	<h2 class="mb-4">Inicio</h2>
 
-	<div class="row mb-4">
+	<div class="row mb-md-2">
 		
-		<div class="col-md">
-		  	<div class="d-flex border">
+		<a class="col-md text-decoration-none" style="color:black;" href="<?= ROOT;?>Venta">
+		  	<div class="d-flex border btn btn-light">
 	            <div class="bg-success text-light p-4">
 	                <div class="d-flex align-items-center h-100">
 	                    <i class="fa fa-3x fa-fw fa-dollar-sign"></i>
@@ -16,9 +16,9 @@
 	                <h3 class="font-weight-bold mb-0"><?=$ventas?></h3>
 	            </div>
 	    	</div>
-		</div>		
-		<div class="col-md">
-	        <div class="d-flex border">
+		</a>		
+		<a class="col-md text-decoration-none" style="color:black;" href="<?= ROOT;?>Cliente">
+	        <div class="d-flex border btn btn-light">
 	            <div class="bg-info text-light p-4">
 	                <div class="d-flex align-items-center h-100">
 	                    <i class="fa fa-3x fa-fw fa-users"></i>
@@ -29,11 +29,11 @@
 	                <h3 class="font-weight-bold mb-0"><?=$clientes?></h3>
 	            </div>
 	        </div>
-		</div>	
+		</a>	
 	</div>
-	<div class="row mb-4">
-		<div class="col-md">
-		  	<div class="d-flex border">
+	<div class="row mb-md-2">
+		<a class="col-md text-decoration-none" style="color:black;" href="<?= ROOT;?>Compra">
+		  	<div class="d-flex border btn btn-light">
 	            <div class="bg-warning text-light p-4">
 	                <div class="d-flex align-items-center h-100">
 	                    <i class="fa fa-3x fa-fw fa-shopping-cart"></i>
@@ -44,9 +44,9 @@
 	                <h3 class="font-weight-bold mb-0"><?=$compras?></h3>
 	            </div>
 	    	</div>
-		</div>
-		<div class="col-md">
-	        <div class="d-flex border">
+		</a>
+		<a class="col-md text-decoration-none" style="color:black;" href="<?= ROOT;?>Producto">
+	        <div class="d-flex border btn btn-light">
 	            <div class="bg-dark text-light p-4">
 	                <div class="d-flex align-items-center h-100">
 	                    <i class="fa fa-3x fa-fw fa-sitemap"></i>
@@ -57,12 +57,12 @@
 	                <h3 class="font-weight-bold mb-0"><?=$productos?></h3>
 	            </div>
 	        </div>
-		</div>	
+		</a>	
 		
 	</div>
-	<div class="row mb-4">
-		<div class="col-md">
-		  	<div class="d-flex border">
+	<div class="row mb-md-2">
+		<a class="col-md text-decoration-none" style="color:black;" href="<?= ROOT;?>Servicio">
+		  	<div class="d-flex border btn btn-light">
 	            <div class="text-light p-4" style="background:#4A148C;">
 	                <div class="d-flex align-items-center h-100">
 	                    <i class="fa fa-3x fa-fw fa-hand-holding"></i>
@@ -73,10 +73,10 @@
 	                <h3 class="font-weight-bold mb-0"><?=$servicios?></h3>
 	            </div>
 	    	</div>
-		</div>
+		</a>
 
-		<div class="col-md">
-	        <div class="d-flex border">
+		<a class="col-md text-decoration-none" style="color:black;" href="<?= ROOT;?>Servicio/ProvidedServices">
+	        <div class="d-flex border btn btn-light">
 	            <div class=" text-light p-4" style="background:#01579B;">
 	                <div class="d-flex align-items-center h-100">
 	                    <i class="fa fa-3x fa-fw fa-hand-holding-usd"></i>
@@ -87,8 +87,9 @@
 	                <h3 class="font-weight-bold mb-0"><?=$servicios_prestados?></h3>
 	            </div>
 	        </div>
-		</div>	
+		</a>	
 	</div>
+	<br>
 	<div class="card">
 		<div class="card-header bg-white font-weight-bold">
 			Ventas Recientes

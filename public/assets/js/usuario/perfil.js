@@ -18,7 +18,9 @@ $(document).ready(function () {
                         json.mensaje,
                         json.tipo
                     );
-        
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
                     $('#modalActualizarUsuario').modal('hide');
                 }else{
                     Swal.fire(

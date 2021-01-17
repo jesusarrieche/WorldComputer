@@ -1,5 +1,5 @@
 <div class="content p-4 dataTables_wrapper">
-    <h2 class="mb-4">Gestión de Roles</h2>
+    <h2 class="mb-4">Gestión de Rol</h2>
 
     <div class="card mb-4">
         <div class="card-header bg-white">
@@ -28,37 +28,7 @@
               </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>SUPER USUARIO</td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'>
-                            <i class='fas fa-search'></i>
-                        </a>
-                        <a href="#" class='editar btn btn-warning m-1'>
-                            <i class='fas fa-pencil-alt'></i>
-                        </a>
-                        <a href="$" class='eliminar btn btn-danger'>
-                            <i class='fas fa-trash-alt'></i>
-                        </a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>2</td>
-                    <td>ADMIN</td>
-                    <td>
-                        <a href="#" class='mostrar btn btn-info'>
-                            <i class='fas fa-search'></i>
-                        </a>
-                        <a href="#" class='editar btn btn-warning m-1'>
-                            <i class='fas fa-pencil-alt'></i>
-                        </a>
-                        <a href="$" class='eliminar btn btn-danger'>
-                            <i class='fas fa-trash-alt'></i>
-                        </a>
-                    </td>
-                </tr>
+                
             </tbody>
           </table>
         </div>
