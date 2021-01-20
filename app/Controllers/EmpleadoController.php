@@ -118,16 +118,23 @@ class EmpleadoController extends Controller{
 
     }
 
-    $this->empleado->registrar($empleado);
+    if($this->empleado->registrar($empleado))
+    {
+      http_response_code(200);
 
-    http_response_code(200);
-
-    echo json_encode([
-      'titulo' => 'Registro Exitoso',
-      'mensaje' => 'Empleado registrado en nuestro sistema',
-      'tipo' => 'success'
-    ]);
-
+      echo json_encode([
+        'titulo' => 'Registro Exitoso',
+        'mensaje' => 'Empleado registrado en nuestro sistema',
+        'tipo' => 'success'
+      ]);
+    }
+    else{
+      echo json_encode([
+        'titulo' => 'Error',
+        'mensaje' => $this->empleado->getError(),
+        'tipo' => 'error'
+        ]);  
+    }
 
   }
 
@@ -155,11 +162,10 @@ class EmpleadoController extends Controller{
         'tipo' => 'success'
       ]);
     }else{
-      http_response_code(404);
 
       echo json_encode([
         'titulo' => 'Error al Actualizar',
-        'mensaje' => 'Ocurrio un error durante la actualización',
+        'mensaje' => $this->empleado->getError(),
         'tipo' => 'error'
       ]);
     }
@@ -211,5 +217,37 @@ class EmpleadoController extends Controller{
     
 
   }
+  public function habilitar($id){
+
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if( $method != 'HABILITAR'){
+      http_response_code(404);
+      return false;
+    }
+
+    $id = $this->desencriptar($id);
+
+    if($this->empleado->habilitar("empleados", $id)){
+
+      http_response_code(200);
+
+      echo json_encode([
+        'titulo' => 'Registro habilitado!',
+        'mensaje' => 'Registro habilitado en nuestro sistema',
+        'tipo' => 'success'
+      ]);
+    }else{
+      http_response_code(404);
+
+      echo json_encode([
+        'titulo' => 'Ocurio un error!',
+        'mensaje' => 'No se pudo habilitar el registro',
+        'tipo' => 'error'
+      ]);
+    }
+    
+
+}
 
 }

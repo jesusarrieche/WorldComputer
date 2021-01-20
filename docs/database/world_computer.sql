@@ -517,13 +517,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`bitacora` (
   `id` INT AUTO_INCREMENT,
-  `fecha` DATETIME NULL,
+  `fecha` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `modulo` VARCHAR(45) NULL,
-  `accion` VARCHAR(45) NULL,
+  `accion` VARCHAR(200) NULL,
+  `descripcion` TEXT NULL,
   `usuario_id` INT NOT NULL,
-
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_bitacora_usuarios1`
     FOREIGN KEY (`usuario_id`)

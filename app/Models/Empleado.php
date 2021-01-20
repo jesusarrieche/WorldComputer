@@ -17,7 +17,7 @@ class Empleado extends Persona{
 
     public function listar(){
         try{
-            $consulta = parent::connect()->prepare("SELECT id, documento, CONCAT(nombre, ' ', apellido) AS nombre, telefono, cargo, estatus, created_at FROM empleados WHERE estatus='ACTIVO' ORDER BY created_at DESC");
+            $consulta = parent::connect()->prepare("SELECT id, documento, CONCAT(nombre, ' ', apellido) AS nombre, telefono, cargo, estatus, created_at FROM empleados ORDER BY estatus, created_at DESC");
             $consulta->execute();
             
             return $consulta->fetchAll(PDO::FETCH_OBJ);
@@ -64,28 +64,13 @@ class Empleado extends Persona{
             $consulta->bindParam(":cargo", $cargo);
             $consulta->bindParam(":estatus", $estatus);
 
-            $consulta->execute();
-            
-            $alerta= [
-            'alerta' => 'simple',
-            'titulo' => 'Operacion Exitosa...!!!',
-            'texto' => 'Empleado registrado satisfactoriamente',
-            'tipo' => 'success'
-            ];
-            
-            return $alerta;
+            return $consulta->execute();          
+        
             
         } catch (Exception $ex) {
             
-            $alerta= [
-            'alerta' => 'simple',
-            'titulo' => 'Error Inesperado...!!!',
-            'texto' => 'Se produjo un error inesperado, Por favor verifique los datos e intente nuevamente',
-            'tipo' => 'error'
-            ];
-            
-            return $alerta;
-            die();
+            $this->error = $ex->getMessage();
+            return false;
         }
     }
 
@@ -116,8 +101,8 @@ class Empleado extends Persona{
             return $consulta->execute();
                     
         } catch (Exception $ex) {
-            
-            // die("Error: " . $ex->getMessage());
+            $this->error = $ex->getMessage();
+            return false;
         }
     }
 

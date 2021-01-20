@@ -8,24 +8,24 @@
     <link href="<?= ROOT; ?>vendor/fortawesome/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- JQUERY -->
-    <script src="<?= ROOT; ?>node_modules/jquery/dist/jquery.js"></script>
+    <script src="<?= ROOT; ?>node_modules/jquery/dist/jquery.min.js"></script>
     
     <!-- SWEETALERT -->
-    <link rel="stylesheet" href="<?= ROOT; ?>node_modules/sweetalert2/dist/sweetalert2.css">
-    <script src="<?= ROOT; ?>node_modules/sweetalert2/dist/sweetalert2.js"></script>
+    <link rel="stylesheet" href="<?= ROOT; ?>node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <script src="<?= ROOT; ?>node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
 
     <!-- BOOTSTRAP -->
     <link href="<?= ROOT; ?>vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
     <!-- BOOTADMIN -->
-    <link href="<?= ROOT; ?>public/assets/css/bootadmin.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
+    <link href="<?= ROOT; ?>public/assets/css/bootadmin.min.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
 
     <link href="<?= ROOT; ?>public/assets/css/notifications.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
     <link href="<?= ROOT; ?>public/assets/css/style.css" rel="stylesheet" type="text/css">
 
 
     <!-- DATATABLE -->
-    <link href="<?= ROOT; ?>vendor/datatables/datatables/media/css/dataTables.bootstrap4.css" rel="stylesheet" type="text/css">
+    <link href="<?= ROOT; ?>vendor/datatables/datatables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 
     <title>WORLD & COMPUTER</title>
 </head>

@@ -10,7 +10,6 @@ class Usuario extends Persona{
     private $usuario;
     private $password;
     private $rol_id;
-    private $error;
 
     public function __construct(){
     }
@@ -27,9 +26,6 @@ class Usuario extends Persona{
         return $this->password;
     }
 
-    public function getError() {
-        return $this->error;
-    }
 
     public function setPassword($password){
         $this->password = $password;
@@ -53,7 +49,7 @@ class Usuario extends Persona{
                     JOIN
                 roles r
                     ON r.id = u.rol_id
-                WHERE u.usuario != '$user' ORDER BY u.created_at DESC");
+                WHERE u.usuario != '$user' ORDER BY u.estatus, u.created_at DESC");
 
             $consulta->execute();
             

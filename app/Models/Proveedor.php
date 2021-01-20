@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
+use Exception;
 use PDO;
 
 class Proveedor extends Persona{
 
     public function listar(){
         try{
-            $consulta = parent::connect()->prepare("SELECT * FROM proveedores WHERE estatus='ACTIVO' ORDER BY created_at DESC");
+            $consulta = parent::connect()->prepare("SELECT * FROM proveedores ORDER BY estatus, created_at DESC");
             $consulta->execute();
-
-
             
             return $consulta->fetchAll(PDO::FETCH_OBJ);
             
@@ -43,8 +42,8 @@ class Proveedor extends Persona{
             return $consulta->execute();
             
         } catch (Exception $ex) {
-            return $ex->message();
-            die();
+            $this->error = $ex->getMessage();
+            return false;
         }
     }
 
@@ -72,8 +71,8 @@ class Proveedor extends Persona{
             return $consulta->execute();
                     
         } catch (Exception $ex) {
-            
-            return $ex->getMessage();
+            $this->error = $ex->getMessage();
+            return false;
         }
     }
     

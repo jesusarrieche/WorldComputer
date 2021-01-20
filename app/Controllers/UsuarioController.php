@@ -290,8 +290,8 @@ class UsuarioController extends Controller{
           http_response_code(200);
     
           echo json_encode([
-            'titulo' => 'Registro eliminado!',
-            'mensaje' => 'Registro eliminado en nuestro sistema',
+            'titulo' => 'Registro habilitado!',
+            'mensaje' => 'Registro habilitado en nuestro sistema',
             'tipo' => 'success'
           ]);
         }else{
@@ -299,7 +299,7 @@ class UsuarioController extends Controller{
     
           echo json_encode([
             'titulo' => 'Ocurio un error!',
-            'mensaje' => 'No se pudo eliminar el registro',
+            'mensaje' => 'No se pudo habilitar el registro',
             'tipo' => 'error'
           ]);
         }

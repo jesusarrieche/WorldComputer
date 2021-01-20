@@ -207,7 +207,7 @@
                         </tbody>
                     </table>
                 </div>
-
+                <hr class="bg-info">
                 <div class="row justify-content-center">
                     <div class="col"></div>
                     <div class="col">
@@ -220,7 +220,13 @@
         </div>
     </form>
 </div>
-
+<link href="<?= ROOT; ?>vendor/select2/select2/dist/css/select2.min.css" rel="stylesheet" />
+<script src="<?= ROOT; ?>vendor/select2/select2/dist/js/select2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('.select2').select2();
+});
+</script>
 <script>
     let proveedores = <?= json_encode($proveedores) ?>;
     let productos = <?= json_encode($productos) ?>;    

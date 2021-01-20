@@ -125,17 +125,26 @@ class ProveedorController extends Controller{
     
           return false;
     
-        }
-    
-        $this->proveedor->registrar($proveedor);
-    
-        http_response_code(200);
-    
-        echo json_encode([
-          'titulo' => 'Registro Exitoso',
-          'mensaje' => 'Proveedor registrado en nuestro sistema',
-          'tipo' => 'success'
-        ]);
+        }else {
+
+          if($this->proveedor->registrar($proveedor)) {
+              http_response_code(200);
+
+              echo json_encode([
+              'titulo' => 'Registro Exitoso',
+              'mensaje' => 'Proveedor registrado en nuestro sistema',
+              'tipo' => 'success'
+              ]);    
+          } else{
+
+              echo json_encode([
+              'titulo' => 'Error',
+              'mensaje' => $this->proveedor->getError(),
+              'tipo' => 'error'
+              ]);  
+          }
+      }  
+        
     
     
     }
@@ -161,12 +170,10 @@ class ProveedorController extends Controller{
             'mensaje' => 'Registro actualizado en nuestro sistema',
             'tipo' => 'success'
           ]);
-        }else{
-          http_response_code(404);
-    
+        }else{    
           echo json_encode([
             'titulo' => 'Error al Actualizar',
-            'mensaje' => 'Ocurrio un error durante la actualizacion',
+            'mensaje' => $this->proveedor->getError(),
             'tipo' => 'error'
           ]);
         }
@@ -204,5 +211,35 @@ class ProveedorController extends Controller{
       }
       
   
+    }
+    public function habilitar($id){
+
+      $method = $_SERVER['REQUEST_METHOD'];
+  
+      if( $method != 'HABILITAR'){
+        http_response_code(404);
+        return false;
+      }
+  
+      $id = $this->desencriptar($id);
+  
+      if($this->proveedor->habilitar("proveedores", $id)){
+  
+        http_response_code(200);
+  
+        echo json_encode([
+          'titulo' => 'Registro habilitado!',
+          'mensaje' => 'Registro habilitado en nuestro sistema',
+          'tipo' => 'success'
+        ]);
+      }else{
+        http_response_code(404);
+  
+        echo json_encode([
+          'titulo' => 'Ocurio un error!',
+          'mensaje' => 'No se pudo habilitar el registro',
+          'tipo' => 'error'
+        ]);
+      }
     }
 }

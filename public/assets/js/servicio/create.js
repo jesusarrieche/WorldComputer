@@ -268,8 +268,8 @@ $(document).ready(function () {
                 );
                 if (json.tipo=="success") {
                     setTimeout(function(){
-                        location.reload();
-                    },2000);
+                        location="./ProvidedServices";
+                    },700);
                 }
                 
             },

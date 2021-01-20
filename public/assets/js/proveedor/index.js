@@ -120,7 +120,7 @@ const registrarProveedor = (datos) => {
                     json.tipo
                 );
             }
-
+            console.log(response);
         },
         error: (response) => {
             console.log(response);
@@ -207,6 +207,27 @@ const eliminarProveedor = (id) => {
         }
     });
 }
+const habilitar = (id) => {
+    $.ajax({
+        type: "HABILITAR",
+        url: GLOBAL.URL+"proveedor/habilitar/" + id,
+        success: function (response) {
+            const json = JSON.parse(response);
+            if(json.tipo == 'success'){
+                Swal.fire(
+                    'Activado!',
+                    'El proveedor ha sido habilitado!',
+                    'success'
+                    )
+
+                table.ajax.reload();
+            }
+        },
+        error: function (response) {
+            console.log(response);
+        }
+    });
+}
 
 /**
  * Eventos
@@ -270,5 +291,26 @@ $('body').on('click', '.eliminar', function (e) {
         })
     console.log($(this).attr('href'));
 });
+//Activar el registro
+$('body').on('click', '.estatusAnulado', function (e) {
+    e.preventDefault();
 
+    Swal.fire({
+        title: 'Esta Seguro?',
+        text: "El proveedor será habilitado en el sistema!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Si, eliminar!'
+        }).then((result) => {
+        if (result.value) {
+
+            habilitar($(this).attr('href'));
+            
+        }
+        })
+    console.log($(this).attr('href'));
+});
 });

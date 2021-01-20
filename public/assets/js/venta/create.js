@@ -208,8 +208,8 @@ $(document).ready(function () {
                 );
 
                 setTimeout(function(){
-                    window.location = "./";
-                },1000);
+                    window.location = "../Venta";
+                },700);
             },
             error: function (response) {
                 console.log(response);

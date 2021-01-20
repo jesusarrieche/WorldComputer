@@ -19,6 +19,7 @@
         "fortawesome/font-awesome": "^5.13",
         "spipu/html2pdf": "^5.2",
         "twbs/bootstrap": "^4.5",
-        "datatables/datatables": "^1.10"
+        "datatables/datatables": "^1.10",
+        "select2/select2": "^4.0"
     }
 }

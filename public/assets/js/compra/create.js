@@ -194,8 +194,8 @@ $(document).ready(function () {
                 );
 
                 setTimeout(function(){
-                    window.location = "./";
-                },1000);
+                    window.location = "../Compra";
+                },700);
             },
             error: function (response) {
                 console.log(response);

@@ -12,7 +12,6 @@ class Rol extends Model {
     private $nombre;
     private $descripcion;
     private $permisos = [];
-    private $error;
 
     public function __construct(){
     }
@@ -46,9 +45,6 @@ class Rol extends Model {
 
     public function setPermisos($permiso){
         $this->permisos = $permiso;
-    }
-    public function getError() {
-        return $this->error;
     }
 
     public function listar(){

@@ -6,7 +6,10 @@ use Exception;
 use PDO;
 
 class Model extends Database{
-
+    protected $error;
+    public function getError() {
+        return $this->error;
+    }
     public function __construct(){
     }
 

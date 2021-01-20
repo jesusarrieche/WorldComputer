@@ -6,10 +6,9 @@ use Exception;
 use PDO;
 
 class Cliente extends Persona{
-
     public function listar(){
         try{
-            $consulta = parent::connect()->prepare("SELECT id, documento, CONCAT(nombre, ' ', apellido) AS nombre, telefono, estatus, created_at FROM clientes WHERE estatus='ACTIVO' ORDER BY created_at DESC");
+            $consulta = parent::connect()->prepare("SELECT id, documento, CONCAT(nombre, ' ', apellido) AS nombre, telefono, estatus, created_at FROM clientes ORDER BY estatus, created_at DESC");
             $consulta->execute();
             
             return $consulta->fetchAll(PDO::FETCH_OBJ);
@@ -41,28 +40,10 @@ class Cliente extends Persona{
             $consulta->bindParam(":email", $email);
             $consulta->bindParam(":estatus", $estatus);
 
-            $consulta->execute();
-            
-            $alerta= [
-            'alerta' => 'simple',
-            'titulo' => 'Operacion Exitosa...!!!',
-            'texto' => 'Cliente registrado satisfactoriamente',
-            'tipo' => 'success'
-            ];
-            
-            return $alerta;
-            
+            return $consulta->execute();                      
         } catch (Exception $ex) {
-            
-            $alerta= [
-            'alerta' => 'simple',
-            'titulo' => 'Error Inesperado...!!!',
-            'texto' => 'Se produjo un error inesperado, Por favor verifique los datos e intente nuevamente',
-            'tipo' => 'error'
-            ];
-            
-            return $alerta;
-            die();
+            $this->error = $ex->getMessage();
+            return false;
         }
     }
 
@@ -92,8 +73,8 @@ class Cliente extends Persona{
             return $consulta->execute();
                     
         } catch (Exception $ex) {
-            
-            // die("Error: " . $ex->getMessage());
+            $this->error = $ex->getMessage();
+            return false;
         }
     }
 
