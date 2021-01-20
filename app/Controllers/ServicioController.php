@@ -366,39 +366,39 @@ public function servicioPrestadoPDF($param){
 
       $method = $_SERVER['REQUEST_METHOD'];
   
-      if( $method != 'POST'){
-      http_response_code(404);
-      return false;
-      }
+      // if( $method != 'POST'){
+      // http_response_code(404);
+      // return false;
+      // }
 
       $servicios = $this->servicio->listar();
 
-      $editar = false;
-      $eliminar = false;
-      foreach ($_SESSION['permisos'] as $p):
-          if ($p->permiso == "Editar Servicios") {     
-          $editar = true;
-      }endforeach;
-      foreach ($_SESSION['permisos'] as $p):
-          if ($p->permiso == "Eliminar Servicios") {     
-          $eliminar = true;
-      }endforeach;
-      foreach($servicios as $servicio){
+      // $editar = false;
+      // $eliminar = false;
+      // foreach ($_SESSION['permisos'] as $p):
+      //     if ($p->permiso == "Editar Servicios") {     
+      //     $editar = true;
+      // }endforeach;
+      // foreach ($_SESSION['permisos'] as $p):
+      //     if ($p->permiso == "Eliminar Servicios") {     
+      //     $eliminar = true;
+      // }endforeach;
+      // foreach($servicios as $servicio){
 
-          $servicio->button = 
-          "<a href=".ROOT."servicio/mostrar/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
-          if ($editar) {
-              $servicio->button .= "<a href=".ROOT."servicio/mostrar/". $this->encriptar($servicio->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
-          }
-          if ($eliminar) {
-              if($servicio->estatus == "ACTIVO"){
-                  $servicio->button .= "<a href='". $this->encriptar($servicio->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
-              }
-              else{
-                  $servicio->button .= "<a href='". $this->encriptar($servicio->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
-              }
-          }
-      }
+      //     $servicio->button = 
+      //     "<a href=".ROOT."servicio/mostrar/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
+      //     if ($editar) {
+      //         $servicio->button .= "<a href=".ROOT."servicio/mostrar/". $this->encriptar($servicio->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
+      //     }
+      //     if ($eliminar) {
+      //         if($servicio->estatus == "ACTIVO"){
+      //             $servicio->button .= "<a href='". $this->encriptar($servicio->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
+      //         }
+      //         else{
+      //             $servicio->button .= "<a href='". $this->encriptar($servicio->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
+      //         }
+      //     }
+      // }
   
       http_response_code(200);
   

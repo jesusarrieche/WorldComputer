@@ -58,7 +58,7 @@ class Categoria extends Model{
 
     public function listar(){
         try{
-            $consulta = parent::connect()->prepare("SELECT id, nombre, descripcion, estatus FROM categorias WHERE estatus='ACTIVO' ORDER BY created_at DESC");
+            $consulta = parent::connect()->prepare("SELECT id, nombre, descripcion, estatus FROM categorias ORDER BY estatus, created_at DESC");
             $consulta->execute();
             
             return $consulta->fetchAll(PDO::FETCH_OBJ);
@@ -83,7 +83,8 @@ class Categoria extends Model{
             return $consulta->execute();
             
         } catch (Exception $ex) {
-            return $ex->getMessage();
+            $this->error = $ex->getMessage();
+            return false;            
         }
     }
 
@@ -105,7 +106,8 @@ class Categoria extends Model{
             return $consulta->execute();
                     
         } catch (Exception $ex) {
-            return $ex->getMessage();            
+            $this->error = $ex->getMessage();
+            return false;            
         }
     }
 }

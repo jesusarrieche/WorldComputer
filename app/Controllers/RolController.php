@@ -187,4 +187,36 @@ class RolController extends Controller {
 
     
     }
+    public function habilitar($id){
+
+        $method = $_SERVER['REQUEST_METHOD'];
+    
+        if( $method != 'HABILITAR'){
+          http_response_code(404);
+          return false;
+        }
+    
+        $id = $this->desencriptar($id);
+    
+        if($this->rol->habilitar("roles", $id)){
+    
+          http_response_code(200);
+    
+          echo json_encode([
+            'titulo' => 'Registro habilitado!',
+            'mensaje' => 'Registro habilitado en nuestro sistema',
+            'tipo' => 'success'
+          ]);
+        }else{
+          http_response_code(404);
+    
+          echo json_encode([
+            'titulo' => 'Ocurio un error!',
+            'mensaje' => 'No se pudo habilitar el registro',
+            'tipo' => 'error'
+          ]);
+        }
+        
+    
+    }
 }

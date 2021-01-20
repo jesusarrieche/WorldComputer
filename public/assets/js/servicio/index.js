@@ -6,7 +6,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: '/WorldComputer/Servicio/listar'
+            url: 'servicio/listar'
         },
         columns: [
             { data: 'id' },

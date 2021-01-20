@@ -195,11 +195,53 @@ const eliminarCategoria = (id) => {
         }
     });
 }
+const habilitar = (id) => {
+    $.ajax({
+        type: "HABILITAR",
+        url: GLOBAL.URL+"categoria/habilitar/" + id,
+        success: function (response) {
+            const json = JSON.parse(response);
+            if(json.tipo == 'success'){
+                Swal.fire(
+                    'Activado!',
+                    'La categoría ha sido habilitada!',
+                    'success'
+                    )
+
+                table.ajax.reload();
+            }
+        },
+        error: function (response) {
+            console.log(response);
+        }
+    });
+}
 
 /**
  * Eventos
  */
+//Activar el registro
+$('body').on('click', '.estatusAnulado', function (e) {
+    e.preventDefault();
 
+    Swal.fire({
+        title: 'Esta Seguro?',
+        text: "La categoría será habilitada en el sistema!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Si, eliminar!'
+        }).then((result) => {
+        if (result.value) {
+
+            habilitar($(this).attr('href'));
+            
+        }
+        })
+    console.log($(this).attr('href'));
+});
 $('#formularioRegistrarCategoria').submit(function (e) { 
         e.preventDefault();
 

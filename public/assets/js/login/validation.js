@@ -6,31 +6,42 @@ $(document).ready(function () {
 
     $.ajax({
       type: "POST",
-      url: "/WorldComputer/login/login",
+      url: "login/login",
       cache: false,
       data: data,
       contentType: false,
       processData: false,
       success: function (response) {
-        console.log(response);
+        
+        if (response) {
+          window.location = "/";
+          window.location.reload();
+        }
+        else{
+          console.log(response);
+          Swal.fire("Error", "Ocurrió un problema al iniciar sesión", "error");
+        }
 
-        window.location = "/";
-        window.location.reload();
-
-        // if( json.tipo == 'success'){
-
-        // }else{
-        //     Swal.fire(
-        //         json.titulo,
-        //         json.mensaje,
-        //         json.tipo
-        //     );
-        // }
+        
       },
       error: (response) => {
         console.log(response);
         Swal.fire("¡Usuario o contraseña incorrecta!", "Por favor verifique el usuario y la contraseña", "error");
       },
     });
+    Toast.fire({
+      title: 'Espere!',
+      html: 'Los datos están siendo procesados',// add html attribute if you want or remove
+      allowOutsideClick: false,
+      onBeforeOpen: () => {
+          Swal.showLoading()
+      },
+  });
+  });
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom-start',
+    showConfirmButton: false,
+    
   });
 });

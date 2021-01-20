@@ -289,4 +289,4 @@ $(document).ready(function () {
           toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     });
-})
+});

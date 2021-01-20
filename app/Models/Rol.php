@@ -52,7 +52,7 @@ class Rol extends Model {
 
             $conexion = parent::connect();
 
-            $query = $conexion->prepare("SELECT * FROM roles WHERE estatus = 'ACTIVO'");
+            $query = $conexion->prepare("SELECT * FROM roles ORDER BY estatus");
             $query->execute();
 
             return $query->fetchAll(PDO::FETCH_OBJ);
