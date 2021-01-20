@@ -131,7 +131,7 @@ class CategoriaController extends Controller{
         
             echo json_encode([
               'titulo' => 'Registro Exitoso',
-              'mensaje' => 'Categoria registrado en nuestro sistema',
+              'mensaje' => 'Categoría registrada en nuestro sistema',
               'tipo' => 'success'
             ]);
         }else{

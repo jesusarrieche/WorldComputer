@@ -139,7 +139,7 @@ class Producto extends Model {
   public function listar(){
     try{
       $sql = 
-     "SELECT * FROM v_inventario ORDER BY id DESC";
+     "SELECT * FROM v_inventario ORDER BY estatus, id DESC";
 
         $consulta = parent::connect()->prepare($sql);
         $consulta->execute();

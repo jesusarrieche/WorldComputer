@@ -93,7 +93,7 @@ const mostrarProveedor = (href, formulario, modal) => {
 const registrarProveedor = (datos) => {
     $.ajax({
         type: "POST",
-        url: "/WorldComputer/proveedor/guardar",
+        url: "proveedor/guardar",
         data: datos,
         cache: false,
         contentType: false,

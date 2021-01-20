@@ -32,6 +32,15 @@ $(document).ready(function () {
     //Agregar Cliente
     $('#agregarCliente').click(function (e) { 
         e.preventDefault();
+        if($('#listadoClientes').val() == '' || $('#listadoClientes').val() == null){
+            Toast.fire(
+                'Seleccione un Cliente',
+                'Debe incluir un cliente',
+                'warning'
+            )
+    
+            return false;
+        }
         Toast.fire(
             'Cliente agregado!',
             'Se ha seleccionado un cliente correctamente',
@@ -40,7 +49,7 @@ $(document).ready(function () {
         let cliente = buscarCliente($('#listadoClientes').val());
 
         $('#cliente').val(cliente.id);
-        $('#nombreCliente').val(cliente.nombre);
+        $('#nombreCliente').val(cliente.nombre +' '+cliente.apellido);
         $('#documentoCliente').val(cliente.documento);
 
         
@@ -49,6 +58,15 @@ $(document).ready(function () {
     //Agregar Empleado
     $('#agregarEmpleado').click(function (e) { 
         e.preventDefault();
+        if($('#listadoEmpleados').val() == '' || $('#listadoEmpleados').val() == null){
+            Toast.fire(
+                'Seleccione un Empleado',
+                'Debe incluir un empleado',
+                'warning'
+            )
+    
+            return false;
+        }
         Toast.fire(
             'Empleado agregado!',
             'Se ha seleccionado un empleado correctamente',
@@ -140,14 +158,14 @@ $(document).ready(function () {
                     <input type="text" class="form-control-plaintext" value="${producto.nombre}" disabled>
                 </td>
                 <td>
-                    <input type="number" name="cantidades[]" class="form-control cantidad" value="0" min="1" max="${producto.stock}" required>
+                    <input type="number" name="cantidades[]" step="any" class="form-control cantidad" value="0" min="0" max="${producto.stock}" required>
                 </td>
                 <td>
                     <input type="text" class="form-control-plaintext" value="${producto.stock}" disabled>
                 </td>
                 <td>
                     <input type="number" class="form-control-plaintext" value="${producto.precio_venta}" disabled>
-                    <input type="number" name="precios[]" class="form-control precio" value="${producto.precio_venta}" hidden required>
+                    <input type="number" name="precios[]" step="any" class="form-control precio" value="${producto.precio_venta}" hidden min="0" required>
 
                 </td>
                 <td>
@@ -289,4 +307,53 @@ $(document).ready(function () {
           toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     });
+    const registrarCliente = (datos) => {
+
+        $.ajax({
+            type: "POST",
+            url: "../cliente/guardar",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                let json = JSON.parse(response);
+                
+                if( json.tipo == 'success'){
+    
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                    );
+        
+                    window.location.reload();
+        
+                    $('#modalRegistroCliente').modal('hide');
+                }else{
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                    );
+                }
+    
+            },
+            error: (response) => {
+                console.log(response);
+                
+            }
+        });
+    }
+    
+
+    $('#formularioRegistrarCliente').submit(function (e) { 
+        e.preventDefault();
+   
+        let datos = new FormData(document.querySelector('#formularioRegistrarCliente'));
+   
+       //  console.log(datos.get('documento'));
+   
+        registrarCliente(datos);   
+   });
 });

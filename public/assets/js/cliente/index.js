@@ -95,7 +95,7 @@ const registrarCliente = (datos) => {
 
     $.ajax({
         type: "POST",
-        url: "/WorldComputer/cliente/guardar",
+        url: "cliente/guardar",
         data: datos,
         cache: false,
         contentType: false,

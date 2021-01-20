@@ -58,13 +58,13 @@ $(document).ready(function () {
                     <input type="text" class="form-control-plaintext" value="${producto.nombre}" disabled>
                 </td>
                 <td>
-                    <input type="number" name="cantidades[]" class="form-control cantidad" value="1" min="1"" required>
+                    <input type="number" name="cantidades[]" step="any" class="form-control cantidad" value="1" min="0" required>
                 </td>
                 <td>
                     <input type="text" class="form-control-plaintext" value="${producto.stock}" disabled>
                 </td>
                 <td>
-                    <input type="number" name="precios[]" class="form-control precio" value="0" min="1" required>
+                    <input type="number" name="precios[]" step="any" class="form-control precio" value="0" min="0" required>
                 </td>
                 <td>
                     <input type="number" class="form-control-plaintext total" value="0" disabled>
@@ -113,7 +113,15 @@ $(document).ready(function () {
     //Agregar Proveedor
     $('#agregarProveedor').click(function (e) { 
         e.preventDefault();
-
+        if($('#listadoProveedores').val() == '' || $('#listadoProveedores').val() == null){
+            Toast.fire(
+                'Seleccione un Proveedor',
+                'Debe incluir un proveedor en la compra',
+                'warning'
+            )
+    
+            return false;
+        }
         Toast.fire(
             'Proveedor agregado!',
             'Se ha seleccionado un proveedor correctamente',
@@ -213,5 +221,50 @@ $(document).ready(function () {
           toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
       });
+      const registrarProveedor = (datos) => {
+        $.ajax({
+            type: "POST",
+            url: "../proveedor/guardar",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                let json = JSON.parse(response);
+                
+                if( json.tipo == 'success'){
+    
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                    );
+        
+                    window.location.reload();
+        
+                    $('#agregarProveedor').modal('hide');
+                }else{
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                    );
+                }
+                console.log(response);
+            },
+            error: (response) => {
+                console.log(response);
+                
+            }
+        });
+     }
+      // Registrar Proveedor
+    $('#formularioRegistrarProveedor').submit(function (e) { 
+        e.preventDefault();
+
+        let datos = new FormData(document.querySelector('#formularioRegistrarProveedor'));
+
+        registrarProveedor(datos);   
+    });
 
 });

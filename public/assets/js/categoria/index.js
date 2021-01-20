@@ -299,5 +299,4 @@ $('body').on('click', '.eliminar', function (e) {
         })
     console.log($(this).attr('href'));
 });
-
 });
