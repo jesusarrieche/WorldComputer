@@ -6,7 +6,7 @@ use PDO;
 
 class Database {
     private $driver = 'mysql';
-    private $host = 'localhost';
+    private $host = 'mysql';
     private $dbname = 'world_computer';
     private $user = 'admin';
     private $password = '251267';
