@@ -8,4 +8,6 @@ body{
     margin: auto;
     width: 100% !important;
 }
-
+.dropdown-menu a:hover{
+    color: black !important;
+}
