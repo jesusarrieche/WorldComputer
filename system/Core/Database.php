@@ -8,8 +8,8 @@ class Database {
     private $driver = 'mysql';
     private $host = 'localhost';
     private $dbname = 'world_computer';
-    private $user = 'root';
-    private $password = 'informatica';
+    private $user = 'admin';
+    private $password = '251267';
 
     public function __construct(){
         $this->connect();

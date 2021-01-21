@@ -1,2 +1,9 @@
 #Resources
 vendor/*
+
+
+#Editors files
+.idea*
+.settings*
+.buildpath
+.project
