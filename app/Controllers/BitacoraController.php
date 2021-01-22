@@ -23,10 +23,10 @@ class BitacoraController extends Controller{
         //     if ($p->permiso == "Inventario") {     
         //     $band = true;
         // }endforeach;   
-        // if ($_SESSION['rol_id']==1) {
-        //     header("Location: ".ROOT);
-        //     return false;
-        // }
+        if ($_SESSION['rol']!=1) {
+            header("Location: ".ROOT);
+            return false;
+        }
         return View::getView('Bitacora.index');
     }
 

@@ -51,7 +51,14 @@
                 <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?= empty($_SESSION['usuario']) ? 'Usuario' : $_SESSION['usuario'] ?></a>
                 <div class="dropdown-menu dropdown-menu-right bg-dark" aria-labelledby="dd_user">
                     <a href="perfil" class="dropdown-item text-light">Perfil</a>
+                    <?php
+                        if($_SESSION['rol']==1){
+                    ?>
                     <a href="bitacora" class="dropdown-item text-light">Consultar Bítacora</a>
+                    <a href="respaldo" class="dropdown-item text-light">Respaldar Base de Datos</a>
+                    <?php
+                        }
+                    ?>
                     <a href="" id="logout" class="dropdown-item text-light">Salir</a>
                 </div>
             </li>
