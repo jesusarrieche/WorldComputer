@@ -6,7 +6,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "php/login/login",
+            url: "login/login",
             cache: false,
             data: data,
             contentType: false,
