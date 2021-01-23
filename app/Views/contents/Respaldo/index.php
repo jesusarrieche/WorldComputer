@@ -34,7 +34,7 @@
         <div class="modal-content">
 
 			<div class="card">
-			<div class="card-body">
+			<div class="card-body swal2-content">
 				<h2 class="card-tittle text-center">Restaurar</h2>
 				<hr>
 				<form action="respaldo/restaurar" method="POST" target="_blank" id="formularioRestaurar">
@@ -75,7 +75,7 @@
 					
 					<br>
 					<div class="form-row justify-content-center m-2">
-						<button type="submit" class="btn btn-info px-5 py-2 font-weight-bold">Restaurar</button>
+						<button type="submit" class="btn btn-warning  swal2-confirm swal2-styled"><i class="fa fa-history"></i> Restaurar</button>
 					</div>
 				</form>
 			</div>

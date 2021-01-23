@@ -225,7 +225,8 @@ class RespaldoController extends Controller{
 
                     echo json_encode([
                         'success' => true,
-                        'message' => "Se eliminaron ".$borrar." archivo(s) de respaldo"
+                        'message' => "Se eliminaron ".$borrar." archivo(s) de respaldo",
+                        'deleted' => true
                     ]);
                     return 0;
                 }
@@ -234,7 +235,8 @@ class RespaldoController extends Controller{
 
             echo json_encode([
                 'success' => true,
-                'message' => "Revisión completa de archivos de respaldo"
+                'message' => "Revisión completa de archivos de respaldo",
+                'deleted' => false
             ]);
             return 0;
         }else{

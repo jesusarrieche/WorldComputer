@@ -102,15 +102,7 @@ $('body').on('click', '.mostrar', function (e) {
     mostrarBitacora($(this).attr('href'),'form#formularioMostrarBitacora','#modalMostrarBitacora');
 });
 
-$("#fechaB").change(function(){
-    table.ajax.url("bitacora/listar/"+$("#fechaB").val()+"&"+$("#usuarioB").val()+"&"+$("#moduloB").val());    
-    table.ajax.reload();
-});
-$("#usuarioB").change(function(){
-    table.ajax.url("bitacora/listar/"+$("#fechaB").val()+"&"+$("#usuarioB").val()+"&"+$("#moduloB").val());    
-    table.ajax.reload();
-});
-$("#moduloB").change(function(){
+$("#buscarB").click(function(){
     table.ajax.url("bitacora/listar/"+$("#fechaB").val()+"&"+$("#usuarioB").val()+"&"+$("#moduloB").val());    
     table.ajax.reload();
 });

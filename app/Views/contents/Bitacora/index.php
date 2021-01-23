@@ -8,7 +8,7 @@
        
         <div class="card-body">
           <div class="row p-2">
-            <div class="col-md-4">
+            <div class="col-sm">
                 <div class="row p-1">
                     <label for="fechaB" class="col-form-label"><strong>Fecha: </strong></label>
                 </div>
@@ -16,9 +16,9 @@
                     <input type="date" class="form-control" name="fechaB" id="fechaB">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-sm">
                 <div class="row p-1">
-                    <label for="fechaB" class="col-form-label"><strong>Usuario: </strong></label>
+                    <label for="usuarioB" class="col-form-label"><strong>Usuario: </strong></label>
                 </div>
                 <div class="row p-1">
                     <select class="form-control select2" name="usuarioB" id="usuarioB">
@@ -35,11 +35,11 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-sm">
                 <div class="row p-1">
-                    <label for="fechaB" class="col-form-label"><strong>Módulo: </strong></label>
+                    <label for="moduloB" class="col-form-label"><strong>Módulo: </strong></label>
                 </div>
-                <div class="row p-1">
+                <div class="row p-1 ">
                     <select class="form-control select2" name="moduloB" id="moduloB">
                         <option value="">--Todos--</option>
                         <option value="Usuarios">Usuarios</option>
@@ -56,6 +56,9 @@
                         <option value="Roles">Roles</option>
                     </select>
                 </div>
+            </div>
+            <div class="col-sm d-flex justify-content-center align-items-end mb-1">
+                <button class="btn btn-info" id="buscarB"><i class="fas fa-search"></i> Buscar</button>
             </div>
             
           </div>
@@ -173,7 +176,13 @@
         </div>
     </div>
 </div>
-
+<link href="<?= ROOT; ?>vendor/select2/select2/dist/css/select2.min.css" rel="stylesheet" />
+<script src="<?= ROOT; ?>vendor/select2/select2/dist/js/select2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('.select2').select2();
+});
+</script>
 
 <script src="<?= ROOT; ?>public/assets/js/bitacora/index.js"></script>
 

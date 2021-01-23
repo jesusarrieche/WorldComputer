@@ -17,6 +17,7 @@ $(document).ready(function () {
                 // console.log(response);
                 let json = JSON.parse(response); 
                 if (json.success) {
+                    controlarMax();
                     Swal.fire(
                         "Excelente!",
                          "El Respaldo se creó correctamente",
@@ -64,7 +65,7 @@ $(document).ready(function () {
                 if (json.success) {
                     Swal.fire(
                         "Excelente!",
-                         "La Restauración de realizó correctamente",
+                         "La Restauración se realizó correctamente",
                          "success"
                      );
                     //  setTimeout(function(){
@@ -98,13 +99,17 @@ $(document).ready(function () {
             data: {'respaldo': "controlarMax"},
             success: function (response) {
                 console.log(response);
+                let json = JSON.parse(response);
+                // if (json.deleted) {
+                //     window.location.reload();
+                // }
             },
             error: (response) => {
                 console.log("Error: "+response);
             }
         });
     }
-    controlarMax();
+    // controlarMax();
 
     $('body').on('click', '#respaldar', function (e) { 
         e.preventDefault();
@@ -113,7 +118,6 @@ $(document).ready(function () {
             title: 'Confirme la acción',
             input: 'password',
             inputPlaceholder: 'Contraseña',
-            // html: '<span>Nota: <span>',
             inputAttributes: {
                 autocapitalize: 'off'
             },
@@ -165,13 +169,14 @@ $(document).ready(function () {
             },
             allowOutsideClick: () => !Swal.isLoading()
             }).then((result) => {
-                console.log(result.isConfirmed);
+                // console.log(result.isConfirmed);
         });
-        $(".swal2-content").append(`<span class="text-center m-2">Nota: Se creará un archivo de respaldo, solo puede haber un máximo de 10 archivos. 
+        $(".swal2-content").append(`<span class="text-center m-2 spanRespaldar">Nota: Se creará un archivo de respaldo, solo puede haber un máximo de 10 archivos. 
             Cuando se exceda el límite se eliminarán los más antiguos</span>`);
     });
     // Elegir Restaurar
     $('body').on('click', '#restaurar', function (e) { 
+       $(".spanRespaldar").remove();
        $('#modalRestaurar').modal('show');
        $('#formularioRestaurar').submit(function (e) {  
             e.preventDefault();
