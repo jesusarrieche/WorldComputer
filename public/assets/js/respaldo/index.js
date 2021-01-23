@@ -91,7 +91,20 @@ $(document).ready(function () {
         });
     }
 
-
+    const controlarMax = ()=>{
+        $.ajax({
+            type: "POST",
+            url: "respaldo/controlarMax",
+            data: {'respaldo': "controlarMax"},
+            success: function (response) {
+                console.log(response);
+            },
+            error: (response) => {
+                console.log("Error: "+response);
+            }
+        });
+    }
+    controlarMax();
 
     $('body').on('click', '#respaldar', function (e) { 
         e.preventDefault();
@@ -154,6 +167,8 @@ $(document).ready(function () {
             }).then((result) => {
                 console.log(result.isConfirmed);
         });
+        $(".swal2-content").append(`<span class="text-center m-2">Nota: Se creará un archivo de respaldo, solo puede haber un máximo de 10 archivos. 
+            Cuando se exceda el límite se eliminarán los más antiguos</span>`);
     });
     // Elegir Restaurar
     $('body').on('click', '#restaurar', function (e) { 

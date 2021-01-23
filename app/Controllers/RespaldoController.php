@@ -188,7 +188,7 @@ class RespaldoController extends Controller{
     {
         $ruta="public/assets/respaldo/";
         $nArchivos = 0;
-        $maxArchivos = 5;
+        $maxArchivos = 10;
         if(is_dir($ruta)){
             if($aux=opendir($ruta)){
                 while(($archivo = readdir($aux)) !== false){
@@ -197,16 +197,54 @@ class RespaldoController extends Controller{
                         if(is_dir($ruta_completa)){
                         }else{
                             $nArchivos++;
+                            
                         }
                     }
                 }
-                if ($nArchivos > $maxArchivos) {
-                    
-                }
-                closedir($aux);                
+                
+                closedir($aux); 
             }
+            if ($nArchivos > $maxArchivos) {
+                $borrar = $nArchivos - $maxArchivos;
+                $j = 0;
+                if($auxB=opendir($ruta)){
+                    while(($archivo = readdir($auxB)) !== false && $j < $borrar){
+                        if($archivo!="."&&$archivo!=".."){
+                            $ruta_completa=$ruta.$archivo;
+                            if(is_dir($ruta_completa)){
+                            }else{
+                                unlink($ruta_completa);
+                                $j++;
+                            }
+                        }
+                        
+                    }
+                    
+                    closedir($auxB); 
+                    http_response_code(200);
+
+                    echo json_encode([
+                        'success' => true,
+                        'message' => "Se eliminaron ".$borrar." archivo(s) de respaldo"
+                    ]);
+                    return 0;
+                }
+            }
+            http_response_code(200);
+
+            echo json_encode([
+                'success' => true,
+                'message' => "Revisión completa de archivos de respaldo"
+            ]);
+            return 0;
         }else{
-            echo $ruta." No es ruta válida";
+            http_response_code(200);
+
+            echo json_encode([
+                'success' => false,
+                'message' => $ruta." no es ruta válida"
+            ]);
+            return 0;
         }
     }
 
