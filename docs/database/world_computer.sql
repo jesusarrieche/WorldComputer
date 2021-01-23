@@ -171,10 +171,16 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`ventas` (
 
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `usuario_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_ventas_clientes1`
     FOREIGN KEY (`cliente_id`)
     REFERENCES `world_computer`.`clientes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ventas_usuario_id`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `world_computer`.`usuarios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -220,10 +226,16 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`compras` (
 
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `usuario_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_compras_proveedores1`
     FOREIGN KEY (`proveedor_id`)
     REFERENCES `world_computer`.`proveedores` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_compras_usuario_id`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `world_computer`.`usuarios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -476,6 +488,7 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`servicios_prestados` (
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `usuario_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_clientes_has_ventas_clientes1`
     FOREIGN KEY (`cliente_id`)
@@ -485,6 +498,11 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`servicios_prestados` (
   CONSTRAINT `fk_servicio_venta_empleados1`
     FOREIGN KEY (`empleado_id`)
     REFERENCES `world_computer`.`empleados` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_servicios_prestados_usuario_id`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `world_computer`.`usuarios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -764,10 +782,10 @@ INSERT INTO usuarios(rol_id, documento, nombre, apellido, direccion, telefono, e
 ('2', 'V-10000000', 'USUARIO', 'USUARIO', 'WORLD','000-0000000', 'usuario@email.com', 'usuario', 'ZXRlSml1a1p0akNsbTYwL2hnNEF2UT09', 'ACTIVO');
 
 -- COMPRAS
-INSERT INTO compras(proveedor_id, codigo, cod_ref, fecha, impuesto) VALUES 
-('1', '000001', null, now(), '12,00'),
-('2', '000002', null, now(), '0'),
-('3', '000003', null, now(), '10,00');
+INSERT INTO compras(proveedor_id, codigo, cod_ref, fecha, impuesto, usuario_id) VALUES 
+('1', '000001', null, now(), '12,00', 1),
+('2', '000002', null, now(), '0', 1),
+('3', '000003', null, now(), '10,00', 1);
 
 INSERT INTO detalle_compra(producto_id, compra_id, costo, cantidad) VALUES 
 ('1', '1', '2000', '5'),
@@ -783,10 +801,10 @@ INSERT INTO detalle_compra(producto_id, compra_id, costo, cantidad) VALUES
 ('3', '3', '5000', '12');
 
 -- VENTAS
-INSERT INTO ventas(cliente_id, codigo, fecha) VALUES 
-('1', '000001', now()),
-('2', '000002', now()),
-('3', '000003', now());
+INSERT INTO ventas(cliente_id, codigo, fecha, usuario_id) VALUES 
+('1', '000001', now(), 1),
+('2', '000002', now(), 1),
+('3', '000003', now(), 1);
 
 INSERT INTO detalle_venta(venta_id, producto_id, cantidad, precio) VALUES 
 ('1', '1', '12', '2500'),
@@ -807,10 +825,10 @@ INSERT INTO servicios(nombre, descripcion, precio) VALUES
 ('REPARACION UPS', 'Reparacion ', '2000'),
 ('FORMATEO PC', 'Instalacion SO', '3500');
 
-INSERT INTO servicios_prestados(venta_id, cliente_id, empleado_id, fecha, codigo) VALUES 
-('1', '2', '2', now(), '000001'),
-('2', '2', '3', now(), '000002'),
-('3', '2', '3', now(), '000003');
+INSERT INTO servicios_prestados(venta_id, cliente_id, empleado_id, fecha, codigo, usuario_id) VALUES 
+('1', '2', '2', now(), '000001', 1),
+('2', '2', '3', now(), '000002', 1),
+('3', '2', '3', now(), '000003', 1);
 
 -- ENTRADAS
 INSERT INTO entradas(codigo, fecha, tipo, observacion) VALUES 

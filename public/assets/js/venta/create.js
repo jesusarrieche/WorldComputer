@@ -132,7 +132,7 @@ $(document).ready(function () {
 
         $('#cliente').val(cliente.id);
         $('#documentoCliente').val(cliente.documento);
-        $('#nombreCliente').val(cliente.nombre);
+        $('#nombreCliente').val(cliente.nombre+" "+cliente.apellido);
 
         console.log(cliente);
         
