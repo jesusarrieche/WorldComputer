@@ -50,10 +50,8 @@ class ReporteController extends Controller {
         $usuario = $_POST['vendedor']; 
         $desde = $_POST['desde']; 
         $hasta = $_POST['hasta']; 
-        if ($desde == $hasta) {
-            $desde.= " 00:00:00";
-            $hasta.= " 23:59:59";
-        }
+        $desde.= " 00:00:00";
+        $hasta.= " 23:59:59";
         $vendedor = NULL;
         if($usuario == 0){
             $query = $this->venta->connect()->prepare("SELECT v.codigo, date_format(v.fecha, '%d-%m-%Y %r') as fecha,
