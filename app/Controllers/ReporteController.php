@@ -4,7 +4,9 @@ namespace App\Controllers;
 
 use App\Models\Compra;
 use App\Models\Venta;
+use App\Models\Categoria;
 use App\Models\Servicio;
+use App\Models\Producto;
 use App\Models\Usuario;
 use App\Models\Empleado;
 use App\Traits\Utility;
@@ -18,6 +20,8 @@ class ReporteController extends Controller {
     private $compra;
     private $venta;
     private $usuario;
+    private $producto;
+    private $categoria;
     private $empleado;
     private $servicio;
 	
@@ -28,6 +32,8 @@ class ReporteController extends Controller {
         $this->compra = new Compra;
         $this->venta = new Venta;
         $this->usuario = new Usuario;
+        $this->categoria = new Categoria;
+        $this->producto = new Producto;
         $this->empleado = new Empleado;
         $this->servicio = new Servicio;
     }
@@ -42,11 +48,41 @@ class ReporteController extends Controller {
         $query->execute();
         $usuarios = $query->fetchAll(PDO::FETCH_OBJ);
         $tecnicos = $this->empleado->getTecnicos();
+        $categorias = $this->categoria->getCategorias();
         return View::getView('Reporte.index',[
             'usuarios' => $usuarios,
+            'tecnicos' => $tecnicos,
+            'categorias' => $categorias
+        ]);
+    }
+
+    public function ventas () {
+        $query = $this->usuario->connect()->prepare("SELECT id, CONCAT(nombre,' ', apellido) AS nombre FROM
+                usuarios WHERE estatus='Activo'");
+        $query->execute();
+        $usuarios = $query->fetchAll(PDO::FETCH_OBJ);
+
+        return View::getView('Reporte.ventas',[
+            'usuarios' => $usuarios
+        ]);
+    }
+
+    public function servicios () {
+        $tecnicos = $this->empleado->getTecnicos();
+
+        return View::getView('Reporte.servicios',[
             'tecnicos' => $tecnicos
         ]);
     }
+
+    public function productos () {
+        $categorias = $this->categoria->getCategorias();
+
+        return View::getView('Reporte.productos',[
+            'categorias' => $categorias
+        ]);
+    }
+
     public function reporteVenta()
     {
         $method = $_SERVER['REQUEST_METHOD'];
@@ -232,6 +268,95 @@ class ReporteController extends Controller {
                 'cantidad' => 0,
                 'total' => 0,
                 'tecnico' =>$tecnico->nombre." ".$tecnico->apellido
+            ]);
+        }
+        
+        $html = ob_get_clean();
+
+        $this->crearPDF($html);
+       
+    }
+    
+    public function reporteProducto()
+    {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if( $method != 'POST'){
+            http_response_code(404);
+            return false;
+        }  
+        $categoria_id = $_POST['categoria'];
+        $categorias = NULL;
+        if($categoria_id == 0){
+            $query = $this->producto->connect()->prepare("SELECT p.codigo,p.nombre,p.precio_venta,p.stock,p.stock_min,
+                p.stock_max, c.nombre as nombre_categoria, u.abreviatura
+                FROM productos p 
+                INNER JOIN categorias c 
+                ON c.id = p.categoria_id 
+                INNER JOIN unidades u 
+                ON u.id = p.unidad_id 
+                WHERE p.estatus = 'ACTIVO'
+                ORDER BY c.nombre
+            ");
+            $categorias = true;
+            // $query2 = $this->venta->connect()->prepare("SELECT v.codigo, v.fecha, vp.metodo, count(vp.metodo) as cantidad, SUM(vp.monto) as 
+            //     total FROM ventas v LEFT JOIN venta_pago vp ON v.id = vp.venta_id 
+            //     WHERE v.estatus = 'ACTIVO' AND v.fecha BETWEEN
+            //     :desde AND :hasta GROUP BY vp.metodo ");
+        }
+        else{
+
+            $query = $this->producto->connect()->prepare("SELECT p.codigo,p.nombre,p.precio_venta,p.stock,p.stock_min,
+                p.stock_max, c.nombre as nombre_categoria, u.abreviatura
+                FROM productos p 
+                INNER JOIN categorias c 
+                ON c.id = p.categoria_id 
+                INNER JOIN unidades u 
+                ON u.id = p.unidad_id 
+                WHERE categoria_id = :categoria
+                AND p.estatus = 'ACTIVO'
+                ORDER BY c.nombre
+            ");
+
+            $query->bindParam(':categoria',$categoria_id);
+            $categorias = false;
+            // $query2 = $this->venta->connect()->prepare("SELECT v.codigo, v.fecha, vp.metodo, count(vp.metodo) as cantidad, SUM(vp.monto) as 
+            //     total FROM ventas v LEFT JOIN venta_pago vp ON v.id = vp.venta_id 
+            //     WHERE v.estatus = 'ACTIVO' AND v.usuario_id = :usuario AND v.fecha BETWEEN
+            //     :desde AND :hasta GROUP BY vp.metodo ");
+            // $query2->bindParam(':usuario',$usuario);
+            $categoria = $this->categoria->getOne("categorias", $categoria_id);
+        }
+        $query->execute();
+        $productos = $query->fetchAll(PDO::FETCH_OBJ);
+        // $query2->bindParam(':desde',$desde);
+        // $query2->bindParam(':hasta',$hasta);
+        // $query2->execute();
+        // $pagos = $query2->fetchAll(PDO::FETCH_OBJ);
+        // $dolar = $this->venta->getAll('dolar');
+
+        ob_start();
+        if ($categorias) {
+            View::getViewPDF('FormatosPDF.reporteProducto',[
+                'productos' => $productos,
+                // 'pagos' => $pagos,
+                'dolar' => 1,
+                // 'dolar' => $dolar[0]->precio,
+                'categorias' => $categorias,
+                'cantidad' => 0,
+                'total' => 0
+            ]);
+        }
+        else{
+            View::getViewPDF('FormatosPDF.reporteProducto',[
+                'productos' => $productos,
+                // 'pagos' => $pagos,
+                'dolar' => 1,
+                // 'dolar' => $dolar[0]->precio,
+                'categorias' => $categorias,
+                'cantidad' => 0,
+                'total' => 0,
+                'categoria' =>$categoria->nombre
             ]);
         }
         
