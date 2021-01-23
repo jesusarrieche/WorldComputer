@@ -97,13 +97,16 @@ $(document).ready(function () {
         e.preventDefault();
         
         Swal.fire({
-            title: 'Confirme la acción ingresando su contraseña',
+            title: 'Confirme la acción',
             input: 'password',
+            inputPlaceholder: 'Contraseña',
+            // html: '<span>Nota: <span>',
             inputAttributes: {
                 autocapitalize: 'off'
             },
             showCancelButton: true,
             confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
             preConfirm: (login) => {
                 Toast.fire({
@@ -159,8 +162,9 @@ $(document).ready(function () {
             e.preventDefault();
             $('#modalRestaurar').modal('hide');
             Swal.fire({
-                title: 'Confirme la acción ingresando su contraseña',
+                title: 'Confirme la acción',
                 input: 'password',
+                inputPlaceholder: 'Contraseña',
                 inputAttributes: {
                     autocapitalize: 'off'
                 },

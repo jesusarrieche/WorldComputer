@@ -68,10 +68,14 @@
 							?>
 						</select>
 					</div>
+					<div class="row">
+							<span class="text-center m-2">Nota: Al restaurar la Base de Datos perderá todos los cambios realizados después de la fecha del respaldo</span>
+							
+					</div>
 					
 					<br>
 					<div class="form-row justify-content-center m-2">
-						<button type="submit" class="btn btn-info">Restaurar</button>
+						<button type="submit" class="btn btn-info px-5 py-2 font-weight-bold">Restaurar</button>
 					</div>
 				</form>
 			</div>

@@ -5,7 +5,60 @@
         <div class="card-header d-flex justify-content-center">
             <h2 class="mb-4">Bítacora</h2>
         </div>
+       
         <div class="card-body">
+          <div class="row p-2">
+            <div class="col-md-4">
+                <div class="row p-1">
+                    <label for="fechaB" class="col-form-label"><strong>Fecha: </strong></label>
+                </div>
+                <div class="row p-1">
+                    <input type="date" class="form-control" name="fechaB" id="fechaB">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row p-1">
+                    <label for="fechaB" class="col-form-label"><strong>Usuario: </strong></label>
+                </div>
+                <div class="row p-1">
+                    <select class="form-control select2" name="usuarioB" id="usuarioB">
+                        <option value="">--Todos--</option>   
+                        <?php 
+                            foreach($usuarios as $usuario): 
+                        ?>
+
+                            <option value="<?= $usuario->id; ?>"><?= $usuario->nombre . " " .$usuario->apellido; ?></option>
+
+                        <?php 
+                            endforeach; 
+                        ?> 
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row p-1">
+                    <label for="fechaB" class="col-form-label"><strong>Módulo: </strong></label>
+                </div>
+                <div class="row p-1">
+                    <select class="form-control select2" name="moduloB" id="moduloB">
+                        <option value="">--Todos--</option>
+                        <option value="Usuarios">Usuarios</option>
+                        <option value="Empleados">Empleados</option>
+                        <option value="Clientes">Clientes</option>
+                        <option value="Proveedores">Proveedores</option>
+                        <option value="Productos">Productos</option>
+                        <option value="Categor">Categorías</option>
+                        <option value="Compras">Compras</option>
+                        <option value="Ventas">Ventas</option>
+                        <option value="Ventas">Ventas</option>
+                        <option value="Servicios">Servicios</option>
+                        <option value="Servicios Prestados">Servicios Prestados</option>
+                        <option value="Roles">Roles</option>
+                    </select>
+                </div>
+            </div>
+            
+          </div>
           <table class="table table-dark table-striped table-bordered" id="datatable">
             <thead class="text-center">
               <tr>

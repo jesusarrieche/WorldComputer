@@ -27,10 +27,18 @@ class BitacoraController extends Controller{
             header("Location: ".ROOT);
             return false;
         }
-        return View::getView('Bitacora.index');
+        $usuarios = $this->usuario->getAll("usuarios", "1");
+        foreach ($usuarios as $usuario) {
+            $usuario->id = $this->encriptar($usuario->id);
+        }
+        return View::getView('Bitacora.index',
+            [
+                'usuarios'=>$usuarios
+            ]
+        );
     }
 
-    public function listar(){
+    public function listar($param = NULL){
         
         $method = $_SERVER['REQUEST_METHOD'];
 
@@ -38,9 +46,55 @@ class BitacoraController extends Controller{
         http_response_code(404);
         return false;
         }
-        $query = $this->usuario->query("SELECT b.*, Date_format(b.fecha, '%d/%m/%Y - %H:%i') as fecha, 
+        if (isset($param)) {
+            $b = explode('&',$param);
+        }
+        if (isset($b[0]) && $b[0]!="" || isset($b[1]) && $b[1]!="" || isset($b[2]) && $b[2]!="") {
+            $first = false;
+            if (isset($b[0]) && $b[0]!="") {
+                $cond1 = "b.fecha BETWEEN '".$b[0]." 00:00:00' AND '".$b[0]." 23:59:59' ";
+                $first = true;
+            }
+            if (isset($b[1]) && $b[1]!="") {
+                $usuario_id = $this->desencriptar($b[1]);
+                if (!$first) {
+                    $cond2 = " b.usuario_id = ".$usuario_id." ";
+                    $first = true;
+                }
+                else{
+                    $cond2 = " AND b.usuario_id = ".$usuario_id." ";
+                }
+            }
+            if (isset($b[2]) && $b[2]!="") {
+                if (!$first) {
+                    $cond3 = " b.modulo LIKE '%".$b[2]."%' ";
+                    $first = true;
+                }
+                else{
+                    $cond3 = " AND b.modulo LIKE '%".$b[2]."%' ";
+                }
+            }
+            $sql = "SELECT b.*, Date_format(b.fecha, '%d/%m/%Y - %H:%i') as fecha, 
+                CONCAT(u.nombre,' ',u.apellido) AS usuario FROM bitacora b INNER JOIN usuarios u ON b.usuario_id=u.id
+                WHERE ";
+            if (isset($cond1)) {
+                $sql.=$cond1;
+            }
+            if (isset($cond2)) {
+                $sql.=$cond2;
+            }
+            if (isset($cond3)) {
+                $sql.=$cond3;
+            }
+            $sql .= " ORDER BY b.fecha DESC";
+            
+            $query = $this->usuario->query($sql);
+        }
+        else{
+            $query = $this->usuario->query("SELECT b.*, Date_format(b.fecha, '%d/%m/%Y - %H:%i') as fecha, 
             CONCAT(u.nombre,' ',u.apellido) AS usuario FROM bitacora b INNER JOIN usuarios u ON b.usuario_id=u.id
             ORDER BY b.fecha DESC");
+        }        
        
         $bitacora = $query->fetchAll(PDO::FETCH_OBJ);
         foreach($bitacora as $b){

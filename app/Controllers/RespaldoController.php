@@ -184,5 +184,31 @@ class RespaldoController extends Controller{
         }
     }
 
+    public function controlarMax()
+    {
+        $ruta="public/assets/respaldo/";
+        $nArchivos = 0;
+        $maxArchivos = 5;
+        if(is_dir($ruta)){
+            if($aux=opendir($ruta)){
+                while(($archivo = readdir($aux)) !== false){
+                    if($archivo!="."&&$archivo!=".."){
+                        $ruta_completa=$ruta.$archivo;
+                        if(is_dir($ruta_completa)){
+                        }else{
+                            $nArchivos++;
+                        }
+                    }
+                }
+                if ($nArchivos > $maxArchivos) {
+                    
+                }
+                closedir($aux);                
+            }
+        }else{
+            echo $ruta." No es ruta válida";
+        }
+    }
+
 }
 ?>
