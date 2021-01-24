@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Compra;
 use App\Models\Venta;
 use App\Models\Categoria;
+use App\Models\Cliente;
 use App\Models\Servicio;
 use App\Models\Proveedor;
 use App\Models\Producto;
@@ -23,6 +24,7 @@ class ReporteController extends Controller {
     private $usuario;
     private $producto;
     private $proveedor;
+    private $cliente;
     private $categoria;
     private $empleado;
     private $servicio;
@@ -35,6 +37,7 @@ class ReporteController extends Controller {
         $this->venta = new Venta;
         $this->usuario = new Usuario;
         $this->categoria = new Categoria;
+        $this->cliente = new Cliente;
         $this->proveedor = new Proveedor;
         $this->producto = new Producto;
         $this->empleado = new Empleado;
@@ -61,20 +64,24 @@ class ReporteController extends Controller {
 
     public function ventas () {
         $query = $this->usuario->connect()->prepare("SELECT id, CONCAT(nombre,' ', apellido) AS nombre FROM
-                usuarios WHERE estatus='Activo'");
+                usuarios WHERE estatus='ACTIVO'");
         $query->execute();
         $usuarios = $query->fetchAll(PDO::FETCH_OBJ);
+        $clientes = $this->cliente->getClientes();
 
         return View::getView('Reporte.ventas',[
-            'usuarios' => $usuarios
+            'usuarios' => $usuarios,
+            'clientes' => $clientes
         ]);
     }
 
     public function servicios () {
         $tecnicos = $this->empleado->getTecnicos();
+        $clientes = $this->cliente->getClientes();
 
         return View::getView('Reporte.servicios',[
-            'tecnicos' => $tecnicos
+            'tecnicos' => $tecnicos,
+            'clientes' => $clientes
         ]);
     }
 
@@ -103,81 +110,70 @@ class ReporteController extends Controller {
             return false;
         }  
         $usuario = $_POST['vendedor']; 
+        $cliente_id = $_POST['cliente']; 
         $desde = $_POST['desde']; 
         $hasta = $_POST['hasta']; 
         $desde.= " 00:00:00";
         $hasta.= " 23:59:59";
         $vendedor = NULL;
-        if($usuario == 0){
-            $query = $this->venta->connect()->prepare("SELECT v.codigo, date_format(v.fecha, '%d-%m-%Y %r') as fecha,
-                c.nombre as cliente, CONCAT(u.nombre, ' ', u.apellido) as vendedor, ROUND(SUM(d.precio*d.cantidad),2) as total
-                FROM ventas v INNER JOIN clientes c ON v.cliente_id = c.id 
-                INNER JOIN usuarios u ON v.usuario_id = u.id INNER JOIN detalle_venta d ON d.venta_id=v.id
-                WHERE v.estatus = 'ACTIVO' AND v.fecha BETWEEN
-                :desde AND :hasta GROUP BY d.venta_id ORDER BY v.fecha DESC
+        $vendedores = true;
+        $clientes = true;
 
-            ");
-            $vendedores = true;
-            // $query2 = $this->venta->connect()->prepare("SELECT v.codigo, v.fecha, vp.metodo, count(vp.metodo) as cantidad, SUM(vp.monto) as 
-            //     total FROM ventas v LEFT JOIN venta_pago vp ON v.id = vp.venta_id 
-            //     WHERE v.estatus = 'ACTIVO' AND v.fecha BETWEEN
-            //     :desde AND :hasta GROUP BY vp.metodo ");
-        }
-        else{
-            $query = $this->venta->connect()->prepare("SELECT v.codigo, date_format(v.fecha, '%d-%m-%Y %r') as fecha,
-                c.nombre as cliente, CONCAT(u.nombre, ' ', u.apellido) as vendedor, ROUND(SUM(d.precio*d.cantidad),2) as total
-                FROM ventas v INNER JOIN clientes c ON v.cliente_id = c.id 
-                INNER JOIN usuarios u ON v.usuario_id = u.id INNER JOIN detalle_venta d ON d.venta_id=v.id
-                WHERE v.estatus = 'ACTIVO' AND v.usuario_id = :usuario AND v.fecha BETWEEN
-                :desde AND :hasta GROUP BY d.venta_id ORDER BY v.fecha DESC
-            ");
-            $query->bindParam(':usuario',$usuario);
+        $sql = "SELECT v.codigo, date_format(v.fecha, '%d-%m-%Y %r') as fecha,
+        c.nombre as cliente, CONCAT(u.nombre, ' ', u.apellido) as vendedor, ROUND(SUM(d.precio*d.cantidad),2) as total
+        FROM ventas v 
+        INNER JOIN clientes c 
+        ON v.cliente_id = c.id 
+        INNER JOIN usuarios u 
+        ON v.usuario_id = u.id 
+        INNER JOIN detalle_venta d 
+        ON d.venta_id=v.id
+        WHERE v.estatus = 'ACTIVO'";
+
+        if($usuario != 0){
             $vendedores = false;
-            // $query2 = $this->venta->connect()->prepare("SELECT v.codigo, v.fecha, vp.metodo, count(vp.metodo) as cantidad, SUM(vp.monto) as 
-            //     total FROM ventas v LEFT JOIN venta_pago vp ON v.id = vp.venta_id 
-            //     WHERE v.estatus = 'ACTIVO' AND v.usuario_id = :usuario AND v.fecha BETWEEN
-            //     :desde AND :hasta GROUP BY vp.metodo ");
-            // $query2->bindParam(':usuario',$usuario);
+            $sql .= " AND v.usuario_id = :usuario ";
             $vendedor = $this->usuario->getOne("usuarios", $usuario);
         }
+        if($cliente_id != 0){
+            $clientes = false;
+            $sql .= " AND v.cliente_id = :cliente ";
+            $cliente = $this->cliente->getOne("clientes", $cliente_id);
+        }
+
+        $sql .= " AND v.fecha BETWEEN :desde AND :hasta GROUP BY d.venta_id ORDER BY v.fecha DESC";
+
+        $query = $this->venta->connect()->prepare($sql);
+
+        if (!$vendedores) {
+            $query->bindParam(':usuario',$usuario);
+        }
+        if (!$clientes) {
+            $query->bindParam(':cliente',$cliente_id);
+        }
+
+
         $query->bindParam(':desde',$desde);
         $query->bindParam(':hasta',$hasta);
         $query->execute();
         $ventas = $query->fetchAll(PDO::FETCH_OBJ);
-        // $query2->bindParam(':desde',$desde);
-        // $query2->bindParam(':hasta',$hasta);
-        // $query2->execute();
-        // $pagos = $query2->fetchAll(PDO::FETCH_OBJ);
-        // $dolar = $this->venta->getAll('dolar');
+
+        $output = array(
+            'ventas' => $ventas,
+            'desde' => $desde,
+            'hasta' => $hasta,
+            'dolar' => 1,
+            'vendedores' => $vendedores,
+            'clientes' => $clientes,
+            'cantidad' => 0,
+            'total' => 0
+        );
+
+        if (!$vendedores) $output += ['vendedor' =>$vendedor->nombre." ".$vendedor->apellido];
+        if (!$clientes) $output += ['cliente' => $cliente->nombre." ".$cliente->apellido];
+
         ob_start();
-        if ($vendedores) {
-            View::getViewPDF('FormatosPDF.reporteVenta',[
-                'ventas' => $ventas,
-                // 'pagos' => $pagos,
-                'desde' => $desde,
-                'hasta' => $hasta,
-                'dolar' => 1,
-                // 'dolar' => $dolar[0]->precio,
-                'vendedores' => $vendedores,
-                'cantidad' => 0,
-                'total' => 0
-            ]);
-        }
-        else{
-            View::getViewPDF('FormatosPDF.reporteVenta',[
-                'ventas' => $ventas,
-                // 'pagos' => $pagos,
-                'desde' => $desde,
-                'hasta' => $hasta,
-                'dolar' => 1,
-                // 'dolar' => $dolar[0]->precio,
-                'vendedores' => $vendedores,
-                'cantidad' => 0,
-                'total' => 0,
-                'vendedor' =>$vendedor->nombre." ".$vendedor->apellido
-            ]);
-        }
-        
+        View::getViewPDF('FormatosPDF.reporteVenta',$output);
 
         $html = ob_get_clean();
 
@@ -194,93 +190,68 @@ class ReporteController extends Controller {
             return false;
         }  
         $empleado = $_POST['tecnico']; 
+        $cliente_id = $_POST['cliente']; 
         $desde = $_POST['desde']; 
         $hasta = $_POST['hasta']; 
         $desde.= " 00:00:00";
         $hasta.= " 23:59:59";
-        $tecnico = NULL;
-        if($empleado == 0){
-            $query = $this->servicio->connect()->prepare("SELECT p.codigo, date_format(p.fecha, '%d-%m-%Y %r') as fecha,
-                c.nombre as cliente, CONCAT(e.nombre, ' ', e.apellido) as empleado, ROUND(d.precio,2) as total, s.nombre as nombre_servicio
-                FROM servicios_prestados p 
-                INNER JOIN clientes c 
-                ON p.cliente_id = c.id 
-                INNER JOIN empleados e 
-                ON p.empleado_id = e.id 
-                INNER JOIN detalle_servicio d 
-                ON d.servicio_prestado_id=p.id
-                INNER JOIN servicios s
-                ON  d.servicio_id = s.id
-                WHERE p.estatus = 'ACTIVO' AND p.fecha BETWEEN
-                :desde AND :hasta GROUP BY d.servicio_prestado_id ORDER BY p.fecha DESC
-            ");
-            $tecnicos = true;
-            // $query2 = $this->venta->connect()->prepare("SELECT v.codigo, v.fecha, vp.metodo, count(vp.metodo) as cantidad, SUM(vp.monto) as 
-            //     total FROM ventas v LEFT JOIN venta_pago vp ON v.id = vp.venta_id 
-            //     WHERE v.estatus = 'ACTIVO' AND v.fecha BETWEEN
-            //     :desde AND :hasta GROUP BY vp.metodo ");
-        }
-        else{
+        $tecnicos = true;
+        $clientes = true;
 
-            $query = $this->servicio->connect()->prepare("SELECT p.codigo, date_format(p.fecha, '%d-%m-%Y %r') as fecha,
-                c.nombre as cliente, CONCAT(e.nombre, ' ', e.apellido) as empleado, ROUND(d.precio,2) as total, s.nombre as nombre_servicio
-                FROM servicios_prestados p INNER JOIN clientes c ON p.cliente_id = c.id 
-                INNER JOIN empleados e 
-                ON p.empleado_id = e.id 
-                INNER JOIN detalle_servicio d 
-                ON d.servicio_prestado_id=p.id 
-                INNER JOIN servicios s
-                ON  d.servicio_id = s.id
-                WHERE p.estatus = 'ACTIVO' AND p.empleado_id = :empleado AND p.fecha BETWEEN
-                :desde AND :hasta GROUP BY d.servicio_prestado_id ORDER BY p.fecha DESC
-            ");
+        $sql = "SELECT p.codigo, date_format(p.fecha, '%d-%m-%Y %r') as fecha,
+        c.nombre as cliente, CONCAT(e.nombre, ' ', e.apellido) as empleado, ROUND(d.precio,2) as total, s.nombre as nombre_servicio
+        FROM servicios_prestados p INNER JOIN clientes c ON p.cliente_id = c.id 
+        INNER JOIN empleados e 
+        ON p.empleado_id = e.id 
+        INNER JOIN detalle_servicio d 
+        ON d.servicio_prestado_id=p.id 
+        INNER JOIN servicios s
+        ON  d.servicio_id = s.id
+        WHERE p.estatus = 'ACTIVO'";
 
-            $query->bindParam(':empleado',$empleado);
+        if($empleado != 0){
             $tecnicos = false;
-            // $query2 = $this->venta->connect()->prepare("SELECT v.codigo, v.fecha, vp.metodo, count(vp.metodo) as cantidad, SUM(vp.monto) as 
-            //     total FROM ventas v LEFT JOIN venta_pago vp ON v.id = vp.venta_id 
-            //     WHERE v.estatus = 'ACTIVO' AND v.usuario_id = :usuario AND v.fecha BETWEEN
-            //     :desde AND :hasta GROUP BY vp.metodo ");
-            // $query2->bindParam(':usuario',$usuario);
+            $sql .= " AND p.empleado_id = :empleado ";
             $tecnico = $this->empleado->getOne("empleados", $empleado);
         }
+        if($cliente_id != 0){
+            $clientes = false;
+            $sql .= " AND p.cliente_id = :cliente ";
+            $cliente = $this->cliente->getOne("clientes", $cliente_id);
+        }
+
+        $sql .= " AND p.fecha BETWEEN :desde AND :hasta GROUP BY d.servicio_prestado_id ORDER BY p.fecha DESC";
+
+        $query = $this->servicio->connect()->prepare($sql);
+
+        if ($empleado != 0) {
+            $query->bindParam(':empleado',$empleado);
+        }
+        if ($cliente_id != 0) {
+            $query->bindParam(':cliente',$cliente_id);
+        }
+
         $query->bindParam(':desde',$desde);
         $query->bindParam(':hasta',$hasta);
         $query->execute();
         $servicios = $query->fetchAll(PDO::FETCH_OBJ);
-        // $query2->bindParam(':desde',$desde);
-        // $query2->bindParam(':hasta',$hasta);
-        // $query2->execute();
-        // $pagos = $query2->fetchAll(PDO::FETCH_OBJ);
-        // $dolar = $this->venta->getAll('dolar');
         ob_start();
-        if ($tecnicos) {
-            View::getViewPDF('FormatosPDF.reporteServicio',[
-                'servicios' => $servicios,
-                // 'pagos' => $pagos,
-                'desde' => $desde,
-                'hasta' => $hasta,
-                'dolar' => 1,
-                // 'dolar' => $dolar[0]->precio,
-                'tecnicos' => $tecnicos,
-                'cantidad' => 0,
-                'total' => 0
-            ]);
-        }
-        else{
-            View::getViewPDF('FormatosPDF.reporteServicio',[
-                'servicios' => $servicios,
-                // 'pagos' => $pagos,
-                'desde' => $desde,
-                'hasta' => $hasta,
-                'dolar' => 1,
-                // 'dolar' => $dolar[0]->precio,
-                'tecnicos' => $tecnicos,
-                'cantidad' => 0,
-                'total' => 0,
-                'tecnico' =>$tecnico->nombre." ".$tecnico->apellido
-            ]);
-        }
+
+        $output = array(
+            'servicios' => $servicios,
+            'desde' => $desde,
+            'hasta' => $hasta,
+            'dolar' => 1,
+            'tecnicos' => $tecnicos,
+            'clientes' => $clientes,
+            'cantidad' => 0,
+            'total' => 0,
+        );
+
+        if (!$tecnicos) $output += ['tecnico' => $tecnico->nombre." ".$tecnico->apellido];
+        if (!$clientes) $output += ['cliente' => $cliente->nombre." ".$cliente->apellido];
+
+        View::getViewPDF('FormatosPDF.reporteServicio',$output);
         
         $html = ob_get_clean();
 

@@ -7,12 +7,25 @@
                 <form action="<?=ROOT;?>Reporte/reporteServicio" method="POST" enctype="multipart/form-data" id="formularioReporte" target="_blank">
                     <div class="row form-group">
                         <label for="tecnico" class="col-form-label col-md-4 font-weight-bold">Técnico: </label>
-                        <div class="col-md-8 d-flex align-items-center">
+                        <div class="col-md-8 d-flex align-items-center p-0">
                             <select class="form-control js-example-basic-single" name="tecnico" id="tecnico" required>
                                 <option value="0">TODOS</option>
                                 
                                 <?php foreach($tecnicos as $tecnico):?>
                                     <option value="<?=$tecnico->id?>"><?=$tecnico->nombre?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div class="row form-group">
+                        <label for="cliente" class="col-form-label col-md-4 font-weight-bold">Cliente: </label>
+                        <div class="col-md-8 d-flex align-items-center p-0">
+                            <select class="form-control js-example-basic-single" name="cliente" id="cliente" required>
+                                <option value="0">TODOS</option>
+                                
+                                <?php foreach($clientes as $cliente):?>
+                                    <option value="<?=$cliente->id?>"><?=$cliente->nombre?></option>
                                 <?php endforeach;?>
                             </select>
                         </div>

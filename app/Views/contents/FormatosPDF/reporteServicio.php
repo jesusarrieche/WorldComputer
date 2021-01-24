@@ -61,6 +61,9 @@
                 <?php if(!$tecnicos){?>
                     <strong>Tecnico: </strong> <?=$tecnico?><br>
                 <?php }?>
+                <?php if(!$clientes){?>
+                    <strong>Cliente: </strong> <?=$cliente?><br>
+                <?php }?>
                  <strong>Desde: </strong> <?=$desde?><br>
                  <strong>Hasta: </strong> <?=$hasta?>
                 </p>
