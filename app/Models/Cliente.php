@@ -6,6 +6,19 @@ use Exception;
 use PDO;
 
 class Cliente extends Persona{
+
+    public function getClientes() {
+        try{
+            $consulta = parent::connect()->prepare("SELECT id, documento, CONCAT(nombre, ' ', apellido) AS nombre, telefono, estatus, created_at FROM clientes WHERE estatus='ACTIVO' ORDER BY estatus, created_at DESC");
+            $consulta->execute();
+            
+            return $consulta->fetchAll(PDO::FETCH_OBJ);
+            
+        } catch (Exception $ex) {
+            die($ex->getMessage());
+        }
+    }
+
     public function listar(){
         try{
             $consulta = parent::connect()->prepare("SELECT id, documento, CONCAT(nombre, ' ', apellido) AS nombre, telefono, estatus, created_at FROM clientes ORDER BY estatus, created_at DESC");

@@ -7,6 +7,18 @@ use PDO;
 
 class Proveedor extends Persona{
 
+    public function getProveedores () {
+        try{
+            $consulta = parent::connect()->prepare("SELECT * FROM proveedores ORDER BY estatus ='ACTIVO', created_at DESC");
+            $consulta->execute();
+            
+            return $consulta->fetchAll(PDO::FETCH_OBJ);
+            
+        } catch (Exception $ex) {
+            die($ex->getMessage());
+        }
+    }
+
     public function listar(){
         try{
             $consulta = parent::connect()->prepare("SELECT * FROM proveedores ORDER BY estatus, created_at DESC");

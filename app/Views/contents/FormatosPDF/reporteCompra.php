@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Reporte de Ventas</title>
+    <title>Reporte de Compras</title>
 
     <style type="text/css">
         *{
@@ -53,29 +53,26 @@
     <div class="container centrado" style="width: 98%;">
 
         <div class="centrado" style="width=98%;">
-            <h1 class="text-center margin">REPORTE DE VENTAS</h1>
+            <h1 class="text-center margin">REPORTE DE COMPRAS</h1>
             <hr>
             <div>
             
                 <p>
-                <?php if(!$vendedores){?>
-                    <strong>Vendedor: </strong> <?=$vendedor?><br>
-                <?php }?>
-                <?php if(!$clientes){?>
-                    <strong>Cliente: </strong> <?=$cliente?><br>
+                <?php if(!$proveedores){?>
+                    <strong>Proveedor: </strong> <?=$proveedor?><br>
                 <?php }?>
                  <strong>Desde: </strong> <?=$desde?><br>
                  <strong>Hasta: </strong> <?=$hasta?>
                 </p>
                 
             </div>
-            <!-- Ventas -->
-            <?php if(isset($ventas) && count($ventas)>0){?>
+            <!-- Compras -->
+            <?php if(isset($compras) && count($compras)>0){?>
             <div clas="separadorDos"></div>
-            <h3 class="text-center margin"><u>VENTAS</u></h3><br>
+            <h3 class="text-center margin"><u>COMPRAS</u></h3><br>
         
         
-        <?php if($vendedores){?>
+        <?php if($proveedores){?>
             <div>
                 <div style="width:15%; display:inline;" class="text-center">
                     <strong>CÓDIGO</strong>
@@ -84,10 +81,10 @@
                     <strong>FECHA</strong>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center">
-                    <strong>CLIENTE</strong>
+                    <strong>PROVEEDOR</strong>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center">
-                    <strong>VENDEDOR</strong>
+                    <strong>IMPUESTO</strong>
                 </div>
                 <div style="width:18%; display:inline;" class="text-center">
                     <strong>TOTAL $</strong>
@@ -100,29 +97,29 @@
             <hr><br>
             <?php                    
                 $total = 0;
-                foreach($ventas AS $venta):
+                foreach($compras AS $compra):
                     $cantidad++;
-                    $total += $venta->total;
+                    $total += $compra->total;
             ?>
 
             <div>
                 <div style="width:15%; display:inline;" class="text-center" >
-                    <span><?= $venta->codigo; ?></span>
+                    <span><?= $compra->codigo; ?></span>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center" >
-                    <span><?= $venta->fecha; ?></span>
+                    <span><?= $compra->fecha; ?></span>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center" >
-                    <span><?= $venta->cliente; ?></span>
+                    <span><?= $compra->proveedor; ?></span>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center" >
-                    <span><?= $venta->vendedor; ?></span>
+                    <span><?= $compra->impuesto; ?></span>
                 </div>
                 <div style="width:18%; display:inline;" class="text-center" >
-                    <span><?= $venta->total ?></span>
+                    <span><?= $compra->total ?></span>
                 </div>
                 <div style="width:18%; display:inline;" class="text-center" >
-                    <span><?= $venta->total * $dolar; ?></span>
+                    <span><?= $compra->total * $dolar; ?></span>
                 </div>
             </div>
                 
@@ -133,7 +130,7 @@
                 ?>
             <div>
                 <div style="width:22.5%; display:inline;" class="text-center" >
-                    <b>Cantidad de Ventas</b>
+                    <b>Cantidad de Compras</b>
                 </div>
                 <div style="width:23.5%; display:inline;" class="text-center" >
                     <span><?= $cantidad; ?></span>
@@ -156,19 +153,19 @@
             <div class="separador"></div>
             <?php }else{?>
                 <div>
-                    <div style="width:18.5%; display:inline;" class="text-center">
+                    <div style="width:20%; display:inline;" class="text-center">
                         <strong>CÓDIGO</strong>
                     </div>
-                    <div style="width:15.5%; display:inline;" class="text-center">
+                    <div style="width:20.5%; display:inline;" class="text-center">
                         <strong>FECHA</strong>
                     </div>
-                    <div style="width:18.5%; display:inline;" class="text-center">
-                        <strong>CLIENTE</strong>
+                    <div style="width:20.5%; display:inline;" class="text-center">
+                        <strong>IMPUESTO</strong>
                     </div>
-                    <div style="width:18.5%; display:inline;" class="text-center">
+                    <div style="width:18%; display:inline;" class="text-center">
                         <strong>TOTAL $</strong>
                     </div>
-                    <div style="width:18.5%; display:inline;" class="text-center">
+                    <div style="width:18%; display:inline;" class="text-center">
                         <strong>TOTAL BSS</strong>
                     </div>
                 </div>
@@ -176,26 +173,26 @@
                 <hr><br>
                 <?php                    
                     $total = 0;
-                    foreach($ventas AS $venta):
+                    foreach($compras AS $compra):
                         $cantidad++;
-                        $total += $venta->total;
+                        $total += $compra->total;
                 ?>
 
                 <div>
-                    <div style="width:18.5%; display:inline;" class="text-center" >
-                        <span><?= $venta->codigo; ?></span>
+                    <div style="width:20%; display:inline;" class="text-center" >
+                        <span><?= $compra->codigo; ?></span>
                     </div>
-                    <div style="width:15.5%; display:inline;" class="text-center" >
-                        <span><?= $venta->fecha; ?></span>
+                    <div style="width:20.5%; display:inline;" class="text-center" >
+                        <span><?= $compra->fecha; ?></span>
                     </div>
-                    <div style="width:18.5%; display:inline;" class="text-center" >
-                        <span><?= $venta->cliente; ?></span>
+                    <div style="width:20.5%; display:inline;" class="text-center" >
+                        <span><?= $compra->impuesto; ?></span>
                     </div>
-                    <div style="width:18.5%; display:inline;" class="text-center" >
-                        <span><?= $venta->total ?></span>
+                    <div style="width:18%; display:inline;" class="text-center" >
+                        <span><?= $compra->total ?></span>
                     </div>
-                    <div style="width:18.5%; display:inline;" class="text-center" >
-                        <span><?= $venta->total * $dolar; ?></span>
+                    <div style="width:18%; display:inline;" class="text-center" >
+                        <span><?= $compra->total * $dolar; ?></span>
                     </div>
                 </div>
                 
@@ -205,10 +202,10 @@
                     endforeach;
                 ?>
                 <div>
-                    <div style="width:18.5%; display:inline;" class="text-center" >
-                        <b>Cantidad de Ventas</b>
+                    <div style="width:26.5%; display:inline;" class="text-center" >
+                        <b>Cantidad de Compras</b>
                     </div>
-                    <div style="width:15.5%; display:inline;" class="text-center" >
+                    <div style="width:15%; display:inline;" class="text-center" >
                         <span><?= $cantidad ?></span>
                     </div>
                     <div style="width:18.5%; display:inline;" class="text-center" >
@@ -229,7 +226,7 @@
             <br> 
                 
         </div>  
-        <!-- Fin de Ventas -->
+        <!-- Fin de Compras -->
        
         <br>
         <div class="separadorDos"></div>
@@ -239,7 +236,7 @@
         <div class="centrado" style="width: 95%;">
                 <h3 class="text-center margin"><u>MÉTODOS DE PAGO</u></h3><br>
                 <div>
-                    <!-- <p> <b>Total de Ventas: </b> <?=$cantidad;?></p> -->
+                    <!-- <p> <b>Total de Compras: </b> <?=$cantidad;?></p> -->
                    
                     <div style="width:24%; display:inline;" class="text-center">
                         <strong>MÉTODO</strong>
