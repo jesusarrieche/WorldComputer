@@ -68,9 +68,11 @@ class ReporteController extends Controller {
         $query->execute();
         $usuarios = $query->fetchAll(PDO::FETCH_OBJ);
         $clientes = $this->cliente->getClientes();
+        $productos = $this->producto->getProductos();
 
         return View::getView('Reporte.ventas',[
             'usuarios' => $usuarios,
+            'productos' => $productos,
             'clientes' => $clientes
         ]);
     }
@@ -78,26 +80,32 @@ class ReporteController extends Controller {
     public function servicios () {
         $tecnicos = $this->empleado->getTecnicos();
         $clientes = $this->cliente->getClientes();
+        $servicios = $this->servicio->getServicios();
 
         return View::getView('Reporte.servicios',[
             'tecnicos' => $tecnicos,
+            'servicios' => $servicios,
             'clientes' => $clientes
         ]);
     }
 
     public function productos () {
         $categorias = $this->categoria->getCategorias();
+        $productos = $this->producto->getProductos();
 
         return View::getView('Reporte.productos',[
-            'categorias' => $categorias
+            'categorias' => $categorias,
+            'productos' => $productos
         ]);
     }
 
     public function compras () {
         $proveedores = $this->proveedor->getProveedores();
+        $productos = $this->producto->getProductos();
 
         return View::getView('Reporte.compras',[
-            'proveedores' => $proveedores
+            'proveedores' => $proveedores,
+            'productos' => $productos
         ]);
     }
 
@@ -111,6 +119,7 @@ class ReporteController extends Controller {
         }  
         $usuario = $_POST['vendedor']; 
         $cliente_id = $_POST['cliente']; 
+        $producto_id = $_POST['producto'];
         $desde = $_POST['desde']; 
         $hasta = $_POST['hasta']; 
         $desde.= " 00:00:00";
@@ -118,6 +127,7 @@ class ReporteController extends Controller {
         $vendedor = NULL;
         $vendedores = true;
         $clientes = true;
+        $productos = true;
 
         $sql = "SELECT v.codigo, date_format(v.fecha, '%d-%m-%Y %r') as fecha,
         c.nombre as cliente, CONCAT(u.nombre, ' ', u.apellido) as vendedor, ROUND(SUM(d.precio*d.cantidad),2) as total
@@ -140,6 +150,11 @@ class ReporteController extends Controller {
             $sql .= " AND v.cliente_id = :cliente ";
             $cliente = $this->cliente->getOne("clientes", $cliente_id);
         }
+        if($producto_id != 0){
+            $productos = false;
+            $sql .= " AND d.producto_id = :producto ";
+            $producto = $this->producto->getOne("productos", $producto_id);
+        }
 
         $sql .= " AND v.fecha BETWEEN :desde AND :hasta GROUP BY d.venta_id ORDER BY v.fecha DESC";
 
@@ -150,6 +165,9 @@ class ReporteController extends Controller {
         }
         if (!$clientes) {
             $query->bindParam(':cliente',$cliente_id);
+        }
+        if (!$productos) {
+            $query->bindParam(':producto',$producto_id);
         }
 
 
@@ -165,12 +183,14 @@ class ReporteController extends Controller {
             'dolar' => 1,
             'vendedores' => $vendedores,
             'clientes' => $clientes,
+            'productos' => $productos,
             'cantidad' => 0,
             'total' => 0
         );
 
         if (!$vendedores) $output += ['vendedor' =>$vendedor->nombre." ".$vendedor->apellido];
         if (!$clientes) $output += ['cliente' => $cliente->nombre." ".$cliente->apellido];
+        if (!$productos) $output += ['producto' => $producto->nombre];
 
         ob_start();
         View::getViewPDF('FormatosPDF.reporteVenta',$output);
@@ -191,12 +211,14 @@ class ReporteController extends Controller {
         }  
         $empleado = $_POST['tecnico']; 
         $cliente_id = $_POST['cliente']; 
+        $servicio_id = $_POST['servicio']; 
         $desde = $_POST['desde']; 
         $hasta = $_POST['hasta']; 
         $desde.= " 00:00:00";
         $hasta.= " 23:59:59";
         $tecnicos = true;
         $clientes = true;
+        $serviciosFiltro = true;
 
         $sql = "SELECT p.codigo, date_format(p.fecha, '%d-%m-%Y %r') as fecha,
         c.nombre as cliente, CONCAT(e.nombre, ' ', e.apellido) as empleado, ROUND(d.precio,2) as total, s.nombre as nombre_servicio
@@ -219,6 +241,11 @@ class ReporteController extends Controller {
             $sql .= " AND p.cliente_id = :cliente ";
             $cliente = $this->cliente->getOne("clientes", $cliente_id);
         }
+        if($servicio_id != 0){
+            $serviciosFiltro = false;
+            $sql .= " AND s.id = :servicio ";
+            $servicio = $this->servicio->getOne("servicios", $servicio_id);
+        }
 
         $sql .= " AND p.fecha BETWEEN :desde AND :hasta GROUP BY d.servicio_prestado_id ORDER BY p.fecha DESC";
 
@@ -229,6 +256,9 @@ class ReporteController extends Controller {
         }
         if ($cliente_id != 0) {
             $query->bindParam(':cliente',$cliente_id);
+        }
+        if ($servicio_id != 0) {
+            $query->bindParam(':servicio',$servicio_id);
         }
 
         $query->bindParam(':desde',$desde);
@@ -244,12 +274,14 @@ class ReporteController extends Controller {
             'dolar' => 1,
             'tecnicos' => $tecnicos,
             'clientes' => $clientes,
+            'serviciosFiltro' => $serviciosFiltro,
             'cantidad' => 0,
             'total' => 0,
         );
 
         if (!$tecnicos) $output += ['tecnico' => $tecnico->nombre." ".$tecnico->apellido];
         if (!$clientes) $output += ['cliente' => $cliente->nombre." ".$cliente->apellido];
+        if (!$serviciosFiltro) $output += ['servicio' => $servicio->nombre];
 
         View::getViewPDF('FormatosPDF.reporteServicio',$output);
         
@@ -268,79 +300,56 @@ class ReporteController extends Controller {
             return false;
         }  
         $categoria_id = $_POST['categoria'];
-        $categorias = NULL;
-        if($categoria_id == 0){
-            $query = $this->producto->connect()->prepare("SELECT p.codigo,p.nombre,p.precio_venta,p.stock,p.stock_min,
-                p.stock_max, c.nombre as nombre_categoria, u.abreviatura
-                FROM productos p 
-                INNER JOIN categorias c 
-                ON c.id = p.categoria_id 
-                INNER JOIN unidades u 
-                ON u.id = p.unidad_id 
-                WHERE p.estatus = 'ACTIVO'
-                ORDER BY c.nombre
-            ");
-            $categorias = true;
-            // $query2 = $this->venta->connect()->prepare("SELECT v.codigo, v.fecha, vp.metodo, count(vp.metodo) as cantidad, SUM(vp.monto) as 
-            //     total FROM ventas v LEFT JOIN venta_pago vp ON v.id = vp.venta_id 
-            //     WHERE v.estatus = 'ACTIVO' AND v.fecha BETWEEN
-            //     :desde AND :hasta GROUP BY vp.metodo ");
-        }
-        else{
+        $producto_id = $_POST['producto'];
+        $categorias = true;
+        $productosFiltro = true;
 
-            $query = $this->producto->connect()->prepare("SELECT p.codigo,p.nombre,p.precio_venta,p.stock,p.stock_min,
-                p.stock_max, c.nombre as nombre_categoria, u.abreviatura
-                FROM productos p 
-                INNER JOIN categorias c 
-                ON c.id = p.categoria_id 
-                INNER JOIN unidades u 
-                ON u.id = p.unidad_id 
-                WHERE categoria_id = :categoria
-                AND p.estatus = 'ACTIVO'
-                ORDER BY c.nombre
-            ");
+        $sql = "SELECT p.codigo,p.nombre,p.precio_venta,p.stock,p.stock_min,
+        p.stock_max, c.nombre as nombre_categoria, u.abreviatura
+        FROM productos p 
+        INNER JOIN categorias c 
+        ON c.id = p.categoria_id 
+        INNER JOIN unidades u 
+        ON u.id = p.unidad_id 
+        WHERE p.estatus = 'ACTIVO'";
 
-            $query->bindParam(':categoria',$categoria_id);
+        if($categoria_id != 0){
             $categorias = false;
-            // $query2 = $this->venta->connect()->prepare("SELECT v.codigo, v.fecha, vp.metodo, count(vp.metodo) as cantidad, SUM(vp.monto) as 
-            //     total FROM ventas v LEFT JOIN venta_pago vp ON v.id = vp.venta_id 
-            //     WHERE v.estatus = 'ACTIVO' AND v.usuario_id = :usuario AND v.fecha BETWEEN
-            //     :desde AND :hasta GROUP BY vp.metodo ");
-            // $query2->bindParam(':usuario',$usuario);
+            $sql .= " AND categoria_id = :categoria";
             $categoria = $this->categoria->getOne("categorias", $categoria_id);
         }
+        if($producto_id != 0){
+            $productosFiltro = false;
+            $sql .= " AND p.id = :producto ";
+            $producto = $this->producto->getOne("productos", $producto_id);
+        }
+        $sql .= " ORDER BY c.nombre";
+        $query = $this->producto->connect()->prepare($sql);
+
+        if ($categoria_id != 0) {
+            $query->bindParam(':categoria',$categoria_id);
+        }
+        if ($producto_id != 0) {
+            $query->bindParam(':producto',$producto_id);
+        }
+
         $query->execute();
         $productos = $query->fetchAll(PDO::FETCH_OBJ);
-        // $query2->bindParam(':desde',$desde);
-        // $query2->bindParam(':hasta',$hasta);
-        // $query2->execute();
-        // $pagos = $query2->fetchAll(PDO::FETCH_OBJ);
-        // $dolar = $this->venta->getAll('dolar');
+
+        $output = array(
+            'productos' => $productos,
+            'dolar' => 1,
+            'categorias' => $categorias,
+            'productosFiltro' => $productosFiltro,
+            'cantidad' => 0,
+            'total' => 0
+        );
+
+        if (!$categorias) $output += ['categoria' => $categoria->nombre];
+        if (!$productosFiltro) $output += ['producto' => $producto->nombre];
 
         ob_start();
-        if ($categorias) {
-            View::getViewPDF('FormatosPDF.reporteProducto',[
-                'productos' => $productos,
-                // 'pagos' => $pagos,
-                'dolar' => 1,
-                // 'dolar' => $dolar[0]->precio,
-                'categorias' => $categorias,
-                'cantidad' => 0,
-                'total' => 0
-            ]);
-        }
-        else{
-            View::getViewPDF('FormatosPDF.reporteProducto',[
-                'productos' => $productos,
-                // 'pagos' => $pagos,
-                'dolar' => 1,
-                // 'dolar' => $dolar[0]->precio,
-                'categorias' => $categorias,
-                'cantidad' => 0,
-                'total' => 0,
-                'categoria' =>$categoria->nombre
-            ]);
-        }
+        View::getViewPDF('FormatosPDF.reporteProducto',$output);
         
         $html = ob_get_clean();
 
@@ -357,75 +366,67 @@ class ReporteController extends Controller {
             return false;
         }  
         $proveedor_id = $_POST['proveedor']; 
+        $producto_id = $_POST['producto']; 
         $desde = $_POST['desde']; 
         $hasta = $_POST['hasta']; 
         $desde.= " 00:00:00";
         $hasta.= " 23:59:59";
         $tecnico = NULL;
-        if($proveedor_id == 0){
-            $query = $this->compra->connect()->prepare("SELECT c.codigo, date_format(c.fecha, '%d-%m-%Y %r') as fecha,
-                c.impuesto, ROUND(SUM(d.costo*d.cantidad),2) as total, p.razon_social as proveedor
-                FROM compras c 
-                INNER JOIN detalle_compra d 
-                ON d.compra_id = c.id 
-                INNER JOIN proveedores p 
-                ON p.id = c.proveedor_id 
-                WHERE c.estatus = 'ACTIVO' AND c.fecha BETWEEN
-                :desde AND :hasta GROUP BY d.compra_id ORDER BY c.fecha DESC
-            ");
-            $proveedores = true;
-        }
-        else{
+        $proveedores = true;
+        $productos = true;
 
-            $query = $this->servicio->connect()->prepare("SELECT c.codigo, date_format(c.fecha, '%d-%m-%Y %r') as fecha,
-                c.impuesto, ROUND(SUM(d.costo*d.cantidad),2) as total, p.razon_social as proveedor
-                FROM compras c 
-                INNER JOIN detalle_compra d 
-                ON d.compra_id = c.id 
-                INNER JOIN proveedores p 
-                ON p.id = c.proveedor_id 
-                WHERE c.estatus = 'ACTIVO' 
-                AND c.proveedor_id = :proveedor
-                AND c.fecha BETWEEN
-                :desde AND :hasta GROUP BY d.compra_id ORDER BY c.fecha DESC
-            ");
+        $sql = "SELECT c.codigo, date_format(c.fecha, '%d-%m-%Y %r') as fecha,
+            c.impuesto, ROUND(SUM(d.costo*d.cantidad),2) as total, p.razon_social as proveedor
+            FROM compras c 
+            INNER JOIN detalle_compra d 
+            ON d.compra_id = c.id 
+            INNER JOIN proveedores p 
+            ON p.id = c.proveedor_id 
+            WHERE c.estatus = 'ACTIVO'";
 
-            $query->bindParam(':proveedor',$proveedor_id);
+        if($proveedor_id != 0){
             $proveedores = false;
+            $sql .= " AND c.proveedor_id = :proveedor";
             $proveedor = $this->proveedor->getOne("proveedores", $proveedor_id);
         }
+        if($producto_id != 0){
+            $productos = false;
+            $sql .= " AND d.producto_id = :producto ";
+            $producto = $this->producto->getOne("productos", $producto_id);
+        }
+
+        $sql .= "AND c.fecha BETWEEN :desde AND :hasta GROUP BY d.compra_id ORDER BY c.fecha DESC";
+
+        $query = $this->compra->connect()->prepare($sql);
+
+        if ($proveedor_id != 0) {
+            $query->bindParam(':proveedor',$proveedor_id);
+        }
+        if ($producto_id != 0) {
+            $query->bindParam(':producto',$producto_id);
+        }
+
         $query->bindParam(':desde',$desde);
         $query->bindParam(':hasta',$hasta);
         $query->execute();
         $compras = $query->fetchAll(PDO::FETCH_OBJ);
+
+        $output = array(
+            'compras' => $compras,
+            'desde' => $desde,
+            'hasta' => $hasta,
+            'dolar' => 1,
+            'proveedores' => $proveedores,
+            'productos' => $productos,
+            'cantidad' => 0,
+            'total' => 0
+        );
+
+        if (!$proveedores) $output += ['proveedor' => $proveedor->razon_social];
+        if (!$productos) $output += ['producto' => $producto->nombre];
+
         ob_start();
-        if ($proveedores) {
-            View::getViewPDF('FormatosPDF.reporteCompra',[
-                'compras' => $compras,
-                // 'pagos' => $pagos,
-                'desde' => $desde,
-                'hasta' => $hasta,
-                'dolar' => 1,
-                // 'dolar' => $dolar[0]->precio,
-                'proveedores' => $proveedores,
-                'cantidad' => 0,
-                'total' => 0
-            ]);
-        }
-        else{
-            View::getViewPDF('FormatosPDF.reporteCompra',[
-                'compras' => $compras,
-                // 'pagos' => $pagos,
-                'desde' => $desde,
-                'hasta' => $hasta,
-                'dolar' => 1,
-                // 'dolar' => $dolar[0]->precio,
-                'proveedores' => $proveedores,
-                'cantidad' => 0,
-                'total' => 0,
-                'proveedor' =>$proveedor->razon_social
-            ]);
-        }
+        View::getViewPDF('FormatosPDF.reporteCompra',$output);
         
         $html = ob_get_clean();
 

@@ -64,6 +64,9 @@
                 <?php if(!$clientes){?>
                     <strong>Cliente: </strong> <?=$cliente?><br>
                 <?php }?>
+                <?php if(!$serviciosFiltro){?>
+                    <strong>Servicio: </strong> <?=$servicio?><br>
+                <?php }?>
                  <strong>Desde: </strong> <?=$desde?><br>
                  <strong>Hasta: </strong> <?=$hasta?>
                 </p>

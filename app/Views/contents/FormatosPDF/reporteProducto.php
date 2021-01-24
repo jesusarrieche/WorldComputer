@@ -61,6 +61,9 @@
                 <?php if(!$categorias){?>
                     <strong>Categoria: </strong> <?=$categoria?><br>
                 <?php }?>
+                <?php if(!$productosFiltro){?>
+                    <strong>Producto: </strong> <?=$producto?><br>
+                <?php }?>
                 </p>
                 
             </div>

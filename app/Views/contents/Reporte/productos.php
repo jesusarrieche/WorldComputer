@@ -18,6 +18,17 @@
                         </div>
                         
                     </div>
+                    <div class="row form-group">
+                        <label for="producto" class="col-form-label col-md-4 font-weight-bold">Producto: </label>
+                        <div class="col-md-8 d-flex align-items-center">
+                            <select class="form-control js-example-basic-single" name="producto" id="producto" required>
+                                <option value="0">TODOS</option>
+                                <?php foreach($productos as $producto):?>
+                                    <option value="<?=$producto->id?>"><?=$producto->nombre?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </div>
                     <hr>
                     <div class="row justify-content-md-center">
                         <button type="submit" class="btn btn-success"> <i class="fa fa-fw fa-list-alt"></i> Generar Reporte</button>

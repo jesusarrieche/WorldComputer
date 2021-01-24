@@ -61,6 +61,9 @@
                 <?php if(!$proveedores){?>
                     <strong>Proveedor: </strong> <?=$proveedor?><br>
                 <?php }?>
+                <?php if(!$productos){?>
+                    <strong>Producto: </strong> <?=$producto?><br>
+                <?php }?>
                  <strong>Desde: </strong> <?=$desde?><br>
                  <strong>Hasta: </strong> <?=$hasta?>
                 </p>

@@ -8,11 +8,22 @@
                 <form action="<?=ROOT;?>Reporte/reporteCompra" method="POST" enctype="multipart/form-data" id="formularioReporte" target="_blank">
                     <div class="row form-group">
                         <label for="proveedor" class="col-form-label col-md-4 font-weight-bold">Proveedor: </label>
-                        <div class="col-md-8 d-flex align-items-center">
+                        <div class="col-md-8 d-flex align-items-center p-0">
                             <select class="form-control js-example-basic-single" name="proveedor" id="proveedor" required>
                                 <option value="0">TODOS</option>
                                 <?php foreach($proveedores as $proveedor):?>
                                     <option value="<?=$proveedor->id?>"><?=$proveedor->razon_social?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="producto" class="col-form-label col-md-4 font-weight-bold">Producto: </label>
+                        <div class="col-md-8 d-flex align-items-center p-0">
+                            <select class="form-control js-example-basic-single" name="producto" id="producto" required>
+                                <option value="0">TODOS</option>
+                                <?php foreach($productos as $producto):?>
+                                    <option value="<?=$producto->id?>"><?=$producto->nombre?></option>
                                 <?php endforeach;?>
                             </select>
                         </div>
