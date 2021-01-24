@@ -9,7 +9,7 @@ class Database {
     private $host = 'localhost';
     private $dbname = 'world_computer';
     private $user = 'root';
-    private $password = '';
+    private $password = 'informatica';
 
     public function __construct(){
         $this->connect();

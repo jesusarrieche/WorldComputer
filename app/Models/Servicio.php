@@ -113,6 +113,19 @@ class Servicio extends Model{
             return $ex->message();
         }
     }
+
+    public function getServicios () {
+        try{
+            $consulta = parent::connect()->prepare("SELECT id, nombre, descripcion, precio, estatus, created_at FROM servicios WHERE estatus='ACTIVO'ORDER BY created_at DESC");
+            $consulta->execute();
+            
+            return $consulta->fetchAll(PDO::FETCH_OBJ);
+            
+        } catch (Exception $ex) {
+            die($ex->getMessage());
+        }
+    }
+
     // Servicios
     public function listar(){
         try{

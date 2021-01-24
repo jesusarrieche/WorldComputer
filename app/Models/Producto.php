@@ -130,7 +130,19 @@ class Producto extends Model {
   }
 
   
+  public function getProductos() {
+    try {
+      $sql = "SELECT * FROM productos WHERE estatus= 'ACTIVO'";
 
+      $consulta = parent::connect()->prepare($sql);
+      $consulta->execute();
+      
+      return $consulta->fetchAll(PDO::FETCH_OBJ);
+
+    } catch (Exception $ex) {
+        die($ex->getMessage());
+    }
+  }
 
   /**
    * Metodos

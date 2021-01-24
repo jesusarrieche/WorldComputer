@@ -32,6 +32,19 @@
                         
                     </div>
                     <div class="row form-group">
+                        <label for="servicio" class="col-form-label col-md-4 font-weight-bold">Servicio: </label>
+                        <div class="col-md-8 d-flex align-items-center p-0">
+                            <select class="form-control js-example-basic-single" name="servicio" id="servicio" required>
+                                <option value="0">TODOS</option>
+                                
+                                <?php foreach($servicios as $servicio):?>
+                                    <option value="<?=$servicio->id?>"><?=$servicio->nombre?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div class="row form-group">
                         <label for="desde" class="col-form-label col-md-4 font-weight-bold">Desde: </label>
                         <input type="date" class="form-control col-md-6" name="desde" id="desde" required>
                         
