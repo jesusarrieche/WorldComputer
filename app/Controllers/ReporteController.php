@@ -6,6 +6,7 @@ use App\Models\Compra;
 use App\Models\Venta;
 use App\Models\Categoria;
 use App\Models\Servicio;
+use App\Models\Proveedor;
 use App\Models\Producto;
 use App\Models\Usuario;
 use App\Models\Empleado;
@@ -21,6 +22,7 @@ class ReporteController extends Controller {
     private $venta;
     private $usuario;
     private $producto;
+    private $proveedor;
     private $categoria;
     private $empleado;
     private $servicio;
@@ -33,6 +35,7 @@ class ReporteController extends Controller {
         $this->venta = new Venta;
         $this->usuario = new Usuario;
         $this->categoria = new Categoria;
+        $this->proveedor = new Proveedor;
         $this->producto = new Producto;
         $this->empleado = new Empleado;
         $this->servicio = new Servicio;
@@ -80,6 +83,14 @@ class ReporteController extends Controller {
 
         return View::getView('Reporte.productos',[
             'categorias' => $categorias
+        ]);
+    }
+
+    public function compras () {
+        $proveedores = $this->proveedor->getProveedores();
+
+        return View::getView('Reporte.compras',[
+            'proveedores' => $proveedores
         ]);
     }
 
@@ -366,4 +377,88 @@ class ReporteController extends Controller {
        
     }
     
+    public function reporteCompra()
+    {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if( $method != 'POST'){
+            http_response_code(404);
+            return false;
+        }  
+        $proveedor_id = $_POST['proveedor']; 
+        $desde = $_POST['desde']; 
+        $hasta = $_POST['hasta']; 
+        $desde.= " 00:00:00";
+        $hasta.= " 23:59:59";
+        $tecnico = NULL;
+        if($proveedor_id == 0){
+            $query = $this->compra->connect()->prepare("SELECT c.codigo, date_format(c.fecha, '%d-%m-%Y %r') as fecha,
+                c.impuesto, ROUND(SUM(d.costo*d.cantidad),2) as total, p.razon_social as proveedor
+                FROM compras c 
+                INNER JOIN detalle_compra d 
+                ON d.compra_id = c.id 
+                INNER JOIN proveedores p 
+                ON p.id = c.proveedor_id 
+                WHERE c.estatus = 'ACTIVO' AND c.fecha BETWEEN
+                :desde AND :hasta GROUP BY d.compra_id ORDER BY c.fecha DESC
+            ");
+            $proveedores = true;
+        }
+        else{
+
+            $query = $this->servicio->connect()->prepare("SELECT c.codigo, date_format(c.fecha, '%d-%m-%Y %r') as fecha,
+                c.impuesto, ROUND(SUM(d.costo*d.cantidad),2) as total, p.razon_social as proveedor
+                FROM compras c 
+                INNER JOIN detalle_compra d 
+                ON d.compra_id = c.id 
+                INNER JOIN proveedores p 
+                ON p.id = c.proveedor_id 
+                WHERE c.estatus = 'ACTIVO' 
+                AND c.proveedor_id = :proveedor
+                AND c.fecha BETWEEN
+                :desde AND :hasta GROUP BY d.compra_id ORDER BY c.fecha DESC
+            ");
+
+            $query->bindParam(':proveedor',$proveedor_id);
+            $proveedores = false;
+            $proveedor = $this->proveedor->getOne("proveedores", $proveedor_id);
+        }
+        $query->bindParam(':desde',$desde);
+        $query->bindParam(':hasta',$hasta);
+        $query->execute();
+        $compras = $query->fetchAll(PDO::FETCH_OBJ);
+        ob_start();
+        if ($proveedores) {
+            View::getViewPDF('FormatosPDF.reporteCompra',[
+                'compras' => $compras,
+                // 'pagos' => $pagos,
+                'desde' => $desde,
+                'hasta' => $hasta,
+                'dolar' => 1,
+                // 'dolar' => $dolar[0]->precio,
+                'proveedores' => $proveedores,
+                'cantidad' => 0,
+                'total' => 0
+            ]);
+        }
+        else{
+            View::getViewPDF('FormatosPDF.reporteCompra',[
+                'compras' => $compras,
+                // 'pagos' => $pagos,
+                'desde' => $desde,
+                'hasta' => $hasta,
+                'dolar' => 1,
+                // 'dolar' => $dolar[0]->precio,
+                'proveedores' => $proveedores,
+                'cantidad' => 0,
+                'total' => 0,
+                'proveedor' =>$proveedor->razon_social
+            ]);
+        }
+        
+        $html = ob_get_clean();
+
+        $this->crearPDF($html);
+       
+    }
 }
