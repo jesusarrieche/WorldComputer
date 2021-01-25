@@ -14,6 +14,10 @@ const METODO ='AES-256-CBC';
 const CODIGO_PASSWORD ='WORLD*';
 const CODIGO_VECTOR ='1997';
 
+const USER = "root";
+const SERVER = "localhost"; 
+const BD = "world_computer";
+const PASS = "informatica";
 /**
  * Valores Core
  */

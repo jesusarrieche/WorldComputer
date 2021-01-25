@@ -171,10 +171,16 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`ventas` (
 
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `usuario_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_ventas_clientes1`
     FOREIGN KEY (`cliente_id`)
     REFERENCES `world_computer`.`clientes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ventas_usuario_id`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `world_computer`.`usuarios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -220,10 +226,16 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`compras` (
 
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `usuario_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_compras_proveedores1`
     FOREIGN KEY (`proveedor_id`)
     REFERENCES `world_computer`.`proveedores` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_compras_usuario_id`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `world_computer`.`usuarios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -476,6 +488,7 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`servicios_prestados` (
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `usuario_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_clientes_has_ventas_clientes1`
     FOREIGN KEY (`cliente_id`)
@@ -485,6 +498,11 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`servicios_prestados` (
   CONSTRAINT `fk_servicio_venta_empleados1`
     FOREIGN KEY (`empleado_id`)
     REFERENCES `world_computer`.`empleados` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_servicios_prestados_usuario_id`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `world_computer`.`usuarios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -764,10 +782,10 @@ INSERT INTO usuarios(rol_id, documento, nombre, apellido, direccion, telefono, e
 ('2', 'V-10000000', 'USUARIO', 'USUARIO', 'WORLD','000-0000000', 'usuario@email.com', 'usuario', 'ZXRlSml1a1p0akNsbTYwL2hnNEF2UT09', 'ACTIVO');
 
 -- COMPRAS
-INSERT INTO compras(proveedor_id, codigo, cod_ref, fecha, impuesto) VALUES 
-('1', '000001', null, now(), '12,00'),
-('2', '000002', null, now(), '0'),
-('3', '000003', null, now(), '10,00');
+INSERT INTO compras(proveedor_id, codigo, cod_ref, fecha, impuesto, usuario_id) VALUES 
+('1', '000001', null, now(), '12,00', 1),
+('2', '000002', null, now(), '0', 1),
+('3', '000003', null, now(), '10,00', 1);
 
 INSERT INTO detalle_compra(producto_id, compra_id, costo, cantidad) VALUES 
 ('1', '1', '2000', '5'),
@@ -783,10 +801,10 @@ INSERT INTO detalle_compra(producto_id, compra_id, costo, cantidad) VALUES
 ('3', '3', '5000', '12');
 
 -- VENTAS
-INSERT INTO ventas(cliente_id, codigo, fecha) VALUES 
-('1', '000001', now()),
-('2', '000002', now()),
-('3', '000003', now());
+INSERT INTO ventas(cliente_id, codigo, fecha, usuario_id) VALUES 
+('1', '000001', now(), 1),
+('2', '000002', now(), 1),
+('3', '000003', now(), 1);
 
 INSERT INTO detalle_venta(venta_id, producto_id, cantidad, precio) VALUES 
 ('1', '1', '12', '2500'),
@@ -807,10 +825,10 @@ INSERT INTO servicios(nombre, descripcion, precio) VALUES
 ('REPARACION UPS', 'Reparacion ', '2000'),
 ('FORMATEO PC', 'Instalacion SO', '3500');
 
-INSERT INTO servicios_prestados(venta_id, cliente_id, empleado_id, fecha, codigo) VALUES 
-('1', '2', '2', now(), '000001'),
-('2', '2', '3', now(), '000002'),
-('3', '2', '3', now(), '000003');
+INSERT INTO servicios_prestados(venta_id, cliente_id, empleado_id, fecha, codigo, usuario_id) VALUES 
+('1', '2', '2', now(), '000001', 1),
+('2', '2', '3', now(), '000002', 1),
+('3', '2', '3', now(), '000003', 1);
 
 -- ENTRADAS
 INSERT INTO entradas(codigo, fecha, tipo, observacion) VALUES 
@@ -854,7 +872,7 @@ INSERT INTO detalle_salida(salida_id, producto_id, cantidad) VALUES
 /* VISTAS */
 
 -- ENTRADAS POR COMPRAS
-CREATE VIEW v_entradas_compras AS SELECT p.id, p.codigo, p.nombre, SUM(dc.cantidad) as total FROM
+CREATE VIEW IF NOT EXISTS v_entradas_compras AS SELECT p.id, p.codigo, p.nombre, SUM(dc.cantidad) as total FROM
 productos p
 	LEFT JOIN
 detalle_compra dc
@@ -866,7 +884,7 @@ compras c
 GROUP BY p.id, p.codigo, p.nombre;
 
 -- ENTRADAS POR RECARGOS
-CREATE VIEW v_entradas_recargo AS SELECT p.id, p.codigo, p.nombre, SUM(de.cantidad) as total FROM
+CREATE VIEW IF NOT EXISTS v_entradas_recargo AS SELECT p.id, p.codigo, p.nombre, SUM(de.cantidad) as total FROM
 productos p
 	LEFT JOIN
 detalle_entrada de
@@ -878,7 +896,7 @@ entradas e
 GROUP BY p.id, p.codigo, p.nombre;
 
 -- ENTRADAS TOTALES
-CREATE VIEW v_entradas_totales AS SELECT p.id, p.codigo, p.nombre, IFNULL(vec.total, 0) AS compras, IFNULL(ver.total, 0) AS cargos, (IFNULL(vec.total, 0) + IFNULL(ver.total, 0)) AS total FROM
+CREATE VIEW IF NOT EXISTS v_entradas_totales AS SELECT p.id, p.codigo, p.nombre, IFNULL(vec.total, 0) AS compras, IFNULL(ver.total, 0) AS cargos, (IFNULL(vec.total, 0) + IFNULL(ver.total, 0)) AS total FROM
 productos p
 	LEFT JOIN
 v_entradas_compras vec
@@ -890,7 +908,7 @@ GROUP BY p.id, p.codigo, p.nombre;
 
 
 -- SALIDAS POR VENTAS
-CREATE VIEW v_salidas_ventas AS SELECT p.id, p.codigo, p.nombre, SUM(dv.cantidad) as total FROM
+CREATE VIEW IF NOT EXISTS v_salidas_ventas AS SELECT p.id, p.codigo, p.nombre, SUM(dv.cantidad) as total FROM
 productos p
 	LEFT JOIN
 detalle_venta dv
@@ -902,7 +920,7 @@ ventas v
 GROUP BY p.id, p.codigo, p.nombre;
 
 -- SALIDAS POR DESCARGO
-CREATE VIEW v_salidas_descargo AS SELECT p.id, p.codigo, p.nombre, SUM(ds.cantidad) as total FROM
+CREATE VIEW IF NOT EXISTS v_salidas_descargo AS SELECT p.id, p.codigo, p.nombre, SUM(ds.cantidad) as total FROM
 productos p
 	LEFT JOIN
 detalle_salida ds
@@ -914,7 +932,7 @@ salidas s
 GROUP BY p.id, p.codigo, p.nombre;
 
 -- SALIDAS TOTALES
-CREATE VIEW v_salidas_totales AS SELECT p.id, p.codigo, p.nombre, IFNULL(vsv.total, 0) AS ventas, IFNULL(vsd.total, 0) AS descargos, (IFNULL(vsv.total, 0) + IFNULL(vsd.total, 0)) AS total FROM
+CREATE VIEW IF NOT EXISTS v_salidas_totales AS SELECT p.id, p.codigo, p.nombre, IFNULL(vsv.total, 0) AS ventas, IFNULL(vsd.total, 0) AS descargos, (IFNULL(vsv.total, 0) + IFNULL(vsd.total, 0)) AS total FROM
 productos p
 	LEFT JOIN
 v_salidas_ventas vsv
@@ -925,7 +943,7 @@ v_salidas_descargo vsd
 GROUP BY p.id, p.codigo, p.nombre;
 
 -- VISTA INVENTARIO
-CREATE VIEW v_inventario AS SELECT p.id, p.codigo, p.nombre, c.nombre AS categoria, p.precio_venta, IFNULL((e.compras + e.cargos) - (s.ventas + s.descargos),0) AS stock, p.stock_min, p.stock_max, p.estatus FROM
+CREATE VIEW IF NOT EXISTS v_inventario AS SELECT p.id, p.codigo, p.nombre, c.nombre AS categoria, p.precio_venta, IFNULL((e.compras + e.cargos) - (s.ventas + s.descargos),0) AS stock, p.stock_min, p.stock_max, p.estatus FROM
 productos p
 	LEFT JOIN
 v_entradas_totales e
@@ -946,3 +964,353 @@ ORDER BY `p`.`id` ASC;
 CREATE TRIGGER actualizar_precio_producto 
 AFTER INSERT ON detalle_compra FOR EACH ROW
 	UPDATE productos SET precio_venta = (NEW.costo * (precio_porcentaje / 100)+ NEW.costo) WHERE id = NEW.producto_id;
+
+-- Registrar
+CREATE TRIGGER `clientes_ai` AFTER INSERT ON `clientes` FOR EACH ROW 
+    INSERT INTO bitacora(usuario_id, modulo, accion) 
+    VALUES (@usuario_id,"Clientes",CONCAT('Registro de "',NEW.documento,' - ',NEW.nombre,' ',NEW.apellido,'"'));
+
+CREATE TRIGGER `empleados_ai` AFTER INSERT ON `empleados` FOR EACH ROW 
+    INSERT INTO bitacora(usuario_id, modulo, accion) 
+    VALUES (@usuario_id,"Empleados",CONCAT('Registro de "',NEW.documento,' - ',NEW.nombre,' ',NEW.apellido,'"'));
+
+CREATE TRIGGER `proveedores_ai` AFTER INSERT ON `proveedores` FOR EACH ROW 
+    INSERT INTO bitacora(usuario_id, modulo, accion) 
+    VALUES (@usuario_id,"Proveedores",CONCAT('Registro de "',NEW.documento,' - ',NEW.razon_social,'"'));
+
+CREATE TRIGGER `usuarios_ai` AFTER INSERT ON `usuarios` FOR EACH ROW 
+    INSERT INTO bitacora(usuario_id, modulo, accion) 
+    VALUES (@usuario_id,"Usuarios",CONCAT('Registro de "',NEW.documento,' - ',NEW.nombre,' ',NEW.apellido,'"'));
+
+CREATE TRIGGER `categorias_ai` AFTER INSERT ON `categorias` FOR EACH ROW 
+    INSERT INTO bitacora(usuario_id, modulo, accion) 
+    VALUES (@usuario_id,"Categorías",CONCAT('Registro de "',NEW.nombre,'"'));
+
+CREATE TRIGGER `productos_ai` AFTER INSERT ON `productos` FOR EACH ROW 
+    INSERT INTO bitacora(usuario_id, modulo, accion) 
+    VALUES (@usuario_id,"Productos",CONCAT('Registro de "',NEW.codigo,' - ',NEW.nombre,'"'));
+
+CREATE TRIGGER `roles_ai` AFTER INSERT ON `roles` FOR EACH ROW 
+    INSERT INTO bitacora(usuario_id, modulo, accion) 
+    VALUES (@usuario_id,"Roles",CONCAT('Registro de "',NEW.nombre,'"'));
+
+CREATE TRIGGER `servicios_ai` AFTER INSERT ON `servicios` FOR EACH ROW 
+    INSERT INTO bitacora(usuario_id, modulo, accion) 
+    VALUES (@usuario_id,"Servicios",CONCAT('Registro de "',NEW.nombre,'"'));
+
+CREATE TRIGGER `compras_ai` AFTER INSERT ON `compras` FOR EACH ROW 
+    INSERT INTO bitacora(usuario_id, modulo, accion) 
+    VALUES (@usuario_id,"Compras",CONCAT('Registro de Compra<br>Código: ',NEW.codigo));
+
+CREATE TRIGGER `servicios_prestados_ai` AFTER INSERT ON `servicios_prestados` FOR EACH ROW 
+    INSERT INTO bitacora(usuario_id, modulo, accion) 
+    VALUES (@usuario_id,"Servicios Prestados",CONCAT('Registro de Servicio Prestado<br>Código: ',NEW.codigo));
+
+CREATE TRIGGER `ventas_ai` AFTER INSERT ON `ventas` FOR EACH ROW 
+    INSERT INTO bitacora(usuario_id, modulo, accion) 
+    VALUES (@usuario_id,"Ventas",CONCAT('Registro de Venta<br>Código: ',NEW.codigo));
+
+
+-- Modificaciones y eliminaciones lógicas
+-- Clientes
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS `clientes_bu` BEFORE UPDATE ON `clientes`
+FOR EACH ROW
+BEGIN
+    IF(NEW.estatus != OLD.estatus) THEN
+        IF(NEW.estatus = 'ACTIVO') THEN
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Clientes",CONCAT('Habilitación de "',OLD.documento,' - ',OLD.nombre,' ',OLD.apellido,'"'));
+        ELSE
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Clientes",CONCAT('Eliminación de "',OLD.documento,' - ',OLD.nombre,' ',OLD.apellido,'"'));
+        END IF;
+    ELSE 
+        INSERT INTO bitacora(usuario_id, modulo, accion, descripcion) 
+        VALUES (@usuario_id,"Clientes",CONCAT('Actualización de "',OLD.documento,' - ',OLD.nombre,' ',OLD.apellido,'"'),
+        CONCAT('<b>Información Anterior:</b><br>',
+            'Documento: ',OLD.documento,'<br>',
+            'Nombre: ',OLD.nombre,' ',OLD.apellido,'<br>',
+            'Dirección: ',OLD.direccion,'<br>',
+            'Teléfono: ',OLD.telefono,'<br>',
+            'E-mail: ',OLD.email,'<br>',
+            '<br><b>Información Actual:</b><br>',
+            'Documento: ',NEW.documento,'<br>',
+            'Nombre: ',NEW.nombre,' ',NEW.apellido,'<br>',
+            'Dirección: ',NEW.direccion,'<br>',
+            'Teléfono: ',NEW.telefono,'<br>',
+            'E-mail: ',NEW.email,'<br>'
+            ));
+    END IF;
+END;$$
+DELIMITER ;
+-- Empleados
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS `empleados_bu` BEFORE UPDATE ON `empleados`
+FOR EACH ROW
+BEGIN
+    IF(NEW.estatus != OLD.estatus) THEN
+        IF(NEW.estatus = 'ACTIVO') THEN
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Empleados",CONCAT('Habilitación de "',OLD.documento,' - ',OLD.nombre,' ',OLD.apellido,'"'));
+        ELSE
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Empleados",CONCAT('Eliminación de "',OLD.documento,' - ',OLD.nombre,' ',OLD.apellido,'"'));
+        END IF;
+    ELSE 
+        INSERT INTO bitacora(usuario_id, modulo, accion, descripcion) 
+        VALUES (@usuario_id,"Empleados",CONCAT('Actualización de "',OLD.documento,' - ',OLD.nombre,' ',OLD.apellido,'"'),
+        CONCAT('<b>Información Anterior:</b><br>',
+            'Documento: ',OLD.documento,'<br>',
+            'Nombre: ',OLD.nombre,' ',OLD.apellido,'<br>',
+            'Dirección: ',OLD.direccion,'<br>',
+            'Teléfono: ',OLD.telefono,'<br>',
+            'E-mail: ',OLD.email,'<br>',
+            'Cargo: ',OLD.cargo,'<br>',
+            '<br><b>Información Actual:</b><br>',
+            'Documento: ',NEW.documento,'<br>',
+            'Nombre: ',NEW.nombre,' ',NEW.apellido,'<br>',
+            'Dirección: ',NEW.direccion,'<br>',
+            'Teléfono: ',NEW.telefono,'<br>',
+            'E-mail: ',NEW.email,'<br>',
+            'Cargo: ',NEW.cargo,'<br>'
+            ));
+    END IF;
+END;$$
+DELIMITER ;
+-- Proveedores
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS `proveedores_bu` BEFORE UPDATE ON `proveedores`
+FOR EACH ROW
+BEGIN
+    IF(NEW.estatus != OLD.estatus) THEN
+        IF(NEW.estatus = 'ACTIVO') THEN
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Proveedores",CONCAT('Habilitación de "',OLD.documento,' - ',OLD.razon_social,'"'));
+        ELSE
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Proveedores",CONCAT('Eliminación de "',OLD.documento,' - ',OLD.razon_social,'"'));
+        END IF;
+    ELSE 
+        INSERT INTO bitacora(usuario_id, modulo, accion, descripcion) 
+        VALUES (@usuario_id,"Proveedores",CONCAT('Actualización de "',OLD.documento,' - ',OLD.razon_social,'"'),
+        CONCAT('<b>Información Anterior:</b><br>',
+            'Documento: ',OLD.documento,'<br>',
+            'Razón Social: ',OLD.razon_social,'<br>',
+            'Dirección: ',OLD.direccion,'<br>',
+            'Teléfono: ',OLD.telefono,'<br>',
+            'E-mail: ',OLD.email,'<br>',
+            '<br><b>Información Actual:</b><br>',
+            'Documento: ',NEW.documento,'<br>',
+            'Razón Social: ',NEW.razon_social,'<br>',
+            'Dirección: ',NEW.direccion,'<br>',
+            'Teléfono: ',NEW.telefono,'<br>',
+            'E-mail: ',NEW.email,'<br>'
+            ));
+    END IF;
+END;$$
+DELIMITER ;
+-- Usuarios
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS `usuarios_bu` BEFORE UPDATE ON `usuarios`
+FOR EACH ROW
+BEGIN
+    IF(NEW.estatus != OLD.estatus) THEN
+        IF(NEW.estatus = 'ACTIVO') THEN
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Usuarios",CONCAT('Habilitación de "',OLD.documento,' - ',OLD.nombre,' ',OLD.apellido,'"'));
+        ELSE
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Usuarios",CONCAT('Eliminación de "',OLD.documento,' - ',OLD.nombre,' ',OLD.apellido,'"'));
+        END IF;
+    ELSE 
+        SET @rol_name = (SELECT nombre FROM `roles` WHERE id=OLD.rol_id);
+        SET @rol_name_new = (SELECT nombre FROM `roles` WHERE id=NEW.rol_id);
+        INSERT INTO bitacora(usuario_id, modulo, accion, descripcion) 
+        VALUES (@usuario_id,"Usuarios",CONCAT('Actualización de "',OLD.documento,' - ',OLD.nombre,' ',OLD.apellido,'"'),
+        CONCAT('<b>Información Anterior:</b><br>',
+            'Documento: ',OLD.documento,'<br>',
+            'Nombre: ',OLD.nombre,' ',OLD.apellido,'<br>',
+            'Dirección: ',OLD.direccion,'<br>',
+            'Teléfono: ',OLD.telefono,'<br>',
+            'E-mail: ',OLD.email,'<br>',
+            'Usuario: ',OLD.usuario,'<br>',
+            'Rol: ',@rol_name,'<br>',
+            '<br><b>Información Actual:</b><br>',
+            'Documento: ',NEW.documento,'<br>',
+            'Nombre: ',NEW.nombre,' ',NEW.apellido,'<br>',
+            'Dirección: ',NEW.direccion,'<br>',
+            'Teléfono: ',NEW.telefono,'<br>',
+            'E-mail: ',NEW.email,'<br>',
+            'Usuario: ',NEW.usuario,'<br>',
+            'Rol: ',@rol_name_new,'<br>'
+            ));
+    END IF;
+END;$$
+DELIMITER ;
+-- Categorías
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS `categorias_bu` BEFORE UPDATE ON `categorias`
+FOR EACH ROW
+BEGIN
+    IF(NEW.estatus != OLD.estatus) THEN
+        IF(NEW.estatus = 'ACTIVO') THEN
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Categorías",CONCAT('Habilitación de "',OLD.nombre,'"'));
+        ELSE
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Categorías",CONCAT('Eliminación de "',OLD.nombre,'"'));
+        END IF;
+    ELSE 
+        INSERT INTO bitacora(usuario_id, modulo, accion, descripcion) 
+        VALUES (@usuario_id,"Categorías",CONCAT('Actualización de "',OLD.nombre,'"'),
+        CONCAT('<b>Información Anterior:</b><br>',
+            'Nombre: ',OLD.nombre,'<br>',
+            'Descripción: ',OLD.descripcion,'<br>',
+            '<br><b>Información Actual:</b><br>',
+            'Nombre: ',NEW.nombre,'<br>',
+            'Descripción: ',NEW.descripcion,'<br>'
+            ));
+    END IF;
+END;$$
+DELIMITER ;
+-- Productos
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS `productos_bu` BEFORE UPDATE ON `productos`
+FOR EACH ROW
+BEGIN
+    IF(NEW.estatus != OLD.estatus) THEN
+        IF(NEW.estatus = 'ACTIVO') THEN
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Productos",CONCAT('Habilitación de "',OLD.codigo,' - ',OLD.nombre,'"'));
+        ELSE
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Productos",CONCAT('Eliminación de "',OLD.codigo,' - ',OLD.nombre,'"'));
+        END IF;
+    ELSE 
+        SET @categoria_name = (SELECT nombre FROM `categorias` WHERE id=OLD.categoria_id);
+        SET @categoria_name_new = (SELECT nombre FROM `categorias` WHERE id=NEW.categoria_id);
+        SET @unidad_name = (SELECT nombre FROM `unidades` WHERE id=OLD.unidad_id);
+        SET @unidad_name_new = (SELECT nombre FROM `unidades` WHERE id=NEW.unidad_id);
+        INSERT INTO bitacora(usuario_id, modulo, accion, descripcion) 
+        VALUES (@usuario_id,"Productos",CONCAT('Actualización de "',OLD.codigo,' - ',OLD.nombre,'"'),
+        CONCAT('<b>Información Anterior:</b><br>',
+            'Código: ',OLD.codigo,'<br>',
+            'Nombre: ',OLD.nombre,'<br>',
+            'Descripción: ',OLD.descripcion,'<br>',
+            'Margén de Ganancia: ',OLD.precio_porcentaje,'<br>',
+            'Precio de Venta: ',OLD.precio_venta,'<br>',
+            'Stock Min.: ',OLD.stock_min,'<br>',
+            'Stock Max.: ',OLD.stock_max,'<br>',
+            'Categoría: ',@categoria_name,'<br>',
+            'Unidad: ',@unidad_name,'<br>',
+            '<br><b>Información Actual:</b><br>',
+            'Código: ',NEW.codigo,'<br>',
+            'Nombre: ',NEW.nombre,'<br>',
+            'Descripción: ',NEW.descripcion,'<br>',
+            'Margén de Ganancia: ',NEW.precio_porcentaje,'<br>',
+            'Precio de Venta: ',NEW.precio_venta,'<br>',
+            'Stock Min.: ',NEW.stock_min,'<br>',
+            'Stock Max.: ',NEW.stock_max,'<br>',
+            'Categoría: ',@categoria_name_new,'<br>',
+            'Unidad: ',@unidad_name_new,'<br>'
+            ));
+    END IF;
+END;$$
+DELIMITER ;
+-- Servicios
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS `servicios_bu` BEFORE UPDATE ON `servicios`
+FOR EACH ROW
+BEGIN
+    IF(NEW.estatus != OLD.estatus) THEN
+        IF(NEW.estatus = 'ACTIVO') THEN
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Servicios",CONCAT('Habilitación de "',OLD.nombre,'"'));
+        ELSE
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Servicios",CONCAT('Eliminación de "',OLD.nombre,'"'));
+        END IF;
+    ELSE 
+        INSERT INTO bitacora(usuario_id, modulo, accion, descripcion) 
+        VALUES (@usuario_id,"Servicios",CONCAT('Actualización de "',OLD.nombre,'"'),
+        CONCAT('<b>Información Anterior:</b><br>',
+            'Nombre: ',OLD.nombre,'<br>',
+            'Descripción: ',OLD.descripcion,'<br>',
+            'Precio: ',OLD.precio,'<br>',
+            '<br><b>Información Actual:</b><br>',
+            'Nombre: ',NEW.nombre,'<br>',
+            'Descripción: ',NEW.descripcion,'<br>'
+            'Precio: ',NEW.precio,'<br>'
+            ));
+    END IF;
+END;$$
+DELIMITER ;
+-- Roles
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS `roles_bu` BEFORE UPDATE ON `roles`
+FOR EACH ROW
+BEGIN
+    IF(NEW.estatus != OLD.estatus) THEN
+        IF(NEW.estatus = 'ACTIVO') THEN
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Roles",CONCAT('Habilitación de "',OLD.nombre,'"'));
+        ELSE
+            INSERT INTO bitacora(usuario_id, modulo, accion) 
+            VALUES (@usuario_id,"Roles",CONCAT('Eliminación de "',OLD.nombre,'"'));
+        END IF;
+    ELSE 
+        INSERT INTO bitacora(usuario_id, modulo, accion, descripcion) 
+        VALUES (@usuario_id,"Roles",CONCAT('Actualización de "',OLD.nombre,'"'),
+        CONCAT('<b>Información Anterior:</b><br>',
+            'Nombre: ',OLD.nombre,'<br>',
+            'Descripción: ',OLD.descripcion,'<br>',
+            '<br><b>Información Actual:</b><br>',
+            'Nombre: ',NEW.nombre,'<br>',
+            'Descripción: ',NEW.descripcion,'<br>'
+            ));
+    END IF;
+END;$$
+DELIMITER ;
+-- Compras
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS `compras_bu` BEFORE UPDATE ON `compras`
+FOR EACH ROW
+BEGIN
+    IF(NEW.estatus = 'ACTIVO') THEN
+        INSERT INTO bitacora(usuario_id, modulo, accion) 
+        VALUES (@usuario_id,"Compras",CONCAT('Habilitación de "',OLD.codigo,'"'));
+    ELSE
+        INSERT INTO bitacora(usuario_id, modulo, accion) 
+        VALUES (@usuario_id,"Compras",CONCAT('Anulación de "',OLD.codigo,'"'));
+    END IF;
+END;$$
+DELIMITER ;
+-- Servicios Prestados
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS `servicios_prestados_bu` BEFORE UPDATE ON `servicios_prestados`
+FOR EACH ROW
+BEGIN
+    IF(NEW.estatus = 'ACTIVO') THEN
+        INSERT INTO bitacora(usuario_id, modulo, accion) 
+        VALUES (@usuario_id,"Servicios Prestados",CONCAT('Habilitación de "',OLD.codigo,'"'));
+    ELSE
+        INSERT INTO bitacora(usuario_id, modulo, accion)
+        VALUES (@usuario_id,"Servicios Prestados",CONCAT('Anulación de "',OLD.codigo,'"'));
+    END IF;
+END;$$
+DELIMITER ;
+-- Ventas
+DELIMITER $$
+CREATE TRIGGER IF NOT EXISTS `ventas_bu` BEFORE UPDATE ON `ventas`
+FOR EACH ROW
+BEGIN
+    IF(NEW.estatus = 'ACTIVO') THEN
+        INSERT INTO bitacora(usuario_id, modulo, accion) 
+        VALUES (@usuario_id,"Ventas",CONCAT('Habilitación de "',OLD.codigo,'"'));
+    ELSE
+        INSERT INTO bitacora(usuario_id, modulo, accion) 
+        VALUES (@usuario_id,"Ventas",CONCAT('Anulación de "',OLD.codigo,'"'));
+    END IF;
+END;$$
+DELIMITER ;

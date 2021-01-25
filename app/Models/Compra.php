@@ -49,8 +49,8 @@ class Compra extends Movimiento{
 
             $dbh = parent::connect();
 
-            $consulta = $dbh->prepare("INSERT INTO compras(proveedor_id, codigo, cod_ref)" 
-                                                            . "VALUES (:proveedor_id, :codigo, :cod_ref)");
+            $consulta = $dbh->prepare("INSERT INTO compras(proveedor_id, codigo, cod_ref, usuario_id)" 
+                                                            . "VALUES (:proveedor_id, :codigo, :cod_ref, :usuario_id)");
 
             $proveedor_id = $compra->getPersonaId();
             $codigo = $compra->getNumeroDocumento();
@@ -60,6 +60,7 @@ class Compra extends Movimiento{
             $consulta->bindParam(":proveedor_id", $proveedor_id);
             $consulta->bindParam(":codigo", $codigo);
             $consulta->bindParam(":cod_ref", $documentoReferencia);
+            $consulta->bindParam(":usuario_id", $_SESSION['id']);
             // $consulta->bindParam(":total", $total);
 
             $consulta->execute();

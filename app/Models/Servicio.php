@@ -113,6 +113,19 @@ class Servicio extends Model{
             return $ex->message();
         }
     }
+
+    public function getServicios () {
+        try{
+            $consulta = parent::connect()->prepare("SELECT id, nombre, descripcion, precio, estatus, created_at FROM servicios WHERE estatus='ACTIVO'ORDER BY created_at DESC");
+            $consulta->execute();
+            
+            return $consulta->fetchAll(PDO::FETCH_OBJ);
+            
+        } catch (Exception $ex) {
+            die($ex->getMessage());
+        }
+    }
+
     // Servicios
     public function listar(){
         try{
@@ -174,8 +187,8 @@ class Servicio extends Model{
     {
         try {
             $dbh = parent::connect();
-            $consulta = $dbh->prepare("INSERT INTO servicios_prestados (codigo, empleado_id, cliente_id, venta_id)
-                VALUES (:codigo, :empleado_id, :cliente_id, :venta_id)");
+            $consulta = $dbh->prepare("INSERT INTO servicios_prestados (codigo, empleado_id, cliente_id, venta_id, usuario_id)
+                VALUES (:codigo, :empleado_id, :cliente_id, :venta_id, :usuario_id)");
 
             $codigo = $s->getCodigo();
             $empleado_id = $s->getEmpleado_id();
@@ -186,6 +199,7 @@ class Servicio extends Model{
             $consulta->bindParam(':empleado_id', $empleado_id);
             $consulta->bindParam(':cliente_id', $cliente_id);
             $consulta->bindParam(':venta_id', $venta_id);
+            $consulta->bindParam(":usuario_id", $_SESSION['id']);
             $consulta->execute();
             $lastId = $dbh->lastInsertId();
 

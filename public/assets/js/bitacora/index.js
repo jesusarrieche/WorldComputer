@@ -10,12 +10,13 @@ let table = $('#datatable').DataTable({
     searching: true,
     ajax: {
         method: 'POST',
-        url: 'Categoria/listar'
+        url: 'bitacora/listar'
     },
     columns: [
-        { data: 'nombre' },
-        { data: "descripcion" },
-        { data: 'estatus' },
+        { data: 'modulo' },
+        { data: "accion" },
+        { data: 'usuario' },
+        { data: 'fecha' },
         { data: 'button' }
     ],
 
@@ -51,8 +52,8 @@ let table = $('#datatable').DataTable({
  * FUNCIONES
  */
 
-const mostrarCategoria = (href, formulario, modal) => {
-
+const mostrarBitacora = (href, formulario, modal) => {
+    
     $.ajax({
         type: "POST",
         url: href,
@@ -61,11 +62,22 @@ const mostrarCategoria = (href, formulario, modal) => {
 
             console.log(json);
 
-            $(formulario).find('input#id').val(json.data.id);
-            $(formulario).find('input#nombre').val(json.data.nombre);
-            $(formulario).find('textarea#descripcion').val(json.data.descripcion);
-
- 
+            $(formulario).find('input#usuario_nombre').val(json.data.usuario_nombre);
+            $(formulario).find('input#usuario_username').val(json.data.usuario_username);
+            $(formulario).find('input#usuario_documento').val(json.data.usuario_documento);
+            $(formulario).find('input#usuario_rol').val(json.data.usuario_rol);
+            $(formulario).find('input#fecha').val(json.data.fecha);
+            $(formulario).find('input#hora').val(json.data.hora);
+            $(formulario).find('input#modulo').val(json.data.modulo);
+            $(formulario).find('#accion').html(json.data.accion);
+            $(formulario).find('#descripcion').html(json.data.descripcion);
+            if(json.data.descripcion==null){
+                $('#descripcionDiv').hide();
+            }
+            else{
+                $('#descripcionDiv').show();
+            }
+            console.log(json.data.descripcion);
 
             $(modal).modal('show');
             
@@ -77,83 +89,24 @@ const mostrarCategoria = (href, formulario, modal) => {
     });
 }
 
-const registrarCategoria = (datos) => {
-
-    $.ajax({
-        type: "POST",
-        url: "Categoria/guardar",
-        data: datos,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            let json = JSON.parse(response);
-            
-            if( json.tipo == 'success'){
-
-                Swal.fire(
-                    json.titulo,
-                    json.mensaje,
-                    json.tipo
-                );
-    
-                table.ajax.reload();
-    
-                $('#modalRegistroCategoria').modal('hide');
-                $('#formularioRegistrarCategoria').trigger('reset');
-            }else{
-                Swal.fire(
-                    json.titulo,
-                    json.mensaje,
-                    json.tipo
-                );
-            }
-
-        },
-        error: (response) => {
-            console.log(response);
-            
-        }
-    });
-
-
-
-    // fetch('categoria/guardar', { method: 'POST', body: datos })
-    // .then((response) => {
-    //     console.log(response);
-    //     return response.json();
-    // })
-    // .then((json) => {
-    //     Swal.fire(
-    //         json.titulo,
-    //         json.mensaje,
-    //         json.tipo
-    //     )
-
-    //     table.ajax.reload();
-    //     
-    // })
-    // .catch( (response) => {
-    //     console.log(response);
-    // });
-}
-
-
 /**
  * Eventos
  */
 
 
 
-// Mostrar Categoria
+// Mostrar Bitacora
 $('body').on('click', '.mostrar', function (e) { 
     e.preventDefault();
 
-    mostrarCategoria($(this).attr('href'),'form#formularioMostrarCategoria','#modalMostrarCategoria');
+    mostrarBitacora($(this).attr('href'),'form#formularioMostrarBitacora','#modalMostrarBitacora');
 });
 
+$("#buscarB").click(function(){
+    table.ajax.url("bitacora/listar/"+$("#fechaB").val()+"&"+$("#usuarioB").val()+"&"+$("#moduloB").val());    
+    table.ajax.reload();
+});
 
-
-$('[name="datatable_length"]').val(5);
+$('[name="datatable_length"]').val(50);
 $('[name="datatable_length"]').change();
 });

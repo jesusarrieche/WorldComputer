@@ -39,8 +39,8 @@ class Venta extends Movimiento{
 
             $dbh = parent::connect();
 
-            $consulta = $dbh->prepare("INSERT INTO ventas(cliente_id, codigo)" 
-                                                            . "VALUES (:cliente_id, :codigo)");
+            $consulta = $dbh->prepare("INSERT INTO ventas(cliente_id, codigo, usuario_id)" 
+                                                            . "VALUES (:cliente_id, :codigo, :usuario_id)");
 
             $cliente_id = $venta->getPersonaId();
             $codigo = $venta->getNumeroDocumento();
@@ -48,6 +48,7 @@ class Venta extends Movimiento{
 
             $consulta->bindParam(":cliente_id", $cliente_id);
             $consulta->bindParam(":codigo", $codigo);
+            $consulta->bindParam(":usuario_id", $_SESSION['id']);
             // $consulta->bindParam(":total", $total);
 
             $consulta->execute();
