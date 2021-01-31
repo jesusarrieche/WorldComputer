@@ -94,3 +94,17 @@
 .text>p {
     text-overflow: ellipsis;
 }
+.notifications-item__close {
+    margin-left: auto;
+    font-weight: bold;
+    color: #777b83;
+}
+
+#cantidadNotificaciones {
+    padding: 5px;
+    background: #f1f1f142;
+    border-radius: 50%;
+    line-height: 10px;
+    color: #bfdeff;
+    margin-right: -9px;
+}

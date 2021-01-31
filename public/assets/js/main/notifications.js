@@ -48,38 +48,19 @@ $(document).ready(function() {
                     $('.notifications-item').remove();
 
                     response.data.forEach((e) => {
-                        $('#box').append(`<div class="notifications-item"> <img src="https://freeiconshop.com/wp-content/uploads/edd/notification-flat.png" alt="img">
+                        $('#box').append(`<div class="notifications-item" id="notificacion-${e.id}"> <img src="https://freeiconshop.com/wp-content/uploads/edd/notification-flat.png" alt="img">
                             <div class="text">
                                 <h4>${e.titulo.toUpperCase()}</h4>
                                 <p>${e.mensaje}</p>
                             </div>
+                            <div class="notifications-item__close" onClick="dismissNotificacion(${e.id})">x</div>
                         </div>`);
                     })
-
-
-
-
+                    $('#cantidadNotificaciones').show()
+                    $('#cantidadNotificaciones').text(response.data.length);
                 } else {
 
                 }
-
-                // if( json.tipo == 'success'){
-
-                //     Swal.fire(
-                //         json.titulo,
-                //         json.mensaje,
-                //         json.tipo
-                //     );
-
-
-                // }else{
-                //     Swal.fire(
-                //         json.titulo,
-                //         json.mensaje,
-                //         json.tipo
-                //     );
-                // }
-
             },
             error: (response) => {
                 console.log(response);
@@ -88,12 +69,35 @@ $(document).ready(function() {
         });
     }
 
-
     getNotifications();
 
     setInterval(getNotifications, 15000);
-
-
-
-
 });
+
+function dismissNotificacion (id) {
+    let idNotificacion = id;
+    $.ajax({
+            type: "POST",
+            url: "/WorldComputer/notificacion/dismissNotificacion",
+            data: { id: idNotificacion },
+            dataType: "json",
+            success: function(response) {
+
+                if (response) {
+                    $(`#notificacion-${id}`).fadeOut(200)
+                    let nuevaCantidad = parseInt($('#cantidadNotificaciones').text() - 1)
+                    if (nuevaCantidad > 0) {
+                        $('#cantidadNotificaciones').text(nuevaCantidad)
+                    } else {
+                        $('#cantidadNotificaciones').hide()
+                    }
+
+                } else {
+                    console.log('no');
+                }
+            },
+            error: (response) => {
+                console.log(response);
+            }
+        });
+}

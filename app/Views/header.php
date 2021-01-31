@@ -35,6 +35,9 @@
     <a class="navbar-brand" href="<?= ROOT;?>"><i class="fas fa-desktop"></i> World & Computer</a>
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav ml-auto">
+            <div class="">
+                <div id="cantidadNotificaciones" style="display: none;"></div>
+            </div>
             <li class="nav-item">
                 <i class="fas fa-bell nav-link" id="bell"></i>
                 <div class="notifications" id="box">
