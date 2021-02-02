@@ -34,7 +34,7 @@ class ProductoController extends Controller{
 
         $param = $this->desencriptar($param);
 
-        $producto = $this->producto->query("SELECT p.id, c.id AS categoria_id, u.id AS unidad_id, p.codigo, p.nombre, c.nombre AS categoria, u.nombre AS unidad, p.precio_porcentaje AS porcentaje, p.precio_venta AS precio, p.descripcion, IFNULL(e.total - s.total,0) AS stock, p.stock_min, p.stock_max, p.estatus 
+        $producto = $this->producto->query("SELECT p.id, c.id AS categoria_id, u.id AS unidad_id, p.codigo, p.nombre, c.nombre AS categoria, u.nombre AS unidad, p.precio_porcentaje AS porcentaje, p.precio_venta AS precio, p.precio_costo AS precio_costo, p.descripcion, IFNULL(e.total - s.total,0) AS stock, p.stock_min, p.stock_max, p.estatus 
             FROM productos p
             JOIN categorias c 
                 ON p.categoria_id = c.id

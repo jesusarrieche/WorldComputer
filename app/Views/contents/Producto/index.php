@@ -117,12 +117,12 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <i class="fas fa-angle-double-down"></i> <label for="stock_min">Stock Minimo</label>
-                            <input class="form-control" type="number" name="stock_min" id="stock_min" placeholder="Ej. 5" required >
+                            <input class="form-control" type="number" name="stock_min" id="stock_min" placeholder="Ej. 5" required value="0">
                         </div>
 
                         <div class="form-group col-md-6">
                             <i class="fas fa-angle-double-up"></i> <label for="stock_max">Stock Maximo</label>
-                            <input class="form-control" type="number" name="stock_max" id="stock_max" placeholder="E j. 10" required >
+                            <input class="form-control" type="number" name="stock_max" id="stock_max" placeholder="E j. 10" required value="0">
                         </div>
                     </div>
 
@@ -181,14 +181,25 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label> <i class="fas fa-money-bill-alt"></i> <strong>Precio de Costo</strong> </label>
+                            <input type="number" name="precio_costo" id="precio_costo" class="form-control-plaintext" disabled required >
+                          
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label> <i class="fas fa-tag"></i> <strong>Margen de Ganancia</strong> </label>
+                            <input type="number" name="porcentaje" id="porcentaje" class="form-control-plaintext" placeholder="Ej. 30%" max="100" required disabled>
+                            <small class=" form-text text-muted">Este porcentaje calculará la ganancia respecto al ultimo precio de compra del producto</small>
+                          
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label> <i class="fas fa-money-check-alt"></i> <strong>Precio de Venta</strong> </label>
+                            <input type="number" name="precio" id="precio" class="form-control-plaintext" disabled required >
+                        </div>
                         <!-- <label> <i class="fas fa-tag"></i> <strong>Precio</strong> </label>
                         <input type="number" name="precio" id="precio" class="form-control-plaintext" disabled required > -->
 
-                        <label> <i class="fas fa-tag"></i> <strong>Margen de Ganancia</strong> </label>
-                        <input type="number" name="porcentaje" id="porcentaje" class="form-control-plaintext" placeholder="Ej. 30%" max="100" required disabled>
-                        <small class=" form-text text-muted">Este porcentaje calculara la ganancia respecto al ultimo precio de compra del producto</small>
                         
                     </div>
 
@@ -284,11 +295,25 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label> <i class="fas fa-money-bill-alt"></i> <strong>Precio de Costo</strong> </label>
+                            <input type="number" name="precio_costo" id="precio_costo" class="form-control-plaintext" disabled required >
+                          
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label> <i class="fas fa-tag"></i> <strong>Margen de Ganancia</strong> </label>
+                            <input type="number" name="porcentaje" id="porcentaje" class="form-control" placeholder="Ej. 30%" min="0" max="100" required>
+                            <small class=" form-text text-muted">Este porcentaje calculará la ganancia respecto al ultimo precio de compra del producto</small>
+                          
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label> <i class="fas fa-money-check-alt"></i> <strong>Precio de Venta</strong> </label>
+                            <input type="number" name="precio" id="precio" class="form-control-plaintext" disabled required >
+                        </div>
+                        <!-- <label> <i class="fas fa-tag"></i> <strong>Precio</strong> </label>
+                        <input type="number" name="precio" id="precio" class="form-control-plaintext" disabled required > -->
 
-                        <label> <i class="fas fa-tag"></i> <strong>Margen de Ganancia</strong> </label>
-                        <input type="number" name="porcentaje" id="porcentaje" class="form-control" placeholder="Ej. 30%" max="100" required >
-                        <small class=" form-text text-muted">Este porcentaje calculara la ganancia respecto al ultimo precio de compra del producto</small>
                         
                     </div>
 

@@ -125,6 +125,7 @@ $(document).ready(function() {
                     $(formulario).find('input#codigo').val(json.data.codigo);
                     $(formulario).find('input#nombre').val(json.data.nombre);
                     $(formulario).find('input#precio').val(json.data.precio);
+                    $(formulario).find('input#precio_costo').val(json.data.precio_costo);
                     $(formulario).find('select#categoria').val(json.data.categoria_id);
                     $(formulario).find('select#unidad').val(json.data.unidad_id);
                     $(formulario).find('input#porcentaje').val(json.data.porcentaje);
@@ -132,6 +133,16 @@ $(document).ready(function() {
                     $(formulario).find('input#stock_min').val(json.data.stock_min);
                     $(formulario).find('input#stock_max').val(json.data.stock_max);
                     $(formulario).find('input#stock').val(json.data.stock);
+                    $(formulario).on('keyup','#porcentaje', function (e) {  
+                        
+                        var precio_costo = parseFloat($(formulario).find('input#precio_costo').val());
+                        if(precio_costo != null){
+                            var porcentaje = parseFloat($(this).val());
+                            var precio = (precio_costo * (porcentaje/100))+ precio_costo;
+                            $(formulario).find('input#precio').val(precio);
+                        }
+                        
+                    });
                 } else {
 
                     $(formulario).find('input#id').val(json.data.id);
@@ -139,7 +150,9 @@ $(document).ready(function() {
                     $(formulario).find('input#nombre').val(json.data.nombre);
                     $(formulario).find('input#categoria').val(json.data.categoria);
                     $(formulario).find('input#unidad').val(json.data.unidad);
+                    $(formulario).find('input#precio').val(json.data.precio);
                     $(formulario).find('input#porcentaje').val(json.data.porcentaje);
+                    $(formulario).find('input#precio_costo').val(json.data.precio_costo);
                     $(formulario).find('textarea#descripcion').val(json.data.descripcion);
                     $(formulario).find('input#stock_min').val(json.data.stock_min);
                     $(formulario).find('input#stock_max').val(json.data.stock_max);

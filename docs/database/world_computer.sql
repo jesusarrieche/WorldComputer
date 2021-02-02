@@ -124,6 +124,7 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`productos` (
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
   `nombre` VARCHAR(45) NULL,
   `descripcion` VARCHAR(45) NULL,
+  `precio_costo` DOUBLE NULL,
   `precio_venta` DOUBLE NULL,
   `precio_porcentaje` DOUBLE NULL,
   `stock` INT(11) NULL DEFAULT 0,
@@ -963,7 +964,7 @@ ORDER BY `p`.`id` ASC;
 
 CREATE TRIGGER actualizar_precio_producto 
 AFTER INSERT ON detalle_compra FOR EACH ROW
-	UPDATE productos SET precio_venta = (NEW.costo * (precio_porcentaje / 100)+ NEW.costo) WHERE id = NEW.producto_id;
+	UPDATE productos SET precio_costo = NEW.costo, precio_venta = (NEW.costo * (precio_porcentaje / 100)+ NEW.costo) WHERE id = NEW.producto_id;
 
 -- Registrar
 CREATE TRIGGER `clientes_ai` AFTER INSERT ON `clientes` FOR EACH ROW 
