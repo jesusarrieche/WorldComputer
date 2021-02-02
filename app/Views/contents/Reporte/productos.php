@@ -9,10 +9,10 @@
                         <label for="categoria" class="col-form-label col-md-4 font-weight-bold">Categoria: </label>
                         <div class="col-md-8 d-flex align-items-center">
                             <select class="form-control js-example-basic-single" name="categoria" id="categoria" required>
-                                <option value="0">TODOS</option>
+                                <option value="TODOS">TODOS</option>
                                 
                                 <?php foreach($categorias as $categoria):?>
-                                    <option value="<?=$categoria->id?>"><?=$categoria->nombre?></option>
+                                    <option value="<?=$categoria->nombre?>"><?=$categoria->nombre?></option>
                                 <?php endforeach;?>
                             </select>
                         </div>
@@ -22,9 +22,9 @@
                         <label for="producto" class="col-form-label col-md-4 font-weight-bold">Producto: </label>
                         <div class="col-md-8 d-flex align-items-center">
                             <select class="form-control js-example-basic-single" name="producto" id="producto" required>
-                                <option value="0">TODOS</option>
+                                <option value="TODOS">TODOS</option>
                                 <?php foreach($productos as $producto):?>
-                                    <option value="<?=$producto->id?>"><?=$producto->nombre?></option>
+                                    <option value="<?=$producto->nombre?>"><?=$producto->nombre?></option>
                                 <?php endforeach;?>
                             </select>
                         </div>

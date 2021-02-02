@@ -113,13 +113,13 @@
                     <span><?= $producto->nombre; ?></span>
                 </div>
                 <div style="width:14%; display:inline;" class="text-center" >
-                    <span><?= $producto->nombre_categoria; ?></span>
+                    <span><?= $producto->categoria; ?></span>
                 </div>
                 <div style="width:14%; display:inline;" class="text-center" >
                     <span><?= $producto->precio_venta; ?></span>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center" >
-                    <span><?= $producto->stock . ' ' . $producto->abreviatura; ?></span>
+                    <span><?= $producto->stock; ?></span>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center" >
                     <span><?= $producto->stock_max; ?></span>
@@ -185,7 +185,7 @@
                         <span><?= $producto->precio_venta; ?></span>
                     </div>
                     <div style="width:15.5%; display:inline;" class="text-center" >
-                        <span><?= $producto->stock . ' ' . $producto->abreviatura; ?></span>
+                        <span><?= $producto->stock; ?></span>
                     </div>
                     <div style="width:15.5%; display:inline;" class="text-center" >
                         <span><?= $producto->stock_max; ?></span>

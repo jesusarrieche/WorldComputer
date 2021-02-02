@@ -304,32 +304,25 @@ class ReporteController extends Controller {
         $categorias = true;
         $productosFiltro = true;
 
-        $sql = "SELECT p.codigo,p.nombre,p.precio_venta,p.stock,p.stock_min,
-        p.stock_max, c.nombre as nombre_categoria, u.abreviatura
-        FROM productos p 
-        INNER JOIN categorias c 
-        ON c.id = p.categoria_id 
-        INNER JOIN unidades u 
-        ON u.id = p.unidad_id 
-        WHERE p.estatus = 'ACTIVO'";
-
-        if($categoria_id != 0){
+        $sql = "SELECT * FROM v_inventario
+        WHERE estatus = 'ACTIVO'";
+        if($categoria_id != "TODOS"){
             $categorias = false;
-            $sql .= " AND categoria_id = :categoria";
-            $categoria = $this->categoria->getOne("categorias", $categoria_id);
+            $sql .= " AND categoria = :categoria";
+            $categoria = $categoria_id;
         }
-        if($producto_id != 0){
+        if($producto_id != "TODOS"){
             $productosFiltro = false;
-            $sql .= " AND p.id = :producto ";
-            $producto = $this->producto->getOne("productos", $producto_id);
+            $sql .= " AND nombre = :producto ";
+            $producto = $producto_id;
         }
-        $sql .= " ORDER BY c.nombre";
+        $sql .= " ORDER BY nombre";
         $query = $this->producto->connect()->prepare($sql);
 
-        if ($categoria_id != 0) {
+        if ($categoria_id != "TODOS") {
             $query->bindParam(':categoria',$categoria_id);
         }
-        if ($producto_id != 0) {
+        if ($producto_id != "TODOS") {
             $query->bindParam(':producto',$producto_id);
         }
 
@@ -345,8 +338,8 @@ class ReporteController extends Controller {
             'total' => 0
         );
 
-        if (!$categorias) $output += ['categoria' => $categoria->nombre];
-        if (!$productosFiltro) $output += ['producto' => $producto->nombre];
+        if (!$categorias) $output += ['categoria' => $categoria];
+        if (!$productosFiltro) $output += ['producto' => $producto];
 
         ob_start();
         View::getViewPDF('FormatosPDF.reporteProducto',$output);

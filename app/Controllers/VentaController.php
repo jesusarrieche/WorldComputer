@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\Cliente;
 use App\Models\Producto;
+use App\Models\Notificacion;
+use App\Models\Inventario;
 use App\Models\Salida;
 use App\Models\Venta;
 use App\Models\DetalleVenta;
@@ -15,6 +17,8 @@ use System\Core\View;
 class VentaController extends Controller{
 
     private  $cliente;
+    private  $notificacion;
+    private  $inventario;
     private  $producto;
     private  $venta;
     private  $detalleVenta;
@@ -25,6 +29,8 @@ class VentaController extends Controller{
     public function __construct(){
         $this->cliente = new Cliente;
         $this->producto = new Producto;
+        $this->notificacion = new Notificacion;
+        $this->inventario = new Inventario;
         $this->venta = new Venta;
         $this->detalleVenta = new DetalleVenta;
         // $this->salida = new Salida;
@@ -174,6 +180,19 @@ class VentaController extends Controller{
             $detalleVenta->setPrecio($precio[$contador]);
 
             $this->detalleVenta->registrar($detalleVenta);
+
+            try {
+                $bajoStock = $this->inventario->bajoStock($productos[$contador]);
+                if ($bajoStock) {
+                    if (!$this->notificacion->yaNotificado($productos[$contador])) {
+                        $producto_data = $this->producto->getOne('productos',$productos[$contador]);
+                        $mensaje_notificacion = "Producto ".$producto_data->codigo." - ". $producto_data->nombre . " tiene bajo stock.";
+                        $this->notificacion->crear(1, $productos[$contador], 'Stock', $mensaje_notificacion);
+                    }
+                }
+            } catch (Exception $e) {
+                #...
+            }
 
             $contador++;
         }
