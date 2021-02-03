@@ -15,6 +15,7 @@ $(document).ready(function() {
             { data: "nombre" },
             { data: 'categoria' },
             { data: 'precio_venta' },
+            { data: 'precio_bss' },
             { data: 'stock' },
             { data: 'estatus' },
             { data: 'button' }

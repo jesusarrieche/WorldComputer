@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Producto;
+use App\Models\Configuracion;
 use App\Traits\Utility;
 use PDO;
 use System\Core\Controller;
@@ -68,7 +69,8 @@ class ProductoController extends Controller{
         }
 
         $productos = $this->producto->listar();
-
+        $config = new Configuracion;
+        $dolar = $config->obtenerDolar();
         $editar = false;
         $eliminar = false;
         foreach ($_SESSION['permisos'] as $p):
@@ -94,6 +96,13 @@ class ProductoController extends Controller{
                     $producto->button .= "<a href='". $this->encriptar($producto->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
                 }
             }
+            if (isset($producto->precio_venta)) {
+                $producto->precio_bss = $producto->precio_venta * $dolar;
+            }
+            else{
+                $producto->precio_bss = NULL;
+            }
+            
         }
 
         http_response_code(200);

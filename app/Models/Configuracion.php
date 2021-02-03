@@ -62,6 +62,32 @@ class Configuracion extends Model{
         }
         
     }
+    public function obtenerDolar()
+    {   
+        try {
+            $config = new Configuracion;
+            $query = $config->query("SELECT * FROM configuracion WHERE nombre = 'dolar'");
+            $dolar = $query->fetch(PDO::FETCH_OBJ);
+            return $dolar->valor;
+        } catch (Exception $ex) {
+            $this->error = $ex->getMessage();
+            return false;            
+        }
+        
+    }
+    public function obtenerIva()
+    {   
+        try {
+            $config = new Configuracion;
+            $query = $config->query("SELECT * FROM configuracion WHERE nombre = 'iva'");
+            $iva = $query->fetch(PDO::FETCH_OBJ);
+            return $iva->valor;
+        } catch (Exception $ex) {
+            $this->error = $ex->getMessage();
+            return false;            
+        }
+        
+    }
 
 
 }

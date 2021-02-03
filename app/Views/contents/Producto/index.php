@@ -24,7 +24,8 @@
                 <th>Codigo</th>
                 <th>Producto</th>
                 <th>Categoria</th>
-                <th>Precio</th>
+                <th>Precio $</th>
+                <th>Precio BSS</th>
                 <th>Stock</th>
                 <th>Estatus</th>
                 <th>Acciones</th>

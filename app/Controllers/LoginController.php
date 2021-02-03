@@ -19,11 +19,10 @@ class LoginController extends Controller{
     }
 
     public function index(){
-        if(!isset($_COOKIE['title'])){
-            $config = new Configuracion;
-            $nombre = $config->obtenerNombre_sistema();
-            setcookie ('title',$nombre,time()+60*60*24*365);
-        }
+        $config = new Configuracion;
+        $nombre = $config->obtenerNombre_sistema();
+        setcookie ('title',$nombre,time()+60*60*24*365);
+       
         return View::getSingleView('Login.Login');
     }
 
@@ -81,7 +80,7 @@ class LoginController extends Controller{
     }
 
     public function logout() {
-
+        unset($_COOKIE['title']);
         if (session_destroy()) {
 
             http_response_code(200);
