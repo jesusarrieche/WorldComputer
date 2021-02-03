@@ -5,7 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>WORLD & COMPUTER</title>
+    <title><?php 
+        if(isset($_COOKIE['title'])){
+            echo $_COOKIE['title'];
+        }
+        else{
+            echo "World & Computer";
+        }
+    ?></title>
 
     <!-- FONTAWESOME -->
     <link href="<?= ROOT; ?>vendor/fortawesome/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
@@ -33,7 +40,14 @@
 <div class="container-fluid login h-100">
     <div class="row h-100 justify-content-center align-items-center">
         <div class="col-md-4">
-                <h1 class="text-center mb-4">World & Computer</h1>
+                <h1 class="text-center mb-4"><?php 
+                    if(isset($_COOKIE['title'])){
+                        echo $_COOKIE['title'];
+                    }
+                    else{
+                        echo "World & Computer";
+                    }
+                ?></h1>
                 <div class="card">
                     <div class="card-body">
                         <form id="loginForm">

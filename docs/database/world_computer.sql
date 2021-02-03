@@ -33,7 +33,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `world_computer`.`clientes` (
   `id` INT AUTO_INCREMENT,
   `documento` VARCHAR(15) NOT NULL UNIQUE,
-  `nombre` VARCHAR(45) NULL,
+  `nombre` VARCHAR(50) NULL,
   `apellido` VARCHAR(45) NULL,
   `direccion` VARCHAR(45) NULL,
   `telefono` VARCHAR(45) NULL,
@@ -52,9 +52,23 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`categorias` (
   `id` INT AUTO_INCREMENT,
-  `nombre` VARCHAR(45) NOT NULL UNIQUE,
+  `nombre` VARCHAR(50) NOT NULL UNIQUE,
   `descripcion` VARCHAR(255) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
+
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `world_computer`.`configuracion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `world_computer`.`configuracion` (
+  `id` INT AUTO_INCREMENT,
+  `nombre` VARCHAR(50) NOT NULL UNIQUE,
+  `valor` VARCHAR(250) NULL,
 
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -68,7 +82,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`marcas` (
   `id` INT AUTO_INCREMENT,
-  `nombre` VARCHAR(45) NOT NULL UNIQUE,
+  `nombre` VARCHAR(50) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
 
@@ -84,7 +98,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`modelos` (
   `id` INT AUTO_INCREMENT,
-  `nombre` VARCHAR(45) NOT NULL UNIQUE,
+  `nombre` VARCHAR(50) NOT NULL UNIQUE,
   `description` VARCHAR(45) NULL,
   `marca_id` INT NOT NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
@@ -105,7 +119,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`unidades` (
   `id` INT AUTO_INCREMENT,
-  `nombre` VARCHAR(45) NOT NULL UNIQUE,
+  `nombre` VARCHAR(50) NOT NULL UNIQUE,
   `abreviatura` VARCHAR(5) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'activo',
 
@@ -122,7 +136,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `world_computer`.`productos` (
   `id` INT AUTO_INCREMENT,
   `codigo` VARCHAR(45) NOT NULL UNIQUE,
-  `nombre` VARCHAR(45) NULL,
+  `nombre` VARCHAR(50) NULL,
   `descripcion` VARCHAR(45) NULL,
   `precio_costo` DOUBLE NULL,
   `precio_venta` DOUBLE NULL,
@@ -273,7 +287,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`roles` (
   `id` INT AUTO_INCREMENT,
-  `nombre` VARCHAR(45) NOT NULL UNIQUE,
+  `nombre` VARCHAR(50) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
 
@@ -290,7 +304,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `world_computer`.`usuarios` (
   `id` INT AUTO_INCREMENT,
   `documento` VARCHAR(15) NOT NULL UNIQUE,
-  `nombre` VARCHAR(45) NULL,
+  `nombre` VARCHAR(50) NULL,
   `apellido` VARCHAR(45) NULL,
   `direccion` VARCHAR(200) NULL,
   `telefono` VARCHAR(45) NULL,
@@ -316,7 +330,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`permisos` (
   `id` INT AUTO_INCREMENT,
-  `nombre` VARCHAR(45) NOT NULL UNIQUE,
+  `nombre` VARCHAR(50) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
 
@@ -443,7 +457,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`servicios` (
   `id` INT AUTO_INCREMENT,
-  `nombre` VARCHAR(45) NOT NULL UNIQUE,
+  `nombre` VARCHAR(50) NOT NULL UNIQUE,
   `descripcion` VARCHAR(45) NULL,
   `precio` VARCHAR(45) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
@@ -461,7 +475,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `world_computer`.`empleados` (
   `id` INT AUTO_INCREMENT,
   `documento` VARCHAR(15) NOT NULL UNIQUE,
-  `nombre` VARCHAR(45) NULL,
+  `nombre` VARCHAR(50) NULL,
   `apellido` VARCHAR(45) NULL,
   `direccion` VARCHAR(45) NULL,
   `telefono` VARCHAR(45) NULL,
@@ -641,6 +655,11 @@ INSERT INTO categorias(nombre, descripcion) VALUES
 ('REDES', 'REDES EN GENERAL'),
 ('TELEFONIA', 'TELEFONOS EN GENERAL'),
 ('PC', 'PC GENERAL');
+
+INSERT INTO configuracion(nombre, valor) VALUES
+('nombre_sistema', 'WORLD & COMPUTER'),
+('dolar', '1700000'),
+('iva', '12');
 
 -- INSERT INTO productos(categoria_id, unidad_id, modelo_id, codigo, nombre, precio_porcentaje) VALUES 
 -- ('3', '1', '1', 'P456125', 'ROUTER 3400', '30'),

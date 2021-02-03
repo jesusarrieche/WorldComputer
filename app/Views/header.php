@@ -27,12 +27,26 @@
     <!-- DATATABLE -->
     <link href="<?= ROOT; ?>vendor/datatables/datatables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 
-    <title>WORLD & COMPUTER</title>
+    <title><?php 
+        if(isset($_COOKIE['title'])){
+            echo $_COOKIE['title'];
+        }
+        else{
+            echo "World & Computer";
+        }
+    ?></title>
 </head>
 <body class="bg-light">
 <nav class="navbar navbar-expand navbar-dark bg-primary w-100">
     <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
-    <a class="navbar-brand" href="<?= ROOT;?>"><i class="fas fa-desktop"></i> World & Computer</a>
+    <a class="navbar-brand" href="<?= ROOT;?>" style="max-width:50% !important;"><i class="fas fa-desktop"></i> <?php 
+        if(isset($_COOKIE['title'])){
+            echo $_COOKIE['title'];
+        }
+        else{
+            echo "World & Computer";
+        }
+    ?></a>
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav ml-auto">
             <div class="">
@@ -57,8 +71,9 @@
                     <?php
                         if($_SESSION['rol']==1){
                     ?>
-                    <a href="bitacora" class="dropdown-item text-light">Consultar Bítacora</a>
-                    <a href="respaldo" class="dropdown-item text-light">Respaldar Base de Datos</a>
+                    <a href="<?= ROOT;?>bitacora" class="dropdown-item text-light">Consultar Bítacora</a>
+                    <a href="<?= ROOT;?>respaldo" class="dropdown-item text-light">Respaldar Base de Datos</a>
+                    <a href="<?= ROOT;?>configuracion" class="dropdown-item text-light">Configuración</a>
                     <?php
                         }
                     ?>
@@ -100,7 +115,7 @@
             <?php
                 }endforeach;                
             ?>
-            <?php foreach ($_SESSION['permisos'] as $p):
+            <!-- <?php foreach ($_SESSION['permisos'] as $p):
                     if ($p->permiso == "Inventario") {     
             ?>
             <li>
@@ -110,14 +125,12 @@
 
                 <ul id="inventory_collapse" class="list-unstyled collapse">
                     <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
-                    <!-- <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-down"></i> Cargos de Inventario</a></li>
-                    <li><a href="<?= ROOT;?>Inventario"><i class="fa fa-fw fa-arrow-alt-circle-up"></i> Descargos de Inventario</a></li> -->
 
                 </ul>
             </li>
             <?php
                 }endforeach;                
-            ?>
+            ?> -->
             <?php foreach ($_SESSION['permisos'] as $p):
                     if ($p->permiso == "Productos") {     
             ?>

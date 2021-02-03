@@ -151,7 +151,12 @@ class UsuarioController extends Controller{
     }
 
     public function actualizar(){
+        $method = $_SERVER['REQUEST_METHOD'];
 
+        if( $method != 'POST'){
+            http_response_code(404);
+            return false;
+        }
         $usuario = new Usuario();
         
         $usuario->setId($_POST['id']);

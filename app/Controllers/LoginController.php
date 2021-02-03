@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use System\Core\Controller;
 use System\Core\View;
+use App\Models\Configuracion;
 use App\Models\Usuario;
 use App\Traits\Utility;
 
@@ -18,6 +19,11 @@ class LoginController extends Controller{
     }
 
     public function index(){
+        if(!isset($_COOKIE['title'])){
+            $config = new Configuracion;
+            $nombre = $config->obtenerNombre_sistema();
+            setcookie ('title',$nombre,time()+60*60*24*365);
+        }
         return View::getSingleView('Login.Login');
     }
 
