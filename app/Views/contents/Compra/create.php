@@ -1,6 +1,6 @@
 <div class=" container-fluid p-2">
     <form action="<?= ROOT;?>Compra/guardar" method="post" id="formularioCompra">
- 
+        <input type="hidden" name="dolar" id="dolar">
         <div class="card">
             <div class=" card-header bg-gray">
                 <div class="row">
@@ -168,12 +168,13 @@
                         <table class="table table-striped" id="tproductos">
                             <thead class=" thead-dark">
                                 <tr>
-                                    <th scope="col">Codigo</th>
+                                    <!-- <th scope="col">Codigo</th> -->
                                     <th>Descripcion</th>    
                                     <th>Cantidad</th>
                                     <th>Stock</th>
-                                    <th>Precio Unitario</th>
-                                    <th>Total</th>
+                                    <th>Precio</th>
+                                    <th>Total $</th>
+                                    <th>Total BSS</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
@@ -294,6 +295,7 @@
 <script>
     let proveedores = <?= json_encode($proveedores) ?>;
     let productos = <?= json_encode($productos) ?>;    
+    let dolar = parseFloat(<?= json_encode($dolar) ?>);   
 </script>
 
 <script src="<?= ROOT; ?>public/assets/js/compra/create.js"></script>

@@ -9,6 +9,7 @@ use App\Models\Inventario;
 use App\Models\Salida;
 use App\Models\Venta;
 use App\Models\DetalleVenta;
+use App\Models\Configuracion;
 use App\Traits\Utility;
 use PDO;
 use System\Core\Controller;
@@ -62,14 +63,18 @@ class VentaController extends Controller{
         $num_documento = $this->venta->formatoDocumento($this->venta->ultimoDocumento());
         $clientes = $this->cliente->getAll('clientes', "estatus = 'ACTIVO'");
         $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO' AND stock > 0 AND precio_venta != 'null'");
-        $iva = $this->producto->getValorColumna('impuestos','valor','id = 2');
+ 
+        $config = new Configuracion;
+        $dolar = $config->obtenerDolar();
+        $iva = $config->obtenerIva();
 
         return View::getView('Venta.create', 
             [ 
                 'productos' => $productos, 
                 'clientes' => $clientes,
                 'numeroDocumento' => $num_documento,
-                'iva' => $iva
+                'iva' => $iva,
+                'dolar' => $dolar
             ]);
     }
 
@@ -161,6 +166,8 @@ class VentaController extends Controller{
         $venta->setNumeroDocumento($num_documento);
         $venta->setPersonaId($_POST['cliente']);
         $venta->setTotal($_POST['total']);
+        $venta->setDolar($_POST['dolar']);
+        $venta->setIva($_POST['iva']);
 
         $lastId = $venta->registrar($venta);
 

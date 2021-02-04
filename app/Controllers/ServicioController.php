@@ -12,6 +12,7 @@ use App\Models\Producto;
 use App\Models\Compra;
 use App\Models\Entrada;
 use App\Models\Proveedor;
+use App\Models\Configuracion;
 use PDO;
 use App\Traits\Utility;
 use System\Core\Controller;
@@ -119,7 +120,9 @@ class ServicioController extends Controller{
     $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO' AND stock > 0 AND precio_venta != 'null'");
     $servicios = $this->servicio->listar();
     $empleados = $this->empleado->listarCargo('TECNICO');
-    $iva = $this->servicio->getValorColumna('impuestos','valor','id = 2');
+    $config = new Configuracion;
+    $dolar = $config->obtenerDolar();
+    $iva = $config->obtenerIva();
 
     return View::getView('Servicio.create', 
         [ 
@@ -127,7 +130,8 @@ class ServicioController extends Controller{
             'servicios' => $servicios,
             'productos' => $productos,
             'empleados' => $empleados,
-            'iva' => $iva
+            'iva' => $iva,
+            'dolar' => $dolar
         ]);
   }
 
@@ -141,6 +145,8 @@ class ServicioController extends Controller{
         $venta->setNumeroDocumento($num_documento);
         $venta->setPersonaId($_POST['cliente']);
         $venta->setTotal($_POST['total']);
+        $venta->setDolar($_POST['dolar']);
+        $venta->setIva($_POST['iva']);
         $lastId = $venta->registrar($venta);
 
         $productos = $_POST['productos'];
@@ -167,6 +173,7 @@ class ServicioController extends Controller{
       $servicio->setCodigo($num_documento);
       $servicio->setCliente_id($_POST['cliente']);
       $servicio->setEmpleado_id($_POST['empleado']);
+      $servicio->setDolar($_POST['dolar']);
       if (isset($lastId)) {
         $servicio->setVenta_id($lastId);
       }      

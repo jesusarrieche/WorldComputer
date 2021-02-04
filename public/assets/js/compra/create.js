@@ -3,7 +3,7 @@ $(document).ready(function () {
     /**
      * FUNCIONES
      */
-    
+    console.log(dolar);
     const buscarProducto = (codigo) => {
 
         let producto = productos.find( element => element.codigo === codigo);
@@ -52,9 +52,6 @@ $(document).ready(function () {
             <tr>
                 <td>
                     <input type="text" name="productos[]" class="form-control-plaintext" value="${producto.id}" hidden>
-                    <input type="text" name="" class="form-control-plaintext" value="${producto.codigo}" disabled>
-                </td>
-                <td>
                     <input type="text" class="form-control-plaintext" value="${producto.nombre}" disabled>
                 </td>
                 <td>
@@ -68,6 +65,9 @@ $(document).ready(function () {
                 </td>
                 <td>
                     <input type="number" class="form-control-plaintext total" value="0" disabled>
+                </td>
+                <td>
+                    <input type="number" class="form-control-plaintext totalBss" value="0" disabled>
                 </td>
                 <td>
                     <button class="btn btn-danger eliminar"><i class="fas fa-trash-alt text-white"></i></button>
@@ -87,8 +87,10 @@ $(document).ready(function () {
 
     let row = $(this).closest('tr');
     let total = row.find('.cantidad').val() * row.find('.precio').val();
+    let totalBss = total*dolar;
 
     row.find('.total').val(total);
+    row.find('.totalBss').val(totalBss);
 
     let elementos = document.querySelectorAll('.total');
 
@@ -97,8 +99,8 @@ $(document).ready(function () {
     elementos.forEach(element => {
         total = parseFloat(total) + parseFloat(element.value);
     })
-
-    $('#totalVenta').val(total);    
+    totalBss = total*dolar;
+    $('#totalVenta').val(`${total} $ - ${totalBss} BSS`);    
     
     });
 
@@ -184,7 +186,7 @@ $(document).ready(function () {
         console.log(total)
     
     
-        
+        $("#dolar").val(dolar);
         $.ajax({
             type: "POST",
             url: form.attr('action'),
@@ -263,7 +265,6 @@ $(document).ready(function () {
         e.preventDefault();
 
         let datos = new FormData(document.querySelector('#formularioRegistrarProveedor'));
-
         registrarProveedor(datos);   
     });
 

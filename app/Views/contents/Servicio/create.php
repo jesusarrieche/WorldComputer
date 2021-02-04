@@ -1,5 +1,7 @@
 <div class=" container-fluid p-2">
     <form action="<?= ROOT;?>Servicio/agregarPrestado" method="post" id="formularioServicio">
+        <input type="hidden" name="dolar" id="dolar">
+        <input type="hidden" name="iva" id="iva">
         <div class="card">
             <div class=" card-header bg-gray">
                 <div class="row">
@@ -202,9 +204,10 @@
                                     <table class="table table-striped" id="tservicios">
                                         <thead class=" thead-light">
                                             <tr>
-                                                <th scope="col">Código</th>
+                                                <!-- <th scope="col">Código</th> -->
                                                 <th>Nombre</th>
-                                                <th>Precio</th>
+                                                <th>Precio $</th>
+                                                <th>Precio Bss</th>
                                                 <th>Eliminar</th>
                                             </tr>
                                         </thead>
@@ -308,12 +311,13 @@
                         <table class="table table-striped" id="tproductos">
                             <thead class=" thead-dark">
                                 <tr>
-                                    <th scope="col">Codigo</th>
+                                    <!-- <th scope="col">Codigo</th> -->
                                     <th>Descripcion</th>    
                                     <th>Cantidad</th>
                                     <th>Stock</th>
-                                    <th>Precio Unitario</th>
-                                    <th>Total</th>
+                                    <th>Precio</th>
+                                    <th>Total $</th>
+                                    <th>Total Bss</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
@@ -456,7 +460,8 @@
     let servicios = <?= json_encode($servicios) ?>;    
     let productos = <?= json_encode($productos) ?>;    
     let empleados = <?= json_encode($empleados) ?>;    
-    let iva = <?= json_encode($iva) ?>;    
+    let iva = parseFloat(<?= json_encode($iva) ?>);    
+    let dolar = parseFloat(<?= json_encode($dolar) ?>);    
     let backUrl = <?= ROOT ?> + 'Servicio/ProvidedServices';
     console.log(backUrl);
 </script>

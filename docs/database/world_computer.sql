@@ -237,6 +237,7 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`compras` (
   `cod_ref` VARCHAR(45) NULL,
   `fecha` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `impuesto` VARCHAR(45) NULL DEFAULT '0',
+  `dolar` VARCHAR(45) NULL DEFAULT '1',
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
   `proveedor_id` INT NOT NULL,
 
@@ -501,6 +502,7 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`servicios_prestados` (
   `empleado_id` INT NOT NULL,
   `venta_id` INT,
   `cliente_id` INT NOT NULL,
+  `dolar` VARCHAR(45) NULL DEFAULT '1',
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

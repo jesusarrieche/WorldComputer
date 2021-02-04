@@ -52,9 +52,6 @@ $(document).ready(function () {
             <tr>
                 <td>
                     <input type="text" name="productos[]" class="form-control-plaintext" value="${producto.id}" hidden>
-                    <input type="text" name="" class="form-control-plaintext" value="${producto.codigo}" disabled>
-                </td>
-                <td>
                     <input type="text" class="form-control-plaintext" value="${producto.nombre}" disabled>
                 </td>
                 <td>
@@ -70,6 +67,9 @@ $(document).ready(function () {
                 </td>
                 <td>
                     <input type="number" class="form-control-plaintext total" value="0" disabled>
+                </td>
+                <td>
+                    <input type="number" class="form-control-plaintext totalBss" value="0" disabled>
                 </td>
                 <td>
                     <button class="btn btn-danger eliminar"><i class="fas fa-trash-alt text-white"></i></button>
@@ -89,8 +89,9 @@ $(document).ready(function () {
 
         let row = $(this).closest('tr');
         let total = row.find('.cantidad').val() * row.find('.precio').val();
-
+        let totalBss = total * dolar;
         row.find('.total').val(total.toFixed(2));
+        row.find('.totalBss').val(totalBss.toFixed(2));
 
         let elementos = document.querySelectorAll('.total');
 
@@ -106,7 +107,9 @@ $(document).ready(function () {
 
         $('#impuesto').val(impuestos.toFixed(2));
         $('#subtotal').val(total.toFixed(2));
-        $('#totalVenta').val((total + impuestos).toFixed(2));    
+        totalNeto = total+impuestos;
+        totalNetoBss = totalNeto*dolar;
+        $('#totalVenta').val(`${totalNeto.toFixed(2)} $ - ${totalNetoBss.toFixed(2)} BSS`); 
     
     });
 
@@ -189,8 +192,8 @@ $(document).ready(function () {
     
         console.log(total)
     
-    
-        
+        $("#dolar").val(dolar);        
+        $("#iva").val(iva);        
         $.ajax({
             type: "POST",
             url: form.attr('action'),

@@ -13,6 +13,8 @@ class Movimiento extends Model{
     private $numero_documento;
     private $fecha;
     private $total;
+    private $dolar;
+    private $iva;
     private $estatus;
 
     public function __construct(){
@@ -68,6 +70,20 @@ class Movimiento extends Model{
 
     public function setTotal($total){
         $this->total = $total;
+    }
+    public function getDolar(){
+        return $this->dolar;
+    }
+
+    public function setDolar($dolar){
+        $this->dolar = $dolar;
+    }
+    public function getIva(){
+        return $this->iva;
+    }
+
+    public function setIva($iva){
+        $this->iva = $iva;
     }
 
     public function getEstatus(){

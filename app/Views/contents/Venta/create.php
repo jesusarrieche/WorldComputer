@@ -1,6 +1,7 @@
 <div class="content p-42">
     <form action="<?= ROOT;?>Venta/guardar" method="post" id="formularioCompra">
- 
+        <input type="hidden" name="dolar" id="dolar">
+        <input type="hidden" name="iva" id="iva">
         <div class="card">
             <div class=" card-header bg-gray">
                 <div class="row">
@@ -158,12 +159,13 @@
                         <table class="table table-striped" id="tproductos">
                             <thead class=" thead-dark">
                                 <tr>
-                                    <th scope="col">Codigo</th>
+                                    <!-- <th scope="col">Codigo</th> -->
                                     <th>Descripcion</th>    
                                     <th>Cantidad</th>
                                     <th>Stock</th>
-                                    <th>Precio Unitario</th>
-                                    <th>Total</th>
+                                    <th>Precio</th>
+                                    <th>Total $</th>
+                                    <th>Total Bss</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
@@ -299,6 +301,7 @@
     let clientes = <?= json_encode($clientes) ?>;
     let productos = <?= json_encode($productos) ?>; 
     let iva = parseFloat(<?= json_encode($iva) ?>);    
+    let dolar = parseFloat(<?= json_encode($dolar) ?>);    
 
 </script>
 

@@ -12,6 +12,7 @@ class Servicio extends Model{
     private $descripcion;
     private $nombre;
     private $precio;
+    private $dolar;
     
     private $codigo;
     private $cliente_id;
@@ -50,6 +51,13 @@ class Servicio extends Model{
 
     public function setPrecio($precio){
         $this->precio = $precio;
+    }
+    public function getDolar(){
+        return $this->dolar;
+    }
+
+    public function setDolar($dolar){
+        $this->dolar = $dolar;
     }
     public function getDescripcion(){
         return $this->descripcion;
@@ -187,18 +195,20 @@ class Servicio extends Model{
     {
         try {
             $dbh = parent::connect();
-            $consulta = $dbh->prepare("INSERT INTO servicios_prestados (codigo, empleado_id, cliente_id, venta_id, usuario_id)
-                VALUES (:codigo, :empleado_id, :cliente_id, :venta_id, :usuario_id)");
+            $consulta = $dbh->prepare("INSERT INTO servicios_prestados (codigo, empleado_id, cliente_id, venta_id, usuario_id, dolar)
+                VALUES (:codigo, :empleado_id, :cliente_id, :venta_id, :usuario_id, :dolar)");
 
             $codigo = $s->getCodigo();
             $empleado_id = $s->getEmpleado_id();
             $cliente_id = $s->getCliente_id();
             $venta_id = $s->getVenta_id();
+            $dolar = $s->getDolar();
             
             $consulta->bindParam(':codigo', $codigo);
             $consulta->bindParam(':empleado_id', $empleado_id);
             $consulta->bindParam(':cliente_id', $cliente_id);
             $consulta->bindParam(':venta_id', $venta_id);
+            $consulta->bindParam(':dolar', $dolar);
             $consulta->bindParam(":usuario_id", $_SESSION['id']);
             $consulta->execute();
             $lastId = $dbh->lastInsertId();

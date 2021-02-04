@@ -7,6 +7,7 @@ use App\Models\Compra;
 use App\Models\Entrada;
 use App\Models\Producto;
 use App\Models\Proveedor;
+use App\Models\Configuracion;
 use App\Traits\Utility;
 use PDO;
 use System\Core\Controller;
@@ -54,12 +55,14 @@ class CompraController extends Controller{
         $num_documento = $this->compra->formatoDocumento($this->compra->ultimoDocumento());
         $proveedores = $this->proveedor->getAll('proveedores', "estatus = 'ACTIVO'");
         $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO'");
-
+        $config = new Configuracion;
+        $dolar = $config->obtenerDolar();
         return View::getView('Compra.create', 
             [ 
                 'productos' => $productos, 
                 'proveedores' => $proveedores,
-                'numeroDocumento' => $num_documento
+                'numeroDocumento' => $num_documento,
+                'dolar' => $dolar
             ]);
     }
 
@@ -152,6 +155,7 @@ class CompraController extends Controller{
         $compra->setDocumentoReferencia($this->limpiaCadena($_POST['documentoReferencia']));
         $compra->setPersonaId($_POST['proveedor']);
         $compra->setTotal($_POST['total']);
+        $compra->setDolar($_POST['dolar']);
 
         $lastId = $compra->registrar($compra);
 

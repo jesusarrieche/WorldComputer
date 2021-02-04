@@ -116,13 +116,15 @@ $(document).ready(function () {
         let fila = `
             <tr>
                 <td>
-                    <input type="text" name="servicios[]" class="form-control-plaintext" value="${servicio.id}" >
-                </td>
-                <td>
+                    <input type="hidden" name="servicios[]" class="form-control-plaintext" value="${servicio.id}" >
                     <input type="text" class="form-control-plaintext" value="${servicio.nombre}" disabled>
                 </td>
                 <td>
-                    <input type="text" name="servicios_precio[]" class="form-control-plaintext precio_servicio" value="${servicio.precio}">
+                    <input type="text" class="form-control-plaintext precio_servicio" value="${servicio.precio}" disabled>
+                    <input type="hidden" name="servicios_precio[]" class="form-control-plaintext " value="${servicio.precio}" >
+                </td>
+                <td>
+                    <input type="text" class="form-control-plaintext precio_servicioBss" value="${(servicio.precio*dolar).toFixed(2)}" disabled>
                 </td>
                 
                 <td>
@@ -152,9 +154,6 @@ $(document).ready(function () {
             <tr>
                 <td>
                     <input type="text" name="productos[]" class="form-control-plaintext" value="${producto.id}" hidden>
-                    <input type="text" name="" class="form-control-plaintext" value="${producto.codigo}" disabled>
-                </td>
-                <td>
                     <input type="text" class="form-control-plaintext" value="${producto.nombre}" disabled>
                 </td>
                 <td>
@@ -172,12 +171,16 @@ $(document).ready(function () {
                     <input type="number" class="form-control-plaintext total" value="0" disabled>
                 </td>
                 <td>
+                    <input type="number" class="form-control-plaintext totalBss" value="0" disabled>
+                </td>
+                <td>
                     <button class="btn btn-danger eliminar"><i class="fas fa-trash-alt text-white"></i></button>
                 </td>
             </tr>`;
 
         $('#cuerpo').append(fila);
         $('#listadoProductos').val('');
+        $('#tproductos').change();
 
     });
 
@@ -189,8 +192,9 @@ $(document).ready(function () {
 
         let row = $(this).closest('tr');
         let total = row.find('.cantidad').val() * row.find('.precio').val();
-
+        let totalBss = total * dolar;
         row.find('.total').val(total.toFixed(2));
+        row.find('.totalBss').val(totalBss.toFixed(2));
 
         actualizarTotal();
     
@@ -213,7 +217,7 @@ $(document).ready(function () {
         elementos.forEach(element => {
             totalServicios = parseFloat(totalServicios) + parseFloat(element.value);
         });
-        $('#totalServicios').val((totalServicios).toFixed(2)); 
+        $('#totalServicios').val(`${totalServicios.toFixed(2)} $ - ${(totalServicios*dolar).toFixed(2)} BSS`); 
 
         //total productos
         let elementosP = document.querySelectorAll('.total');
@@ -225,9 +229,12 @@ $(document).ready(function () {
         $('#impuesto').val(impuestos.toFixed(2));
         $('#subtotal').val(totalProductos.toFixed(2));
         totalProductos = totalProductos + impuestos;
-        $('#totalVenta').val((totalProductos).toFixed(2));
+        var totalProductosBss = totalProductos * dolar;
+        $('#totalVenta').val(`${totalProductos.toFixed(2)} $ - ${totalProductosBss.toFixed(2)} BSS`);
         //total
-        $('#totalServicioPrestado').val((totalServicios+totalProductos).toFixed(2));
+        var totalServicioPrestado = totalServicios+totalProductos;
+        var totalServicioPrestadoBss = totalServicioPrestado * dolar;
+        $('#totalServicioPrestado').val(`${totalServicioPrestado.toFixed(2)} $ - ${totalServicioPrestadoBss.toFixed(2)} BSS`);
     }
 
     $('#formularioServicio').submit(function (e){
@@ -269,6 +276,8 @@ $(document).ready(function () {
         }  
 
         actualizarTotal();
+        $("#dolar").val(dolar);        
+        $("#iva").val(iva);
         $.ajax({
             type: "POST",
             url: form.attr('action'),
