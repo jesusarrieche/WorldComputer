@@ -44,15 +44,21 @@
 
             <div class="card-header">
                 <div class="row justify-content-center">
-                    <h2 class="card-tittle text-center">Detalle Venta</h2>
+                    <h2 class="card-tittle text-center">Detalle Servicio Prestado</h2>
                 </div>
             </div>
 
             <div class="card-body">
                 <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-md-4"><strong>Nro Servicio Prestado:</strong> </label>
-                    <div class="col-md-2">
+                    <label for="" class="col-form-label col-md-4"><strong>NRO SERVICIO PRESTADO:</strong> </label>
+                    <div class="col-md-3">
                         <input type="text" class="form-control-plaintext" id="servicio_codigo" disabled>
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <label for="" class="col-form-label col-md-4"><strong>FECHA:</strong></label>
+                    <div class="col-md-3">
+                        <input type="text" id="fecha" class="form-control-plaintext" value="" disabled>
                     </div>
                 </div>
 
@@ -116,9 +122,10 @@
                         <table class="table table-striped table-light">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>CODIGO</th>
+                                    <th>CÓDIGO</th>
                                     <th>SERVICIO</th>
-                                    <th>PRECIO</th>
+                                    <th>PRECIO $</th>
+                                    <th>PRECIO BSS</th>
                                 </tr>
                             </thead>
     
@@ -129,17 +136,17 @@
                     </div>
 
                 </div>
-                <div class="row justify-content-end">
+                <div class="row justify-content-start">
                       <label for="" class="col-form-label col-md-2"><strong>TOTAL DE LOS SERVICIOS:</strong> </label>
-                      <div class="col-md-2">
+                      <div class="col-md-10">
                           <input type="text" class="form-control-plaintext" id="totalServicios" disabled>
                       </div>
                   </div>
 
                 <hr class="productos bg-dark">
                 <div class="row justify-content-end productos mb-3">
-                  <label for="" class="col-form-label col-md-4"><strong>Nro Venta:</strong> </label>
-                  <div class="col-md-2">
+                  <label for="" class="col-form-label col-md-3"><strong>NRO VENTA:</strong> </label>
+                  <div class="col-md-3">
                       <input type="text" class="form-control-plaintext" id="venta_codigo" disabled>
                   </div>
                 </div>
@@ -154,10 +161,11 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th>CANTIDAD</th>
-                                    <th>CODIGO</th>
+                                    <th>CÓDIGO</th>
                                     <th>PRODUCTO</th>
                                     <th>PRECIO VENTA</th>
-                                    <th>IMPORTE</th>
+                                    <th>TOTAL $</th>
+                                    <th>TOTAL BSS</th>
                                 </tr>
                             </thead>
     
@@ -169,30 +177,30 @@
 
                 </div>
                 <div class="content productos">
-                  <div class="row justify-content-end">
+                  <div class="row justify-content-start">
                       <label for="" class="col-form-label col-md-2"><strong>SUB-TOTAL:</strong> </label>
-                      <div class="col-md-2">
+                      <div class="col-md-10">
                           <input type="text" class="form-control-plaintext" id="subtotal" disabled>
                       </div>
                   </div>
-                  <div class="row justify-content-end">
-                      <label for="" class="col-form-label col-md-2"><strong>IVA(16.00%):</strong> </label>
-                      <div class="col-md-2">
+                  <div class="row justify-content-start">
+                      <label for="" class="col-form-label col-md-2"><strong>IVA(<span id="iva"></span>%):</strong> </label>
+                      <div class="col-md-10">
                           <input type="text" class="form-control-plaintext" id="impuesto" disabled>
                       </div>
                   </div>
-                  <div class="row justify-content-end">
+                  <div class="row justify-content-start">
                       <label for="" class="col-form-label col-md-2"><strong>TOTAL DE LOS PRODUCTOS:</strong> </label>
-                      <div class="col-md-2">
+                      <div class="col-md-10">
                           <input type="text" class="form-control-plaintext" id="total" disabled>
                       </div>
                   </div>
                 </div>
                 
                 <hr>
-                <div class="row justify-content-center">
+                <div class="row justify-content-start">
                   <label for="" class="col-form-label col-md-2"><strong>TOTAL:</strong> </label>
-                  <div class="col-md-3">
+                  <div class="col-md-10">
                       <input type="text" class="form-control-plaintext" id="totalServicioPrestado" disabled>
                   </div>
                 </div>

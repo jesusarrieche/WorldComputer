@@ -112,8 +112,8 @@ class CompraController extends Controller{
 
         $idCompra = $this->desencriptar($param);
 
-        $query = $this->compra->query("SELECT c.id, c.codigo, Date_format(c.fecha,'%d/%m/%Y') AS fecha, Date_format(c.fecha,'%H:%i') AS hora, p.documento AS rif_proveedor, p.razon_social AS proveedor, IF(c.cod_ref = null OR c.cod_ref = '', 'N/A', c.cod_ref) AS referencia, p.direccion, c.estatus FROM
-            compras c
+        $query = $this->compra->query("SELECT c.id, c.codigo, Date_format(c.fecha,'%d/%m/%Y') AS fecha, Date_format(c.fecha,'%H:%i') AS hora, p.documento AS rif_proveedor, p.razon_social AS proveedor, IF(c.cod_ref = null OR c.cod_ref = '', 'N/A', c.cod_ref) AS referencia, p.direccion, c.estatus,c.dolar 
+            FROM compras c
                 LEFT JOIN
             proveedores p
                 ON c.proveedor_id = p.id

@@ -62,10 +62,15 @@ $(document).ready(function () {
                 $('#nombre_cliente').val(json.venta.cliente);
                 $('#rif_cliente').val(json.venta.rif_cliente);
                 $('#direccion_cliente').val(json.venta.direccion);
+                $('#fecha').val(`${json.venta.fecha} ${json.venta.hora}`);
+                
 
 
                 $('#cuerpo').empty();
-                
+                var dolar = parseFloat(json.venta.dolar);
+                var iva = parseFloat(json.venta.impuesto);
+                $('#iva').text(iva);
+
                 let subtotal = 0;
                 var total = 0;
 
@@ -79,19 +84,20 @@ $(document).ready(function () {
                             <td>${element.codigo}</td>
                             <td>${element.nombre}</td>
                             <td>${element.precio}</td>
-                            <td>${parseFloat(element.precio * element.cantidad).toFixed(2)}</td>
+                            <td>${element.precio * element.cantidad}</td>
+                            <td>${element.precio * element.cantidad * dolar}</td>
                         </tr>
                     `;
 
                     $('#subtotal').val(parseFloat(subtotal).toFixed(2));
-                    $('#impuesto').val(parseFloat(subtotal * 0.16).toFixed(2))
+                    $('#impuesto').val(parseFloat(subtotal * iva/100).toFixed(2));
                     $('#cuerpo').append(row);
                     
                 });
 
-                total += (total * 0.16);
-
-                $('#total').val(parseFloat(total).toFixed(2));
+                total += (total * iva/100);
+                var totalBss = total * dolar;
+                $('#total').val(`${total.toFixed(2)} $ - ${totalBss.toFixed(2)} BSS`);
 
                 
                 

@@ -236,9 +236,9 @@ class ServicioController extends Controller{
   public function mostrarPrestado($param){
     //Servicio Prestado
     $idServicio = $this->desencriptar($param);
-    $query0 = $this->servicio->query("SELECT s.id, s.codigo,s.venta_id,Date_format(s.fecha,'%d/%m/%Y') AS fecha, 
+    $query0 = $this->servicio->query("SELECT s.id, s.codigo,s.venta_id,Date_format(s.fecha,'%d/%m/%Y') AS fecha, Date_format(s.fecha,'%H:%i') AS hora,
       CONCAT(e.nombre,' ',e.apellido) as empleado, e.documento AS empleado_documento, e.direccion as empleado_direccion,
-      CONCAT(c.nombre,' ',c.apellido) as cliente, c.documento AS cliente_documento, c.direccion as cliente_direccion 
+      CONCAT(c.nombre,' ',c.apellido) as cliente, c.documento AS cliente_documento, c.direccion as cliente_direccion, s.dolar 
       FROM servicios_prestados s INNER JOIN empleados e ON s.empleado_id=e.id 
       INNER JOIN clientes c ON s.cliente_id=c.id
       WHERE s.id=$idServicio");
@@ -252,7 +252,7 @@ class ServicioController extends Controller{
     if ($servicioPrestado->venta_id != NULL) {
       $idVenta = $servicioPrestado->venta_id;
 
-      $query = $this->venta->query("SELECT v.id, v.codigo, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.estatus FROM
+      $query = $this->venta->query("SELECT v.id, v.codigo, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.estatus, v.dolar, v.impuesto FROM
           ventas v
               LEFT JOIN
           clientes c

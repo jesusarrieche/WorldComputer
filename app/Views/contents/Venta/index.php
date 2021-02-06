@@ -21,7 +21,7 @@
           <table class="table" id="datatable">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Codigo</th>
+                <th scope="col">Código</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Cliente</th>
                 <th scope="col">Acción</th>
@@ -52,9 +52,15 @@
 
             <div class="card-body">
                 <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-md-2"><strong>Nro Venta:</strong> </label>
-                    <div class="col-md-2">
+                    <label for="" class="col-form-label col-md-2"><strong>NRO VENTA:</strong> </label>
+                    <div class="col-md-3">
                         <input type="text" class="form-control-plaintext" id="numero_venta" disabled>
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <label for="" class="col-form-label col-md-2"><strong>FECHA:</strong></label>
+                    <div class="col-md-3">
+                        <input type="text" id="fecha" class="form-control-plaintext" value="" disabled>
                     </div>
                 </div>
 
@@ -100,7 +106,8 @@
                                     <th>CODIGO</th>
                                     <th>PRODUCTO</th>
                                     <th>PRECIO VENTA</th>
-                                    <th>IMPORTE</th>
+                                    <th>TOTAL $</th>
+                                    <th>TOTAL BSS</th>
                                 </tr>
                             </thead>
     
@@ -112,21 +119,21 @@
 
                 </div>
                 <hr>
-                <div class="row justify-content-end">
+                <div class="row justify-content-start">
                     <label for="" class="col-form-label col-md-2"><strong>SUB-TOTAL:</strong> </label>
-                    <div class="col-md-2">
+                    <div class="col-md-10">
                         <input type="text" class="form-control-plaintext" id="subtotal" disabled>
                     </div>
                 </div>
-                <div class="row justify-content-end">
-                    <label for="" class="col-form-label col-md-2"><strong>IVA(16.00%):</strong> </label>
-                    <div class="col-md-2">
+                <div class="row justify-content-start">
+                    <label for="" class="col-form-label col-md-2"><strong>IVA(<span id="iva"></span>%):</strong> </label>
+                    <div class="col-md-10">
                         <input type="text" class="form-control-plaintext" id="impuesto" disabled>
                     </div>
                 </div>
-                <div class="row justify-content-end">
+                <div class="row justify-content-start">
                     <label for="" class="col-form-label col-md-2"><strong>TOTAL:</strong> </label>
-                    <div class="col-md-2">
+                    <div class="col-md-10">
                         <input type="text" class="form-control-plaintext" id="total" disabled>
                     </div>
                 </div>

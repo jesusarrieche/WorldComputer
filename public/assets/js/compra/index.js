@@ -63,10 +63,11 @@ $(document).ready(function () {
                 $('#nombre_proveedor').val(json.compra.proveedor);
                 $('#rif_proveedor').val(json.compra.rif_proveedor);
                 $('#direccion_proveedor').val(json.compra.direccion);
+                $('#fecha').val(`${json.compra.fecha} ${json.compra.hora}`);
 
 
                 $('#cuerpo').empty();
-                
+                var dolar = parseFloat(json.compra.dolar);
                 var total = 0;
 
                 json.productos.forEach( element => {
@@ -79,6 +80,7 @@ $(document).ready(function () {
                             <td>${element.nombre}</td>
                             <td>${element.costo}</td>
                             <td>${element.costo * element.cantidad}</td>
+                            <td>${element.costo * element.cantidad * dolar}</td>
                         </tr>
                     `;
 
@@ -86,8 +88,8 @@ $(document).ready(function () {
                     $('#cuerpo').append(row);
                     
                 });
-                
-                $('#total').val(total);
+                var totalBss = total * dolar;
+                $('#total').val(`${total} $ - ${totalBss} BSS`);
                 
                 $('#modalDetalleCompra').modal('show');
 

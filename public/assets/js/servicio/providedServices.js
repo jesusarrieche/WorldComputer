@@ -56,9 +56,11 @@ $(document).ready(function () {
                 $('#empleado').val(json.servicio_prestado.empleado);
                 $('#empleado_documento').val(json.servicio_prestado.empleado_documento);
                 $('#empleado_direccion').val(json.servicio_prestado.empleado_direccion);
+                $('#fecha').val(`${json.servicio_prestado.fecha} ${json.servicio_prestado.hora}`);
                 
                 $('#cuerpo').empty(); 
                 $('#cuerpoServicios').empty(); 
+                var dolar = parseFloat(json.servicio_prestado.dolar);
 
                 var totalServicios = 0;
 
@@ -70,22 +72,27 @@ $(document).ready(function () {
                             <td>${element.id}</td>
                             <td>${element.nombre}</td>
                             <td>${element.precio}</td>
+                            <td>${element.precio * dolar}</td>
                         </tr>
                     `;
                     $('#cuerpoServicios').append(row);
                     
                 });
                 // totalServicios = parseFloat(totalServicios).toFixed(2);
-                $('#totalServicios').val(parseFloat(totalServicios).toFixed(2));
+                var totalServiciosBss = totalServicios*dolar;
+                $('#totalServicios').val(`${totalServicios.toFixed(2)} $ - ${totalServiciosBss.toFixed(2)} BSS`);
                 console.log(json.venta);
                 if (json.venta == null) {
                     $('.productos').hide();
-                    $('#totalServicioPrestado').val(parseFloat(totalServicios).toFixed(2));
+                    $('#totalServicioPrestado').val(`${totalServicios.toFixed(2)} $ - ${totalServiciosBss.toFixed(2)} BSS`);
                 }
                 else{
                     $('.productos').show();    
                     $('#venta_codigo').val(json.venta.codigo);
 
+                    var dolarV = parseFloat(json.venta.dolar);
+                    var iva = parseFloat(json.venta.impuesto);
+                    $('#iva').text(iva);
                     let subtotal = 0;
                     var total = 0;
 
@@ -99,21 +106,24 @@ $(document).ready(function () {
                                 <td>${element.codigo}</td>
                                 <td>${element.nombre}</td>
                                 <td>${element.precio}</td>
-                                <td>${parseFloat(element.precio * element.cantidad).toFixed(2)}</td>
+                                <td>${element.precio * element.cantidad}</td>
+                                <td>${element.precio * element.cantidad * dolarV}</td>
                             </tr>
                         `;
 
                         $('#subtotal').val(parseFloat(subtotal).toFixed(2));
-                        $('#impuesto').val(parseFloat(subtotal * 0.16).toFixed(2))
+                        $('#impuesto').val(parseFloat(subtotal * iva/100).toFixed(2));
                         $('#cuerpo').append(row);
                         
                     });
 
                     
-                    total += total*0.16;
-                    $('#total').val(parseFloat(total).toFixed(2));
+                    total += (total * iva/100);
+                    var totalBss = total * dolar;
+                    $('#total').val(`${total.toFixed(2)} $ - ${totalBss.toFixed(2)} BSS`);
                     totalServicioPrestado = totalServicios+total;
-                    $('#totalServicioPrestado').val(parseFloat(totalServicioPrestado).toFixed(2));
+                    var totalServicioPrestadoBss = totalServicioPrestado*dolarV;
+                    $('#totalServicioPrestado').val(`${totalServicioPrestado.toFixed(2)} $ - ${totalServicioPrestadoBss.toFixed(2)} BSS`);
                 }
                 $(modal).modal('show');
     

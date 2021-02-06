@@ -124,8 +124,8 @@ class VentaController extends Controller{
 
         $idVenta = $this->desencriptar($param);
 
-        $query = $this->venta->query("SELECT v.id, v.codigo, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.estatus FROM
-            ventas v
+        $query = $this->venta->query("SELECT v.id, v.codigo, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.estatus, v.dolar, v.impuesto
+        FROM ventas v
                 LEFT JOIN
             clientes c
                 ON v.cliente_id = c.id
