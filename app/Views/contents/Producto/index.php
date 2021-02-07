@@ -21,14 +21,14 @@
           <table class="table" id="datatable">
             <thead class="thead-dark">
               <tr>
-                <th>Codigo</th>
+                <th>Código</th>
                 <th>Producto</th>
-                <th>Categoria</th>
+                <th>Categoría</th>
                 <th>Precio $</th>
                 <th>Precio BSS</th>
                 <th>Stock</th>
                 <th>Estatus</th>
-                <th>Acciones</th>
+                <th>Acción</th>
               </tr>
             </thead>
             <tbody>

@@ -216,7 +216,7 @@ class ServicioController extends Controller{
 
           echo json_encode([
               'titulo' => 'Estatus actualizado',
-              'mensaje' => 'Estatus de la venta actualizado correctamente',
+              'mensaje' => 'Estatus del servicio prestado actualizado correctamente',
               'tipo' => 'success'
           ]);
 
@@ -226,7 +226,7 @@ class ServicioController extends Controller{
 
           echo json_encode([
               'titulo' => 'Error al Cambiar estatus',
-              'mensaje' => 'Ocurrio un error al intentar cambiar el estatus',
+              'mensaje' => 'Ocurrió un error al intentar cambiar el estatus',
               'tipo' => 'error'
           ]);
 

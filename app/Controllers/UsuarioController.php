@@ -187,7 +187,7 @@ class UsuarioController extends Controller{
                 if($usu->rol_id=="1"){
                     echo json_encode([
                         'titulo' => 'Ocurrió un error!',
-                        'mensaje' => "El Sistema debe tener como mínimo un usuario de tipo Administrador",
+                        'mensaje' => "El Sistema debe tener como mínimo un usuario de tipo Super Administrador",
                         'tipo' => 'error'
                     ]);
                     return false;
@@ -251,7 +251,7 @@ class UsuarioController extends Controller{
             if($admin == 1){
                 echo json_encode([
                     'titulo' => 'Ocurrió un error!',
-                    'mensaje' => "El Sistema debe tener como mínimo un usuario de tipo Administrador",
+                    'mensaje' => "El Sistema debe tener como mínimo un usuario de tipo Super Administrador",
                     'tipo' => 'error'
                 ]);
                 return false;

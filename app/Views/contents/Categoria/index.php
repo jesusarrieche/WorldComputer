@@ -14,17 +14,17 @@
                 }           
             ?>
           >
-            <i class="fas fa-plus-square"></i> Agregar Categoria
+            <i class="fas fa-plus-square"></i> Agregar Categoría
           </button>
         </div>
         <div class="card-body">
           <table class="table" id="datatable">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Categoria</th>
-                <th scope="col">Descripcion</th>
+                <th scope="col">Categoría</th>
+                <th scope="col">Descripción</th>
                 <th scope="col">Estatus</th>
-                <th scope="col">Acciones</th>
+                <th scope="col">Acción</th>
               </tr>
             </thead>
             <tbody>

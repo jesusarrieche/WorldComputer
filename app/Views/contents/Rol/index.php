@@ -229,7 +229,7 @@
 
                                     
                             <div class="form-row p-1">
-                                <div class="col-md-4">
+                                <!-- <div class="col-md-4">
                                     <hr class="bg-secondary">
                                     <div class="row">
                                         <div class="col-md">
@@ -246,8 +246,8 @@
                                         </div>
                                     </div>
 
-                                </div>
-                                <div class="col-md-4">
+                                </div> -->
+                                <div class="col-md-6">
                                     <hr class="bg-secondary">                                
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
@@ -281,7 +281,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <hr class="bg-secondary">
                                     <div class="row">
                                         <div class="col-md">
@@ -760,7 +760,7 @@
 
                                     
                             <div class="form-row p-1">
-                                <div class="col-md-4">
+                                <!-- <div class="col-md-4">
                                     <hr class="bg-secondary">
                                     <div class="row">
                                         <div class="col-md">
@@ -777,8 +777,8 @@
                                         </div>
                                     </div>
 
-                                </div>
-                                <div class="col-md-4">
+                                </div> -->
+                                <div class="col-md-6">
                                     <hr class="bg-secondary">                                
                                     <div class="row">
                                         <div class="custom-control custom-checkbox pr-3">
@@ -812,7 +812,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <hr class="bg-secondary">
                                     <div class="row">
                                         <div class="col-md">

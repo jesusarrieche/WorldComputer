@@ -59,9 +59,10 @@ $(document).ready(function () {
                 
                 let json = JSON.parse(response);
                 var permisos = $('#formularioActualizarRol').find('input[name="permisos[]"]');
-                $.each(permisos, function (j, element) { 
-                    $(element).click();
-                }); 
+                // $.each(permisos, function (j, element) { 
+                //     // $(element).click();
+                //     $(element).removeData('s');
+                // }); 
                 $(formulario).trigger('reset');
                 $(formulario).find('input#nombre').val(json.data[0].nombre);
                 $(formulario).find('textarea#descripcion').val(json.data[0].descripcion);
@@ -306,7 +307,7 @@ $(document).ready(function () {
         console.log($(this).attr('href'));
     });
     //Función para marcar varias casillas de permisos
-    $('[name="permisos[]"]').on('click',function () {  
+    $('#formularioRegistrarRol').find('[name="permisos[]"]').on('click',function () {  
         var hermano = $(this).siblings();
         var padre = $(this).parent();
         var abuelo = $(padre).parent();

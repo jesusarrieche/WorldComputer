@@ -5,6 +5,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema world_computer
 -- -----------------------------------------------------
+DROP DATABASE IF EXISTS `world_computer`;
 CREATE SCHEMA IF NOT EXISTS `world_computer` DEFAULT CHARACTER SET utf8 ;
 USE `world_computer` ;
 
@@ -684,10 +685,10 @@ INSERT INTO productos(categoria_id, unidad_id, codigo, nombre, precio_porcentaje
 ('2', '1','P456187', 'ADAPTADOR 30K', '30');
 
 /* Roles */
-INSERT INTO roles(nombre, descripcion) VALUES 
-('admin', 'todos los permisos del sistema'),
-('user', 'Permisos esenciales para inventario, compra y venta');
-
+INSERT INTO `roles` (`id`, `nombre`, `descripcion`, `estatus`) VALUES
+(1, 'Super Administrador', 'Todos los permisos del sistema', 'ACTIVO'),
+(2, 'Administrador', 'Permisos para la mayoría de los módulos', 'ACTIVO'),
+(3, 'Asistente', 'Manejo de Inventario, Cliente y Ventas', 'ACTIVO');
 /* Cargando Permisos */
 INSERT INTO permisos(nombre) VALUES 
 ('usuarios'),
@@ -747,67 +748,100 @@ INSERT INTO permisos(nombre) VALUES
 ('reportes');
 
 /* Roles con permisos*/
-INSERT INTO rol_permiso(rol_id, permiso_id) VALUES 
-('1','1'),
-('1','2'),
-('1','3'),
-('1','4'),
-('1','5'),
-('1','6'),
-('1','7'),
-('1','8'),
-('1','9'),
-('1','10'),
-('1','11'),
-('1','12'),
-('1','13'),
-('1','14'),
-('1','15'),
-('1','16'),
-('1','17'),
-('1','18'),
-('1','19'),
-('1','20'),
-('1','21'),
-('1','22'),
-('1','23'),
-('1','24'),
-('1','25'),
-('1','26'),
-('1','27'),
-('1','28'),
-('1','29'),
-('1','30'),
-('1','31'),
-('1','32'),
-('1','33'),
-('1','34'),
-('1','35'),
-('1','36'),
-('1','37'),
-('1','38'),
-('1','39'),
-('1','40'),
-('1','41'),
-('1','42'),
-('1','43'),
+INSERT INTO `rol_permiso` (`rol_id`, `permiso_id`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(1, 12),
+(1, 13),
+(1, 14),
+(1, 15),
+(1, 16),
+(1, 17),
+(1, 18),
+(1, 19),
+(1, 20),
+(1, 21),
+(1, 22),
+(1, 23),
+(1, 24),
+(1, 25),
+(1, 26),
+(1, 27),
+(1, 28),
+(1, 29),
+(1, 30),
+(1, 31),
+(1, 32),
+(1, 33),
+(1, 34),
+(1, 35),
+(1, 36),
+(1, 37),
+(1, 38),
+(1, 39),
+(1, 40),
+(1, 41),
+(1, 42),
+(1, 43),
 
-('2','5'),
-('2','6'),
-('2','7'),
-('2','8'),
+(2, 5),
+(2, 6),
+(2, 7),
+(2, 8),
+(2, 9),
+(2, 10),
+(2, 11),
+(2, 12),
+(2, 13),
+(2, 14),
+(2, 15),
+(2, 16),
+(2, 18),
+(2, 19),
+(2, 20),
+(2, 21),
+(2, 22),
+(2, 23),
+(2, 24),
+(2, 25),
+(2, 26),
+(2, 27),
+(2, 28),
+(2, 29),
+(2, 30),
+(2, 31),
+(2, 32),
+(2, 33),
+(2, 34),
+(2, 35),
+(2, 36),
+(2, 37),
+(2, 38),
+(2, 43),
 
-
-('2','17'),
-
-('2','36'),
-('2','37'),
-('2','38');
+(3, 5),
+(3, 6),
+(3, 7),
+(3, 8),
+(3, 18),
+(3, 36),
+(3, 37),
+(3, 38);
 
 -- USUARIO
 INSERT INTO usuarios(rol_id, documento, nombre, apellido, direccion, telefono, email, usuario, password, estatus) VALUES 
-('1', 'V-00000000', 'ADMINISTRADOR', 'ADMINISTRADOR', 'WORLD','000-0000000', 'administrador@email.com', 'administrador', 'ZXRlSml1a1p0akNsbTYwL2hnNEF2UT09', 'ACTIVO'),
-('2', 'V-10000000', 'USUARIO', 'USUARIO', 'WORLD','000-0000000', 'usuario@email.com', 'usuario', 'ZXRlSml1a1p0akNsbTYwL2hnNEF2UT09', 'ACTIVO');
+('1', 'V-00000000', 'SUPER', 'ADMINISTRADOR', 'WORLD','000-0000000', 'superadministrador@email.com', 'superadministrador', 'ZXRlSml1a1p0akNsbTYwL2hnNEF2UT09', 'ACTIVO'),
+('2', 'V-10000000', 'ADMINISTRADOR', 'ADMINISTRADOR', 'WORLD','000-0000000', 'admin@email.com', 'administrador', 'ZXRlSml1a1p0akNsbTYwL2hnNEF2UT09', 'ACTIVO'),
+('3', 'V-30000000', 'USUARIO', 'USUARIO', 'WORLD','000-0000000', 'usuario@email.com', 'usuario', 'ZXRlSml1a1p0akNsbTYwL2hnNEF2UT09', 'ACTIVO');
 
 -- COMPRAS
 INSERT INTO compras(proveedor_id, codigo, cod_ref, fecha, impuesto, usuario_id) VALUES 

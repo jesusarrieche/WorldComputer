@@ -21,9 +21,9 @@
           <table class="table" id="datatable">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Cedula/RIF</th>
+                <th scope="col">Cédula/RIF</th>
                 <th scope="col">Nombre y Apellido</th>
-                <th scope="col">Telefono</th>
+                <th scope="col">Teléfono</th>
                 <th scope="col">Acción</th>
               </tr>
             </thead>

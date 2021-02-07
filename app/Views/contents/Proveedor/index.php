@@ -23,10 +23,10 @@
           <table class="table" id="datatable">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Cedula/RIF</th>
-                <th scope="col">Razon Social</th>
+                <th scope="col">Cédula/RIF</th>
+                <th scope="col">Razón Social</th>
                 <th scope="col">Teléfono</th>
-                <th scope="col">Acciones</th>
+                <th scope="col">Acción</th>
               </tr>
             </thead>
             <tbody>
