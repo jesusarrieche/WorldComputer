@@ -27,7 +27,7 @@ class NotificacionController extends Controller{
             return false;
         }
 
-        $notificaciones = $this->notificacion->listar(3);
+        $notificaciones = $this->notificacion->listar(10);
 
         header('Content-Type: application/json');
 

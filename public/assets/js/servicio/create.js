@@ -239,6 +239,12 @@ $(document).ready(function () {
 
     $('#formularioServicio').submit(function (e){
         e.preventDefault();
+        var button = $(this).find("[type='submit']");
+        button.attr("disabled",true);
+        setTimeout(() => {
+            button.removeAttr("disabled");
+        }, 1000);
+
         let empleado = buscarEmpleado($('#listadoEmpleados').val());
         let cliente = buscarCliente($('#listadoClientes').val());
         

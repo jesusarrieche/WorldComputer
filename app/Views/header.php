@@ -37,7 +37,7 @@
     ?></title>
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-expand navbar-dark bg-primary w-100">
+<nav class="navbar navbar-expand navbar-dark bg-primary w-100" id="navbar">
     <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
     <a class="navbar-brand" href="<?= ROOT;?>" style="max-width:50% !important;"><i class="fas fa-desktop"></i> <?php 
         if(isset($_COOKIE['title'])){

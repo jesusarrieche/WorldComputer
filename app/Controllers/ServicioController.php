@@ -379,6 +379,8 @@ public function servicioPrestadoPDF($param){
       }
 
       $servicios = $this->servicio->listar();
+      $config = new Configuracion;
+      $dolar = $config->obtenerDolar();
 
       $editar = false;
       $eliminar = false;
@@ -405,6 +407,7 @@ public function servicioPrestadoPDF($param){
                   $servicio->button .= "<a href='". $this->encriptar($servicio->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
               }
           }
+          $servicio->precioBss = $servicio->precio * $dolar;
       }
   
       http_response_code(200);

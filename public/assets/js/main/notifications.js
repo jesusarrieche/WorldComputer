@@ -8,16 +8,14 @@ $(document).ready(function() {
 
         var color = $(this).text();
         if (down) {
-
-            $('#box').css('display', 'none');
-            $('#box').css('height', '0px');
-            $('#box').css('opacity', '0');
+            $('#box').fadeOut();
             down = false;
         } else {
-
-            $('#box').css('display', 'block');
-            $('#box').css('height', 'auto');
-            $('#box').css('opacity', '1');
+            var pantalla = $(window).height();
+            var navbar = $('#navbar').height();
+            pantalla = pantalla - navbar-10;
+            $('#box').css('height', pantalla+'px');
+            $('#box').slideDown();     
             down = true;
 
         }
@@ -25,8 +23,7 @@ $(document).ready(function() {
     });
 
     $('#getout').click(function(e) {
-        $('#box').css('height', '0px');
-        $('#box').css('opacity', '0');
+        $('#box').fadeOut();
         down = false;
     });
 

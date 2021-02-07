@@ -144,10 +144,15 @@ $(document).ready(function () {
     $('#formularioCompra').submit(function (e){
         e.preventDefault();
     
+        var button = $(this).find("[type='submit']");
+        button.attr("disabled",true);
+        setTimeout(() => {
+            button.removeAttr("disabled");
+        }, 1000);
         /**
          * Cliente
          */
-    
+        
         if($('#cliente').val() == '' || $('#cliente').val() == null){
             Swal.fire(
                 'Seleccione un Cliente',
@@ -200,7 +205,7 @@ $(document).ready(function () {
             data: form.serialize(),
             success: function (response) {
                 console.log(response);
-               json = JSON.parse(response);
+                json = JSON.parse(response);
                 console.log(json);
 
                 
@@ -209,7 +214,6 @@ $(document).ready(function () {
                     json.mensaje,
                     json.tipo
                 );
-
                 setTimeout(function(){
                     window.location = "../Venta";
                 },700);

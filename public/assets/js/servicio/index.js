@@ -13,6 +13,7 @@ $(document).ready(function () {
             { data: "nombre" },
             { data: 'descripcion' },
             { data: 'precio' },
+            { data: 'precioBss' },
             { data: 'button' }
         ],
 

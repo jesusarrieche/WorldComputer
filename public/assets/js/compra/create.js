@@ -142,7 +142,11 @@ $(document).ready(function () {
 
     $('#formularioCompra').submit(function (e){
         e.preventDefault();
-    
+        var button = $(this).find("[type='submit']");
+        button.attr("disabled",true);
+        setTimeout(() => {
+            button.removeAttr("disabled");
+        }, 1000);
         /**
          * Proveedor
          */

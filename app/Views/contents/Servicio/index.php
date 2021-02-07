@@ -24,7 +24,8 @@
                 <th scope="col">Codigo</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Descripción</th>
-                <th scope="col">Precio</th>
+                <th scope="col">Precio $</th>
+                <th scope="col">Precio BSS</th>
                 <th scope="col">Acción</th>
               </tr>
             </thead>
