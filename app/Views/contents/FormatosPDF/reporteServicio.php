@@ -106,9 +106,11 @@
             <hr><br>
             <?php                    
                 $total = 0;
+                $totalBss = 0;
                 foreach($servicios AS $servicio):
                     $cantidad++;
                     $total += $servicio->total;
+                    $totalBss += $servicio->totalBss;
             ?>
 
             <div>
@@ -131,7 +133,7 @@
                     <span><?= $servicio->total ?></span>
                 </div>
                 <div style="width:14%; display:inline;" class="text-center" >
-                    <span><?= $servicio->total * $dolar; ?></span>
+                    <span><?= $servicio->totalBss; ?></span>
                 </div>
             </div>
                 
@@ -157,7 +159,7 @@
                     <span><?= $total ?></span>
                 </div>
                 <div style="width:14%; display:inline;" class="text-center" >
-                    <span><?= $total * $dolar; ?></span>
+                    <span><?= $totalBss; ?></span>
                 </div>
             </div>
                 
@@ -188,9 +190,11 @@
                 <hr><br>
                 <?php                    
                     $total = 0;
+                    $totalBss = 0;
                     foreach($servicios AS $servicio):
                         $cantidad++;
                         $total += $servicio->total;
+                        $totalBss += $servicio->totalBss;
                 ?>
 
                 <div>
@@ -210,7 +214,7 @@
                         <span><?= $servicio->total ?></span>
                     </div>
                     <div style="width:16.6%; display:inline;" class="text-center" >
-                        <span><?= $servicio->total * $dolar; ?></span>
+                        <span><?= $servicio->totalBss; ?></span>
                     </div>
                 </div>
                 
@@ -233,7 +237,7 @@
                         <span><?= $total ?></span>
                     </div>
                     <div style="width:16.6%; display:inline;" class="text-center" >
-                        <span><?= $total * $dolar; ?></span>
+                        <span><?= $totalBss; ?></span>
                     </div>
                 </div>
                 
@@ -249,7 +253,7 @@
         <br>
         <div class="separadorDos"></div>
         <div class="separadorDos"></div>
-        <!-- Métodos de Pago -->
+        Métodos de Pago
         <?php if(isset($pagos) AND count($pagos)>0){?>
         <div class="centrado" style="width: 95%;">
                 <h3 class="text-center margin"><u>MÉTODOS DE PAGO</u></h3><br>

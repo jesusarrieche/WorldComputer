@@ -222,7 +222,8 @@ class ReporteController extends Controller {
         $serviciosFiltro = true;
 
         $sql = "SELECT p.codigo, date_format(p.fecha, '%d-%m-%Y %r') as fecha,
-        c.nombre as cliente, CONCAT(e.nombre, ' ', e.apellido) as empleado, ROUND(d.precio,2) as total, s.nombre as nombre_servicio
+        c.nombre as cliente, CONCAT(e.nombre, ' ', e.apellido) as empleado, ROUND(SUM(d.precio),2) as total, ROUND(SUM(d.precio*p.dolar),2) as totalBss, 
+        COUNT(d.id) as servicios_cantidad,s.nombre as nombre_servicio
         FROM servicios_prestados p INNER JOIN clientes c ON p.cliente_id = c.id 
         INNER JOIN empleados e 
         ON p.empleado_id = e.id 
@@ -266,6 +267,11 @@ class ReporteController extends Controller {
         $query->bindParam(':hasta',$hasta);
         $query->execute();
         $servicios = $query->fetchAll(PDO::FETCH_OBJ);
+        foreach ($servicios as $s) {
+            if ($s->servicios_cantidad>1) {
+                $s->nombre_servicio = "VARIOS";
+            }
+        }
         ob_start();
 
         $output = array(

@@ -294,7 +294,7 @@
                                         <input type="text" class="form-control-plaintext" id="stockProducto" disabled value="N/A">
                                     </div>
                                 </div>
-
+                                <i>Nota: No es obligatorio seleccionar productos para los Servicios Prestados</i>
     
                                 
                             </div>
