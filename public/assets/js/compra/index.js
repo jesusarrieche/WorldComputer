@@ -103,7 +103,7 @@ $(document).ready(function () {
     const cambiarEstatus = (id) => {
         $.ajax({
             type: "POST",
-            url: "/WorldComputer/compra/cambiarEstatus/" + id,
+            url: "compra/cambiarEstatus/" + id,
             success: function (response) {
 
                 console.log(response);

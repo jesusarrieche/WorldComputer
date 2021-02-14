@@ -130,7 +130,8 @@ class ReporteController extends Controller {
         $productos = true;
 
         $sql = "SELECT v.codigo, date_format(v.fecha, '%d-%m-%Y %r') as fecha,
-        c.nombre as cliente, CONCAT(u.nombre, ' ', u.apellido) as vendedor, ROUND(SUM(d.precio*d.cantidad),2) as total
+        c.nombre as cliente, CONCAT(u.nombre, ' ', u.apellido) as vendedor, ROUND(SUM(d.precio*d.cantidad*(1+v.impuesto/100)),2) as total,
+        ROUND(SUM(d.precio*d.cantidad*(1+v.impuesto/100)*v.dolar),2) as totalBss
         FROM ventas v 
         INNER JOIN clientes c 
         ON v.cliente_id = c.id 
@@ -369,7 +370,7 @@ class ReporteController extends Controller {
         $productos = true;
 
         $sql = "SELECT c.codigo, date_format(c.fecha, '%d-%m-%Y %r') as fecha,
-            c.impuesto, ROUND(SUM(d.costo*d.cantidad),2) as total, p.razon_social as proveedor
+            c.impuesto, ROUND(SUM(d.costo*d.cantidad),2) as total, ROUND(SUM(d.costo*d.cantidad*c.dolar),2) as totalBss, p.razon_social as proveedor
             FROM compras c 
             INNER JOIN detalle_compra d 
             ON d.compra_id = c.id 
@@ -388,9 +389,9 @@ class ReporteController extends Controller {
             $producto = $this->producto->getOne("productos", $producto_id);
         }
 
-        $sql .= "AND c.fecha BETWEEN :desde AND :hasta GROUP BY d.compra_id ORDER BY c.fecha DESC";
+        $sql .= " AND c.fecha BETWEEN :desde AND :hasta GROUP BY d.compra_id ORDER BY c.fecha DESC";
 
-        $query = $this->compra->connect()->prepare($sql);
+        $query = $this->compra->connect()->prepare($sql); 
 
         if ($proveedor_id != 0) {
             $query->bindParam(':proveedor',$proveedor_id);

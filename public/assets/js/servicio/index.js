@@ -46,7 +46,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "/WorldComputer/Servicio/guardar",
+            url: "Servicio/guardar",
             data: datos,
             cache: false,
             contentType: false,
@@ -108,7 +108,7 @@ $(document).ready(function () {
     const actualizarServicio = (datos) => {
         $.ajax({
             type: "POST",
-            url: "/WorldComputer/Servicio/actualizar",
+            url: "Servicio/actualizar",
             data: datos,
             cache: false,
             contentType: false,
@@ -143,7 +143,7 @@ $(document).ready(function () {
     const eliminarServicio = (id) => {
         $.ajax({
             type: "DELETE",
-            url: "/WorldComputer/Servicio/eliminar/" + id,
+            url: "Servicio/eliminar/" + id,
             success: function (response) {
                 const json = JSON.parse(response);
                 if(json.tipo == 'success'){

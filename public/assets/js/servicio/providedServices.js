@@ -6,7 +6,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: '/WorldComputer/Servicio/listarPrestados'
+            url: 'Servicio/listarPrestados'
         },
         columns: [
             { data: 'codigo' },
@@ -136,7 +136,7 @@ $(document).ready(function () {
     const cambiarEstatus = (id) => {
         $.ajax({
             type: "POST",
-            url: "/WorldComputer/Servicio/cambiarEstatus/" + id,
+            url: "Servicio/cambiarEstatus/" + id,
             success: function (response) {
                 json = JSON.parse(response);
 

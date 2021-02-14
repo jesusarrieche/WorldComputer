@@ -103,9 +103,11 @@
             <hr><br>
             <?php                    
                 $total = 0;
+                $totalBss = 0;
                 foreach($ventas AS $venta):
                     $cantidad++;
                     $total += $venta->total;
+                    $totalBss += $venta->totalBss;
             ?>
 
             <div>
@@ -122,10 +124,10 @@
                     <span><?= $venta->vendedor; ?></span>
                 </div>
                 <div style="width:18%; display:inline;" class="text-center" >
-                    <span><?= $venta->total ?></span>
+                    <span><?= $venta->total; ?></span>
                 </div>
                 <div style="width:18%; display:inline;" class="text-center" >
-                    <span><?= $venta->total * $dolar; ?></span>
+                    <span><?= $venta->totalBss; ?></span>
                 </div>
             </div>
                 
@@ -151,7 +153,7 @@
                     <span><?= $total ?></span>
                 </div>
                 <div style="width:18%; display:inline;" class="text-center" >
-                    <span><?= $total * $dolar; ?></span>
+                    <span><?= $totalBss; ?></span>
                 </div>
             </div>
                 
@@ -179,9 +181,11 @@
                 <hr><br>
                 <?php                    
                     $total = 0;
+                    $totalBss = 0;
                     foreach($ventas AS $venta):
                         $cantidad++;
                         $total += $venta->total;
+                        $totalBss += $venta->totalBss;
                 ?>
 
                 <div>
@@ -198,7 +202,7 @@
                         <span><?= $venta->total ?></span>
                     </div>
                     <div style="width:18.5%; display:inline;" class="text-center" >
-                        <span><?= $venta->total * $dolar; ?></span>
+                        <span><?= $venta->totalBss; ?></span>
                     </div>
                 </div>
                 
@@ -221,7 +225,7 @@
                         <span><?= $total ?></span>
                     </div>
                     <div style="width:18.5%; display:inline;" class="text-center" >
-                        <span><?= $total * $dolar; ?></span>
+                        <span><?= $totalBss; ?></span>
                     </div>
                 </div>
                 
@@ -238,73 +242,7 @@
         <div class="separadorDos"></div>
         <div class="separadorDos"></div>
         <!-- Métodos de Pago -->
-        <?php if(isset($pagos) AND count($pagos)>0){?>
-        <div class="centrado" style="width: 95%;">
-                <h3 class="text-center margin"><u>MÉTODOS DE PAGO</u></h3><br>
-                <div>
-                    <!-- <p> <b>Total de Ventas: </b> <?=$cantidad;?></p> -->
-                   
-                    <div style="width:24%; display:inline;" class="text-center">
-                        <strong>MÉTODO</strong>
-                    </div>
-                    <div style="width:24%; display:inline;" class="text-center">
-                        <strong>CANTIDAD</strong>
-                    </div>
-                    <div style="width:24%; display:inline;" class="text-center">
-                        <strong>TOTAL $</strong>
-                    </div>
-                    <div style="width:24%; display:inline;" class="text-center">
-                        <strong>TOTAL BSS</strong>
-                    </div>
-                    
-                </div>
-
-                <hr><br>
-                <?php
-                    $cantidadPagos = 0;
-                    $totalPagos = 0;
-                    foreach ($pagos as $pago): 
-                        if(isset($pago->metodo)){
-                            $cantidadPagos += $pago->cantidad;
-                            $totalPagos += $pago->total;
-                ?>
-                <div>
-                    <div style="width:24%; display:inline;" class="text-center" >
-                        <span><?= $pago->metodo; ?></span>
-                    </div>
-                    <div style="width:24%; display:inline;" class="text-center" >
-                        <span><?= $pago->cantidad; ?></span>
-                    </div>
-                    <div style="width:24%; display:inline;" class="text-center" >
-                        <span><?= $pago->total; ?></span>
-                    </div>
-                    <div style="width:24%; display:inline;" class="text-center" >
-                        <span><?= $pago->total*$dolar ?></span>
-                    </div>
-                </div>
-                
-                <br>
-                <div class="separador"></div>
-                <?php }endforeach;?>
-                <div>
-                    <div style="width:24%; display:inline;" class="text-center" >
-                        <b>TOTAL</b>
-                    </div>
-                    <div style="width:24%; display:inline;" class="text-center" >
-                        <span><?= $cantidadPagos ?></span>
-                    </div>
-                    <div style="width:24%; display:inline;" class="text-center" >
-                        <span><?= $totalPagos ?></span>
-                    </div>
-                    <div style="width:24%; display:inline;" class="text-center" >
-                        <span><?= $totalPagos*$dolar ?></span>
-                    </div>
-                </div>
-                <br>
-                <div class="separador"></div>
-        </div>
-        <?php }?>
-        <!--Fin Métodos de Pago  -->
+        
            
             
     </div>

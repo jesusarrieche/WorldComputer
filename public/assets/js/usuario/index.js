@@ -10,7 +10,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: GLOBAL.URL+"Usuario/listar"
+            url: "Usuario/listar"
         },
         columns: [
             { data: 'documento' },
@@ -170,7 +170,7 @@ $(document).ready(function () {
         });
 
     
-        // fetch('/WorldComputer/cliente/guardar', { method: 'POST', body: datos })
+        // fetch('cliente/guardar', { method: 'POST', body: datos })
         // .then((response) => {
         //     console.log(response);
         //     return response.json();

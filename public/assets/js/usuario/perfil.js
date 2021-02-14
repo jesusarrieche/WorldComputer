@@ -2,7 +2,7 @@ $(document).ready(function () {
     const actualizarUsuario = (datos) => {
         $.ajax({
             type: "POST",
-            url: GLOBAL.URL+"Usuario/actualizar",
+            url: "Usuario/actualizar",
             data: datos,
             cache: false,
             contentType: false,

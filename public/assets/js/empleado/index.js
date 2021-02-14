@@ -10,7 +10,7 @@ let table = $('#datatable').DataTable({
     searching: true,
     ajax: {
         method: 'POST',
-        url: '/WorldComputer/Empleado/listar'
+        url: 'Empleado/listar'
     },
     columns: [
         { data: 'documento' },
@@ -134,7 +134,7 @@ const registrarEmpleado = (datos) => {
 
 
 
-    // fetch('/WorldComputer/empleado/guardar', { method: 'POST', body: datos })
+    // fetch('empleado/guardar', { method: 'POST', body: datos })
     // .then((response) => {
     //     console.log(response);
     //     return response.json();
@@ -193,7 +193,7 @@ const actualizarEmpleado = (datos) => {
 const eliminarEmpleado = (id) => {
     $.ajax({
         type: "DELETE",
-        url: "/WorldComputer/empleado/eliminar/" + id,
+        url: "empleado/eliminar/" + id,
         success: function (response) {
             const json = JSON.parse(response);
             if(json.tipo == 'success'){
