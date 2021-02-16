@@ -11,3 +11,6 @@ body{
 .dropdown-menu a:hover{
     color: black !important;
 }
+.text-black{
+    color: black !important;
+}

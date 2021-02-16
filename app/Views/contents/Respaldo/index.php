@@ -34,7 +34,7 @@
         <div class="modal-content">
 
 			<div class="card">
-			<div class="card-body swal2-content">
+			<div class="card-body swal2-content text-black">
 				<h2 class="card-tittle text-center">Restaurar</h2>
 				<hr>
 				<form action="respaldo/restaurar" method="POST" target="_blank" id="formularioRestaurar">
