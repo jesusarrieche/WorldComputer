@@ -48,10 +48,10 @@ class RolController extends Controller {
 
             $rol->button = 
             "<a href=".ROOT."rol/mostrar/". $this->encriptar($rol->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
-            if ($editar) {
+            if ($editar && $rol->id != 1) {
                 $rol->button .= "<a href=".ROOT."rol/mostrar/". $this->encriptar($rol->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
             }
-            if ($eliminar) {
+            if ($eliminar && $rol->id != 1) {
                 if($rol->estatus == "ACTIVO"){
                     $rol->button .= "<a href='". $this->encriptar($rol->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
                 }

@@ -3,7 +3,7 @@
 
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-center">
-            <h2 class="mb-4">Bítacora</h2>
+            <h2 class="mb-4">Bitácora</h2>
         </div>
        
         <div class="card-body">
@@ -49,7 +49,6 @@
                         <option value="Productos">Productos</option>
                         <option value="Categor">Categorías</option>
                         <option value="Compras">Compras</option>
-                        <option value="Ventas">Ventas</option>
                         <option value="Ventas">Ventas</option>
                         <option value="Servicios">Servicios</option>
                         <option value="Servicios Prestados">Servicios Prestados</option>

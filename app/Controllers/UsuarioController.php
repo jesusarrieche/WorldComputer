@@ -63,10 +63,10 @@ class UsuarioController extends Controller{
 
             $usuario->button = 
             "<a href=".ROOT."usuario/mostrar/". $this->encriptar($usuario->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
-            if ($editar) {
+            if ($editar && $usuario->id != 1) {
                 $usuario->button .= "<a href=".ROOT."usuario/mostrar/". $this->encriptar($usuario->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
             }
-            if ($eliminar) {
+            if ($eliminar && $usuario->id != 1) {
                 if($usuario->estatus == "ACTIVO"){
                     $usuario->button .= "<a href='". $this->encriptar($usuario->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
                 }
