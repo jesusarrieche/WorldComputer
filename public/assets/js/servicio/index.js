@@ -142,7 +142,7 @@ $(document).ready(function () {
     }
     const eliminarServicio = (id) => {
         $.ajax({
-            type: "DELETE",
+            type: "POST",
             url: "Servicio/eliminar/" + id,
             success: function (response) {
                 const json = JSON.parse(response);
@@ -163,8 +163,8 @@ $(document).ready(function () {
     }
     const habilitar = (id) => {
         $.ajax({
-            type: "HABILITAR",
-            url: GLOBAL.URL+"servicio/habilitar/" + id,
+            type: "POST",
+            url: "servicio/habilitar/" + id,
             success: function (response) {
                 const json = JSON.parse(response);
                 if(json.tipo == 'success'){

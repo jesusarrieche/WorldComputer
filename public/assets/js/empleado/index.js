@@ -192,7 +192,7 @@ const actualizarEmpleado = (datos) => {
 
 const eliminarEmpleado = (id) => {
     $.ajax({
-        type: "DELETE",
+        type: "POST",
         url: "empleado/eliminar/" + id,
         success: function (response) {
             const json = JSON.parse(response);
@@ -213,7 +213,7 @@ const eliminarEmpleado = (id) => {
 }
 const habilitar = (id) => {
     $.ajax({
-        type: "HABILITAR",
+        type: "POST",
         url: GLOBAL.URL+"empleado/habilitar/" + id,
         success: function (response) {
             const json = JSON.parse(response);

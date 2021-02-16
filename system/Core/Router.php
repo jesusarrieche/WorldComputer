@@ -42,6 +42,7 @@ class Router {
 
     public function setController(){
         $this->controller = $this->uri[2] === '' ? 'Home' : $this->uri[2];
+        $this->controller = ucwords($this->controller);
     }
 
     public function setMethod(){

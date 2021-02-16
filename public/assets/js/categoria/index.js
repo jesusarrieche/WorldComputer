@@ -176,7 +176,7 @@ const actualizarCategoria = (datos) => {
 
 const eliminarCategoria = (id) => {
     $.ajax({
-        type: "DELETE",
+        type: "POST",
         url: "Categoria/eliminar/" + id,
         success: function (response) {
             const json = JSON.parse(response);
@@ -197,7 +197,7 @@ const eliminarCategoria = (id) => {
 }
 const habilitar = (id) => {
     $.ajax({
-        type: "HABILITAR",
+        type: "POST",
         url: GLOBAL.URL+"categoria/habilitar/" + id,
         success: function (response) {
             const json = JSON.parse(response);

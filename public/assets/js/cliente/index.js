@@ -190,7 +190,7 @@ const actualizarCliente = (datos) => {
 
 const eliminarCliente = (id) => {
     $.ajax({
-        type: "DELETE",
+        type: "POST",
         url: "cliente/eliminar/" + id,
         success: function (response) {
             const json = JSON.parse(response);
@@ -211,7 +211,7 @@ const eliminarCliente = (id) => {
 }
 const habilitar = (id) => {
     $.ajax({
-        type: "HABILITAR",
+        type: "POST",
         url: GLOBAL.URL+"cliente/habilitar/" + id,
         success: function (response) {
             const json = JSON.parse(response);

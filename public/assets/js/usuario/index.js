@@ -134,7 +134,7 @@ $(document).ready(function () {
     const registrarUsuario = (datos) => {
         $.ajax({
             type: "POST",
-            url: GLOBAL.URL+"Usuario/guardar",
+            url: "Usuario/guardar",
             data: datos,
             contentType: false,
             processData: false,
@@ -193,7 +193,7 @@ $(document).ready(function () {
     const actualizarUsuario = (datos) => {
         $.ajax({
             type: "POST",
-            url: GLOBAL.URL+"Usuario/actualizar",
+            url: "Usuario/actualizar",
             data: datos,
             cache: false,
             contentType: false,
@@ -228,8 +228,8 @@ $(document).ready(function () {
     
     const eliminarUsuario = (id) => {
         $.ajax({
-            type: "DELETE",
-            url: GLOBAL.URL+"Usuario/eliminar/" + id,
+            type: "POST",
+            url: "Usuario/eliminar/" + id,
             success: function (response) {
                 const json = JSON.parse(response);
                 if(json.tipo == 'success'){
@@ -256,8 +256,8 @@ $(document).ready(function () {
     }
     const habilitar = (id) => {
         $.ajax({
-            type: "HABILITAR",
-            url: GLOBAL.URL+"usuario/habilitar/" + id,
+            type: "POST",
+            url: "usuario/habilitar/" + id,
             success: function (response) {
                 const json = JSON.parse(response);
                 if(json.tipo == 'success'){

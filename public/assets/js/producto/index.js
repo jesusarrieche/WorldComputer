@@ -250,7 +250,7 @@ $(document).ready(function() {
 
     const eliminarProducto = (id) => {
         $.ajax({
-            type: "DELETE",
+            type: "POST",
             url: "producto/eliminar/" + id,
             success: function(response) {
                 const json = JSON.parse(response);
@@ -272,7 +272,7 @@ $(document).ready(function() {
 
     const habilitarProducto = (id) => {
         $.ajax({
-            type: "HABILITAR",
+            type: "POST",
             url: "producto/habilitar/" + id,
             success: function(response) {
                 const json = JSON.parse(response);
