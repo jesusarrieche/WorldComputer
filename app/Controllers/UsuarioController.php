@@ -179,7 +179,19 @@ class UsuarioController extends Controller{
         else{
             $usuario->setRolId(strtoupper($this->limpiaCadena($_POST['rolUsuarioN'])));
         }
-       
+        if (isset($_POST['perfil']) && $_POST['perfil']!="") {
+            if ($usuario->getId()==1 && $usuario->getRolId()!=1) {
+                http_response_code(200);
+
+                echo json_encode([
+                    'titulo' => 'Alerta',
+                    'mensaje' => 'Este usuario no puede perder el rol de "Super Administrador"',
+                    'tipo' => 'error'
+                ]);
+                return false;
+            }
+        }
+        
         if ($usuario->getRolId()!="1") {
             $admin = $this->usuario->query("SELECT id FROM usuarios WHERE rol_id=1 AND estatus='ACTIVO'")->rowCount();
             if($admin == 1){
