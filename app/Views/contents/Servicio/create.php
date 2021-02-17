@@ -462,7 +462,7 @@
     let empleados = <?= json_encode($empleados) ?>;    
     let iva = parseFloat(<?= json_encode($iva) ?>);    
     let dolar = parseFloat(<?= json_encode($dolar) ?>);    
-    let backUrl = <?= ROOT ?> + 'Servicio/ProvidedServices';
+    let backUrl = '<?= ROOT ?>' + 'Servicio/ProvidedServices';
     console.log(backUrl);
 </script>
 

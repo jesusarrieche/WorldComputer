@@ -33,7 +33,7 @@ $(document).ready(function() {
         console.log("GetNotifications");
         $.ajax({
             type: "POST",
-            url: "notificacion/listar",
+            url: GLOBAL.URL+"notificacion/listar",
             cache: false,
             contentType: false,
             processData: false,
@@ -77,7 +77,7 @@ function dismissNotificacion (id) {
     let idNotificacion = id;
     $.ajax({
             type: "POST",
-            url: "notificacion/dismissNotificacion",
+            url: GLOBAL.URL+"notificacion/dismissNotificacion",
             data: { id: idNotificacion },
             dataType: "json",
             success: function(response) {

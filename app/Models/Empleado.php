@@ -55,7 +55,7 @@ class Empleado extends Persona{
     
     public function registrar(Empleado $c){
         try{
-            $consulta = parent::connect()->prepare("INSERT INTO Empleados(documento, nombre, apellido, direccion, telefono, email, cargo, estatus) "
+            $consulta = parent::connect()->prepare("INSERT INTO empleados(documento, nombre, apellido, direccion, telefono, email, cargo, estatus) "
                 . "VALUES (:documento, :nombre, :apellido, :direccion, :telefono, :email, :cargo, :estatus)");
         
             //$id = $u->getId();
@@ -89,7 +89,7 @@ class Empleado extends Persona{
 
     public function actualizar(Empleado $c){
         try{
-            $consulta = parent::connect()->prepare("UPDATE Empleados SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, cargo=:cargo, estatus=:estatus WHERE id=:id");
+            $consulta = parent::connect()->prepare("UPDATE empleados SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, cargo=:cargo, estatus=:estatus WHERE id=:id");
 
             $id = $c->getId();
             $documento= $c->getTipoDocumento()."-".$c->getDocumento();

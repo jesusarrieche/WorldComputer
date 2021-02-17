@@ -6,7 +6,7 @@ $(document).ready(function () {
         searching: true,
         ajax: {
             method: 'POST',
-            url: 'Servicio/listarPrestados'
+            url: GLOBAL.URL+'Servicio/listarPrestados'
         },
         columns: [
             { data: 'codigo' },
@@ -136,7 +136,7 @@ $(document).ready(function () {
     const cambiarEstatus = (id) => {
         $.ajax({
             type: "POST",
-            url: "Servicio/cambiarEstatus/" + id,
+            url: GLOBAL.URL+"Servicio/cambiarEstatus/" + id,
             success: function (response) {
                 json = JSON.parse(response);
 

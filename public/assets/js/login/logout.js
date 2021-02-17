@@ -5,15 +5,15 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "login/logout",
+            url: GLOBAL.URL+"login/logout",
             cache: false,
             contentType: false,
             processData: false,
             success: function(response) {
                 console.log(response);
 
-                window.location = '/';
-                window.location.reload();
+                window.location = GLOBAL.URL;
+                // window.location.reload();
 
                 // if( json.tipo == 'success'){
 
