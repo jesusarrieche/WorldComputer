@@ -140,7 +140,7 @@ class RespaldoController extends Controller{
         $restorePoint=$_POST['respaldo'];
         $sql=explode(";",file_get_contents($restorePoint));
         $totalErrors=0;
-        set_time_limit (60);
+        set_time_limit (90);
         $con=mysqli_connect(SERVER, USER, PASS, BD);
         $con->query("SET FOREIGN_KEY_CHECKS=0");
         for($i = 0; $i < (count($sql)-1); $i++){

@@ -61,8 +61,12 @@ $(document).ready(function () {
             data: {'respaldo': $('[name="respaldo"]').val()},
             success: function (response) {
                 // console.log(response);
-                let json = JSON.parse(response); 
-                if (json.success) {
+                // let json = JSON.parse(response); 
+                // console.log(response);
+                // response = response.toString();
+                var result = response.search('{"success":true}');
+                // console.log("Result es "+result);
+                if (result!=-1) {
                     Swal.fire(
                         "Excelente!",
                          "La Restauración se realizó correctamente",
