@@ -48,7 +48,32 @@ class LoginController extends Controller{
         $response = $this->usuario->checkUser($this->usuario);
         
         if($response) {
+            // Validación del Captcha
+            if (!isset($_POST['token-r'])) {
+                http_response_code(404); 
+                echo "Captcha";
+                return false;
+            }
+            $googleToken = $_POST['token-r'];
+           
+            $recaptcha = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".SECRET_KEY."&response=".$googleToken); 
+            $recaptcha = json_decode($recaptcha);
 
+            $recaptcha = (array) $recaptcha;
+
+            // var_dump($recaptcha);
+            if(!isset($recaptcha['success']) || !$recaptcha['success'] || $recaptcha['score'] < 0.3)
+            {
+                // header('Content-Type: application/json');
+                http_response_code(404); 
+                // echo json_encode([
+                //     'error' => 'true',
+                //     'title' => 'Error!',
+                //     'message' => 'Ocurrió un problema al validar el Captcha'
+                // ]);
+                echo "Captcha";
+                return false;
+            }
             // var_dump($response);
             // echo $response->documento;
 
@@ -67,12 +92,15 @@ class LoginController extends Controller{
             ]);
         
         } else {
-            header('Content-Type: application/json');
+            // header('Content-Type: application/json');
             http_response_code(404); 
-            echo json_encode([
-                'error' => 'true',
-                'message' => 'Usuario o contraseña incorrecto'
-            ]);
+            // echo json_encode([
+            //     'error' => 'true',
+            //     'title' => '¡Usuario o contraseña incorrecta!',
+            //     'message' => 'Por favor verifique el usuario y la contraseña'
+            // ]);
+            echo "Usuario o Contraseña";
+            return false;
         }
         
         

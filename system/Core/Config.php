@@ -18,6 +18,8 @@ const USER = "root";
 const SERVER = "localhost"; 
 const BD = "world_computer";
 const PASS = "informatica";
+const SITE_KEY = "6Lenol0aAAAAAL58P1eQFRe6yfLmR8EEDBnXe4P_";
+const SECRET_KEY = "6Lenol0aAAAAAHbeJmFPNCv5cNmuktZKzobm5P6e";
 /**
  * Valores Core
  */

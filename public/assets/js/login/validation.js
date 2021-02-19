@@ -19,14 +19,25 @@ $(document).ready(function () {
         }
         else{
           console.log(response);
-          Swal.fire("Error", "Ocurrió un problema al iniciar sesión", "error");
+          Swal.fire("!Error¡", "Ocurrió un problema al iniciar sesión", "error");
         }
 
         
       },
       error: (response) => {
         console.log(response);
-        Swal.fire("¡Usuario o contraseña incorrecta!", "Por favor verifique el usuario y la contraseña", "error");
+        response = response.responseText;
+        console.log(response);
+        if (response == "Usuario o Contraseña") {
+          Swal.fire("¡Usuario o contraseña incorrecta!", "Por favor verifique el usuario y la contraseña", "error");
+        }
+        else if (response =="Captcha") {
+          Swal.fire("¡Error!", "Ocurrió un problema al validar el Captcha", "error");
+        }
+        else{
+          Swal.fire("¡Error!", "Ocurrió un problema al iniciar sesión ", "error");
+        }
+        
       },
     });
     Toast.fire({

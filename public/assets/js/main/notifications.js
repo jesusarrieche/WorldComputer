@@ -47,7 +47,7 @@ $(document).ready(function() {
                     $('.notifications-item').remove();
 
                     response.data.forEach((e) => {
-                        $('#box').append(`<div class="notifications-item" id="notificacion-${e.id}"> <img src="https://freeiconshop.com/wp-content/uploads/edd/notification-flat.png" alt="img">
+                        $('#box').append(`<div class="notifications-item" id="notificacion-${e.id}"> <img src="https://freeiconshop.com/wp-content/uploads/edd/box-flat-128x128.png" alt="img">
                             <div class="text">
                                 <h4>${e.titulo.toUpperCase()}</h4>
                                 <p>${e.mensaje}</p>

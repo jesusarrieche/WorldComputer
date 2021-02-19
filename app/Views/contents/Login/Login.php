@@ -71,7 +71,7 @@
                                     Recuerdame
                                 </label> -->
                             </div>
-
+                            <input type="hidden" name="token-r" id="token-r">
                             <div class="row">
                                 <div class="col pr-2">
                                     <button type="submit" class="btn btn-block btn-primary">Iniciar sesión</button>
@@ -86,12 +86,25 @@
             </div>
     </div>
 </div>
+    <script src="https://www.google.com/recaptcha/api.js?render=<?=SITE_KEY?>"></script>
 
+    <script>
+         
+            grecaptcha.ready(function() {
+                grecaptcha.execute('<?php echo SITE_KEY;?>', {action: 'homepage'})
+                .then(function(token) {
+                    // Add your logic to submit to your backend server here.
+                    console.log(token);
+                    $('#token-r').val(token);
+                });
+            });
+    </script>
 
     <script src="<?= ROOT; ?>vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?= ROOT; ?>public/assets/js/config.js"></script>
     <script src="<?= ROOT; ?>public/assets/js/bootadmin.min.js"></script>
     <script src="<?= ROOT; ?>public/assets/js/login/validation.js"></script>
+    
     
  
     <!-- Bootstrap core JavaScript -->

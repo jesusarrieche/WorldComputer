@@ -253,8 +253,8 @@
         <br>
         <div class="separadorDos"></div>
         <div class="separadorDos"></div>
-        Métodos de Pago
-        <?php if(isset($pagos) AND count($pagos)>0){?>
+        <!-- Métodos de Pago -->
+        <!-- <?php if(isset($pagos) AND count($pagos)>0){?>
         <div class="centrado" style="width: 95%;">
                 <h3 class="text-center margin"><u>MÉTODOS DE PAGO</u></h3><br>
                 <div>
@@ -319,7 +319,7 @@
                 <br>
                 <div class="separador"></div>
         </div>
-        <?php }?>
+        <?php }?> -->
         <!--Fin Métodos de Pago  -->
            
             
