@@ -195,4 +195,33 @@ class Usuario extends Persona{
         }
     }
 
+    public function obtenerId (Usuario $user) {
+        try {
+            $email = $user->getEmail();
+            $query = parent::connect()->prepare("SELECT id FROM usuarios WHERE estatus='ACTIVO' AND email=:email");
+            $query->bindParam(":email", $email);
+
+            $query->execute();
+
+            return $query->fetch(PDO::FETCH_OBJ);
+
+        } catch ( Exception $e ) {
+            die($e->getMessage());
+        }
+    }
+
+    public function recuperarContrasena (Usuario $user) {
+        try {
+            $_SESSION['id'] = $user->getId();
+            $consulta = parent::connect()->prepare("UPDATE usuarios SET `password`=:password WHERE usuario = :usuario");
+            $consulta->bindParam(":password", $user->password);
+            $consulta->bindParam(":usuario", $user->usuario);
+
+            return $consulta->execute();
+
+        } catch ( Exception $e ) {
+            die($e->getMessage());
+        }
+    }
+
 }

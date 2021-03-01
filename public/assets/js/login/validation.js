@@ -47,12 +47,65 @@ $(document).ready(function () {
       onBeforeOpen: () => {
           Swal.showLoading()
       },
-  });
+    });
   });
   const Toast = Swal.mixin({
     toast: true,
     position: 'bottom-start',
     showConfirmButton: false,
-    
   });
+
+  //---- JS funcionalidad recuperar contraseña
+
+  $('#recuperarContrasena').on('click', function () {
+      $('#modalRecuperarContrasena').modal('show');
+  });
+
+
+  const enviarCorreoRecuperacion = (datos) => {
+
+      $.ajax({
+          type: "POST",
+          url: "Login/linkRecuperacion",
+          data: datos,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+              let json = JSON.parse(response);
+
+              console.log(json);
+              
+              if( !json.error ){
+                $('#modalRecuperarContrasena').modal('hide');
+
+                Toast.fire({
+                  title: 'Simulacion de correo',
+                  html: `Haga click en <a href="${json.link}" target="_blank">este link</a> para abrir formulario de recuperacion de contraseña`,
+                  allowOutsideClick: false,
+                });
+
+                $('#linkRecuperacion').text(json.link);
+                $('#simulacionCorreo').toast('show');
+
+
+              }
+          },
+          error: (response) => {
+              console.log(response);
+              
+          }
+      });
+  }
+
+
+  $('#formularioRecuperarContrasena').on('submit', function (e) {
+      e.preventDefault();
+
+      let datos = new FormData(document.querySelector('#formularioRecuperarContrasena'));
+
+      enviarCorreoRecuperacion(datos);
+
+  })
+
 });

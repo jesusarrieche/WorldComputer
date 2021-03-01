@@ -50,68 +50,42 @@
                 ?></h1>
                 <div class="card">
                     <div class="card-body">
-                        <form id="loginForm">
+                        <form id="formularioRecuperarContrasena">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-user"></i></span>
                                 </div>
-                                <input type="text" name="user" class="form-control" placeholder="Usuario" required>
+                                <input type="text" name="user" class="form-control" placeholder="Usuario" value="<?= $usuario->usuario; ?>" readonly required>
                             </div>
 
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-key"></i></span>
                                 </div>
-                                <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+                                <input type="password" name="password" class="form-control" placeholder="Nueva Contraseña" required>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                </div>
+                                <input type="password" name="password_confirm" class="form-control" placeholder="Confirmar contraseña" required>
                             </div>
 
                             <div class="form-check mb-3">
-                                <!-- <label class="form-check-label">
-                                    <input type="checkbox" name="remember" class="form-check-input">
-                                    Recuerdame
-                                </label> -->
+                               
                             </div>
                             <input type="hidden" name="token-r" id="token-r">
+                            <input type="hidden" name="usuario_id" id="usuario_id" value="<?= $usuario->id; ?>">
                             <div class="row">
                                 <div class="col pr-2">
-                                    <button type="submit" class="btn btn-block btn-primary">Iniciar sesión</button>
-                                </div>
-                                <div class="col pl-2">
-                                    <a class="btn btn-block btn-link" href="javascript:void(0);" id="recuperarContrasena">Recuperar Contraseña</a>
+                                    <button type="submit" class="btn btn-block btn-primary">Recuperar Contraseña</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modalRecuperarContrasena" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-
-        <div class="card">
-        <div class="card-body">
-            <h2 class="card-tittle text-center">Recuperar Contraseña</h2>
-            <hr>
-          
-                <form action="#" method="POST" id="formularioRecuperarContrasena" enctype="multipart/form-data">
-
-                    <div class="form-group">
-                        <label for="email"> <i class="fas fa-envelope-square"></i> Ingrese su email</label>
-                        <input type="text" name="email" id="email" class="form-control" maxlength="50" placeholder="...">
-                    </div>
-
-                    <div class="form-row justify-content-center align-items-center">
-                        <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
-                        <button class="btn btn-success" type="submit">Enviar</button>
-                    </div>
-                    
-                </form>   
-        </div>
-    </div>
-        </div>
     </div>
 </div>
 
@@ -127,22 +101,14 @@
                     $('#token-r').val(token);
                 });
             });
+
+            var baseURL = "<?= URL; ?>"
     </script>
 
     <script src="<?= ROOT; ?>vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?= ROOT; ?>public/assets/js/config.js"></script>
     <script src="<?= ROOT; ?>public/assets/js/bootadmin.min.js"></script>
-    <script src="<?= ROOT; ?>public/assets/js/login/validation.js"></script>
-    
-    
-    
- 
-    <!-- Bootstrap core JavaScript -->
-<!--     <script src="Assets/js/jquery/jquery-3.2.1.js"></script> -->
-<!--     <script src="Assets/js/bootstrap/bootstrap.js"></script> -->
-<!--     <script src="Assets/js/menu_lateral.js"></script> -->
-<!--     <script src="Assets/js/validacion.js"></script> -->
-<!-- 	<script src="Assets/js/select2.js"></script> -->
+    <script src="<?= ROOT; ?>public/assets/js/login/recuperarContrasena.js"></script>
 </body>
 
 </html>

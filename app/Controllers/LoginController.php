@@ -107,6 +107,97 @@ class LoginController extends Controller{
 
     }
 
+    public function linkRecuperacion () {
+
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if( $method != 'POST'){
+            http_response_code(404);
+            return false;
+        }
+
+        unset($_SESSION['RC']);
+
+        $this->usuario->setEmail($this->limpiaCadena($_POST['email']));
+
+        $response = $this->usuario->obtenerId($this->usuario);
+
+        if ($response) {
+            $token = bin2hex(random_bytes(10));
+
+            $_SESSION['RC'] = array(
+                'token' => $this->encriptar($token),
+                'usuario_id' => $response->id
+            );
+
+            $output = array(
+                'link' => URL.'Login/recuperarContrasena/'.$token
+            );
+            echo json_encode($output);
+        } else {
+            echo json_encode([
+                'error' => true,
+                'message' => 'Error al finalizar la Sesion',
+                'response' => $response,
+                'usuario' => $this->usuario->getEmail(),
+            ]);
+        }
+    }
+
+    public function recuperarContrasena ($param) {
+        $config = new Configuracion;
+        $nombre = $config->obtenerNombre_sistema();
+
+        $token = $this->encriptar($param);
+
+        if ($token == $_SESSION['RC']['token']) {
+            $usuario_id = $_SESSION['RC']['usuario_id'];
+            $usuario = $this->usuario->getOne('usuarios', $usuario_id);
+            return View::getSingleView('Login.RecuperarContrasena', [
+                'usuario' => $usuario
+            ]);
+        } else {
+            header("Location: ".ROOT);
+            return false;
+        }
+    }
+
+    public function cambioContrasena () {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if( $method != 'POST'){
+            http_response_code(404);
+            return false;
+        }
+
+        $this->usuario->setPassword($this->encriptar($this->limpiaCadena($_POST['password'])));
+        $this->usuario->setUsuario($this->limpiaCadena($_POST['user']));
+        $this->usuario->setId($this->limpiaCadena($_POST['usuario_id']));
+
+        $response = $this->usuario->recuperarContrasena($this->usuario);
+
+        unset($_SESSION['id']);
+
+        if ($response) {
+
+            unset($_SESSION['RC']);
+
+            echo json_encode([
+                'tipo' => 'success',
+                'titulo' => 'Contraseña actualizada.',
+                'mensaje' => 'La contraseña asociada a su cuenta ha sido actualizada.',
+            ]);
+        } else {
+            echo json_encode([
+                'tipo' => 'error',
+                'titulo' => 'Contraseña no actualizada.',
+                'mensaje' => 'Ha ocurrido un problema al actualizar su contraseña.',
+                'response' => $response,
+                'usuario' => $this->usuario
+            ]);
+        }
+    }
+
     public function logout() {
         unset($_COOKIE['title']);
         if (session_destroy()) {
