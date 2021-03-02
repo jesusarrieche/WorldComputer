@@ -137,9 +137,7 @@ class LoginController extends Controller{
         } else {
             echo json_encode([
                 'error' => true,
-                'message' => 'Error al finalizar la Sesion',
-                'response' => $response,
-                'usuario' => $this->usuario->getEmail(),
+                'message' => 'Correo no registrado.',
             ]);
         }
     }

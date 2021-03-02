@@ -55,6 +55,13 @@ $(document).ready(function () {
     showConfirmButton: false,
   });
 
+  const ToastAlert = Swal.mixin({
+    toast: true,
+    position: 'bottom-start',
+    timer: 2000,
+    showConfirmButton: false,
+});
+
   //---- JS funcionalidad recuperar contraseña
 
   $('#recuperarContrasena').on('click', function () {
@@ -87,8 +94,8 @@ $(document).ready(function () {
 
                 $('#linkRecuperacion').text(json.link);
                 $('#simulacionCorreo').toast('show');
-
-
+              } else {
+                ToastAlert.fire("¡Error!", "Correo no registrado", "error");
               }
           },
           error: (response) => {
