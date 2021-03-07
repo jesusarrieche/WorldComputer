@@ -2,7 +2,7 @@
     <h2 class="mb-4">Gestión de Compra</h2>
 
     <div class="card mb-4">
-        <div class="card-header bg-white">
+        <!--<div class="card-header bg-white">
           <a  href="<?= ROOT;?>Compra/create">
             <button class="btn btn-primary" 
             <?php $band = false;
@@ -16,7 +16,7 @@
             ?>
             ><i class="fas fa-plus-square"></i> Agregar Compra</button>
           </a>
-        </div>
+        </div> -->
         <div class="card-body">
           <table class="table" id="datatable">
             <thead class="thead-dark">

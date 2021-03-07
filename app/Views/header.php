@@ -153,14 +153,14 @@
                     <i class="fa fa-fw fa-shopping-cart"></i> Compras
                 </a>
                 <ul id="compra_collapse" class="list-unstyled collapse">
-                    <li><a href="<?= ROOT;?>Compra"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
                     <?php foreach ($_SESSION['permisos'] as $p):
                         if ($p->permiso == "Registrar Compras") {     
                     ?>
-                    <li><a href="<?= ROOT;?>Compra/create"><i class="fa fa-fw fa-plus-square"></i> Agregar Compra</a></li>
+                    <li><a href="<?= ROOT;?>Compra/create"><i class="fa fa-fw fa-plus-square"></i> Registrar</a></li>
                     <?php
                         }endforeach;                
                     ?>
+                    <li><a href="<?= ROOT;?>Compra"><i class="fa fa-fw fa-bookmark"></i> Consultar</a></li>
                 </ul>
             </li>
             <?php
@@ -174,14 +174,14 @@
                     <i class="fa fa-fw fa-dollar-sign"></i> Ventas
                 </a>
                 <ul id="venta_collapse" class="list-unstyled collapse">
-                    <li><a href="<?= ROOT;?>Venta"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
                     <?php foreach ($_SESSION['permisos'] as $p):
                         if ($p->permiso == "Registrar Ventas") {     
                     ?>
-                    <li><a href="<?= ROOT;?>Venta/crear"><i class="fa fa-fw fa-plus-square"></i> Agregar Venta</a></li>
+                    <li><a href="<?= ROOT;?>Venta/crear"><i class="fa fa-fw fa-plus-square"></i> Registrar</a></li>
                     <?php
                         }endforeach;                
                     ?>
+                    <li><a href="<?= ROOT;?>Venta"><i class="fa fa-fw fa-bookmark"></i> Consultar</a></li>
                 </ul>
             </li>
             <?php
@@ -213,14 +213,14 @@
                             <i class="fa fa-fw fa fa-fw fa-hand-holding-usd "></i> Servicios Prestados
                         </a>
                         <ul id="servicio_prestado_collapse" class="list-unstyled collapse">
-                            <li><a href="<?= ROOT;?>Servicio/ProvidedServices"><i class="fa fa-fw fa-bookmark"></i> Resumen</a></li>
                             <?php foreach ($_SESSION['permisos'] as $p):
                                 if ($p->permiso == "Registrar Servicios Prestados") {     
                             ?>
-                            <li><a href="<?= ROOT;?>Servicio/create"><i class="fa fa-fw fa-plus-square"></i> Agregar</a></li>
+                            <li><a href="<?= ROOT;?>Servicio/create"><i class="fa fa-fw fa-plus-square"></i> Registrar</a></li>
                             <?php
                                 }endforeach;                
                             ?>
+                            <li><a href="<?= ROOT;?>Servicio/ProvidedServices"><i class="fa fa-fw fa-bookmark"></i> Consultar</a></li>
                         </ul>
                     </li>
                     <?php
