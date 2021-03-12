@@ -71,7 +71,7 @@
                     <?php
                         if($_SESSION['rol']==1){
                     ?>
-                    <a href="<?= ROOT;?>bitacora" class="dropdown-item text-light">Consultar Bitácora</a>
+                    <!-- <a href="<?= ROOT;?>bitacora" class="dropdown-item text-light">Consultar Bitácora</a> -->
                     <a href="<?= ROOT;?>respaldo" class="dropdown-item text-light">Respaldar Base de Datos</a>
                     <a href="<?= ROOT;?>configuracion" class="dropdown-item text-light">Configuración</a>
                     <?php
@@ -120,7 +120,7 @@
                         if ($_SESSION['rol']==1) {     
                     ?>
                   
-                        <li><a href="<?= ROOT;?>Rol"><i class="fa fa-fw fa-receipt"></i> Bitácora</a></li>
+                        <li><a href="<?= ROOT;?>Bitacora"><i class="fa fa-fw fa-receipt"></i> Bitácora</a></li>
                        
                     <?php
                         }              
