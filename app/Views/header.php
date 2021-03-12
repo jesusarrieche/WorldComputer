@@ -87,10 +87,46 @@
 <div class="d-flex">
 	<div class="sidebar sidebar-dark bg-dark">
         <ul class="list-unstyled">
-            <?php foreach ($_SESSION['permisos'] as $p):
-                    if ($p->permiso == "Usuarios") {     
+            <?php 
+                $seguridad=false;
+                foreach ($_SESSION['permisos'] as $p):
+                    
+                    if (($p->permiso == "Usuarios"||$p->permiso == "Roles"||$p->permiso == "Bitacora"||$_SESSION['rol']==1)&&!$seguridad) {
+                        $seguridad = true;     
             ?>
-            <li><a href="<?= ROOT;?>Usuario"><i class="fa fa-fw fa-user"></i> Usuarios</a></li>
+            <!-- <li><a href="<?= ROOT;?>Usuario"><i class="fa fa-fw fa-user"></i> Usuarios</a></li> -->
+            <li>
+                <a href="#seguridad_collapse" data-toggle="collapse">
+                    <i class="fa fa-fw fa-lock"></i> Seguridad
+                </a>
+                <ul id="seguridad_collapse" class="list-unstyled collapse">
+                    <?php foreach ($_SESSION['permisos'] as $p):
+                        if ($p->permiso == "Usuarios") {     
+                    ?>
+                        <li><a href="<?= ROOT;?>Usuario"><i class="fa fa-fw fa-user"></i> Usuarios</a></li>
+                    <?php
+                        }endforeach;                
+                    ?>
+                    <?php foreach ($_SESSION['permisos'] as $p):
+                        if ($p->permiso == "Roles") {     
+                    ?>
+                  
+                        <li><a href="<?= ROOT;?>Rol"><i class="fa fa-fw fa-address-card"></i> Roles</a></li>
+                       
+                    <?php
+                        }endforeach;                
+                    ?>
+                    <?php 
+                        if ($_SESSION['rol']==1) {     
+                    ?>
+                  
+                        <li><a href="<?= ROOT;?>Rol"><i class="fa fa-fw fa-receipt"></i> Bitácora</a></li>
+                       
+                    <?php
+                        }              
+                    ?>
+                </ul>
+            </li>
             <?php
                 }endforeach;                
             ?>
@@ -234,20 +270,7 @@
             ?>
             <!-- <li><a href="<?= ROOT;?>Venta/Crear"><i class="fa fa-fw fa-shopping-basket"></i> Caja</a></li> -->
         
-            <?php foreach ($_SESSION['permisos'] as $p):
-                    if ($p->permiso == "Roles") {     
-            ?>
-            <li>
-                <a href="#sm_expand_2" data-toggle="collapse">
-                    <i class="fa fa-fw fa-globe"></i> Permisos
-                </a>
-                <ul id="sm_expand_2" class="list-unstyled collapse">
-                    <li><a href="<?= ROOT;?>Rol"><i class="fa fa-fw fa-address-card"></i> Roles</a></li>
-                </ul>
-            </li>
-            <?php
-                }endforeach;                
-            ?>
+            
             <?php foreach ($_SESSION['permisos'] as $p):
                     if ($p->permiso == "Reportes") {     
             ?>

@@ -49,31 +49,32 @@ class LoginController extends Controller{
         
         if($response) {
             // Validación del Captcha
-            if (!isset($_POST['token-r'])) {
-                http_response_code(404); 
-                echo "Captcha";
-                return false;
-            }
-            $googleToken = $_POST['token-r'];
+            //Captcha comentado
+            // if (!isset($_POST['token-r'])) {
+            //     http_response_code(404); 
+            //     echo "Captcha";
+            //     return false;
+            // }
+            // $googleToken = $_POST['token-r'];
            
-            $recaptcha = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".SECRET_KEY."&response=".$googleToken); 
-            $recaptcha = json_decode($recaptcha);
+            // $recaptcha = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".SECRET_KEY."&response=".$googleToken); 
+            // $recaptcha = json_decode($recaptcha);
 
-            $recaptcha = (array) $recaptcha;
+            // $recaptcha = (array) $recaptcha;
 
-            // var_dump($recaptcha);
-            if(!isset($recaptcha['success']) || !$recaptcha['success'] || $recaptcha['score'] < 0.3)
-            {
-                // header('Content-Type: application/json');
-                http_response_code(404); 
-                // echo json_encode([
-                //     'error' => 'true',
-                //     'title' => 'Error!',
-                //     'message' => 'Ocurrió un problema al validar el Captcha'
-                // ]);
-                echo "Captcha";
-                return false;
-            }
+            // // var_dump($recaptcha);
+            // if(!isset($recaptcha['success']) || !$recaptcha['success'] || $recaptcha['score'] < 0.3)
+            // {
+            //     // header('Content-Type: application/json');
+            //     http_response_code(404); 
+            //     // echo json_encode([
+            //     //     'error' => 'true',
+            //     //     'title' => 'Error!',
+            //     //     'message' => 'Ocurrió un problema al validar el Captcha'
+            //     // ]);
+            //     echo "Captcha";
+            //     return false;
+            // }
             // var_dump($response);
             // echo $response->documento;
 
