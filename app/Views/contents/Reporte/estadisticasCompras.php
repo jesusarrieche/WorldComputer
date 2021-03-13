@@ -3,6 +3,20 @@
         <div class="card-header bg-white font-weight-bold">
             <h2 class="text-center">Reporte Estadístico de Compras</h2>
         </div>
+        <div class="card-body">
+            <div class="container px-2">
+                <h4><strong>Desde: </strong> <?=$desde?></h4> 
+                <h4><strong>Hasta: </strong> <?=$hasta?></h4>
+                <?php
+                    if(isset($oProducto)){
+                        echo "<h4><strong>Producto: </strong> $oProducto->nombre</h4>";
+                    }
+                    if(isset($oProveedor)){
+                        echo "<h4><strong>Proveedor: </strong> $oProveedor->razon_social</h4>";
+                    }
+                ?>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
                 <h3>Productos más comprados</h3>
@@ -12,7 +26,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h3>Proveedore más recurridos</h3>
+                <h3>Proveedores más recurridos</h3>
                 <div class="m-auto"><canvas id="chartProveedores" width="400" height="300"></canvas></div>
             </div>
         </div>

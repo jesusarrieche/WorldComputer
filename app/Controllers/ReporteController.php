@@ -121,6 +121,9 @@ class ReporteController extends Controller {
         $vendedores = true;
         $clientes = true;
         $productos = true;
+        $vendedor = NULL;
+        $cliente = NULL;
+        $producto = NULL;
         $limit = 8;
 
         for ($i=0; $i < $limit; $i++) { 
@@ -229,6 +232,9 @@ class ReporteController extends Controller {
             'productosC' =>$productosC,
             'clientesN' =>$clientesN,
             'clientesC' =>$clientesC,
+            'oVendedor' =>$vendedor,
+            'oProducto' =>$producto,
+            'oCliente' =>$cliente,
             'vendedor' =>$_POST['vendedor'],
             'cliente' =>$_POST['cliente'],
             'producto' =>$_POST['producto'],
@@ -253,6 +259,9 @@ class ReporteController extends Controller {
         $vendedores = true;
         $proveedores = true;
         $productos = true;
+        
+        $proveedor= NULL;
+        $producto = NULL;
         $limit = 8;
 
         for ($i=0; $i < $limit; $i++) { 
@@ -361,6 +370,8 @@ class ReporteController extends Controller {
             'proveedoresN' =>$proveedoresN,
             'proveedoresC' =>$proveedoresC,
             // 'vendedor' =>$_POST['vendedor'],
+            'oProveedor' =>$proveedor,
+            'oProducto' =>$producto,
             'proveedor' =>$_POST['proveedor'],
             'producto' =>$_POST['producto'],
             'desde' =>$_POST['desde'],

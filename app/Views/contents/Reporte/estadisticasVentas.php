@@ -3,6 +3,23 @@
         <div class="card-header bg-white font-weight-bold">
             <h2 class="text-center">Reporte Estadístico de Ventas</h2>
         </div>
+        <div class="card-body">
+            <div class="container px-2">
+                <h4><strong>Desde: </strong> <?=$desde?></h4> 
+                <h4><strong>Hasta: </strong> <?=$hasta?></h4>
+                <?php
+                    if(isset($oVendedor)){
+                        echo "<h4><strong>Vendedor: </strong> $oVendedor->nombre  $oVendedor->apellido</h4>";
+                    }
+                    if(isset($oProducto)){
+                        echo "<h4><strong>Producto: </strong> $oProducto->nombre</h4>";
+                    }
+                    if(isset($oCliente)){
+                        echo "<h4><strong>Cliente: </strong> $oCliente->nombre $oCliente->apellido</h4>";
+                    }
+                ?>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
                 <h3>Productos más demandados</h3>
