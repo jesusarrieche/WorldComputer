@@ -108,7 +108,153 @@ class ReporteController extends Controller {
             'productos' => $productos
         ]);
     }
+    public function estadisticasVentas()
+    {
+        
+        $usuario = $_POST['vendedor']; 
+        $cliente_id = $_POST['cliente']; 
+        $producto_id = $_POST['producto'];
+        $desde = $_POST['desde']; 
+        $hasta = $_POST['hasta']; 
+        $desde.= " 00:00:00";
+        $hasta.= " 23:59:59";
+        $vendedores = true;
+        $clientes = true;
+        $productos = true;
+        $limit = 8;
 
+        for ($i=0; $i < $limit; $i++) { 
+            $productosN[$i] = "";
+            $productosC[$i] = "";
+            $clientesN[$i] = "";
+            $clientesC[$i] = "";
+
+        }
+
+        //Consulta de productos
+        // if ($producto_id == 0) {
+            $sql = "SELECT p.nombre as producto, COUNT(d.producto_id) as cantidad
+                FROM ventas v 
+                INNER JOIN detalle_venta d 
+                ON d.venta_id=v.id
+                INNER JOIN productos p 
+                ON d.producto_id = p.id
+                INNER JOIN clientes c 
+                ON v.cliente_id = c.id
+                WHERE v.estatus = 'ACTIVO'";
+
+            if($usuario != 0){
+                $vendedores = false;
+                $sql .= " AND v.usuario_id = :usuario ";
+                $vendedor = $this->usuario->getOne("usuarios", $usuario);
+            }
+            if($cliente_id != 0){
+                $clientes = false;
+                $sql .= " AND v.cliente_id = :cliente ";
+                $cliente = $this->cliente->getOne("clientes", $cliente_id);
+            }
+            if($producto_id != 0){
+                $productos = false;
+                $sql .= " AND d.producto_id = :producto ";
+                $producto = $this->producto->getOne("productos", $producto_id);
+            }
+
+            $sql .= " AND v.fecha BETWEEN :desde AND :hasta GROUP BY d.producto_id ORDER BY cantidad DESC LIMIT $limit";
+            $query = $this->venta->connect()->prepare($sql);
+
+            if (!$vendedores) {
+                $query->bindParam(':usuario',$usuario);
+            }
+            if (!$clientes) {
+                $query->bindParam(':cliente',$cliente_id);
+            }
+            if (!$productos) {
+                $query->bindParam(':producto',$producto_id);
+            }
+
+
+            $query->bindParam(':desde',$desde);
+            $query->bindParam(':hasta',$hasta);
+            $query->execute();
+            $productos = $query->fetchAll(PDO::FETCH_OBJ);
+            for ($i=0; $i < count($productos); $i++) { 
+                $productosN[$i] = $productos[$i]->producto;
+                $productosC[$i] = $productos[$i]->cantidad;
+            }
+        // }
+
+        //Consulta clientes
+        $sqlD = "SELECT CONCAT(c.nombre,' ',c.apellido) as nombre, COUNT(v.cliente_id) as cantidad
+            FROM ventas v 
+            INNER JOIN clientes c 
+            ON v.cliente_id = c.id
+            WHERE v.estatus = 'ACTIVO'";
+
+        if($usuario != 0){
+            $vendedores = false;
+            $sqlD .= " AND v.usuario_id = :usuario ";
+            // $vendedor = $this->usuario->getOne("usuarios", $usuario);
+        }
+        if($cliente_id != 0){
+            $clientes = false;
+            $sqlD .= " AND v.cliente_id = :cliente ";
+            // $cliente = $this->cliente->getOne("clientes", $cliente_id);
+        }
+        if($producto_id != 0){
+            $productos = false;
+            $sqlD .= " AND v.id IN (SELECT venta_id FROM detalle_venta WHERE producto_id = :producto) ";
+            // $producto = $this->producto->getOne("productos", $producto_id);
+        }
+
+        $sqlD .= " AND v.fecha BETWEEN :desde AND :hasta GROUP BY v.cliente_id ORDER BY cantidad LIMIT $limit";
+        $queryD = $this->venta->connect()->prepare($sqlD);
+
+        if (!$vendedores) {
+            $queryD->bindParam(':usuario',$usuario);
+        }
+        if (!$clientes) {
+            $queryD->bindParam(':cliente',$cliente_id);
+        }
+        if (!$productos) {
+            $queryD->bindParam(':producto',$producto_id);
+        }
+
+
+        $queryD->bindParam(':desde',$desde);
+        $queryD->bindParam(':hasta',$hasta);
+        $queryD->execute();
+        $clientes = $queryD->fetchAll(PDO::FETCH_OBJ);
+        // var_dump($productos);
+        
+        // var_dump($productos);
+        
+        for ($i=0; $i < count($clientes); $i++) { 
+            $clientesN[$i] = $clientes[$i]->nombre;
+            $clientesC[$i] = $clientes[$i]->cantidad;
+        }
+    //    echo $productosN[0]."<br>";
+    //    echo $productosN[1]."<br>";
+    //    echo $productosN[2]."<br>";
+    var_dump($clientesN);
+    
+    echo "<br>";
+    var_dump($clientesC);
+        // $productosN = [$productos[0]->producto,"Arroz","Maiz"];
+        return View::getView('Reporte.estadisticasVentas',[
+            'productosN' =>$productosN,
+            'productosC' =>$productosC,
+            'clientesN' =>$clientesN,
+            'clientesC' =>$clientesC,
+            'vendedor' =>$_POST['vendedor'],
+            'cliente' =>$_POST['cliente'],
+            'producto' =>$_POST['producto'],
+            'desde' =>$_POST['desde'],
+            'hasta' =>$_POST['hasta'],
+            'vendedores' =>$vendedores,
+            'clientes' =>$clientes,
+            'productos' =>$productos
+        ]);
+    }
     public function reporteVenta()
     {
         $method = $_SERVER['REQUEST_METHOD'];
