@@ -132,57 +132,53 @@ class ReporteController extends Controller {
         }
 
         //Consulta de productos
-        // if ($producto_id == 0) {
-            $sql = "SELECT p.nombre as producto, COUNT(d.producto_id) as cantidad
-                FROM ventas v 
-                INNER JOIN detalle_venta d 
-                ON d.venta_id=v.id
-                INNER JOIN productos p 
-                ON d.producto_id = p.id
-                INNER JOIN clientes c 
-                ON v.cliente_id = c.id
-                WHERE v.estatus = 'ACTIVO'";
+        
+        $sql = "SELECT p.nombre as producto, COUNT(d.producto_id) as cantidad
+            FROM ventas v 
+            INNER JOIN detalle_venta d 
+            ON d.venta_id=v.id
+            INNER JOIN productos p 
+            ON d.producto_id = p.id
+            WHERE v.estatus = 'ACTIVO'";
 
-            if($usuario != 0){
-                $vendedores = false;
-                $sql .= " AND v.usuario_id = :usuario ";
-                $vendedor = $this->usuario->getOne("usuarios", $usuario);
-            }
-            if($cliente_id != 0){
-                $clientes = false;
-                $sql .= " AND v.cliente_id = :cliente ";
-                $cliente = $this->cliente->getOne("clientes", $cliente_id);
-            }
-            if($producto_id != 0){
-                $productos = false;
-                $sql .= " AND d.producto_id = :producto ";
-                $producto = $this->producto->getOne("productos", $producto_id);
-            }
+        if($usuario != 0){
+            $vendedores = false;
+            $sql .= " AND v.usuario_id = :usuario ";
+            $vendedor = $this->usuario->getOne("usuarios", $usuario);
+        }
+        if($cliente_id != 0){
+            $clientes = false;
+            $sql .= " AND v.cliente_id = :cliente ";
+            $cliente = $this->cliente->getOne("clientes", $cliente_id);
+        }
+        if($producto_id != 0){
+            $productos = false;
+            $sql .= " AND d.producto_id = :producto ";
+            $producto = $this->producto->getOne("productos", $producto_id);
+        }
 
-            $sql .= " AND v.fecha BETWEEN :desde AND :hasta GROUP BY d.producto_id ORDER BY cantidad DESC LIMIT $limit";
-            $query = $this->venta->connect()->prepare($sql);
+        $sql .= " AND v.fecha BETWEEN :desde AND :hasta GROUP BY d.producto_id ORDER BY cantidad DESC LIMIT $limit";
+        $query = $this->venta->connect()->prepare($sql);
 
-            if (!$vendedores) {
-                $query->bindParam(':usuario',$usuario);
-            }
-            if (!$clientes) {
-                $query->bindParam(':cliente',$cliente_id);
-            }
-            if (!$productos) {
-                $query->bindParam(':producto',$producto_id);
-            }
+        if (!$vendedores) {
+            $query->bindParam(':usuario',$usuario);
+        }
+        if (!$clientes) {
+            $query->bindParam(':cliente',$cliente_id);
+        }
+        if (!$productos) {
+            $query->bindParam(':producto',$producto_id);
+        }
 
 
-            $query->bindParam(':desde',$desde);
-            $query->bindParam(':hasta',$hasta);
-            $query->execute();
-            $productos = $query->fetchAll(PDO::FETCH_OBJ);
-            for ($i=0; $i < count($productos); $i++) { 
-                $productosN[$i] = $productos[$i]->producto;
-                $productosC[$i] = $productos[$i]->cantidad;
-            }
-        // }
-
+        $query->bindParam(':desde',$desde);
+        $query->bindParam(':hasta',$hasta);
+        $query->execute();
+        $productos = $query->fetchAll(PDO::FETCH_OBJ);
+        for ($i=0; $i < count($productos); $i++) { 
+            $productosN[$i] = $productos[$i]->producto;
+            $productosC[$i] = $productos[$i]->cantidad;
+        }
         //Consulta clientes
         $sqlD = "SELECT CONCAT(c.nombre,' ',c.apellido) as nombre, COUNT(v.cliente_id) as cantidad
             FROM ventas v 
@@ -206,7 +202,7 @@ class ReporteController extends Controller {
             // $producto = $this->producto->getOne("productos", $producto_id);
         }
 
-        $sqlD .= " AND v.fecha BETWEEN :desde AND :hasta GROUP BY v.cliente_id ORDER BY cantidad LIMIT $limit";
+        $sqlD .= " AND v.fecha BETWEEN :desde AND :hasta GROUP BY v.cliente_id LIMIT $limit";
         $queryD = $this->venta->connect()->prepare($sqlD);
 
         if (!$vendedores) {
@@ -219,27 +215,15 @@ class ReporteController extends Controller {
             $queryD->bindParam(':producto',$producto_id);
         }
 
-
         $queryD->bindParam(':desde',$desde);
         $queryD->bindParam(':hasta',$hasta);
         $queryD->execute();
         $clientes = $queryD->fetchAll(PDO::FETCH_OBJ);
-        // var_dump($productos);
-        
-        // var_dump($productos);
         
         for ($i=0; $i < count($clientes); $i++) { 
             $clientesN[$i] = $clientes[$i]->nombre;
             $clientesC[$i] = $clientes[$i]->cantidad;
         }
-    //    echo $productosN[0]."<br>";
-    //    echo $productosN[1]."<br>";
-    //    echo $productosN[2]."<br>";
-    var_dump($clientesN);
-    
-    echo "<br>";
-    var_dump($clientesC);
-        // $productosN = [$productos[0]->producto,"Arroz","Maiz"];
         return View::getView('Reporte.estadisticasVentas',[
             'productosN' =>$productosN,
             'productosC' =>$productosC,
@@ -255,6 +239,138 @@ class ReporteController extends Controller {
             'productos' =>$productos
         ]);
     }
+
+    public function estadisticasCompras()
+    {
+        
+        // $usuario = $_POST['vendedor']; 
+        $proveedor_id = $_POST['proveedor']; 
+        $producto_id = $_POST['producto'];
+        $desde = $_POST['desde']; 
+        $hasta = $_POST['hasta']; 
+        $desde.= " 00:00:00";
+        $hasta.= " 23:59:59";
+        $vendedores = true;
+        $proveedores = true;
+        $productos = true;
+        $limit = 8;
+
+        for ($i=0; $i < $limit; $i++) { 
+            $productosN[$i] = "";
+            $productosC[$i] = "";
+            $proveedoresN[$i] = "";
+            $proveedoresC[$i] = "";
+
+        }
+
+        //Consulta de productos
+        
+        $sql = "SELECT p.nombre as producto, COUNT(d.producto_id) as cantidad
+            FROM compras c 
+            INNER JOIN detalle_compra d 
+            ON d.compra_id=c.id
+            INNER JOIN productos p 
+            ON d.producto_id = p.id
+            WHERE c.estatus = 'ACTIVO'";
+
+        // if($usuario != 0){
+        //     $vendedores = false;
+        //     $sql .= " AND c.usuario_id = :usuario ";
+        //     $vendedor = $this->usuario->getOne("usuarios", $usuario);
+        // }
+        if($proveedor_id != 0){
+            $proveedores = false;
+            $sql .= " AND c.proveedor_id = :proveedor ";
+            $proveedor = $this->proveedor->getOne("proveedores", $proveedor_id);
+        }
+        if($producto_id != 0){
+            $productos = false;
+            $sql .= " AND d.producto_id = :producto ";
+            $producto = $this->producto->getOne("productos", $producto_id);
+        }
+
+        $sql .= " AND c.fecha BETWEEN :desde AND :hasta GROUP BY d.producto_id ORDER BY cantidad DESC LIMIT $limit";
+        $query = $this->compra->connect()->prepare($sql);
+
+        // if (!$vendedores) {
+        //     $query->bindParam(':usuario',$usuario);
+        // }
+        if (!$proveedores) {
+            $query->bindParam(':proveedor',$proveedor_id);
+        }
+        if (!$productos) {
+            $query->bindParam(':producto',$producto_id);
+        }
+
+
+        $query->bindParam(':desde',$desde);
+        $query->bindParam(':hasta',$hasta);
+        $query->execute();
+        $productos = $query->fetchAll(PDO::FETCH_OBJ);
+        for ($i=0; $i < count($productos); $i++) { 
+            $productosN[$i] = $productos[$i]->producto;
+            $productosC[$i] = $productos[$i]->cantidad;
+        }
+        //Consulta proveedores
+        $sqlD = "SELECT CONCAT(p.razon_social) as nombre, COUNT(c.proveedor_id) as cantidad
+            FROM compras c 
+            INNER JOIN proveedores p 
+            ON c.proveedor_id = p.id
+            WHERE c.estatus = 'ACTIVO'";
+
+        // if($usuario != 0){
+        //     $vendedores = false;
+        //     $sqlD .= " AND v.usuario_id = :usuario ";
+        //     // $vendedor = $this->usuario->getOne("usuarios", $usuario);
+        // }
+        if($proveedor_id != 0){
+            $proveedores = false;
+            $sqlD .= " AND c.proveedor_id = :proveedor ";
+            // $proveedor = $this->proveedor->getOne("proveedores", $proveedor_id);
+        }
+        if($producto_id != 0){
+            $productos = false;
+            $sqlD .= " AND c.id IN (SELECT compra_id FROM detalle_compra WHERE producto_id = :producto) ";
+            // $producto = $this->producto->getOne("productos", $producto_id);
+        }
+
+        $sqlD .= " AND c.fecha BETWEEN :desde AND :hasta GROUP BY c.proveedor_id LIMIT $limit";
+        $queryD = $this->venta->connect()->prepare($sqlD);
+
+        // if (!$vendedores) {
+        //     $queryD->bindParam(':usuario',$usuario);
+        // }
+        if (!$proveedores) {
+            $queryD->bindParam(':proveedor',$proveedor_id);
+        }
+        if (!$productos) {
+            $queryD->bindParam(':producto',$producto_id);
+        }
+
+        $queryD->bindParam(':desde',$desde);
+        $queryD->bindParam(':hasta',$hasta);
+        $queryD->execute();
+        $proveedores = $queryD->fetchAll(PDO::FETCH_OBJ);
+        for ($i=0; $i < count($proveedores); $i++) { 
+            $proveedoresN[$i] = $proveedores[$i]->nombre;
+            $proveedoresC[$i] = $proveedores[$i]->cantidad;
+        }
+        return View::getView('Reporte.estadisticasCompras',[
+            'productosN' =>$productosN,
+            'productosC' =>$productosC,
+            'proveedoresN' =>$proveedoresN,
+            'proveedoresC' =>$proveedoresC,
+            // 'vendedor' =>$_POST['vendedor'],
+            'proveedor' =>$_POST['proveedor'],
+            'producto' =>$_POST['producto'],
+            'desde' =>$_POST['desde'],
+            'hasta' =>$_POST['hasta'],
+            'vendedores' =>$vendedores,
+            'proveedores' =>$proveedores,
+            'productos' =>$productos
+        ]);
+    }
+
     public function reporteVenta()
     {
         $method = $_SERVER['REQUEST_METHOD'];
