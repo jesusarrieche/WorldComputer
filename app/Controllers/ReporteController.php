@@ -423,7 +423,7 @@ class ReporteController extends Controller {
         if($empleado_id != 0){
             $empleados = false;
             $sql .= " AND p.empleado_id = :empleado ";
-            $vendedor = $this->empleado->getOne("empleados", $empleado_id);
+            $empleado = $this->empleado->getOne("empleados", $empleado_id);
         }
         if($cliente_id != 0){
             $clientes = false;
