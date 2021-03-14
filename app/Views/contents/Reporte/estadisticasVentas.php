@@ -20,38 +20,65 @@
                 ?>
             </div>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <h3>Productos más demandados</h3>
-                <div class="m-auto"><canvas id="chartProductos" width="400" height="300"></canvas></div>
-                
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h3>Clientes frecuentes</h3>
-                <div class="m-auto"><canvas id="chartClientes" width="400" height="300"></canvas></div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <form action="<?=ROOT;?>Reporte/reporteVenta" method="POST" enctype="multipart/form-data" id="formularioReporte" target="_blank">
-                    <input type="hidden" name="vendedor" value="<?=$_POST['vendedor']?>">
-                    <input type="hidden" name="cliente" value="<?=$_POST['cliente']?>">
-                    <input type="hidden" name="producto" value="<?=$_POST['producto']?>">
-                    <input type="hidden" name="desde" value="<?=$_POST['desde']?>">
-                    <input type="hidden" name="hasta" value="<?=$_POST['hasta']?>">
-                    <div class="row text-center justify-content-center">
-                        <button type="submit" class="btn btn-success"><i class="fa fa-fw fa-list-alt"></i>Reporte de Detalles de Ventas</button>
-                    </div>
-                    <div class="row text-center justify-content-center">
-                        <span class="w-75">Extraiga un documento PDF con los detalles de las ventas realizadas con los parámetros escogidos</span>
-                    </div>                  
+        <!-- Si hay regitros se muestran los gráficos -->
+        <?php
+            if($productosC[0]!="" && $clientesC[0]!=""){
+        ?>
+            <div class="card">
+                <div class="card-body">
+                <?php
+                    if($productos){
+                        echo "<h3>Productos más demandados</h3>";
+                    }
+                    else{
+                        echo "<h3>Demanda del Producto</h3>";
+                    }
+                ?>
                     
-                </form>
+                    <div class="m-auto"><canvas id="chartProductos" width="350" height="250"></canvas></div>
+                    
+                </div>
             </div>
-        </div>
-        
+            <div class="card">
+                <div class="card-body">
+                <?php
+                    if($clientes){
+                        echo "<h3>Clientes frecuentes</h3>";
+                    }
+                    else{
+                        echo "<h3>Frecuencia del Cliente</h3>";
+                    }
+                ?>
+                    <div class="m-auto"><canvas id="chartClientes" width="350" height="250"></canvas></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <form action="<?=ROOT;?>Reporte/reporteVenta" method="POST" enctype="multipart/form-data" id="formularioReporte" target="_blank">
+                        <input type="hidden" name="vendedor" value="<?=$_POST['vendedor']?>">
+                        <input type="hidden" name="cliente" value="<?=$_POST['cliente']?>">
+                        <input type="hidden" name="producto" value="<?=$_POST['producto']?>">
+                        <input type="hidden" name="desde" value="<?=$_POST['desde']?>">
+                        <input type="hidden" name="hasta" value="<?=$_POST['hasta']?>">
+                        <div class="row text-center justify-content-center">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-fw fa-list-alt"></i>Reporte de Detalles de Ventas</button>
+                        </div>
+                        <div class="row text-center justify-content-center">
+                            <span class="w-75">Extraiga un documento PDF con los detalles de las ventas realizadas con los parámetros escogidos</span>
+                        </div>                  
+                        
+                    </form>
+                </div>
+            </div>
+        <?php
+            }else{//Si no hay registros muestra un mensaje
+        ?>
+            <div class="card p-3 justify-content-center">
+                <h3>No hay registros que posean los parámetros escogidos</h3>
+            </div>
+        <?php
+            }
+        ?>
         
         
     </div>

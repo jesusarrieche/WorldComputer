@@ -20,38 +20,64 @@
                 ?>
             </div>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <h3>Servicios más solicitados</h3>
-                <div class="m-auto"><canvas id="chartServicios" width="400" height="300"></canvas></div>
-                
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h3>Clientes frecuentes</h3>
-                <div class="m-auto"><canvas id="chartClientes" width="400" height="300"></canvas></div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <form action="<?=ROOT;?>Reporte/reporteServicio" method="POST" enctype="multipart/form-data" id="formularioReporte" target="_blank">
-                    <input type="hidden" name="tecnico" value="<?=$_POST['tecnico']?>">
-                    <input type="hidden" name="cliente" value="<?=$_POST['cliente']?>">
-                    <input type="hidden" name="servicio" value="<?=$_POST['servicio']?>">
-                    <input type="hidden" name="desde" value="<?=$_POST['desde']?>">
-                    <input type="hidden" name="hasta" value="<?=$_POST['hasta']?>">
-                    <div class="row text-center justify-content-center">
-                        <button type="submit" class="btn btn-success"><i class="fa fa-fw fa-list-alt"></i>Reporte de Detalles de Servicios Prestados</button>
-                    </div>
-                    <div class="row text-center justify-content-center">
-                        <span class="w-75">Extraiga un documento PDF con los detalles de los servicios prestados con los parámetros escogidos</span>
-                    </div>                  
+        <!-- Si hay regitros se muestran los gráficos -->
+        <?php
+            if($serviciosC[0]!="" && $clientesC[0]!=""){
+        ?>
+            <div class="card">
+                <div class="card-body">
+                <?php
+                    if($servicios){
+                        echo "<h3>Servicios más solicitados</h3>";
+                    }
+                    else{
+                        echo "<h3>Solicitudes del Servicio</h3>";
+                    }
+                ?>
+                    <div class="m-auto"><canvas id="chartServicios" width="350" height="250"></canvas></div>
                     
-                </form>
+                </div>
             </div>
-        </div>
-        
+            <div class="card">
+                <div class="card-body">
+                <?php
+                    if($clientes){
+                        echo "<h3>Clientes frecuentes</h3>";
+                    }
+                    else{
+                        echo "<h3>Frecuencia del Cliente</h3>";
+                    }
+                ?>
+                    <div class="m-auto"><canvas id="chartClientes" width="350" height="250"></canvas></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <form action="<?=ROOT;?>Reporte/reporteServicio" method="POST" enctype="multipart/form-data" id="formularioReporte" target="_blank">
+                        <input type="hidden" name="tecnico" value="<?=$_POST['tecnico']?>">
+                        <input type="hidden" name="cliente" value="<?=$_POST['cliente']?>">
+                        <input type="hidden" name="servicio" value="<?=$_POST['servicio']?>">
+                        <input type="hidden" name="desde" value="<?=$_POST['desde']?>">
+                        <input type="hidden" name="hasta" value="<?=$_POST['hasta']?>">
+                        <div class="row text-center justify-content-center">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-fw fa-list-alt"></i>Reporte de Detalles de Servicios Prestados</button>
+                        </div>
+                        <div class="row text-center justify-content-center">
+                            <span class="w-75">Extraiga un documento PDF con los detalles de los servicios prestados con los parámetros escogidos</span>
+                        </div>                  
+                        
+                    </form>
+                </div>
+            </div>
+        <?php
+            }else{//Si no hay registros muestra un mensaje
+        ?>
+            <div class="card p-3 justify-content-center">
+                <h3>No hay registros que posean los parámetros escogidos</h3>
+            </div>
+        <?php
+            }
+        ?>
         
         
     </div>
