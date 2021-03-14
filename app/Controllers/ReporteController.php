@@ -177,10 +177,10 @@ class ReporteController extends Controller {
         $query->bindParam(':desde',$desde);
         $query->bindParam(':hasta',$hasta);
         $query->execute();
-        $productos = $query->fetchAll(PDO::FETCH_OBJ);
-        for ($i=0; $i < count($productos); $i++) { 
-            $productosN[$i] = $productos[$i]->producto;
-            $productosC[$i] = $productos[$i]->cantidad;
+        $productosConsult = $query->fetchAll(PDO::FETCH_OBJ);
+        for ($i=0; $i < count($productosConsult); $i++) { 
+            $productosN[$i] = $productosConsult[$i]->producto;
+            $productosC[$i] = $productosConsult[$i]->cantidad;
         }
         //Consulta clientes
         $sqlD = "SELECT CONCAT(c.nombre,' ',c.apellido) as nombre, COUNT(v.cliente_id) as cantidad
@@ -221,11 +221,11 @@ class ReporteController extends Controller {
         $queryD->bindParam(':desde',$desde);
         $queryD->bindParam(':hasta',$hasta);
         $queryD->execute();
-        $clientes = $queryD->fetchAll(PDO::FETCH_OBJ);
+        $clientesConsult = $queryD->fetchAll(PDO::FETCH_OBJ);
         
-        for ($i=0; $i < count($clientes); $i++) { 
-            $clientesN[$i] = $clientes[$i]->nombre;
-            $clientesC[$i] = $clientes[$i]->cantidad;
+        for ($i=0; $i < count($clientesConsult); $i++) { 
+            $clientesN[$i] = $clientesConsult[$i]->nombre;
+            $clientesC[$i] = $clientesConsult[$i]->cantidad;
         }
         return View::getView('Reporte.estadisticasVentas',[
             'productosN' =>$productosN,
@@ -315,10 +315,10 @@ class ReporteController extends Controller {
         $query->bindParam(':desde',$desde);
         $query->bindParam(':hasta',$hasta);
         $query->execute();
-        $productos = $query->fetchAll(PDO::FETCH_OBJ);
-        for ($i=0; $i < count($productos); $i++) { 
-            $productosN[$i] = $productos[$i]->producto;
-            $productosC[$i] = $productos[$i]->cantidad;
+        $productosConsult = $query->fetchAll(PDO::FETCH_OBJ);
+        for ($i=0; $i < count($productosConsult); $i++) { 
+            $productosN[$i] = $productosConsult[$i]->producto;
+            $productosC[$i] = $productosConsult[$i]->cantidad;
         }
         //Consulta proveedores
         $sqlD = "SELECT CONCAT(p.razon_social) as nombre, COUNT(c.proveedor_id) as cantidad
@@ -359,10 +359,10 @@ class ReporteController extends Controller {
         $queryD->bindParam(':desde',$desde);
         $queryD->bindParam(':hasta',$hasta);
         $queryD->execute();
-        $proveedores = $queryD->fetchAll(PDO::FETCH_OBJ);
-        for ($i=0; $i < count($proveedores); $i++) { 
-            $proveedoresN[$i] = $proveedores[$i]->nombre;
-            $proveedoresC[$i] = $proveedores[$i]->cantidad;
+        $proveedoresConsult = $queryD->fetchAll(PDO::FETCH_OBJ);
+        for ($i=0; $i < count($proveedoresConsult); $i++) { 
+            $proveedoresN[$i] = $proveedoresConsult[$i]->nombre;
+            $proveedoresC[$i] = $proveedoresConsult[$i]->cantidad;
         }
         return View::getView('Reporte.estadisticasCompras',[
             'productosN' =>$productosN,
@@ -379,6 +379,145 @@ class ReporteController extends Controller {
             'vendedores' =>$vendedores,
             'proveedores' =>$proveedores,
             'productos' =>$productos
+        ]);
+    }
+    public function estadisticasServicios()
+    {
+        
+        $empleado_id = $_POST['tecnico']; 
+        $cliente_id = $_POST['cliente']; 
+        $servicio_id = $_POST['servicio']; 
+        $desde = $_POST['desde']; 
+        $hasta = $_POST['hasta']; 
+        $desde.= " 00:00:00";
+        $hasta.= " 23:59:59";
+        $empleados = true;
+        $clientes = true;
+        $servicios = true;
+        $empleado = NULL;
+        $cliente = NULL;
+        $servicio = NULL;
+        $limit = 8;
+
+        for ($i=0; $i < $limit; $i++) { 
+            $serviciosN[$i] = "";
+            $serviciosC[$i] = "";
+            $clientesN[$i] = "";
+            $clientesC[$i] = "";
+
+        }
+
+        //Consulta de servicios
+        
+        $sql = "SELECT s.nombre as servicio, COUNT(d.servicio_id) as cantidad
+            FROM servicios_prestados p 
+            INNER JOIN clientes c ON p.cliente_id = c.id 
+            INNER JOIN empleados e 
+            ON p.empleado_id = e.id 
+            INNER JOIN detalle_servicio d 
+            ON d.servicio_prestado_id=p.id 
+            INNER JOIN servicios s
+            ON  d.servicio_id = s.id
+            WHERE p.estatus = 'ACTIVO'";
+
+        if($empleado_id != 0){
+            $empleados = false;
+            $sql .= " AND p.empleado_id = :empleado ";
+            $vendedor = $this->empleado->getOne("empleados", $empleado_id);
+        }
+        if($cliente_id != 0){
+            $clientes = false;
+            $sql .= " AND p.cliente_id = :cliente ";
+            $cliente = $this->cliente->getOne("clientes", $cliente_id);
+        }
+        if($servicio_id != 0){
+            $servicios = false;
+            $sql .= " AND d.servicio_id = :servicio ";
+            $servicio = $this->servicio->getOne("servicios", $servicio_id);
+        }
+
+        $sql .= " AND p.fecha BETWEEN :desde AND :hasta GROUP BY d.servicio_id ORDER BY cantidad DESC LIMIT $limit";
+        $query = $this->venta->connect()->prepare($sql);
+
+        if (!$empleados) {
+            $query->bindParam(':empleado',$empleado_id);
+        }
+        if (!$clientes) {
+            $query->bindParam(':cliente',$cliente_id);
+        }
+        if (!$servicios) {
+            $query->bindParam(':servicio',$servicio_id);
+        }
+
+        $query->bindParam(':desde',$desde);
+        $query->bindParam(':hasta',$hasta);
+        $query->execute();
+        $serviciosConsult = $query->fetchAll(PDO::FETCH_OBJ);
+        for ($i=0; $i < count($serviciosConsult); $i++) { 
+            $serviciosN[$i] = $serviciosConsult[$i]->servicio;
+            $serviciosC[$i] = $serviciosConsult[$i]->cantidad;
+        }
+        //Consulta clientes
+        $sqlD = "SELECT CONCAT(c.nombre,' ',c.apellido) as nombre, COUNT(p.cliente_id) as cantidad
+            FROM servicios_prestados p INNER JOIN clientes c ON p.cliente_id = c.id 
+            INNER JOIN empleados e 
+            ON p.empleado_id = e.id  
+            WHERE p.estatus = 'ACTIVO'";
+
+        if($empleado_id != 0){
+            $empleados = false;
+            $sqlD .= " AND p.empleado_id = :empleado ";
+            // $vendedor = $this->usuario->getOne("usuarios", $usuario);
+        }
+        if($cliente_id != 0){
+            $clientes = false;
+            $sqlD .= " AND p.cliente_id = :cliente ";
+            // $cliente = $this->cliente->getOne("clientes", $cliente_id);
+        }
+        if($servicio_id != 0){
+            $servicios = false;
+            $sqlD .= " AND p.id IN (SELECT servicio_id FROM detalle_servicio WHERE servicio_id = :servicio) ";
+            // $servicio = $this->servicio->getOne("servicios", $servicio_id);
+        }
+
+        $sqlD .= " AND p.fecha BETWEEN :desde AND :hasta GROUP BY p.cliente_id LIMIT $limit";
+        $queryD = $this->venta->connect()->prepare($sqlD);
+
+        if (!$empleados) {
+            $queryD->bindParam(':empleado',$empleado_id);
+        }
+        if (!$clientes) {
+            $queryD->bindParam(':cliente',$cliente_id);
+        }
+        if (!$servicios) {
+            $queryD->bindParam(':servicio',$servicio_id);
+        }
+
+        $queryD->bindParam(':desde',$desde);
+        $queryD->bindParam(':hasta',$hasta);
+        $queryD->execute();
+        $clientesConsult = $queryD->fetchAll(PDO::FETCH_OBJ);
+        
+        for ($i=0; $i < count($clientesConsult); $i++) { 
+            $clientesN[$i] = $clientesConsult[$i]->nombre;
+            $clientesC[$i] = $clientesConsult[$i]->cantidad;
+        }
+        return View::getView('Reporte.estadisticasServicios',[
+            'serviciosN' =>$serviciosN,
+            'serviciosC' =>$serviciosC,
+            'clientesN' =>$clientesN,
+            'clientesC' =>$clientesC,
+            'oEmpleado' =>$empleado,
+            'oServicio' =>$servicio,
+            'oCliente' =>$cliente,
+            'tecnico' =>$_POST['tecnico'],
+            'cliente' =>$_POST['cliente'],
+            'servicio' =>$_POST['servicio'],
+            'desde' =>$_POST['desde'],
+            'hasta' =>$_POST['hasta'],
+            'empleados' =>$empleados,
+            'clientes' =>$clientes,
+            'servicios' =>$servicios
         ]);
     }
 

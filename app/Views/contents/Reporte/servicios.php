@@ -4,7 +4,7 @@
                 <h2>Reporte de Servicios</h2>
             </div>
             <div class="card-body">
-                <form action="<?=ROOT;?>Reporte/reporteServicio" method="POST" enctype="multipart/form-data" id="formularioReporte" target="_blank">
+                <form action="<?=ROOT;?>Reporte/estadisticasServicios" method="POST" enctype="multipart/form-data" id="formularioReporte" target="_blank">
                     <div class="row form-group">
                         <label for="tecnico" class="col-form-label col-md-4 font-weight-bold">Técnico: </label>
                         <div class="col-md-8 d-flex align-items-center p-0">
