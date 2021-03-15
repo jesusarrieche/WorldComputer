@@ -58,7 +58,7 @@ $(document).ready(function () {
   const ToastAlert = Swal.mixin({
     toast: true,
     position: 'bottom-start',
-    timer: 2000,
+    timer: 2500,
     showConfirmButton: false,
 });
 
@@ -79,6 +79,7 @@ $(document).ready(function () {
           contentType: false,
           processData: false,
           success: function (response) {
+            console.log("R: "+response);
               let json = JSON.parse(response);
 
               console.log(json);
@@ -86,16 +87,17 @@ $(document).ready(function () {
               if( !json.error ){
                 $('#modalRecuperarContrasena').modal('hide');
 
-                Toast.fire({
-                  title: 'Simulacion de correo',
-                  html: `Haga click en <a href="${json.link}" target="_blank">este link</a> para abrir formulario de recuperacion de contraseña`,
+                ToastAlert.fire({
+                  title: '',
+                  icon: 'success',
+                  html: `${json.message}`,
                   allowOutsideClick: false,
                 });
 
                 $('#linkRecuperacion').text(json.link);
                 $('#simulacionCorreo').toast('show');
               } else {
-                ToastAlert.fire("¡Error!", "Correo no registrado", "error");
+                ToastAlert.fire("¡Error!", json.message, "error");
               }
           },
           error: (response) => {

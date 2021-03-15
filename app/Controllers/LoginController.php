@@ -8,6 +8,15 @@ use App\Models\Configuracion;
 use App\Models\Usuario;
 use App\Traits\Utility;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/phpmailer/phpmailer/src/Exception.php';
+require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+
+
 class LoginController extends Controller{
     
     use Utility;
@@ -21,8 +30,7 @@ class LoginController extends Controller{
     public function index(){
         $config = new Configuracion;
         $nombre = $config->obtenerNombre_sistema();
-        setcookie ('title',$nombre,time()+60*60*24*365);
-       
+        setcookie ('title',$nombre,time()+60*60*24*365);        
         return View::getSingleView('Login.Login');
     }
 
@@ -122,19 +130,75 @@ class LoginController extends Controller{
         $this->usuario->setEmail($this->limpiaCadena($_POST['email']));
 
         $response = $this->usuario->obtenerId($this->usuario);
-
+        
         if ($response) {
+            $usuario = $this->usuario->getOne('usuarios', $response->id);
+
             $token = bin2hex(random_bytes(10));
 
             $_SESSION['RC'] = array(
                 'token' => $this->encriptar($token),
                 'usuario_id' => $response->id
             );
-
+            $link = URL.'Login/recuperarContrasena/'.$token;
             $output = array(
                 'link' => URL.'Login/recuperarContrasena/'.$token
             );
-            echo json_encode($output);
+            require 'vendor/autoload.php';
+
+            //Instantiation and passing `true` enables exceptions
+            $mail = new PHPMailer(true);
+            
+            try {
+                //Server settings
+                $mail->SMTPDebug = 0;                      //Enable verbose debug output
+                $mail->isSMTP();                                            //Send using SMTP
+                $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                $mail->Username   = 'hector.noguera03@gmail.com';                     //SMTP username
+                $mail->Password   = '';                               //SMTP password
+                $mail->SMTPSecure = 'ssl';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+                $mail->Port       = 465;   //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+                $mail->CharSet = 'UTF-8';                              
+            
+                //Recipients
+                $mail->setFrom($mail->Username, 'World & Computer');
+                $mail->addAddress($usuario->email, $usuario->nombre." ".$usuario->apellido);     //Add a recipient
+                // $mail->addAddress('ellen@example.com');               //Name is optional
+                $mail->addReplyTo($mail->Username, 'Información');
+                // $mail->addCC('cc@example.com');
+                // $mail->addBCC('bcc@example.com');
+            
+                //Attachments
+                // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+                // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+            
+                //Content
+                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->Subject = 'Recuperación de Acceso - World & Computer';
+                $mail->Body    = '<h2>¿Recuperar Acceso?</h2><br>
+                        Si solicitaste un restablecimiento de contraseña para tu usuario "'.$usuario->usuario.'" del sistema World & Computer, usa el link que aparece a 
+                        continuación para completar el proceso. Si no solicitaste esto, puedes ignorar este correo electrónico. <br>
+                        '.$link;
+                $mail->AltBody    = '¿Recuperar Acceso? 
+                        Si solicitaste un restablecimiento de contraseña para tu usuario "'.$usuario->usuario.'" del sistema World & Computer, usa el link que aparece a 
+                        continuación para completar el proceso. Si no solicitaste esto, puedes ignorar este correo electrónico.  
+                        '.$link;
+                
+            
+                $mail->send();
+                // echo 'Message has been sent';
+                echo json_encode([
+                    'error' => false,
+                    'message' => 'Enlace de recuperación enviado al correo '.$usuario->email,
+                ]);
+            } catch (Exception $e) {
+                // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                echo json_encode([
+                    'error' => true,
+                    'message' => 'No se pudo enviar el correo. Lo sentimos! Intente de nuevo.',
+                ]);
+            }
         } else {
             echo json_encode([
                 'error' => true,
