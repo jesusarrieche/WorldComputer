@@ -1,7 +1,12 @@
 
 <div class="content p-4">
+	<div class="row justify-content-center">
+		
+		<img src="<?= ROOT; ?>public/assets/img/w&cLogoMini.png" alt="">
+		
+	</div>
 	<h2 class="mb-4">Inicio</h2>
-
+	
 	<div class="row mb-md-2">
 		
 		<a class="col-md text-decoration-none" style="color:black;" href="<?= ROOT;?>Venta">

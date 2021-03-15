@@ -52,8 +52,18 @@
 <body>
     <div class="container centrado" style="width: 98%;">
 
-        <div class="centrado" style="width=98%;">
-            <h1 class="text-center margin">REPORTE DE VENTAS</h1>
+        <div class="centrado" style="width:98%;">
+            <table>
+                <tr>
+                    <td colspan="4" style="width:50%">
+                        <img class="centrado" style="width:80%;" src="<?=URL;?>public/assets/img/w&cLogoMini.png" alt=""> 
+                    </td>
+                    <td colspan="4" style="width:50%; padding-top:10px;">
+                        <h1 class="text-center margin">REPORTE DE VENTAS</h1>                            
+                    </td>
+                </tr>
+            </table>
+              
             <hr>
             <div>
             

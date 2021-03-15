@@ -257,7 +257,7 @@ class ServicioController extends Controller{
               LEFT JOIN
           clientes c
               ON v.cliente_id = c.id
-          WHERE v.id = '$idVenta' AND v.estatus='ACTIVO' OR v.estatus='INACTIVADO' LIMIT 1");
+          WHERE v.id = '$idVenta' AND v.estatus='ACTIVO' OR v.id = '$idVenta' AND v.estatus='INACTIVADO' LIMIT 1");
 
       $query2 = $this->venta->query("SELECT v.id, p.codigo, p.nombre, dv.cantidad, dv.precio FROM 
           productos p 
@@ -267,7 +267,7 @@ class ServicioController extends Controller{
               JOIN
           ventas v 
               ON dv.venta_id = v.id
-          WHERE v.id = '$idVenta' AND v.estatus='ACTIVO' OR v.estatus='INACTIVADO'");
+          WHERE v.id = '$idVenta'");
           
       // Encabezado Venta
       $venta = $query->fetch(PDO::FETCH_OBJ);
@@ -301,7 +301,7 @@ public function servicioPrestadoPDF($param){
 
   //Servicio Prestado
   $idServicio = $this->desencriptar($param);
-  $query0 = $this->servicio->query("SELECT s.id, s.codigo,s.venta_id,Date_format(s.fecha,'%d/%m/%Y') AS fecha, 
+  $query0 = $this->servicio->query("SELECT s.id, s.codigo,s.venta_id,s.dolar,Date_format(s.fecha,'%d/%m/%Y') AS fecha, 
     CONCAT(e.nombre,' ',e.apellido) as empleado, e.documento AS empleado_documento, e.direccion as empleado_direccion,
     CONCAT(c.nombre,' ',c.apellido) as cliente, c.documento AS cliente_documento, c.direccion as cliente_direccion 
     FROM servicios_prestados s INNER JOIN empleados e ON s.empleado_id=e.id 
@@ -317,22 +317,22 @@ public function servicioPrestadoPDF($param){
   if ($servicioPrestado->venta_id != NULL) {
     $idVenta = $servicioPrestado->venta_id;
 
-    $query = $this->venta->query("SELECT v.id, v.codigo, Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.estatus FROM
+    $query = $this->venta->query("SELECT v.id, v.codigo, v.dolar,v.impuesto as iva,Date_format(v.fecha,'%d/%m/%Y') AS fecha, Date_format(v.fecha,'%H:%i') AS hora, c.documento AS rif_cliente, c.nombre AS cliente, c.direccion, v.estatus FROM
         ventas v
             LEFT JOIN
         clientes c
             ON v.cliente_id = c.id
-        WHERE v.id = '$idVenta' AND v.estatus='ACTIVO' OR v.estatus='INACTIVADO' LIMIT 1");
+        WHERE v.id = '$idVenta' AND v.estatus='ACTIVO' OR v.id = '$idVenta' AND v.estatus='INACTIVADO' LIMIT 1");
 
     $query2 = $this->venta->query("SELECT v.id, p.codigo, p.nombre, dv.cantidad, dv.precio FROM 
-        productos p 
-            JOIN
-        detalle_venta dv
-            ON p.id = dv.producto_id
-            JOIN
-        ventas v 
-            ON dv.venta_id = v.id
-        WHERE v.id = '$idVenta' AND v.estatus='ACTIVO' OR v.estatus='INACTIVADO'");
+      productos p 
+          JOIN
+      detalle_venta dv
+          ON p.id = dv.producto_id
+          JOIN
+      ventas v 
+          ON dv.venta_id = v.id
+      WHERE v.id = '$idVenta'");
         
     // Encabezado Venta
     $venta = $query->fetch(PDO::FETCH_OBJ);

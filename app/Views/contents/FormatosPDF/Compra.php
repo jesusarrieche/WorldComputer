@@ -8,7 +8,7 @@
 
         .container{
             padding: 0px 0px;
-            color:lightslategrey;
+            color:#424242;
         }
 
         .text-center {
@@ -31,10 +31,10 @@
             <tbody>
                 <tr>
                     <td colspan="4" style="width:50%">
-                        <img class="centrado" style="width:90%;" src="<?=URL;?>public/assets/img/logo.png" alt="">
+                        <img class="centrado" style="width:70%;" src="<?=URL;?>public/assets/img/w&cLogo.png" alt="">
                     </td>
                     <td colspan="4" style="width:50%;">
-                            <p class="text-right" style="display:block"><strong>Fecha:</strong> <span><i><?= $compra->fecha; ?></i></span></p>
+                            <p class="text-right" style="display:block"><strong>Fecha:</strong> <span><i><?= $compra->fecha." ".$compra->hora; ?></i></span></p>
                             <p class="text-right" style="display:block"><strong>Nro Compra:</strong> <span><i><?= $compra->codigo; ?></i></span></p>
                             <p class="text-right" style="display:block"><strong>Referencia:</strong> <span><i><?= $compra->referencia; ?></i></span></p>
                     </td>
@@ -85,24 +85,24 @@
             </tbody>
         </table>
         
-        <div class="centrado" style="width=100%;">
-            <div style="width:19%; display:inline;" class="text-center">
+        <div class="centrado" style="width:100%;">
+        <div style="width:15.5%; display:inline;" class="text-center">
                 <strong>CANTIDAD</strong>
             </div>
-            <div style="width:19%; display:inline;" class="text-center">
+            <div style="width:15.5%; display:inline;" class="text-center">
                 <strong>CODIGO</strong>
             </div>
-            <div style="width:19%; display:inline;" class="text-center">
+            <div style="width:15.5%; display:inline;" class="text-center">
                 <strong>PRODUCTO</strong>
             </div>
-            <div style="width:19%; display:inline;" class="text-center">
+            <div style="width:15.5%; display:inline;" class="text-center">
                 <strong>COSTO</strong>
             </div>
-            <!-- <div style="width:15.5%; display:inline;" class="text-center">
+            <div style="width:15.5%; display:inline;" class="text-center">
                 <strong>TOTAL $</strong>
-            </div> -->
-            <div style="width:19%; display:inline;" class="text-center">
-                <strong>IMPORTE</strong>
+            </div>
+            <div style="width:15.5%; display:inline;" class="text-center">
+                <strong>TOTAL BSS</strong>
             </div>
             <hr>
             <?php 
@@ -112,24 +112,28 @@
                     foreach($productos AS $producto):
 
                         $total += ($producto->cantidad * $producto->costo);
+                        
                         // $totalBss = $total * $dolar;
                 ?>
 
               
-                <div style="width:19%; display:inline;" class="text-center" >
+                <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->cantidad; ?>
                 </div>
-                <div style="width:19%; display:inline;" class="text-center" >
+                <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->codigo; ?>
                 </div>
-                <div style="width:19%; display:inline;" class="text-center" >
+                <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->nombre; ?>
                 </div>
-                <div style="width:19%; display:inline;" class="text-center" >
+                <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->costo; ?>
                 </div>
-                <div style="width:19%; display:inline;" class="text-center" >
+                <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->costo * $producto->cantidad; ?>
+                </div>
+                <div style="width:15.5%; display:inline;" class="text-center" >
+                    <?= $producto->costo * $producto->cantidad * $compra->dolar; ?>
                 </div>
                 <!-- <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->costo * $producto->cantidad * $dolar; ?>
@@ -138,12 +142,13 @@
 
                 <?php
                     endforeach;
+                    $totalBss = $total * $compra->dolar;
                 ?>
                 <hr>
                 <div>
                     
-                  <strong>&nbsp;TOTAL:&nbsp; <?= $total; ?></strong>
-                  <!-- <strong>&nbsp;TOTAL:&nbsp; <?= $total." $ - ".$totalBss." BSS"; ?></strong> -->
+                  <!-- <strong>&nbsp;TOTAL:&nbsp; <?= $total; ?></strong> -->
+                  <strong>&nbsp;TOTAL:&nbsp; <?= $total." $ - ".$totalBss." BSS"; ?></strong>
                 </div>
         </div>
           

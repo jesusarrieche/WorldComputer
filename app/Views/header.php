@@ -23,9 +23,9 @@
     <link href="<?= ROOT; ?>public/assets/css/notifications.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
     <link href="<?= ROOT; ?>public/assets/css/style.css" rel="stylesheet" type="text/css">
 
-
     <!-- DATATABLE -->
     <link href="<?= ROOT; ?>vendor/datatables/datatables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="<?= ROOT; ?>public/assets/img/w&cLogoFavicon.png" type="image/x-icon">
 
     <title><?php 
         if(isset($_COOKIE['title'])){
@@ -39,14 +39,9 @@
 <body class="bg-light">
 <nav class="navbar navbar-expand navbar-dark bg-primary w-100" id="navbar">
     <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
-    <a class="navbar-brand" href="<?= ROOT;?>" style="max-width:50% !important;"><i class="fas fa-desktop"></i> <?php 
-        if(isset($_COOKIE['title'])){
-            echo $_COOKIE['title'];
-        }
-        else{
-            echo "World & Computer";
-        }
-    ?></a>
+    <a class="navbar-brand" href="<?= ROOT;?>">
+        <img src="<?= ROOT; ?>public/assets/img/w&cLogoMiniWhite.png" alt="" style="height:30px; max-height:50%">
+    </a>
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav ml-auto">
             <div class="">

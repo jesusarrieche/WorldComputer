@@ -8,7 +8,7 @@
 
         .container{
             padding: 0px 0px;
-            color:lightslategrey;
+            color:#424242;
         }
 
         .text-center {
@@ -48,7 +48,7 @@
             <tbody>
                 <tr>
                     <td colspan="4" style="width:50%">
-                        <img class="centrado" style="width:90%;" src="<?=URL;?>public/assets/img/logo.png" alt="">
+                        <img class="centrado" style="width:70%;" src="<?=URL;?>public/assets/img/w&cLogo.png" alt="">
                     </td>
                     <td colspan="4" style="width:50%">
                             <p class="text-right" style="display:block"><strong>FECHA:</strong> <span><i><?= $servicio_prestado->fecha; ?></i></span></p>
@@ -125,16 +125,19 @@
                 
             </tbody>
         </table>
-        <div class="centrado margin" style="width=100%;">
+        <div class="centrado margin" style="width:100%;">
             <br><h3 class="text-center margin"><u>SERVICIOS</u></h3><br>
-            <div style="width:33%; display:inline;" class="text-center">
+            <div style="width:24.5%; display:inline;" class="text-center">
                 <strong>CODIGO</strong>
             </div>
-            <div style="width:33%; display:inline;" class="text-center">
+            <div style="width:24.5%; display:inline;" class="text-center">
                 <strong>SERVICIO</strong>
             </div>
-            <div style="width:33%; display:inline;" class="text-center">
-                <strong>PRECIO</strong>
+            <div style="width:24.5%; display:inline;" class="text-center">
+                <strong>PRECIO $</strong>
+            </div>
+            <div style="width:24.5%; display:inline;" class="text-center">
+                <strong>PRECIO BSS</strong>
             </div>
            
             <!-- <div style="width:15.5%; display:inline;" class="text-center">
@@ -152,14 +155,17 @@
                 ?>
 
               
-                <div style="width:33%; display:inline;" class="text-center" >
+                <div style="width:24.5%; display:inline;" class="text-center" >
                     <?= $servicio->id; ?>
                 </div>
-                <div style="width:33%; display:inline;" class="text-center" >
+                <div style="width:24.5%; display:inline;" class="text-center" >
                     <?= $servicio->nombre; ?>
                 </div>
-                <div style="width:33%; display:inline;" class="text-center" >
+                <div style="width:24.5%; display:inline;" class="text-center" >
                     <?= $servicio->precio; ?>
+                </div>
+                <div style="width:24.5%; display:inline;" class="text-center" >
+                    <?= $servicio->precio * $servicio_prestado->dolar; ?>
                 </div>
                 
                 <!-- <div style="width:15.5%; display:inline;" class="text-center" >
@@ -169,12 +175,13 @@
 
                 <?php
                     endforeach;
+                    
+                    $totalServiciosBss = $totalServicios*$servicio_prestado->dolar;
                 ?>
                 <hr class="separadorDos">
                 <div>
                     
-                  <strong>&nbsp;TOTAL DE LOS SERVICIOS:&nbsp; <?= $totalServicios; ?></strong>
-                  <!-- <strong>&nbsp;TOTAL:&nbsp; <?= $total." $ - ".$totalBss." BSS"; ?></strong> -->
+                  <strong>&nbsp;TOTAL DE LOS SERVICIOS:&nbsp; <?= $totalServicios." $ - ".$totalServiciosBss." BSS"; ?></strong>
                 </div>
         </div>  
         <br>
@@ -188,7 +195,7 @@
             <tbody>
                 <tr>
                     <td colspan="4" style="width:50%">
-                        <!-- <img style="width:375px;height:70px;" src="<?=ROOTC?>public/assets/img/logo.png" alt=""> -->
+                        <!-- <img style="width:375px;height:70px;" src="<?=ROOT?>public/assets/img/logo.png" alt=""> -->
                     </td>
                     <td colspan="4" style="width:50%">
                             <p class="text-right" style="display:block"><strong>CODIGO DE LA VENTA:</strong> <span><i><?= $venta->codigo; ?></i></span></p>
@@ -196,30 +203,31 @@
                 </tr>
             </tbody>
         </table>    
-        <div class="centrado margin" style="width=100%;">
+        <div class="centrado margin" style="width:100%;">
             <br><h3 class="text-center margin"><u>PRODUCTOS</u></h3><br>
-            <div style="width:19%; display:inline;" class="text-center">
+            <div style="width:15.5%; display:inline;" class="text-center">
                 <strong>CANTIDAD</strong>
             </div>
-            <div style="width:19%; display:inline;" class="text-center">
+            <div style="width:15.5%; display:inline;" class="text-center">
                 <strong>CODIGO</strong>
             </div>
-            <div style="width:19%; display:inline;" class="text-center">
+            <div style="width:15.5%; display:inline;" class="text-center">
                 <strong>PRODUCTO</strong>
             </div>
-            <div style="width:19%; display:inline;" class="text-center">
+            <div style="width:15.5%; display:inline;" class="text-center">
                 <strong>PRECIO</strong>
             </div>
-            <div style="width:19%; display:inline;" class="text-center">
-                <strong>IMPORTE</strong>
+            <div style="width:15.5%; display:inline;" class="text-center">
+                <strong>TOTAL $</strong>
             </div>
-            <!-- <div style="width:15.5%; display:inline;" class="text-center">
+            <div style="width:15.5%; display:inline;" class="text-center">
                 <strong>TOTAL BSS</strong>
-            </div> -->
+            </div>
             <hr class="separadorDos">
             <?php 
 
                     $total = 0;
+                    $totalBss = 0;
 
                     foreach($productos AS $producto):
 
@@ -228,20 +236,23 @@
                 ?>
 
               
-                <div style="width:19%; display:inline;" class="text-center" >
+                <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->cantidad; ?>
                 </div>
-                <div style="width:19%; display:inline;" class="text-center" >
+                <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->codigo; ?>
                 </div>
-                <div style="width:19%; display:inline;" class="text-center" >
+                <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->nombre; ?>
                 </div>
-                <div style="width:19%; display:inline;" class="text-center" >
+                <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->precio; ?>
                 </div>
-                <div style="width:19%; display:inline;" class="text-center" >
+                <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->precio * $producto->cantidad; ?>
+                </div>
+                <div style="width:15.5%; display:inline;" class="text-center" >
+                    <?= $producto->precio * $producto->cantidad * $venta->dolar; ?>
                 </div>
                 <!-- <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->precio * $producto->cantidad * $dolar; ?>
@@ -253,8 +264,15 @@
                 ?>
                 <hr class="separadorDos">
                 <div>
+                    <strong>&nbsp;SUB-TOTAL:&nbsp; <?= $total?></strong><br>
+                    <?php 
+                        $impuesto = $total * $venta->iva/100;
+                        $total += $impuesto;                        
+                        $totalBss = $total * $venta->dolar;
+                    ?>
                     
-                  <strong>&nbsp;TOTAL DE LOS PRODUCTOS:&nbsp; <?= $total; ?></strong>
+                    <strong>&nbsp;IVA(<?= $venta->iva; ?>%):&nbsp; <?= $impuesto; ?></strong><br>
+                    <strong>&nbsp;TOTAL DE LOS PRODUCTOS:&nbsp; <?= $total." $ - ".$totalBss." BSS"; ?></strong><br>
                   <!-- <strong>&nbsp;TOTAL:&nbsp; <?= $total." $ - ".$totalBss." BSS"; ?></strong> -->
                 </div>
         </div>  
@@ -266,13 +284,17 @@
         <div>
             <?php 
                 if (isset($venta)) {
+                    $totalFinal = $totalServicios + $total;
+                    $totalFinalBss = $totalServiciosBss + $totalBss;
                    
             ?>
-                <strong>&nbsp;TOTAL:&nbsp; <?= $totalServicios+$total; ?></strong>
+                <strong>&nbsp;TOTAL:&nbsp; <?= $totalFinal." $ - ".$totalFinalBss." BSS"; ?></strong><br>
             <?php                 
-                }else{         
+                }else{  
+                    $totalFinal = $totalServicios;
+                    $totalFinalBss = $totalServiciosBss;       
             ?>
-                <strong>&nbsp;TOTAL:&nbsp; <?= $totalServicios; ?></strong>
+                <strong>&nbsp;TOTAL:&nbsp; <?= $totalFinal." $ - ".$totalFinalBss." BSS"; ?></strong>
             <?php                 
                 }           
             ?>
