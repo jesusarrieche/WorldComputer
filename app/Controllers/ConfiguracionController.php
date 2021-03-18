@@ -48,11 +48,11 @@ class ConfiguracionController extends Controller{
             return false;
         }
         $config = new Configuracion;
-        $config->setNombre_sistema($_POST['nombre_sistema']);
+        // $config->setNombre_sistema($_POST['nombre_sistema']);
         $config->setDolar($_POST['dolar']);
         $config->setIva($_POST['iva']);
         if($config->actualizar()){
-            setcookie ('title',$config->getNombre_sistema(),time()+60*60*24*365);
+            // setcookie ('title',$config->getNombre_sistema(),time()+60*60*24*365);
             http_response_code(200);
 
             echo json_encode([

@@ -53,10 +53,11 @@ const actualizarConfiguracion = (datos)=>{
 
 $("#formConfiguracion").submit(function (e) { 
     e.preventDefault();
-    var nombre = $("#nombre_sistema");
+    // var nombre = $("#nombre_sistema");
     var dolar = $("#dolar");
     var iva = $("#iva");
-    if (nombre.val()=="" || dolar.val()=="" || iva.val()=="") {
+    // if (nombre.val()=="" || dolar.val()=="" || iva.val()=="") {
+    if (dolar.val()=="" || iva.val()=="") {
         Swal.fire(
             'Error',
             'Ninguno de los campos puede estar vacío',
@@ -65,14 +66,14 @@ $("#formConfiguracion").submit(function (e) {
         return 0;
     }
 
-    if(nombre.val().length >30){
-        Swal.fire(
-            'Error',
-            'El Nombre de Sistema indicado es muy largo',
-            'warning'
-        );
-        return 0;
-    }
+    // if(nombre.val().length >30){
+    //     Swal.fire(
+    //         'Error',
+    //         'El Nombre de Sistema indicado es muy largo',
+    //         'warning'
+    //     );
+    //     return 0;
+    // }
     if(isNaN(dolar.val()) || dolar.val()<0){
         Swal.fire(
             'Error',

@@ -8,7 +8,7 @@
                 <h2 class="mb-4">Configuración</h2>
             </div>        
             <form action="" method="post" id="formConfiguracion">
-                <div class="card-body row">
+                <!-- <div class="card-body row">
                     <div class="col-md-5">
                         <label for="nombre_sistema" class=""> <i class="fa fa-ad"></i> <strong>Nombre del Sistema</strong></label> &nbsp; 
                     </div>
@@ -16,7 +16,7 @@
                         <input type="text" class="form-control" id="nombre_sistema" name="nombre_sistema" value="<?=$nombre_sistema?>" required maxlength="30">
                     </div>
                 </div>
-                <hr> 
+                <hr>  -->
                 <div class="card-body row">
                     <div class="col-md-5">
                         <label for="dolar" class=""> <i class="fa fa-dollar-sign"></i> <strong>Precio del Dolar</strong></label> &nbsp; 

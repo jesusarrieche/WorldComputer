@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PDO;
+use Exception;
 use System\Core\Model;
 
 class Configuracion extends Model{
@@ -34,8 +35,8 @@ class Configuracion extends Model{
     public function actualizar(){
         try{
             $connect = parent::connect();
-            $consulta = $connect->prepare("UPDATE configuracion SET valor='$this->nombre_sistema' WHERE nombre='nombre_sistema'");            
-            $consulta->execute();
+            // $consulta = $connect->prepare("UPDATE configuracion SET valor='$this->nombre_sistema' WHERE nombre='nombre_sistema'");            
+            // $consulta->execute();
             $consulta = $connect->prepare("UPDATE configuracion SET valor='$this->dolar' WHERE nombre='dolar'");            
             $consulta->execute();
             $consulta = $connect->prepare("UPDATE configuracion SET valor='$this->iva' WHERE nombre='iva'");            
