@@ -1,5 +1,6 @@
 body{
     overflow-x: auto !important;
+    padding: 0px !important;
 }
 .card-body{
     overflow: auto !important;
@@ -13,4 +14,7 @@ body{
 }
 .text-black{
     color: black !important;
+}
+.dataTables_wrapper{
+    overflow-x: auto;
 }

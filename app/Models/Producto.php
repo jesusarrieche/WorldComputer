@@ -5,6 +5,7 @@ namespace App\Models;
 use System\Core\Model;
 
 use PDO;
+use Exception;
 
 class Producto extends Model {
 
@@ -14,12 +15,12 @@ class Producto extends Model {
   private $codigo;
   private $nombre;
   private $descripcion;
+  private $precio_costo;
   private $precio_venta;
   private $precio_porcentaje;
   private $stock;
   private $stock_min;
   private $stock_max;
-  private $imagen;
   private $estatus;
 
   public function __construct(){
@@ -73,6 +74,13 @@ class Producto extends Model {
     $this->descripcion = $descripcion;
   }
 
+  public function getPrecioCosto(){
+    return $this->precio_costo;
+  }
+
+  public function setPrecioCosto($precio){
+    $this->precio_costo = $precio;
+  }
   public function getPrecioVenta(){
     return $this->precio_venta;
   }
@@ -113,14 +121,6 @@ class Producto extends Model {
     $this->stock_max = $stock_max;
   }
 
-  public function getImagen(){
-    return $this->imagen;
-  }
-
-  public function setImagen($imagen){
-    $this->imagen = $imagen;
-  }
-
   public function getEstatus(){
     return $this->estatus;
   }
@@ -158,19 +158,6 @@ class Producto extends Model {
         
         return $consulta->fetchAll(PDO::FETCH_OBJ);
         
-    } catch (Exception $ex) {
-        die($ex->getMessage());
-    }
-  }
-
-  public function buscarProductoCodigo($codigo){
-    try {
-      $sql = "SELECT * FROM productos WHERE codigo= '$codigo' LIMIT 1";
-
-      $query = parent::connect()->prepare($sql)->execute();
-
-      return $query->fetch(PDO::FETCH_OBJ);
-
     } catch (Exception $ex) {
         die($ex->getMessage());
     }
@@ -244,6 +231,20 @@ class Producto extends Model {
                   
       } catch (Exception $ex) {
           return $ex->getMessage();            
+      }
+  }
+  public function bajoStock ($producto_id) {
+    $conexion = parent::connect();
+
+      try {
+          $query = $conexion->prepare("SELECT * FROM v_inventario WHERE stock <= stock_min AND id = :producto_id");
+          $query->bindParam(':producto_id',$producto_id);
+          $query->execute();
+
+          return ($query->rowCount() > 0) ? true : false;
+
+      } catch (Exception $e) {
+          return $e->getMessage();
       }
   }
 

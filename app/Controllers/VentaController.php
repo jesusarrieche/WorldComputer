@@ -5,13 +5,12 @@ namespace App\Controllers;
 use App\Models\Cliente;
 use App\Models\Producto;
 use App\Models\Notificacion;
-use App\Models\Inventario;
 use App\Models\Salida;
 use App\Models\Venta;
-use App\Models\DetalleVenta;
 use App\Models\Configuracion;
 use App\Traits\Utility;
 use PDO;
+use Exception;
 use System\Core\Controller;
 use System\Core\View;
 
@@ -19,11 +18,9 @@ class VentaController extends Controller{
 
     private  $cliente;
     private  $notificacion;
-    private  $inventario;
     private  $producto;
     private  $venta;
-    private  $detalleVenta;
-    // private Salida $salida;
+    private  $salida;
 
     use Utility;
 
@@ -31,9 +28,8 @@ class VentaController extends Controller{
         $this->cliente = new Cliente;
         $this->producto = new Producto;
         $this->notificacion = new Notificacion;
-        $this->inventario = new Inventario;
         $this->venta = new Venta;
-        $this->detalleVenta = new DetalleVenta;
+        $this->salida = new Salida;
         // $this->salida = new Salida;
     }
 
@@ -179,17 +175,17 @@ class VentaController extends Controller{
         $contador = 0;
         foreach($productos AS $producto){
 
-            $detalleVenta = new DetalleVenta();
+            $salida = new salida();
             
-            $detalleVenta->setProductoId($productos[$contador]);
-            $detalleVenta->setVentaId($lastId);
-            $detalleVenta->setCantidad($cantidad[$contador]);
-            $detalleVenta->setPrecio($precio[$contador]);
+            $salida->setProductoId($productos[$contador]);
+            $salida->setVentaId($lastId);
+            $salida->setCantidad($cantidad[$contador]);
+            $salida->setPrecio($precio[$contador]);
 
-            $this->detalleVenta->registrar($detalleVenta);
+            $this->salida->registrar($salida);
 
             try {
-                $bajoStock = $this->inventario->bajoStock($productos[$contador]);
+                $bajoStock = $this->producto->bajoStock($productos[$contador]);
                 if ($bajoStock) {
                     if (!$this->notificacion->yaNotificado($productos[$contador])) {
                         $producto_data = $this->producto->getOne('productos',$productos[$contador]);
@@ -197,8 +193,8 @@ class VentaController extends Controller{
                         $this->notificacion->crear(1, $productos[$contador], 'Stock', $mensaje_notificacion);
                     }
                 }
-            } catch (Exception $e) {
-                #...
+            } catch (Exception $ex) {
+                return $ex->getMessage();
             }
 
             $contador++;

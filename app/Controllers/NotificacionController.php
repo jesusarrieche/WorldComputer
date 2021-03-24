@@ -9,13 +9,11 @@ use System\Core\Controller;
 
 class NotificacionController extends Controller{
     private $notificacion;
-    private $inventario;
 
     use Utility;
 
     public function __construct(){
         $this->notificacion = new Notificacion;
-        $this->inventario = new Inventario;
     }
 
     public function listar(){
@@ -39,14 +37,7 @@ class NotificacionController extends Controller{
 
     }
 
-    public function nuevasNotificaciones () {
-        $notificacionesPendientes = $this->notificacion->notificacionesPendientes(3);
-        $productosBajoStock = $this->inventario->productosBajoStock();
 
-        foreach ($productosBajoStock as $producto) {
-            echo 'Producto: '. $producto->nombre . ' Tiene bajo stock <br>';
-        }
-    }
 
     public function dismissNotificacion () {
         $method = $_SERVER['REQUEST_METHOD'];

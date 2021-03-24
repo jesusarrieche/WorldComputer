@@ -20,7 +20,7 @@ class Servicio extends Model{
     private $venta_id;
     private $servicios_id;
     private $servicios_precio;
-
+    private $estatus;
     public function getId(){
         return $this->id;
     }
@@ -118,7 +118,7 @@ class Servicio extends Model{
             $consulta->execute();
             return $consulta->fetch(PDO::FETCH_COLUMN);
         } catch (Exception $ex){
-            return $ex->message();
+            return $ex->getMessage();
         }
     }
 

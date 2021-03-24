@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PDO;
+use Exception;
 use System\Core\Model;
 
 class Salida extends Model{
@@ -44,15 +45,15 @@ class Salida extends Model{
         $this->precio = $precio;
     }
 
-    public function registrar(Salida $salida){
+    public function registrar(Salida $detalleVenta){
         try{
-            $consulta = parent::connect()->prepare("INSERT INTO salidas(venta_id, producto_id, cantidad, precio) VALUES 
+            $consulta = parent::connect()->prepare("INSERT INTO detalle_venta(venta_id, producto_id, cantidad, precio) VALUES 
                                                                      (:venta_id, :producto_id, :cantidad, :precio)");
 
-            $venta_id = $salida->getVentaId();
-            $producto_id = $salida->getProductoId();
-            $cantidad = $salida->getCantidad();
-            $precio = $salida->getPrecio();
+            $venta_id = $detalleVenta->getVentaId();
+            $producto_id = $detalleVenta->getProductoId();
+            $cantidad = $detalleVenta->getCantidad();
+            $precio = $detalleVenta->getPrecio();
 
             $consulta->bindParam(":venta_id", $venta_id);
             $consulta->bindParam(":producto_id", $producto_id);
@@ -64,7 +65,7 @@ class Salida extends Model{
             return true;
 
         }catch(Exception $ex){
-            return $ex->message();
+            return $ex->getMessage();
         }
     }
 }

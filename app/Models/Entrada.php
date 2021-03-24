@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PDO;
+use Exception;
 use System\Core\Model;
 
 class Entrada extends Model{
@@ -64,7 +65,7 @@ class Entrada extends Model{
             return true;
 
         }catch(Exception $ex){
-            return $ex->message();
+            return $ex->getMessage();
         }
     }
 }

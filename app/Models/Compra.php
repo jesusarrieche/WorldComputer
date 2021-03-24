@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PDO;
+use Exception;
 use System\Core\Model;
 
 class Compra extends Movimiento{
@@ -82,7 +83,7 @@ class Compra extends Movimiento{
             $consulta->execute();
             return $consulta->fetch(PDO::FETCH_COLUMN);
         } catch (Exception $ex){
-            return $ex->message();
+            return $ex->getMessage();
         }
     }
 
