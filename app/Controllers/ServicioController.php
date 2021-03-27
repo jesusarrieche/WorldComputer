@@ -6,7 +6,7 @@ use App\Models\Servicio;
 use App\Models\Cliente;
 use App\Models\Empleado;
 use App\Models\Venta;
-use App\Models\DetalleVenta;
+use App\Models\Salida;
 use App\Models\Producto;
 
 use App\Models\Compra;
@@ -30,7 +30,7 @@ class ServicioController extends Controller{
       $this->empleado = new Empleado;
       $this->producto = new Producto;
       $this->venta = new Venta;
-      $this->detalleVenta = new DetalleVenta;
+      $this->salida = new Salida;
   }
 
   public function index(){
@@ -155,13 +155,13 @@ class ServicioController extends Controller{
         $contador = 0;
         foreach($productos AS $producto){
 
-            $detalleVenta = new DetalleVenta();
-            $detalleVenta->setProductoId($productos[$contador]);
-            $detalleVenta->setVentaId($lastId);
-            $detalleVenta->setCantidad($cantidad[$contador]);
-            $detalleVenta->setPrecio($precio[$contador]);
+            $salida = new Salida();
+            $salida->setProductoId($productos[$contador]);
+            $salida->setVentaId($lastId);
+            $salida->setCantidad($cantidad[$contador]);
+            $salida->setPrecio($precio[$contador]);
 
-            $this->detalleVenta->registrar($detalleVenta);
+            $this->salida->registrar($salida);
 
             $contador++;
         }
