@@ -194,6 +194,7 @@ $(document).ready(function () {
                 },
                 showCancelButton: true,
                 confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
                 showLoaderOnConfirm: true,
                 preConfirm: (login) => {
                     Toast.fire({

@@ -47,15 +47,15 @@ class LoginController extends Controller{
             http_response_code(404);
             return false;
         }
-
-
         $this->usuario->setUsuario($this->limpiaCadena($_POST['user']));
-        $this->usuario->setPassword($this->encriptar($this->limpiaCadena($_POST['password'])));
-        
-        
         $response = $this->usuario->checkUser($this->usuario);
         
         if($response) {
+            if(!$this->verificarContrasena($this->limpiaCadena($_POST['password']),$response->password)){
+                http_response_code(404); 
+                echo "Contraseña";
+                return false;
+            }
             // Validación del Captcha
             //Captcha comentado
             // if (!isset($_POST['token-r'])) {
@@ -108,7 +108,7 @@ class LoginController extends Controller{
             //     'title' => '¡Usuario o contraseña incorrecta!',
             //     'message' => 'Por favor verifique el usuario y la contraseña'
             // ]);
-            echo "Usuario o Contraseña";
+            echo "Usuario";
             return false;
         }
         

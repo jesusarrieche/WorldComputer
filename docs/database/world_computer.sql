@@ -839,9 +839,9 @@ INSERT INTO `rol_permiso` (`rol_id`, `permiso_id`) VALUES
 
 -- USUARIO
 INSERT INTO usuarios(rol_id, documento, nombre, apellido, direccion, telefono, email, usuario, password, estatus) VALUES 
-('1', 'V-00000000', 'SUPER', 'ADMINISTRADOR', 'WORLD','000-0000000', 'superadministrador@email.com', 'superadministrador', 'ZXRlSml1a1p0akNsbTYwL2hnNEF2UT09', 'ACTIVO'),
-('2', 'V-10000000', 'ADMINISTRADOR', 'ADMINISTRADOR', 'WORLD','000-0000000', 'admin@email.com', 'administrador', 'ZXRlSml1a1p0akNsbTYwL2hnNEF2UT09', 'ACTIVO'),
-('3', 'V-30000000', 'USUARIO', 'USUARIO', 'WORLD','000-0000000', 'usuario@email.com', 'usuario', 'ZXRlSml1a1p0akNsbTYwL2hnNEF2UT09', 'ACTIVO');
+('1', 'V-00000000', 'SUPER', 'ADMINISTRADOR', 'WORLD','000-0000000', 'superadministrador@email.com', 'superadministrador', '$2y$14$FKi2DLbY7zexyHlpxTfha.E70BakTI90Q2.ZkXG33u4y4X5P/W7Pi', 'ACTIVO'),
+('2', 'V-10000000', 'ADMINISTRADOR', 'ADMINISTRADOR', 'WORLD','000-0000000', 'admin@email.com', 'administrador', '$2y$14$k9kECw4XTGCgh5UPse50bO.GBGkyV1zeWxW4zTiNXT/jwhljIKP4K', 'ACTIVO'),
+('3', 'V-30000000', 'USUARIO', 'USUARIO', 'WORLD','000-0000000', 'usuario@email.com', 'usuario', '$2y$14$85yGnTS/W5awO7quwGzbSu/b788ECGy1KPGyWiTnW8D4iBCM9Nxo.', 'ACTIVO');
 
 -- COMPRAS
 INSERT INTO compras(proveedor_id, codigo, cod_ref, fecha, impuesto, usuario_id) VALUES 

@@ -162,14 +162,15 @@ class Usuario extends Persona{
     
     public function checkUser(Usuario $user) {
         try {
-            $query = parent::connect()->prepare("SELECT id, documento, nombre, apellido, email, usuario, estatus, rol_id FROM usuarios WHERE estatus='ACTIVO' AND usuario=:usuario AND password=:password");
+            $query = parent::connect()->prepare("SELECT id, documento, nombre, apellido, email, usuario, estatus, rol_id, password FROM usuarios WHERE estatus='ACTIVO' AND usuario=:usuario");
+            // $query = parent::connect()->prepare("SELECT id, documento, nombre, apellido, email, usuario, estatus, rol_id FROM usuarios WHERE estatus='ACTIVO' AND usuario=:usuario AND password=:password");
             
             $query->bindParam(":usuario", $user->usuario);
-            $query->bindParam(":password", $user->password);
+            // $query->bindParam(":password", $user->password);
             
             $query->execute();
-            
-            return $query->fetch(PDO::FETCH_OBJ);
+            $user = $query->fetch(PDO::FETCH_OBJ);
+            return $user;
             
         } catch (Exception $e) {
             die($e->getMessage());

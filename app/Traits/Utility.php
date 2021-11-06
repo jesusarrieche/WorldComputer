@@ -30,6 +30,14 @@ trait Utility {
 
         return $salida;
     }
+    public function encriptarContrasena($password) {
+        $salida = password_hash($password, PASSWORD_DEFAULT, ['cost' => 14]);
+        return $salida;
+    }
+    public function verificarContrasena($password_verificar, $password) {
+        $salida = password_verify($password_verificar, $password);
+        return $salida;
+    }
     
     /**
      * *********************

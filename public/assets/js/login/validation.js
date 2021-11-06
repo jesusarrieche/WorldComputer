@@ -28,10 +28,13 @@ $(document).ready(function () {
         console.log(response);
         response = response.responseText;
         console.log(response);
-        if (response == "Usuario o Contraseña") {
-          Swal.fire("¡Usuario o contraseña incorrecta!", "Por favor verifique el usuario y la contraseña", "error");
+        if (response == "Usuario") {
+          Swal.fire("¡Usuario incorrecto!", "Por favor verifique el usuario", "error");
         }
-        else if (response =="Captcha") {
+        else if (response == "Contraseña") {
+          Swal.fire("¡Contraseña incorrecta!", "La contraseña ingresada es incorrecta", "error");
+        }
+        else if (response == "Captcha") {
           Swal.fire("¡Error!", "Ocurrió un problema al validar el Captcha", "error");
         }
         else{

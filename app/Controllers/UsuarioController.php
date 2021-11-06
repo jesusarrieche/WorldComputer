@@ -4,7 +4,7 @@ namespace app\Controllers;
 
 use App\Models\Rol;
 use App\Models\Usuario;
-use App\Models\Asistencia;
+// use App\Models\Asistencia;
 use App\Traits\Utility;
 use System\Core\Controller;
 use System\Core\View;
@@ -16,7 +16,7 @@ class UsuarioController extends Controller{
     
     private $usuario;
     private $rol;
-    private $asistencia;
+    // private $asistencia;
     
     public function __construct() {
         
@@ -170,7 +170,7 @@ class UsuarioController extends Controller{
         $usuario->setUsuario(strtoupper($this->limpiaCadena($_POST['usuario'])));
         $usuario->setEstatus("ACTIVO");
         if ($_POST['contrasena']!="") {
-            $contrasena = $this->encriptar($this->limpiaCadena($_POST['contrasena']));
+            $contrasena = $this->encriptarContrasena($this->limpiaCadena($_POST['contrasena']));
             $usuario->setPassword($contrasena);
         }
         if(isset($_POST['rolUsuario']) && $_POST['rolUsuario']!=""){
@@ -325,112 +325,112 @@ class UsuarioController extends Controller{
     }
 
     // Asistencias
-    public function listarAsistencia($fecha){
-        $this->asistencia = new Asistencia;
-        $method = $_SERVER['REQUEST_METHOD'];
+    // public function listarAsistencia($fecha){
+    //     $this->asistencia = new Asistencia;
+    //     $method = $_SERVER['REQUEST_METHOD'];
 
-        if( $method != 'POST'){
-        http_response_code(404);
-        return false;
-        }
+    //     if( $method != 'POST'){
+    //     http_response_code(404);
+    //     return false;
+    //     }
         
-        $usuarios = $this->usuario->listarActivos();
+    //     $usuarios = $this->usuario->listarActivos();
 
         
-        $asistencias = $this->asistencia->listarAsistenciaUsuario($fecha);
+    //     $asistencias = $this->asistencia->listarAsistenciaUsuario($fecha);
         
-        foreach($usuarios as $usuario){
+    //     foreach($usuarios as $usuario){
             
-            $usuario->fecha = "Inasistente"; 
-            $usuario->button =      
-                "<a href='". $this->encriptar($usuario->id) ."' class='asistencia btn btn-info' title='Marcar Asistencia'><i class='fas fa-clipboard-check'></i></a>";
-        }
-        foreach($asistencias as $asistencia){        
-            foreach($usuarios as $usuario){
-                if ($usuario->fecha == "Inasistente" && $usuario->id == $asistencia->usuario_id) {
-                    $usuario->fecha = $asistencia->fecha;
-                    $usuario->button =      
-                        "<a href='". $this->encriptar($asistencia->asistencia_id) ."' class='inasistencia btn btn-warning' title='Marcar Inasistencia'><i class='fas fa-clipboard'></i></a>";
-                }          
-            }
-        }
+    //         $usuario->fecha = "Inasistente"; 
+    //         $usuario->button =      
+    //             "<a href='". $this->encriptar($usuario->id) ."' class='asistencia btn btn-info' title='Marcar Asistencia'><i class='fas fa-clipboard-check'></i></a>";
+    //     }
+    //     foreach($asistencias as $asistencia){        
+    //         foreach($usuarios as $usuario){
+    //             if ($usuario->fecha == "Inasistente" && $usuario->id == $asistencia->usuario_id) {
+    //                 $usuario->fecha = $asistencia->fecha;
+    //                 $usuario->button =      
+    //                     "<a href='". $this->encriptar($asistencia->asistencia_id) ."' class='inasistencia btn btn-warning' title='Marcar Inasistencia'><i class='fas fa-clipboard'></i></a>";
+    //             }          
+    //         }
+    //     }
         
-        http_response_code(200);
+    //     http_response_code(200);
 
-        echo json_encode([
-        'data' => $usuarios
-        ]);
-    }    
+    //     echo json_encode([
+    //     'data' => $usuarios
+    //     ]);
+    // }    
 
-    public function marcarInasistencia($param){
-        $this->asistencia = new Asistencia;
-        $asistencia = new Asistencia;
-        $method = $_SERVER['REQUEST_METHOD'];
+    // public function marcarInasistencia($param){
+    //     $this->asistencia = new Asistencia;
+    //     $asistencia = new Asistencia;
+    //     $method = $_SERVER['REQUEST_METHOD'];
     
-        if( $method != 'DELETE'){
-          http_response_code(404);
-          return false;
-        }
+    //     if( $method != 'DELETE'){
+    //       http_response_code(404);
+    //       return false;
+    //     }
     
-        $id = $this->desencriptar($param);
-        $asistencia->setId($id);
-        $result = $this->asistencia->inasistenciaUsuario($asistencia);
-        if($result){
+    //     $id = $this->desencriptar($param);
+    //     $asistencia->setId($id);
+    //     $result = $this->asistencia->inasistenciaUsuario($asistencia);
+    //     if($result){
     
-          http_response_code(200);
+    //       http_response_code(200);
     
-          echo json_encode([
-            'titulo' => 'Usuario inasistente!',
-            'mensaje' => "El Usuario ha sido marcado como inasistente",
-            'tipo' => 'success'
-          ]);
-        }else{
-          http_response_code(404);
+    //       echo json_encode([
+    //         'titulo' => 'Usuario inasistente!',
+    //         'mensaje' => "El Usuario ha sido marcado como inasistente",
+    //         'tipo' => 'success'
+    //       ]);
+    //     }else{
+    //       http_response_code(404);
     
-          echo json_encode([
-            'titulo' => 'Ocurio un error!',
-            'mensaje' => $result,
-            'tipo' => 'error'
-          ]);
-        }
-        
-    
-    }
-    public function marcarAsistencia(){
-        $this->asistencia = new Asistencia;
-        $asistencia = new Asistencia;
-        $method = $_SERVER['REQUEST_METHOD'];
-
-        if( $method != 'POST'){
-            http_response_code(404);
-            return false;
-        }
-
-        $id = $this->desencriptar($_POST['id']);
-        $fecha = $_POST['fecha'];
-        $asistencia->setPersona_id($id);
-        $asistencia->setFecha($fecha);
-        $result = $this->asistencia->asistenciaUsuario($asistencia);
-        if($result){
-
-            http_response_code(200);
-
-            echo json_encode([
-            'titulo' => 'Usuario asistente!',
-            'mensaje' => "El Usuario ha sido marcado como asistente",
-            'tipo' => 'success'
-            ]);
-        }else{
-            http_response_code(404);
-
-            echo json_encode([
-            'titulo' => 'Ocurio un error!',
-            'mensaje' => $result,
-            'tipo' => 'error'
-            ]);
-        }
+    //       echo json_encode([
+    //         'titulo' => 'Ocurio un error!',
+    //         'mensaje' => $result,
+    //         'tipo' => 'error'
+    //       ]);
+    //     }
         
     
-    }
+    // }
+    // public function marcarAsistencia(){
+    //     $this->asistencia = new Asistencia;
+    //     $asistencia = new Asistencia;
+    //     $method = $_SERVER['REQUEST_METHOD'];
+
+    //     if( $method != 'POST'){
+    //         http_response_code(404);
+    //         return false;
+    //     }
+
+    //     $id = $this->desencriptar($_POST['id']);
+    //     $fecha = $_POST['fecha'];
+    //     $asistencia->setPersona_id($id);
+    //     $asistencia->setFecha($fecha);
+    //     $result = $this->asistencia->asistenciaUsuario($asistencia);
+    //     if($result){
+
+    //         http_response_code(200);
+
+    //         echo json_encode([
+    //         'titulo' => 'Usuario asistente!',
+    //         'mensaje' => "El Usuario ha sido marcado como asistente",
+    //         'tipo' => 'success'
+    //         ]);
+    //     }else{
+    //         http_response_code(404);
+
+    //         echo json_encode([
+    //         'titulo' => 'Ocurio un error!',
+    //         'mensaje' => $result,
+    //         'tipo' => 'error'
+    //         ]);
+    //     }
+        
+    
+    // }
 
 }
