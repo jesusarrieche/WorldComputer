@@ -29,19 +29,6 @@ class ProveedorController extends Controller{
       return View::getView('Proveedor.index');
     }
 
-    public function mostrar($param){
-
-        $param = $this->desencriptar($param);
-        
-        $proveedor = $this->proveedor->getOne('proveedores', $param);
-
-        http_response_code(200);
-
-        echo json_encode([
-            'data' => $proveedor
-        ]);
-    }
-
     public function listar(){
 
         $method = $_SERVER['REQUEST_METHOD'];
@@ -64,20 +51,21 @@ class ProveedorController extends Controller{
             $eliminar = true;
         }endforeach;
         foreach($proveedores as $proveedor){
-
-            $proveedor->button = 
-            "<a href=".ROOT."proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
-            if ($editar) {
-                $proveedor->button .= "<a href=".ROOT."proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
-            }
-            if ($eliminar) {
-                if($proveedor->estatus == "ACTIVO"){
-                    $proveedor->button .= "<a href='". $this->encriptar($proveedor->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
-                }
-                else{
-                    $proveedor->button .= "<a href='". $this->encriptar($proveedor->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
-                }
-            }
+          $proveedor->documento = $this->desencriptar($proveedor->documento);
+          $proveedor->telefono = $this->desencriptar($proveedor->telefono);
+          $proveedor->button = 
+          "<a href=".ROOT."proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
+          if ($editar) {
+              $proveedor->button .= "<a href=".ROOT."proveedor/mostrar/". $this->encriptar($proveedor->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
+          }
+          if ($eliminar) {
+              if($proveedor->estatus == "ACTIVO"){
+                  $proveedor->button .= "<a href='". $this->encriptar($proveedor->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
+              }
+              else{
+                  $proveedor->button .= "<a href='". $this->encriptar($proveedor->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
+              }
+          }
         }
 
         http_response_code(200);
@@ -89,9 +77,7 @@ class ProveedorController extends Controller{
     }
 
     public function guardar(){
-
         $method = $_SERVER['REQUEST_METHOD'];
-    
         if( $method != 'POST'){
           http_response_code(404);
           return false;
@@ -100,16 +86,15 @@ class ProveedorController extends Controller{
         $proveedor = new Proveedor();
     
         $proveedor->setId($_POST['id']);
-        $proveedor->setTipoDocumento($_POST['inicial_documento']);
-        $proveedor->setDocumento($_POST['documento']);
+        $proveedor->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'].'-'.$_POST['documento'])));
         $proveedor->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
-        $proveedor->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
-        $proveedor->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
-        $proveedor->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
+        $proveedor->setDireccion($this->encriptar(strtoupper($this->limpiaCadena($_POST['direccion']))));
+        $proveedor->setTelefono($this->encriptar(strtoupper($this->limpiaCadena($_POST['telefono']))));
+        $proveedor->setEmail($this->encriptar(strtoupper($this->limpiaCadena($_POST['correo']))));
         $proveedor->setEstatus("ACTIVO");
     
     
-        $documento = $proveedor->getTipoDocumento()."-".$proveedor->getDocumento();
+        $documento = $proveedor->getDocumento();
     
         $consultaDocumento = $this->proveedor->query("SELECT * FROM proveedores WHERE documento='$documento'" ); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
     
@@ -150,16 +135,14 @@ class ProveedorController extends Controller{
     }
 
     public function actualizar(){
-
         $proveedor = new Proveedor();
     
         $proveedor->setId($_POST['id']);
-        $proveedor->setTipoDocumento($_POST['inicial_documento']);
-        $proveedor->setDocumento($_POST['documento']);
+        $proveedor->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'].'-'.$_POST['documento'])));
         $proveedor->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
-        $proveedor->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
-        $proveedor->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
-        $proveedor->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
+        $proveedor->setDireccion($this->encriptar(strtoupper($this->limpiaCadena($_POST['direccion']))));
+        $proveedor->setTelefono($this->encriptar(strtoupper($this->limpiaCadena($_POST['telefono']))));
+        $proveedor->setEmail($this->encriptar(strtoupper($this->limpiaCadena($_POST['correo']))));
         $proveedor->setEstatus("ACTIVO");
     
         if($this->proveedor->actualizar($proveedor)){
@@ -178,6 +161,22 @@ class ProveedorController extends Controller{
           ]);
         }
     
+    }
+
+    public function mostrar($param){
+
+      $param = $this->desencriptar($param);
+      
+      $proveedor = $this->proveedor->getOne('proveedores', $param);
+      $proveedor->documento = $this->desencriptar($proveedor->documento);
+      $proveedor->direccion = $this->desencriptar($proveedor->direccion);
+      $proveedor->telefono = $this->desencriptar($proveedor->telefono);
+      $proveedor->email = $this->desencriptar($proveedor->email);
+      http_response_code(200);
+
+      echo json_encode([
+          'data' => $proveedor
+      ]);
     }
 
     public function eliminar($id){

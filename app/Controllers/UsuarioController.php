@@ -60,7 +60,7 @@ class UsuarioController extends Controller{
             $eliminar = true;
         }endforeach;
         foreach($usuarios as $usuario){
-
+            $usuario->documento = $this->desencriptar($usuario->documento);
             $usuario->button = 
             "<a href=".ROOT."usuario/mostrar/". $this->encriptar($usuario->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
             if ($editar && $usuario->id != 1) {
@@ -94,24 +94,23 @@ class UsuarioController extends Controller{
             return false;
         }
 
-        $contrasena = $this->encriptar($this->limpiaCadena($_POST['contrasena']));
-
+        $contrasena = $this->encriptarContrasena($this->limpiaCadena($_POST['contrasena']));
+     
         $usuario = new Usuario();
 
         $usuario->setId($_POST['id']);
-        $usuario->setTipoDocumento($_POST['inicial_documento']);
-        $usuario->setDocumento($_POST['documento']);
+        $usuario->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'].'-'.$_POST['documento'])));
         $usuario->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
         $usuario->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
-        $usuario->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
-        $usuario->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
-        $usuario->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
+        $usuario->setDireccion($this->encriptar(strtoupper($this->limpiaCadena($_POST['direccion']))));
+        $usuario->setTelefono($this->encriptar(strtoupper($this->limpiaCadena($_POST['telefono']))));
+        $usuario->setEmail($this->encriptar(strtoupper($this->limpiaCadena($_POST['correo']))));
         $usuario->setEstatus("ACTIVO");
         $usuario->setUsuario(strtoupper($this->limpiaCadena($_POST['usuario'])));
         $usuario->setPassword($contrasena);
         $usuario->setRolId(strtoupper($this->limpiaCadena($_POST['rolUsuario'])));
 
-        $documento = $usuario->getTipoDocumento()."-".$usuario->getDocumento();
+        $documento = $usuario->getDocumento();
 
         $consultaDocumento = $this->usuario->query("SELECT * FROM usuarios WHERE documento='$documento'" ); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
 
@@ -160,13 +159,12 @@ class UsuarioController extends Controller{
         $usuario = new Usuario();
         
         $usuario->setId($_POST['id']);
-        $usuario->setTipoDocumento($_POST['inicial_documento']);
-        $usuario->setDocumento($_POST['documento']);
+        $usuario->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'].'-'.$_POST['documento'])));
         $usuario->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
         $usuario->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
-        $usuario->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
-        $usuario->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
-        $usuario->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
+        $usuario->setDireccion($this->encriptar(strtoupper($this->limpiaCadena($_POST['direccion']))));
+        $usuario->setTelefono($this->encriptar(strtoupper($this->limpiaCadena($_POST['telefono']))));
+        $usuario->setEmail($this->encriptar(strtoupper($this->limpiaCadena($_POST['correo']))));
         $usuario->setUsuario(strtoupper($this->limpiaCadena($_POST['usuario'])));
         $usuario->setEstatus("ACTIVO");
         if ($_POST['contrasena']!="") {
@@ -235,15 +233,17 @@ class UsuarioController extends Controller{
 
     public function mostrar($param){
     
-    $param = $this->desencriptar($param);
+        $param = $this->desencriptar($param);
 
-    $usuario = $this->usuario->getOne('usuarios', $param);
-
-    http_response_code(200);
-
-    echo json_encode([
-    'data' => $usuario
-    ]);
+        $usuario = $this->usuario->getOne('usuarios', $param);
+        $usuario->documento = $this->desencriptar($usuario->documento);
+        $usuario->direccion = $this->desencriptar($usuario->direccion);
+        $usuario->telefono = $this->desencriptar($usuario->telefono);
+        $usuario->email = $this->desencriptar($usuario->email);
+        http_response_code(200);
+        echo json_encode([
+        'data' => $usuario
+        ]);
     }
 
     public function eliminar($id){

@@ -36,8 +36,7 @@ class Proveedor extends Persona{
             $consulta = parent::connect()->prepare("INSERT INTO proveedores(documento, razon_social, direccion, telefono, email, estatus) "
                 . "VALUES (:documento, :razon_social, :direccion, :telefono, :email, :estatus)");
         
-            //$id = $u->getId();
-            $documento= $proveedor->getTipoDocumento()."-".$proveedor->getDocumento();
+            $documento = $proveedor->getDocumento();
             $razon_social = $proveedor->getNombre();
             $direccion = $proveedor->getDireccion();
             $telefono = $proveedor->getTelefono();
@@ -63,9 +62,8 @@ class Proveedor extends Persona{
         try{
             $consulta = parent::connect()->prepare("UPDATE proveedores SET documento=:documento, razon_social=:razon_social, direccion=:direccion, telefono=:telefono, email=:email, estatus=:estatus WHERE id=:id");
 
-
             $id = $proveedor->getId();
-            $documento= $proveedor->getTipoDocumento()."-".$proveedor->getDocumento();
+            $documento = $proveedor->getDocumento();
             $razon_social = $proveedor->getNombre();
             $direccion = $proveedor->getDireccion();
             $telefono = $proveedor->getTelefono();

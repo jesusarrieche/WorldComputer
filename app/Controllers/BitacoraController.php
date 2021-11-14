@@ -18,11 +18,6 @@ class BitacoraController extends Controller{
     }
 
     public function index(){
-        // $band = false;
-        // foreach ($_SESSION['permisos'] as $p):
-        //     if ($p->permiso == "Inventario") {     
-        //     $band = true;
-        // }endforeach;   
         if ($_SESSION['rol']!=1) {
             header("Location: ".ROOT);
             return false;
@@ -39,12 +34,10 @@ class BitacoraController extends Controller{
     }
 
     public function listar($param = NULL){
-        
         $method = $_SERVER['REQUEST_METHOD'];
-
         if( $method != 'POST'){
-        http_response_code(404);
-        return false;
+            http_response_code(404);
+            return false;
         }
         if (isset($param)) {
             $b = explode('&',$param);
@@ -98,12 +91,19 @@ class BitacoraController extends Controller{
        
         $bitacora = $query->fetchAll(PDO::FETCH_OBJ);
         foreach($bitacora as $b){
+            $exp = explode('"', $b->accion);//Desglosar la acción
+            $expl = explode(' - ', $exp[1]);//Obtener el documento por su inicial y número
+            if(count($expl) > 1){//Verificar si es un documento de persona
+                $persona = $this->desencriptar($expl[0]).' - '.$expl[1];//Desencriptar documento
+                $accion = $exp[0].'"'.$persona.'"';
+                $b->accion = $accion;
+            }
+            
             $b->button = 
             "<a href='bitacora/mostrar/". $this->encriptar($b->id) ."' class='mostrar btn btn-info'><i class='fas fa-search'></i></a>";
         }
 
         http_response_code(200);
-
         echo json_encode([
         'data' => $bitacora
         ]);
@@ -117,8 +117,36 @@ class BitacoraController extends Controller{
             INNER JOIN roles r ON u.rol_id=r.id
             WHERE b.id=$param");
         $actividad = $query->fetch(PDO::FETCH_OBJ);
-        http_response_code(200);
+        $actividad->usuario_documento = $this->desencriptar($actividad->usuario_documento);
+        $expA = explode('"', $actividad->accion);//Desglosar la acción
+        $explA = explode(' - ', $expA[1]);//Obtener el documento por su inicial y número
+        if(count($explA) > 1){//Verificar si es un documento de persona
+            $persona = $this->desencriptar($explA[0]).' - '.$explA[1];//Desencriptar documento
+            $accion = $expA[0].'"'.$persona.'"';
+            $actividad->accion = $accion;
 
+            $expD = explode('<br>', $actividad->descripcion);//Desglosar la descripción
+            $descripcion = "";
+            for ($i=0; $i < count($expD); $i++) { 
+                $desencriptado = false;
+                $explD = explode(': ', $expD[$i]);//Desglosar el campo de información
+                if(count($explD) > 1){
+                    if($explD[0] == "Documento" || $explD[0] == "Dirección"
+                        || $explD[0] == "Teléfono" || $explD[0] == "E-mail"){//Verificar si es un dato encriptado
+                        $explD[1] = $this->desencriptar($explD[1]);
+                        $desencriptado = true;
+                    }
+                }
+                if(!$desencriptado){
+                    $descripcion .= $expD[$i] . '<br>';
+                }
+                else{//Agregar a la descripción el dato desencriptado
+                    $descripcion .= $explD[0].': '.$explD[1].'<br>';
+                }
+                $actividad->descripcion = $descripcion;//Asignar la nueva descripción al objeto
+            }
+        }
+        http_response_code(200);
         echo json_encode([
             'data' => $actividad
         ]);

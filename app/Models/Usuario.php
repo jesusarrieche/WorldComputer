@@ -88,7 +88,7 @@ class Usuario extends Persona{
             $consulta = $dbh->prepare("INSERT INTO usuarios(rol_id,documento, nombre, apellido, direccion, telefono, email, usuario, password)" 
                                                             . "VALUES (:rol_id,:documento, :nombre, :apellido, :direccion, :telefono, :email, :usuario, :password)");
 
-            $documento = $usuario->getTipoDocumento()."-".$usuario->getDocumento();
+            $documento = $usuario->getDocumento();
             $nombre = $usuario->getNombre();
             $apellido = $usuario->getApellido();
             $direccion = $usuario->getDireccion();
@@ -119,7 +119,7 @@ class Usuario extends Persona{
     public function actualizar(Usuario $u){
         try{
             $id = $u->getId();
-            $documento= $u->getTipoDocumento()."-".$u->getDocumento();
+            $documento = $u->getDocumento();
             $nombre = $u->getNombre();
             $apellido = $u->getApellido();
             $direccion = $u->getDireccion();

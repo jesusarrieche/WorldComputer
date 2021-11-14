@@ -53,7 +53,8 @@ class ClienteController extends Controller{
         $eliminar = true;
     }endforeach;
     foreach($clientes as $cliente){
-
+        $cliente->documento = $this->desencriptar($cliente->documento);
+        $cliente->telefono = $this->desencriptar($cliente->telefono);
         $cliente->button = 
         "<a href=".ROOT."cliente/mostrar/". $this->encriptar($cliente->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
         if ($editar) {
@@ -89,17 +90,16 @@ class ClienteController extends Controller{
     $cliente = new Cliente();
 
     $cliente->setId($_POST['id']);
-    $cliente->setTipoDocumento($_POST['inicial_documento']);
-    $cliente->setDocumento($_POST['documento']);
+    $cliente->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'].'-'.$_POST['documento'])));
     $cliente->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
     $cliente->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
-    $cliente->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
-    $cliente->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
-    $cliente->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
+    $cliente->setDireccion($this->encriptar(strtoupper($this->limpiaCadena($_POST['direccion']))));
+    $cliente->setTelefono($this->encriptar(strtoupper($this->limpiaCadena($_POST['telefono']))));
+    $cliente->setEmail($this->encriptar(strtoupper($this->limpiaCadena($_POST['correo']))));
     $cliente->setEstatus("ACTIVO");
 
 
-    $documento = $cliente->getTipoDocumento()."-".$cliente->getDocumento();
+    $documento = $cliente->getDocumento();
 
     $consultaDocumento = $this->cliente->query("SELECT * FROM clientes WHERE documento='$documento'" ); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
 
@@ -135,13 +135,12 @@ class ClienteController extends Controller{
     $cliente = new Cliente();
 
     $cliente->setId($_POST['id']);
-    $cliente->setTipoDocumento($_POST['inicial_documento']);
-    $cliente->setDocumento($_POST['documento']);
+    $cliente->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'].'-'.$_POST['documento'])));
     $cliente->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
     $cliente->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
-    $cliente->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
-    $cliente->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
-    $cliente->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
+    $cliente->setDireccion($this->encriptar(strtoupper($this->limpiaCadena($_POST['direccion']))));
+    $cliente->setTelefono($this->encriptar(strtoupper($this->limpiaCadena($_POST['telefono']))));
+    $cliente->setEmail($this->encriptar(strtoupper($this->limpiaCadena($_POST['correo']))));
     $cliente->setEstatus("ACTIVO");
 
     if($this->cliente->actualizar($cliente)){
@@ -168,9 +167,11 @@ class ClienteController extends Controller{
     $param = $this->desencriptar($param);
     
     $cliente = $this->cliente->getOne('clientes', $param);
-
+    $cliente->documento = $this->desencriptar($cliente->documento);
+    $cliente->direccion = $this->desencriptar($cliente->direccion);
+    $cliente->telefono = $this->desencriptar($cliente->telefono);
+    $cliente->email = $this->desencriptar($cliente->email);
     http_response_code(200);
-
     echo json_encode([
       'data' => $cliente
     ]);

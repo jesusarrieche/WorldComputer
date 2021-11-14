@@ -24,6 +24,10 @@ class PerfilController extends Controller{
 
     public function index(){
         $usuario = $this->usuario->getOne('usuarios', $_SESSION['id']);
+        $usuario->documento = $this->desencriptar($usuario->documento);
+        $usuario->direccion = $this->desencriptar($usuario->direccion);
+        $usuario->telefono = $this->desencriptar($usuario->telefono);
+        $usuario->email = $this->desencriptar($usuario->email);
         $doc = explode("-",$usuario->documento);
         $inicial_documento = $doc[0];
         $documento = $doc[1];

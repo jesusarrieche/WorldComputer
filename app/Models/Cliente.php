@@ -36,8 +36,7 @@ class Cliente extends Persona{
             $consulta = parent::connect()->prepare("INSERT INTO clientes(documento, nombre, apellido, direccion, telefono, email, estatus) "
                 . "VALUES (:documento, :nombre, :apellido, :direccion, :telefono, :email, :estatus)");
         
-            //$id = $u->getId();
-            $documento= $c->getTipoDocumento()."-".$c->getDocumento();
+            $documento= $c->getDocumento();
             $nombre = $c->getNombre();
             $apellido = $c->getApellido();
             $direccion = $c->getDireccion();
@@ -66,7 +65,7 @@ class Cliente extends Persona{
 
 
             $id = $c->getId();
-            $documento= $c->getTipoDocumento()."-".$c->getDocumento();
+            $documento= $c->getDocumento();
             $nombre = $c->getNombre();
             $apellido = $c->getApellido();
             $direccion = $c->getDireccion();

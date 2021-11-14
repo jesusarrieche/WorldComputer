@@ -7,7 +7,6 @@ use System\Core\Model;
 class Persona extends Model{
     
     private $id;
-    private $tipoDocumento;
     private $documento;
     private $nombre;
     private $apellido;
@@ -18,15 +17,7 @@ class Persona extends Model{
 
     public function __construct(){
     }
-    
-    public function getTipoDocumento() {
-        return $this->tipoDocumento;
-    }
-
-    public function setTipoDocumento($tipoDocumento) {
-        $this->tipoDocumento = $tipoDocumento;
-    }
-    
+        
     public function getId(){
         return $this->id;
     }

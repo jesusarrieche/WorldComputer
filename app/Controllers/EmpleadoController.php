@@ -53,20 +53,21 @@ class EmpleadoController extends Controller{
         $eliminar = true;
     }endforeach;
     foreach($empleados as $empleado){
-
-        $empleado->button = 
-        "<a href=".ROOT."empleado/mostrar/". $this->encriptar($empleado->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
-        if ($editar) {
-            $empleado->button .= "<a href=".ROOT."empleado/mostrar/". $this->encriptar($empleado->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
-        }
-        if ($eliminar) {
-            if($empleado->estatus == "ACTIVO"){
-                $empleado->button .= "<a href='". $this->encriptar($empleado->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
-            }
-            else{
-                $empleado->button .= "<a href='". $this->encriptar($empleado->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
-            }
-        }
+      $empleado->documento = $this->desencriptar($empleado->documento);
+      $empleado->telefono = $this->desencriptar($empleado->telefono);
+      $empleado->button = 
+      "<a href=".ROOT."empleado/mostrar/". $this->encriptar($empleado->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
+      if ($editar) {
+          $empleado->button .= "<a href=".ROOT."empleado/mostrar/". $this->encriptar($empleado->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
+      }
+      if ($eliminar) {
+          if($empleado->estatus == "ACTIVO"){
+              $empleado->button .= "<a href='". $this->encriptar($empleado->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
+          }
+          else{
+              $empleado->button .= "<a href='". $this->encriptar($empleado->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
+          }
+      }
     }
 
     http_response_code(200);
@@ -89,18 +90,17 @@ class EmpleadoController extends Controller{
     $empleado = new Empleado();
 
     $empleado->setId($_POST['id']);
-    $empleado->setTipoDocumento($_POST['inicial_documento']);
-    $empleado->setDocumento($_POST['documento']);
+    $empleado->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'].'-'.$_POST['documento'])));
     $empleado->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
     $empleado->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
-    $empleado->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
-    $empleado->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
-    $empleado->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
+    $empleado->setDireccion($this->encriptar(strtoupper($this->limpiaCadena($_POST['direccion']))));
+    $empleado->setTelefono($this->encriptar(strtoupper($this->limpiaCadena($_POST['telefono']))));
+    $empleado->setEmail($this->encriptar(strtoupper($this->limpiaCadena($_POST['correo']))));
     $empleado->setCargo(strtoupper($this->limpiaCadena($_POST['cargo'])));
     $empleado->setEstatus("ACTIVO");
 
 
-    $documento = $empleado->getTipoDocumento()."-".$empleado->getDocumento();
+    $documento = $empleado->getDocumento();
 
     $consultaDocumento = $this->empleado->query("SELECT * FROM empleados WHERE documento='$documento'" ); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
 
@@ -143,13 +143,12 @@ class EmpleadoController extends Controller{
     $empleado = new Empleado();
 
     $empleado->setId($_POST['id']);
-    $empleado->setTipoDocumento($_POST['inicial_documento']);
-    $empleado->setDocumento($_POST['documento']);
+    $empleado->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'].'-'.$_POST['documento'])));
     $empleado->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
     $empleado->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
-    $empleado->setDireccion(strtoupper($this->limpiaCadena($_POST['direccion'])));
-    $empleado->setTelefono(strtoupper($this->limpiaCadena($_POST['telefono'])));
-    $empleado->setEmail(strtoupper($this->limpiaCadena($_POST['correo'])));
+    $empleado->setDireccion($this->encriptar(strtoupper($this->limpiaCadena($_POST['direccion']))));
+    $empleado->setTelefono($this->encriptar(strtoupper($this->limpiaCadena($_POST['telefono']))));
+    $empleado->setEmail($this->encriptar(strtoupper($this->limpiaCadena($_POST['correo']))));
     $empleado->setCargo(strtoupper($this->limpiaCadena($_POST['cargo'])));
     $empleado->setEstatus("ACTIVO");
 
@@ -177,7 +176,10 @@ class EmpleadoController extends Controller{
     $param = $this->desencriptar($param);
     
     $empleado = $this->empleado->getOne('empleados', $param);
-
+    $empleado->documento = $this->desencriptar($empleado->documento);
+    $empleado->direccion = $this->desencriptar($empleado->direccion);
+    $empleado->telefono = $this->desencriptar($empleado->telefono);
+    $empleado->email = $this->desencriptar($empleado->email);
     http_response_code(200);
 
     echo json_encode([

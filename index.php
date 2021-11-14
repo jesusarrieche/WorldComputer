@@ -5,20 +5,9 @@ require_once 'vendor/autoload.php';
 $router = new \System\Core\Router();
 $view = new \System\Core\View();
 
-$whiteList = [
-    'usuario'
-];
-
 if(!isset($_SESSION)) {
     session_start();
 }
-
-// $_SESSION['isAuth'] = false;
-
-// session_destroy();
-
-// var_dump($_SESSION);
-
 
 if(!empty($_SESSION['usuario'])) {
     

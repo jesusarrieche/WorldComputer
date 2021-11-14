@@ -58,8 +58,7 @@ class Empleado extends Persona{
             $consulta = parent::connect()->prepare("INSERT INTO empleados(documento, nombre, apellido, direccion, telefono, email, cargo, estatus) "
                 . "VALUES (:documento, :nombre, :apellido, :direccion, :telefono, :email, :cargo, :estatus)");
         
-            //$id = $u->getId();
-            $documento= $c->getTipoDocumento()."-".$c->getDocumento();
+            $documento = $c->getDocumento();
             $nombre = $c->getNombre();
             $apellido = $c->getApellido();
             $direccion = $c->getDireccion();
@@ -92,7 +91,7 @@ class Empleado extends Persona{
             $consulta = parent::connect()->prepare("UPDATE empleados SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, cargo=:cargo, estatus=:estatus WHERE id=:id");
 
             $id = $c->getId();
-            $documento= $c->getTipoDocumento()."-".$c->getDocumento();
+            $documento = $c->getDocumento();
             $nombre = $c->getNombre();
             $apellido = $c->getApellido();
             $direccion = $c->getDireccion();

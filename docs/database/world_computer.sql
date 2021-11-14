@@ -14,11 +14,11 @@ USE `world_computer` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`proveedores` (
   `id` INT AUTO_INCREMENT,
-  `documento` VARCHAR(15) NOT NULL UNIQUE,
+  `documento` VARCHAR(35) NOT NULL UNIQUE,
   `razon_social` VARCHAR(45) NOT NULL,
-  `direccion` VARCHAR(45) NULL,
-  `telefono` VARCHAR(45) NULL,
-  `email` VARCHAR(45) NULL UNIQUE,
+  `direccion` TEXT NULL,
+  `telefono` VARCHAR(60) NULL,
+  `email` VARCHAR(250) NULL UNIQUE,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
 
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -33,12 +33,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`clientes` (
   `id` INT AUTO_INCREMENT,
-  `documento` VARCHAR(15) NOT NULL UNIQUE,
+  `documento` VARCHAR(35) NOT NULL UNIQUE,
   `nombre` VARCHAR(50) NULL,
   `apellido` VARCHAR(45) NULL,
-  `direccion` VARCHAR(45) NULL,
-  `telefono` VARCHAR(45) NULL,
-  `email` VARCHAR(100) NOT NULL,
+  `direccion` TEXT NULL,
+  `telefono` VARCHAR(60) NULL,
+  `email` VARCHAR(250) NOT NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
 
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -306,14 +306,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`usuarios` (
   `id` INT AUTO_INCREMENT,
-  `documento` VARCHAR(15) NOT NULL UNIQUE,
+  `documento` VARCHAR(35) NOT NULL UNIQUE,
   `nombre` VARCHAR(50) NULL,
   `apellido` VARCHAR(45) NULL,
-  `direccion` VARCHAR(200) NULL,
-  `telefono` VARCHAR(45) NULL,
-  `email` VARCHAR(100) NOT NULL UNIQUE,
+  `direccion` TEXT NULL,
+  `telefono` VARCHAR(60) NULL,
+  `email` VARCHAR(250) NOT NULL UNIQUE,
   `usuario` VARCHAR(45) NOT NULL UNIQUE,
-  `password` VARCHAR(200) NULL,
+  `password` VARCHAR(80) NULL,
   `estatus` VARCHAR(45) NULL DEFAULT 'ACTIVO',
   `rol_id` INT NOT NULL,
 
@@ -477,12 +477,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `world_computer`.`empleados` (
   `id` INT AUTO_INCREMENT,
-  `documento` VARCHAR(15) NOT NULL UNIQUE,
+  `documento` VARCHAR(35) NOT NULL UNIQUE,
   `nombre` VARCHAR(50) NULL,
   `apellido` VARCHAR(45) NULL,
-  `direccion` VARCHAR(45) NULL,
-  `telefono` VARCHAR(45) NULL,
-  `email` VARCHAR(45) NULL,
+  `direccion` TEXT NULL,
+  `telefono` VARCHAR(60) NULL,
+  `email` VARCHAR(250) NULL,
   `cargo` VARCHAR(25) NULL,
   `estatus` VARCHAR(15) NULL DEFAULT 'ACTIVO',
 
