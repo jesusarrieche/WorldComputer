@@ -8,34 +8,39 @@ use System\Core\Controller;
 use System\Core\View;
 
 
-class ClienteController extends Controller{
+class ClienteController extends Controller
+{
 
   use Utility;
 
   private $cliente;
 
-  public function __construct() {
-      $this->cliente = new Cliente;
+  public function __construct()
+  {
+    $this->cliente = new Cliente;
   }
 
-  public function index(){
+  public function index()
+  {
     $band = false;
-    foreach ($_SESSION['permisos'] as $p):
-        if ($p->permiso == "Clientes") {     
+    foreach ($_SESSION['permisos'] as $p) :
+      if ($p->permiso == "Clientes") {
         $band = true;
-    }endforeach;   
+      }
+    endforeach;
     if (!$band) {
-        header("Location: ".ROOT);
-        return false;
+      header("Location: " . ROOT);
+      return false;
     }
     return View::getView('Cliente.index');
   }
-  
-  public function listar(){
+
+  public function listar()
+  {
 
     $method = $_SERVER['REQUEST_METHOD'];
 
-    if( $method != 'POST'){
+    if ($method != 'POST') {
       http_response_code(404);
       return false;
     }
@@ -44,30 +49,31 @@ class ClienteController extends Controller{
 
     $editar = false;
     $eliminar = false;
-    foreach ($_SESSION['permisos'] as $p):
-        if ($p->permiso == "Editar Clientes") {     
+    foreach ($_SESSION['permisos'] as $p) :
+      if ($p->permiso == "Editar Clientes") {
         $editar = true;
-    }endforeach;
-    foreach ($_SESSION['permisos'] as $p):
-        if ($p->permiso == "Eliminar Clientes") {     
+      }
+    endforeach;
+    foreach ($_SESSION['permisos'] as $p) :
+      if ($p->permiso == "Eliminar Clientes") {
         $eliminar = true;
-    }endforeach;
-    foreach($clientes as $cliente){
-        $cliente->documento = $this->desencriptar($cliente->documento);
-        $cliente->telefono = $this->desencriptar($cliente->telefono);
-        $cliente->button = 
-        "<a href=".ROOT."cliente/mostrar/". $this->encriptar($cliente->id) ."' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
-        if ($editar) {
-            $cliente->button .= "<a href=".ROOT."cliente/mostrar/". $this->encriptar($cliente->id) ."' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
+      }
+    endforeach;
+    foreach ($clientes as $cliente) {
+      $cliente->documento = $this->desencriptar($cliente->documento);
+      $cliente->telefono = $this->desencriptar($cliente->telefono);
+      $cliente->button =
+        "<a href=" . ROOT . "cliente/mostrar/" . $this->encriptar($cliente->id) . "' class='mostrar btn btn-info mr-1 mb-1' title='Consultar'><i class='fas fa-search'></i></a>";
+      if ($editar) {
+        $cliente->button .= "<a href=" . ROOT . "cliente/mostrar/" . $this->encriptar($cliente->id) . "' class='editar btn btn-warning mr-1 mb-1' title='Editar'><i class='fas fa-pencil-alt'></i></a>";
+      }
+      if ($eliminar) {
+        if ($cliente->estatus == "ACTIVO") {
+          $cliente->button .= "<a href='" . $this->encriptar($cliente->id) . "' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
+        } else {
+          $cliente->button .= "<a href='" . $this->encriptar($cliente->id) . "' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
         }
-        if ($eliminar) {
-            if($cliente->estatus == "ACTIVO"){
-                $cliente->button .= "<a href='". $this->encriptar($cliente->id) ."' class='eliminar btn btn-danger mr-1 mb-1' title='Eliminar'><i class='fas fa-trash-alt'></i></a>";
-            }
-            else{
-                $cliente->button .= "<a href='". $this->encriptar($cliente->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
-            }
-        }
+      }
     }
 
     http_response_code(200);
@@ -75,14 +81,14 @@ class ClienteController extends Controller{
     echo json_encode([
       'data' => $clientes
     ]);
-
   }
 
-  public function guardar(){
+  public function guardar()
+  {
 
     $method = $_SERVER['REQUEST_METHOD'];
 
-    if( $method != 'POST'){
+    if ($method != 'POST') {
       http_response_code(404);
       return false;
     }
@@ -90,7 +96,7 @@ class ClienteController extends Controller{
     $cliente = new Cliente();
 
     $cliente->setId($_POST['id']);
-    $cliente->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'].'-'.$_POST['documento'])));
+    $cliente->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'] . '-' . $_POST['documento'])));
     $cliente->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
     $cliente->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
     $cliente->setDireccion($this->encriptar(strtoupper($this->limpiaCadena($_POST['direccion']))));
@@ -101,12 +107,12 @@ class ClienteController extends Controller{
 
     $documento = $cliente->getDocumento();
 
-    $consultaDocumento = $this->cliente->query("SELECT * FROM clientes WHERE documento='$documento'" ); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
+    $consultaDocumento = $this->cliente->query("SELECT * FROM clientes WHERE documento='$documento'"); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
 
     if ($consultaDocumento->rowCount() >= 1) {
 
       http_response_code(200);
-      
+
       echo json_encode([
         'titulo' => 'Documento Registrado',
         'mensaje' => $documento . ' Se encuentra registrado en nuestro sistema',
@@ -114,7 +120,6 @@ class ClienteController extends Controller{
       ]);
 
       return false;
-
     }
 
     $this->cliente->registrar($cliente);
@@ -126,16 +131,15 @@ class ClienteController extends Controller{
       'mensaje' => 'Cliente registrado en nuestro sistema',
       'tipo' => 'success'
     ]);
-
-
   }
 
-  public function actualizar(){
+  public function actualizar()
+  {
 
     $cliente = new Cliente();
 
     $cliente->setId($_POST['id']);
-    $cliente->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'].'-'.$_POST['documento'])));
+    $cliente->setDocumento($this->encriptar($this->limpiaCadena($_POST['inicial_documento'] . '-' . $_POST['documento'])));
     $cliente->setNombre(strtoupper($this->limpiaCadena($_POST['nombre'])));
     $cliente->setApellido(strtoupper($this->limpiaCadena($_POST['apellido'])));
     $cliente->setDireccion($this->encriptar(strtoupper($this->limpiaCadena($_POST['direccion']))));
@@ -143,15 +147,15 @@ class ClienteController extends Controller{
     $cliente->setEmail($this->encriptar(strtoupper($this->limpiaCadena($_POST['correo']))));
     $cliente->setEstatus("ACTIVO");
 
-    if($this->cliente->actualizar($cliente)){
+    if ($this->cliente->actualizar($cliente)) {
       http_response_code(200);
 
       echo json_encode([
-        'titulo' => 'Actualizacion Exitosa',
+        'titulo' => 'Actualización Exitosa',
         'mensaje' => 'Registro actualizado en nuestro sistema',
         'tipo' => 'success'
       ]);
-    }else{
+    } else {
 
       echo json_encode([
         'titulo' => 'Error al Actualizar',
@@ -159,13 +163,13 @@ class ClienteController extends Controller{
         'tipo' => 'error'
       ]);
     }
-
   }
 
-  public function mostrar($param){
+  public function mostrar($param)
+  {
 
     $param = $this->desencriptar($param);
-    
+
     $cliente = $this->cliente->getOne('clientes', $param);
     $cliente->documento = $this->desencriptar($cliente->documento);
     $cliente->direccion = $this->desencriptar($cliente->direccion);
@@ -177,18 +181,19 @@ class ClienteController extends Controller{
     ]);
   }
 
-  public function eliminar($id){
+  public function eliminar($id)
+  {
 
     $method = $_SERVER['REQUEST_METHOD'];
 
-    if( $method != 'POST'){
+    if ($method != 'POST') {
       http_response_code(404);
       return false;
     }
 
     $id = $this->desencriptar($id);
 
-    if($this->cliente->eliminar("clientes", $id)){
+    if ($this->cliente->eliminar("clientes", $id)) {
 
       http_response_code(200);
 
@@ -197,7 +202,7 @@ class ClienteController extends Controller{
         'mensaje' => 'Registro eliminado en nuestro sistema',
         'tipo' => 'success'
       ]);
-    }else{
+    } else {
       http_response_code(404);
 
       echo json_encode([
@@ -206,22 +211,21 @@ class ClienteController extends Controller{
         'tipo' => 'error'
       ]);
     }
-    
-
   }
 
-  public function habilitar($id){
+  public function habilitar($id)
+  {
 
     $method = $_SERVER['REQUEST_METHOD'];
 
-    if( $method != 'POST'){
+    if ($method != 'POST') {
       http_response_code(404);
       return false;
     }
 
     $id = $this->desencriptar($id);
 
-    if($this->cliente->habilitar("clientes", $id)){
+    if ($this->cliente->habilitar("clientes", $id)) {
 
       http_response_code(200);
 
@@ -230,7 +234,7 @@ class ClienteController extends Controller{
         'mensaje' => 'Registro habilitado en nuestro sistema',
         'tipo' => 'success'
       ]);
-    }else{
+    } else {
       http_response_code(404);
 
       echo json_encode([

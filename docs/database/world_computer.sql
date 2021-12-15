@@ -313,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `world_computer`.`usuarios` (
   `telefono` VARCHAR(60) NULL,
   `email` VARCHAR(250) NOT NULL UNIQUE,
   `usuario` VARCHAR(45) NOT NULL UNIQUE,
-  `password` VARCHAR(80) NULL,
+  `password` VARCHAR(255) NULL,
   `estatus` VARCHAR(45) NULL DEFAULT 'ACTIVO',
   `rol_id` INT NOT NULL,
 
