@@ -152,8 +152,16 @@
                                 <?php endforeach; ?>
                                 </select>
                             </div>
-
+                            <hr class="bg-secondary">
+                            <div class="form-row justify-content-center">
+                                <h4 class="text-center">Imagen de Seguridad</h4>
+                            </div>
                             <hr>
+                            <!-- <div class="form-row">
+                                    <div class="col-md-3">
+                                        <img src=""/>
+                                    </div>
+                            </div> -->
 
                             <div class="row form-group justify-content-md-center">
                                 <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
