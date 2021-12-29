@@ -101,51 +101,79 @@ trait Utility
     /*
         ESTEGANOGRAFÍA
     */
-    public function cifrarEnImagen(){//Grabar mensaje en imagen
-        $message_to_hide = "He\$ll&o";
-        $src = "public/assets/img/code.png";
-        $src_result = "public/assets/img/code_.png";
+    public function cifrarEnImagen($message, $img){//Grabar mensaje en imagen
+        $img_result = $img;
+        $img_result = str_replace(".png", "_.png", $img_result);
+        $src = "public/assets/img/seguridad/".$img;
+        $src_result = "public/assets/img/seguridad/".$img_result;
 
-        $binary_message = $this->imgBinaria($message_to_hide);
+        $binary_message = $this->imgBinaria($message);
         $message_length = strlen($binary_message);
         
         $im = imagecreatefrompng($src);//Obtener imagen a partir de fichero
-        for($x = 0; $x < $message_length; $x++){
+        $p = 0;
+
+        for($x = 0; $x < $message_length/3; $x++){
             $y = $x;
             $rgb = imagecolorat($im, $x, $y);//Obtener índice del color de un pixel
             $r = ($rgb >> 16) & 0xFF;//Obtener colores RGB
             $g = ($rgb >> 8) & 0xFF;
             $b = $rgb & 0xFF;
-
-            $newR = $r;
-            $newG = $g;
+            $newR = $this->imgBinaria($r);
+            $newG = $this->imgBinaria($g);
             $newB = $this->imgBinaria($b);
-            $newB[strlen($newB) - 1] = $binary_message[$x];//A la última posición del valor del color azul se agrega parte del mensaje
-            $newB = $this->imgString($newB);
-
+            if(isset($binary_message[$p])){//Si no existe algunas de las posiciones del mensaje se no se modifica el color
+                $newR[strlen($newR) - 1] = $binary_message[$p];
+                $newR = $this->imgString($newR);
+            }
+            else{
+                $newR = $r;
+            }
+            if(isset($binary_message[$p+1])){
+                $newG[strlen($newG) - 1] = $binary_message[$p+1];
+                $newG = $this->imgString($newG);
+            }
+            else{
+                $newG = $g;
+            }
+            if(isset($binary_message[$p+2])){
+                $newB[strlen($newB) - 1] = $binary_message[$p+2];
+                $newB = $this->imgString($newB);
+            }
+            else{
+                $newB = $b;
+            }
+            $p += 3;
             $new_color = imagecolorallocate($im, $newR, $newG, $newB);//Asignar el nuevo color con el mensaje dentro
             imagesetpixel($im, $x, $y, $new_color);//Establecer el pixel en la imagen
+            
         }
         imagepng($im, $src_result);//Crear la imagen
         imagedestroy($im);
         return true;
     }
-    public function decifrarImagen(){//Extraer mensaje desde imagen
+    public function decifrarImagen($img){//Extraer mensaje desde imagen
         $message = '';
-        $src = "public/assets/img/code_.png";
+        $src = "public/assets/img/seguridad/".$img;
         $im = imagecreatefrompng($src);//Obtener imagen a partir de un fichero
-        for($x = 0; $x < 336; $x++){
+        for($x = 0; $x < 125; $x++){
             $y = $x;
-            $rgb = imagecolorat($im, $x, $y);
+            if(!(imagecolorat($im, $x, $y))){//Si no se obtiene un color se detiene el For
+                break;
+            }
+            $rgb = imagecolorat($im, $x, $y);  
             $r = ($rgb >> 16) & 0xFF;
             $g = ($rgb >> 8) & 0xFF;
             $b = $rgb & 0xFF;
 
+            $red = $this->imgBinaria($r);
+            $green = $this->imgBinaria($g);
             $blue = $this->imgBinaria($b);
+            $message .= $red[strlen($red) - 1];
+            $message .= $green[strlen($green) - 1];
             $message .= $blue[strlen($blue) - 1];//Obtener parte del mensaje desde la última posición del valor del color azul
         }
         $message = $this->imgString($message);
-        echo "<br>".$message."<br>";
         return $message;
     }
 

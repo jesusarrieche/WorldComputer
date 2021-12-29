@@ -320,8 +320,20 @@ class UsuarioController extends Controller{
             'tipo' => 'error'
           ]);
         }
-        
-    
     }
 
+    public function cifrar(){
+        $img = "seguridad_img_0.png";
+        $mensaje = $this->encriptar("Laptops");
+        $res = $this->cifrarEnImagen($mensaje, $img);
+        echo $res;
+    }
+    
+    public function decifrar(){
+        $img = "seguridad_img_0_.png";
+        $res = $this->decifrarImagen($img);
+        echo "<br>".$res;
+        $res = $this->desencriptar($res);
+        echo "<br>".$res;
+    }
 }
