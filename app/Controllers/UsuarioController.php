@@ -108,23 +108,22 @@ class UsuarioController extends Controller{
         $usuario->setEstatus("ACTIVO");
         $usuario->setUsuario(strtoupper($this->limpiaCadena($_POST['usuario'])));
         $usuario->setPassword($contrasena);
+        $usuario->setSeguridad_img($this->decifrarImagen($this->limpiaCadena($_POST['seguridad_img'])));
+        $usuario->setSeguridad_pregunta($this->limpiaCadena($_POST['seguridad_pregunta']));
+        $usuario->setSeguridad_respuesta($this->encriptar($this->limpiaCadena($_POST['seguridad_respuesta'])));
         $usuario->setRolId(strtoupper($this->limpiaCadena($_POST['rolUsuario'])));
 
         $documento = $usuario->getDocumento();
-
-        $consultaDocumento = $this->usuario->query("SELECT * FROM usuarios WHERE documento='$documento'" ); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
+        $consultaDocumento = $this->usuario->query("SELECT * FROM usuarios WHERE documento='$documento'" ); // Verifica inexistencia de cedula, si es igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
 
         if ($consultaDocumento->rowCount() >= 1) {
-
-        http_response_code(200);
-
-        echo json_encode([
-            'titulo' => 'Documento Registrado',
-            'mensaje' => $documento . ' Se encuentra registrado en nuestro sistema',
-            'tipo' => 'error'
-        ]);
-
-        return false;
+            http_response_code(200);
+            echo json_encode([
+                'titulo' => 'Documento Registrado',
+                'mensaje' => $this->desencriptar($documento) . ' Se encuentra registrado en nuestro sistema',
+                'tipo' => 'error'
+            ]);
+            return false;
 
         } else {
 
@@ -322,18 +321,21 @@ class UsuarioController extends Controller{
         }
     }
 
-    public function cifrar(){
+    private function cifrar(){
         $img = "seguridad_img_0.png";
         $mensaje = $this->encriptar("Laptops");
         $res = $this->cifrarEnImagen($mensaje, $img);
         echo $res;
     }
     
-    public function decifrar(){
+    private function decifrar(){
         $img = "seguridad_img_0_.png";
         $res = $this->decifrarImagen($img);
         echo "<br>".$res;
         $res = $this->desencriptar($res);
         echo "<br>".$res;
+    }
+    public function des($p){
+        echo $this->desencriptar($p);
     }
 }

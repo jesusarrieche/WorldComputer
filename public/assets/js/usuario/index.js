@@ -279,25 +279,52 @@ $(document).ready(function () {
     /**
      * Eventos
      */
-    
+    var seguridadImg = "";
     $('#formularioRegistrarUsuario').submit(function (e) { 
         e.preventDefault();
-    
         let datos = new FormData(document.querySelector('#formularioRegistrarUsuario'));
         
-        if(datos.get('contrasena')==datos.get('confirmarContrasena')){
-            registrarUsuario(datos); 
-        }
-        else{
+        if(datos.get('contrasena') != datos.get('confirmarContrasena')){
             Swal.fire(
                 "Error",
                 "Las Contraseñas no coinciden",
                 "warning"
             );
+            return 0;
         }
-    
+        if(seguridadImg == ""){
+            Swal.fire(
+                "Error",
+                "Debe escoger una imagen de seguridad",
+                "warning"
+            );
+            return 0;
+        }
+        if(datos.get('seguridad_pregunta') == "" || datos.get('seguridad_respuesta') == "" ||
+        datos.get('seguridad_respuesta').length < 3 || datos.get('seguridad_respuesta').length > 20){
+            Swal.fire(
+                "Error",
+                `Escoja una pregunta de seguridad e indique la respuesta.\n
+                    Debe contener entre 3 y 20 caracteres`,
+                "warning"
+            );
+            return 0;
+        }
+        datos.append('seguridad_img', seguridadImg);
+        console.log(datos.get('seguridad_img'))
+        registrarUsuario(datos); 
     });
-    
+    const seleccionarSeguridadImg = (card, actualizar) =>{
+        if(!actualizar){
+            seguridadImg = $(card).find('img').attr('data-img');
+        }
+        $('.card-seguridad-img').removeClass('bg-primary');
+        $(card).addClass('bg-primary');
+    }
+    //Selección de imagen de seguridad
+    $('.card-seguridad-img').on('click', function(e){
+        seleccionarSeguridadImg(this, false);
+    })
     // Mostrar Usuario
     $('body').on('click', '.mostrar', function (e) { 
         e.preventDefault();
@@ -306,7 +333,6 @@ $(document).ready(function () {
     });
     
     // Editar Usuario
-    
     $('body').on('click', '.editar', function (e) {
         e.preventDefault();
         console.log($(this).attr('href'));
@@ -331,8 +357,6 @@ $(document).ready(function () {
         }
         
     });
-    
-    
     // Eliminar Usuario
     $('body').on('click', '.eliminar', function (e) {
         e.preventDefault();

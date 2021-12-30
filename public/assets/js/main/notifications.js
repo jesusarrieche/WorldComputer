@@ -30,7 +30,6 @@ $(document).ready(function() {
 
     // PETICIONES
     const getNotifications = () => {
-        console.log("GetNotifications");
         $.ajax({
             type: "POST",
             url: GLOBAL.URL+"notificacion/listar",
@@ -38,9 +37,8 @@ $(document).ready(function() {
             contentType: false,
             processData: false,
             success: function(response) {
-                console.log(response);
-
-                console.log(response.data.length);
+                // console.log(response);
+                // console.log(response.data.length);
 
                 if (response.data.length !== 0) {
 

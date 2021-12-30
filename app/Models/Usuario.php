@@ -9,6 +9,9 @@ class Usuario extends Persona{
 
     private $usuario;
     private $password;
+    private $seguridad_img;
+    private $seguridad_pregunta;
+    private $seguridad_respuesta;
     private $rol_id;
 
     public function __construct(){
@@ -25,16 +28,31 @@ class Usuario extends Persona{
     public function getPassword(){
         return $this->password;
     }
-
-
     public function setPassword($password){
         $this->password = $password;
+    }
+    public function getSeguridad_img(){
+        return $this->seguridad_img;
+    }
+    public function setSeguridad_img($seguridad_img){
+        $this->seguridad_img = $seguridad_img;
+    }
+    public function getSeguridad_pregunta(){
+        return $this->seguridad_pregunta;
+    }
+    public function setSeguridad_pregunta($seguridad_pregunta){
+        $this->seguridad_pregunta = $seguridad_pregunta;
+    }
+    public function getSeguridad_respuesta(){
+        return $this->seguridad_respuesta;
+    }
+    public function setSeguridad_respuesta($seguridad_respuesta){
+        $this->seguridad_respuesta = $seguridad_respuesta;
     }
 
     public function getRolId(){
         return $this->rol_id;
     }
-
     public function setRolId($rol_id){
         $this->rol_id = $rol_id;
     }
@@ -82,11 +100,10 @@ class Usuario extends Persona{
 
     public function registrar(Usuario $usuario){
         try{
-
             $dbh = parent::connect();
-
-            $consulta = $dbh->prepare("INSERT INTO usuarios(rol_id,documento, nombre, apellido, direccion, telefono, email, usuario, password)" 
-                                                            . "VALUES (:rol_id,:documento, :nombre, :apellido, :direccion, :telefono, :email, :usuario, :password)");
+            $consulta = $dbh->prepare("INSERT INTO usuarios(rol_id,documento, nombre, apellido, direccion, telefono, 
+                email, usuario, password, seguridad_img, seguridad_pregunta, seguridad_respuesta) VALUES (:rol_id,:documento, :nombre, :apellido, :direccion, 
+                :telefono, :email, :usuario, :password, :seguridad_img, :seguridad_pregunta, :seguridad_respuesta)");
 
             $documento = $usuario->getDocumento();
             $nombre = $usuario->getNombre();
@@ -96,6 +113,9 @@ class Usuario extends Persona{
             $email = $usuario->getEmail();
             $usuario_name = $usuario->getUsuario();
             $password = $usuario->getPassword();
+            $seguridad_img = $usuario->getSeguridad_img();
+            $seguridad_pregunta = $usuario->getSeguridad_pregunta();
+            $seguridad_respuesta = $usuario->getSeguridad_respuesta();
             $rol_id = $usuario->getRolId();
 
             $consulta->bindParam(":rol_id", $rol_id);
@@ -107,6 +127,9 @@ class Usuario extends Persona{
             $consulta->bindParam(":email", $email);
             $consulta->bindParam(":usuario", $usuario_name);
             $consulta->bindParam(":password", $password);
+            $consulta->bindParam(":seguridad_img", $seguridad_img);
+            $consulta->bindParam(":seguridad_pregunta", $seguridad_pregunta);
+            $consulta->bindParam(":seguridad_respuesta", $seguridad_respuesta);
 
             return $consulta->execute();
 

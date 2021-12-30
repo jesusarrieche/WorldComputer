@@ -143,8 +143,6 @@
                             <hr>
 
                             <div class="form-row" id="listadoRoles">
-
-
                                 <select class="form-control w-50" name="rolUsuario" id="rolUsuario">
                                 <?php foreach($roles AS $rol): ?>
                                     <option value="<?=$rol->id?>"><?=$rol->nombre?></option>
@@ -157,13 +155,54 @@
                                 <h4 class="text-center">Imagen de Seguridad</h4>
                             </div>
                             <hr>
-                            <!-- <div class="form-row">
-                                    <div class="col-md-3">
-                                        <img src=""/>
+                            <div class="form-row">
+                                <div class="col-6 col-md-3 p-1">
+                                    <div class="card p-2 card-seguridad-img">
+                                        <img src="<?= ROOT; ?>public/assets/img/seguridad/seguridad_img_0_.png" data-img="seguridad_img_0_.png"/>
                                     </div>
-                            </div> -->
-
-                            <div class="row form-group justify-content-md-center">
+                                </div>
+                                <div class="col-6 col-md-3 p-1">
+                                    <div class="card p-2 card-seguridad-img">
+                                        <img src="<?= ROOT; ?>public/assets/img/seguridad/seguridad_img_1_.png" data-img="seguridad_img_1_.png"/>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 p-1">
+                                    <div class="card p-2 card-seguridad-img">
+                                        <img src="<?= ROOT; ?>public/assets/img/seguridad/seguridad_img_2_.png" data-img="seguridad_img_2_.png"/>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 p-1">
+                                    <div class="card p-2 card-seguridad-img">
+                                        <img src="<?= ROOT; ?>public/assets/img/seguridad/seguridad_img_3_.png" data-img="seguridad_img_3_.png"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="bg-secondary">
+                            <div class="form-row justify-content-center">
+                                <h4 class="text-center">Pregunta de Seguridad</h4>
+                            </div>
+                            <hr>
+                            <div class="form-row">
+                                <div class="col-md">
+                                    <div class="form-group">
+                                        <label for="seguridad_pregunta">Password</label>
+                                        <select class="form-control w-100" name="seguridad_pregunta" id="seguridad_pregunta">
+                                            <option value="Ciudad Favorita">¿Cuál es mi ciudad favorita?</option>
+                                            <option value="Nombre primer hijo">¿Cuál es el nombre de mi primer hijo?</option>
+                                            <option value="Libro favorito">¿Cuál es mi libro favorito?</option>
+                                            <option value="Primer carro">¿Cuál fue mi primer vehículo?</option>
+                                            <option value="Apodo">¿Cuál es mi apodo?</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <div class="form-group">
+                                        <label for="seguridad_respuesta">Respuesta</label>
+                                        <input type="text" class="form-control" name="seguridad_respuesta" id="seguridad_respuesta" pattern="[A-Za-z0-9/. ]+" required minlength="3" maxlength="20">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group mt-1 justify-content-center">
                                 <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
                                 <button type="submit"  class="btn btn-success m-2">Enviar</button>
                                 <button type="reset" class="btn btn-danger m-2">Limpiar</button>
