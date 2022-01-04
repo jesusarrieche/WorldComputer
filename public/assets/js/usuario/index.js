@@ -68,7 +68,7 @@ $(document).ready(function () {
                     $(formulario).find('select#rolUsuario').val(json.data.rol_id);
                     $(formulario).find('input#contrasena').val("");
                     $(formulario).find('input#confirmarContrasena').val("");
-                    $('car-seguridad-img').removeClass('bg-primary');
+                    $('.card-seguridad-img').removeClass('bg-primary');
                     seguridadImgActu = "";
                     seguridadPreguntaActu = json.data.seguridad_pregunta;
                 }else{
@@ -266,7 +266,7 @@ $(document).ready(function () {
         mostrarUsuario($(this).attr('href'), 'form#formularioActualizarUsuario', '#modalActualizarUsuario');
     });
     
-    $('#formularioActualizarUsuario').submit(function (e) {
+    $('#formularioActualizarUsuario').submit(async function(e) {
         e.preventDefault();
         var requerirAutenticacion = false;
         let datos = new FormData(document.querySelector('#formularioActualizarUsuario'));        
@@ -292,6 +292,13 @@ $(document).ready(function () {
             requerirAutenticacion = true;
         }
         datos.append('seguridad_img', seguridadImgActu);
+        if(requerirAutenticacion){
+            let sesionAutenticada = await getSesionAutenticada();
+            if(!sesionAutenticada){
+                iniciarAutenticacion();
+                return 0;
+            }
+        }
         actualizarUsuario(datos);
     });
     // Eliminar Usuario

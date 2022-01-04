@@ -2,9 +2,24 @@ body{
     overflow-x: auto !important;
     padding: 0px !important;
 }
+*::-webkit-scrollbar{
+    width: 12px;
+    height: 12px;
+}
+*::-webkit-scrollbar-track{
+    background: rgba(235,236,241,1);
+}
+*::-webkit-scrollbar-thumb{
+    background: rgba(0,0,0,1);
+    border-radius: 2px;
+    border: 2px solid rgba(235,236,241,1);
+}
+*::-webkit-scrollbar-thumb:hover{
+    background: rgba(55,58,60,1);   
+}
 .sidebar-toggle:hover{
     /* background-color: rgba(0, 0, 0, 0.2); */
-    background-color: #373a3c;
+    background-color: rgb(55, 58, 60);
 }
 .sidebar{
     background-color: #000 !important;
@@ -33,6 +48,12 @@ body{
 .dataTables_wrapper{
     overflow-x: auto;
 }
-.card-seguridad-img:hover{
+.card-seguridad-img:hover, .card-seguridad-img-autenticar:hover{
     background: #000;
+}
+.modal{
+    overflow-y: auto !important;
+}
+.modal-autenticar-usuario{
+    background-color: rgba(0,0,0,.4);
 }

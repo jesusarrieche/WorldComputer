@@ -238,9 +238,19 @@ class Usuario extends Persona{
             $email = $user->getEmail();
             $query = parent::connect()->prepare("SELECT id FROM usuarios WHERE estatus='ACTIVO' AND email=:email");
             $query->bindParam(":email", $email);
-
             $query->execute();
+            return $query->fetch(PDO::FETCH_OBJ);
 
+        } catch ( Exception $e ) {
+            die($e->getMessage());
+        }
+    }
+    public function obtenerSeguridadPregunta() {
+        try {
+            $id = $_SESSION['id'];
+            $query = parent::connect()->prepare("SELECT seguridad_pregunta FROM usuarios WHERE id=:id");
+            $query->bindParam(":id", $id);
+            $query->execute();
             return $query->fetch(PDO::FETCH_OBJ);
 
         } catch ( Exception $e ) {
@@ -248,7 +258,25 @@ class Usuario extends Persona{
         }
     }
 
-    public function recuperarContrasena (Usuario $user) {
+    public function autenticar(Usuario $u) {
+        try {
+            $id = $_SESSION['id'];
+            $seguridad_img = $u->getSeguridad_img(); 
+            $seguridad_respuesta = $u->getSeguridad_respuesta(); 
+            $query = parent::connect()->prepare("SELECT id, usuario FROM usuarios WHERE id=:id 
+                AND seguridad_img=:seguridad_img AND seguridad_respuesta=:seguridad_respuesta");
+            $query->bindParam(":id", $id);
+            $query->bindParam(":seguridad_img", $seguridad_img);
+            $query->bindParam(":seguridad_respuesta", $seguridad_respuesta);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_OBJ);
+
+        } catch ( Exception $e ) {
+            die($e->getMessage());
+        }
+    }
+
+    public function recuperarContrasena(Usuario $user) {
         try {
             $_SESSION['id'] = $user->getId();
             $consulta = parent::connect()->prepare("UPDATE usuarios SET `password`=:password WHERE usuario = :usuario");

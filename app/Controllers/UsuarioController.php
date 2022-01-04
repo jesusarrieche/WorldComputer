@@ -332,6 +332,62 @@ class UsuarioController extends Controller{
         }
     }
 
+    public function autenticar(){
+        $method = $_SERVER['REQUEST_METHOD'];
+        if( $method != 'POST'){
+            http_response_code(404);
+            return false;
+        }
+        $usuario = new Usuario;
+        $usuario->setSeguridad_img($this->decifrarImagen($this->limpiaCadena($_POST['seguridad_img'])));
+        $usuario->setSeguridad_respuesta($this->encriptar($this->limpiaCadena($_POST['seguridad_respuesta'])));
+        $usu = $this->usuario->autenticar($usuario);
+        if(isset($usu->id)) {
+            $_SESSION['sesion_autenticada'] = true;
+            http_response_code(200);
+            echo json_encode([
+            'titulo' => 'Éxito',
+            'mensaje' => 'Tu Usuario ha sido autenticado',
+            'tipo' => 'success'
+            ]);    
+        } else{
+
+            echo json_encode([
+            'titulo' => 'Error',
+            'mensaje' => 'Tienes un intento más, si fallas otra vez se cerrará la sesión',
+            'tipo' => 'error'
+            ]);  
+        }
+    }
+
+    public function getSesionAutenticada(){
+        $method = $_SERVER['REQUEST_METHOD'];
+        if( $method != 'POST'){
+            http_response_code(404);
+            return false;
+        }
+        // echo $_SESSION['sesion_autenticada'];
+        echo json_encode([
+            'titulo' => 'Éxito',
+            'mensaje' => $_SESSION['sesion_autenticada'],
+            'tipo' => 'success'
+        ]);
+    }
+    public function getSeguridadPregunta(){
+        $method = $_SERVER['REQUEST_METHOD'];
+        if( $method != 'POST'){
+            http_response_code(404);
+            return false;
+        }
+        $usuario = new Usuario;
+        $usu = $usuario->obtenerSeguridadPregunta();
+        echo json_encode([
+            'titulo' => 'Éxito',
+            'mensaje' => $usu->seguridad_pregunta,
+            'tipo' => 'success'
+        ]);
+    }
+
     private function cifrar(){
         $img = "seguridad_img_0.png";
         $mensaje = $this->encriptar("Laptops");

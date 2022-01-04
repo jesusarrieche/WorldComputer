@@ -3,16 +3,7 @@
 
     <div class="card mb-4">
         <div class="card-header bg-white">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroUsuario" <?php $band = false;
-                                                                                                                    foreach ($_SESSION['permisos'] as $p) :
-                                                                                                                        if ($p->permiso == "Registrar Usuarios") {
-                                                                                                                            $band = true;
-                                                                                                                        }
-                                                                                                                    endforeach;
-                                                                                                                    if (!$band) {
-                                                                                                                        echo "disabled";
-                                                                                                                    }
-                                                                                                                    ?>>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroUsuario" <?php $band = false;?>>
                 <i class="fas fa-plus-square"></i> Agregar Usuarios
             </button>
         </div>
@@ -167,7 +158,7 @@
                         <div class="form-row">
                             <div class="col-md">
                                 <div class="form-group">
-                                    <label for="seguridad_pregunta">Password</label>
+                                    <label for="seguridad_pregunta">Pregunta</label>
                                     <select class="form-control w-100" name="seguridad_pregunta" id="seguridad_pregunta">
                                         <option value="Ciudad Favorita">¿Cuál es mi ciudad favorita?</option>
                                         <option value="Nombre primer hijo">¿Cuál es el nombre de mi primer hijo?</option>
@@ -249,7 +240,7 @@
 
                         <hr class="bg-secondary">
 
-                        <div class="row form-group justify-content-md-center">
+                        <div class="row form-group justify-content-center">
                             <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
                         </div>
                     </form>
@@ -414,7 +405,7 @@
                                             <div class="form-row">
                                                 <div class="col-md">
                                                     <div class="form-group">
-                                                        <label for="seguridad_pregunta">Password</label>
+                                                        <label for="seguridad_pregunta">Pregunta</label>
                                                         <select class="form-control w-100" name="seguridad_pregunta" id="seguridad_pregunta">
                                                             <option value="Ciudad Favorita">¿Cuál es mi ciudad favorita?</option>
                                                             <option value="Nombre primer hijo">¿Cuál es el nombre de mi primer hijo?</option>
@@ -437,7 +428,7 @@
                             </div>
                         </div>
                         <hr class="bg-secondary">
-                        <div class="row form-group justify-content-md-center">
+                        <div class="row form-group justify-content-center">
                             <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
                             <button type="submit" class="btn btn-success m-2">Enviar</button>
                             <button type="reset" class="btn btn-danger m-2">Limpiar</button>
@@ -449,5 +440,7 @@
         </div>
     </div>
 </div>
+
+<?php require VIEWS . "modalAutenticarUsuario.php"; ?>
 
 <script src="<?= ROOT; ?>public/assets/js/usuario/index.js"></script>
