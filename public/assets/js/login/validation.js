@@ -12,35 +12,22 @@ $(document).ready(function () {
       contentType: false,
       processData: false,
       success: function (response) {
-        
-        if (response) {
+        let res = JSON.parse(response);
+        if (res.tipo == 'success') {
           window.location = "/";
           window.location.reload();
         }
-        else{
-          console.log(response);
-          Swal.fire("!Error¡", "Ocurrió un problema al iniciar sesión", "error");
+        else {
+          Swal.fire(
+            res.titulo,
+            res.mensaje,
+            res.tipo
+          );
         }
-
-        
       },
       error: (response) => {
         console.log(response);
-        response = response.responseText;
-        console.log(response);
-        if (response == "Usuario") {
-          Swal.fire("¡Usuario incorrecto!", "Por favor verifique el usuario", "error");
-        }
-        else if (response == "Contraseña") {
-          Swal.fire("¡Contraseña incorrecta!", "La contraseña ingresada es incorrecta", "error");
-        }
-        else if (response == "Captcha") {
-          Swal.fire("¡Error!", "Ocurrió un problema al validar el Captcha", "error");
-        }
-        else{
-          Swal.fire("¡Error!", "Ocurrió un problema al iniciar sesión ", "error");
-        }
-        
+        Swal.fire("¡Error!", "Ocurrió un problema al iniciar sesión ", "error");
       },
     });
     Toast.fire({
@@ -48,7 +35,7 @@ $(document).ready(function () {
       html: 'Los datos están siendo procesados',// add html attribute if you want or remove
       allowOutsideClick: false,
       onBeforeOpen: () => {
-          Swal.showLoading()
+        Swal.showLoading()
       },
     });
   });
@@ -63,60 +50,60 @@ $(document).ready(function () {
     position: 'bottom-start',
     timer: 2500,
     showConfirmButton: false,
-});
+  });
 
   //---- JS funcionalidad recuperar contraseña
 
   $('#recuperarContrasena').on('click', function () {
-      $('#modalRecuperarContrasena').modal('show');
+    $('#modalRecuperarContrasena').modal('show');
   });
 
 
   const enviarCorreoRecuperacion = (datos) => {
 
-      $.ajax({
-          type: "POST",
-          url: "Login/linkRecuperacion",
-          data: datos,
-          cache: false,
-          contentType: false,
-          processData: false,
-          success: function (response) {
-            console.log("R: "+response);
-              let json = JSON.parse(response);
+    $.ajax({
+      type: "POST",
+      url: "Login/linkRecuperacion",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        console.log("R: " + response);
+        let json = JSON.parse(response);
 
-              console.log(json);
-              
-              if( !json.error ){
-                $('#modalRecuperarContrasena').modal('hide');
+        console.log(json);
 
-                ToastAlert.fire({
-                  title: '',
-                  icon: 'success',
-                  html: `${json.message}`,
-                  allowOutsideClick: false,
-                });
+        if (!json.error) {
+          $('#modalRecuperarContrasena').modal('hide');
 
-                $('#linkRecuperacion').text(json.link);
-                $('#simulacionCorreo').toast('show');
-              } else {
-                ToastAlert.fire("¡Error!", json.message, "error");
-              }
-          },
-          error: (response) => {
-              console.log(response);
-              
-          }
-      });
+          ToastAlert.fire({
+            title: '',
+            icon: 'success',
+            html: `${json.message}`,
+            allowOutsideClick: false,
+          });
+
+          $('#linkRecuperacion').text(json.link);
+          $('#simulacionCorreo').toast('show');
+        } else {
+          ToastAlert.fire("¡Error!", json.message, "error");
+        }
+      },
+      error: (response) => {
+        console.log(response);
+
+      }
+    });
   }
 
 
   $('#formularioRecuperarContrasena').on('submit', function (e) {
-      e.preventDefault();
+    e.preventDefault();
 
-      let datos = new FormData(document.querySelector('#formularioRecuperarContrasena'));
+    let datos = new FormData(document.querySelector('#formularioRecuperarContrasena'));
 
-      enviarCorreoRecuperacion(datos);
+    enviarCorreoRecuperacion(datos);
 
   })
 

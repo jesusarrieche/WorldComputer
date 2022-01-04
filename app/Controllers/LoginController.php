@@ -52,68 +52,54 @@ class LoginController extends Controller{
         
         if($response) {
             if(!$this->verificarContrasena($this->limpiaCadena($_POST['password']),$response->password)){
-                http_response_code(404); 
-                echo "Contraseña";
+                echo json_encode([
+                    'titulo' => '¡Contraseña incorrecta!',
+                    'mensaje' => 'La contraseña ingresada es incorrecta',
+                    'tipo' => 'error',
+                ]);
                 return false;
             }
             // Validación del Captcha
-            //Captcha comentado
             // if (!isset($_POST['token-r'])) {
-            //     http_response_code(404); 
-            //     echo "Captcha";
+            //     echo json_encode([
+            //         'titulo' => '¡Error!',
+            //         'mensaje' => 'Ocurrió un problema al validar el Captcha',
+            //         'tipo' => 'error',
+            //     ]);
             //     return false;
             // }
             // $googleToken = $_POST['token-r'];
-           
             // $recaptcha = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".SECRET_KEY."&response=".$googleToken); 
             // $recaptcha = json_decode($recaptcha);
-
             // $recaptcha = (array) $recaptcha;
-
-            // // var_dump($recaptcha);
             // if(!isset($recaptcha['success']) || !$recaptcha['success'] || $recaptcha['score'] < 0.3)
             // {
-            //     // header('Content-Type: application/json');
-            //     http_response_code(404); 
-            //     // echo json_encode([
-            //     //     'error' => 'true',
-            //     //     'title' => 'Error!',
-            //     //     'message' => 'Ocurrió un problema al validar el Captcha'
-            //     // ]);
-            //     echo "Captcha";
+            //     echo json_encode([
+            //         'titulo' => '¡Error!',
+            //         'mensaje' => 'Ocurrió un problema al validar el Captcha',
+            //         'tipo' => 'error',
+            //     ]);
             //     return false;
             // }
-            // var_dump($response);
-            // echo $response->documento;
 
             $_SESSION['usuario'] = $response->usuario;
             $_SESSION['id'] = $response->id;
             $_SESSION['rol'] = $response->rol_id;
+            $_SESSION['sesion_autenticada'] = false;
             $this->usuario->setRolId($response->rol_id);
             $permisos = $this->usuario->obtenerPermisos($this->usuario);
             $_SESSION['permisos'] = $permisos;
-            header('Content-Type: application/json');
             http_response_code(200);
-
-
             echo json_encode([
-                'success' => true
-            ]);
-        
+                'tipo' => 'success', 'mensaje' => 'Sesión Iniciada'
+            ]);        
         } else {
-            // header('Content-Type: application/json');
-            http_response_code(404); 
-            // echo json_encode([
-            //     'error' => 'true',
-            //     'title' => '¡Usuario o contraseña incorrecta!',
-            //     'message' => 'Por favor verifique el usuario y la contraseña'
-            // ]);
-            echo "Usuario";
-            return false;
-        }
-        
-        
-
+            echo json_encode([
+                'titulo' => '¡Usuario incorrecto!',
+                'mensaje' => 'Por favor verifique el usuario',
+                'tipo' => 'error',
+            ]);
+        }    
     }
 
     public function linkRecuperacion () {
