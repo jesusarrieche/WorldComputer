@@ -468,8 +468,8 @@ public function servicioPrestadoPDF($param){
           http_response_code(200);
       
           echo json_encode([
-            'titulo' => 'Error Inesperado',
-            'mensaje' => 'Ocurrio un error durante la operacion!',
+            'titulo' => 'Error',
+            'mensaje' => 'Ocurrio un error durante la operación',
             'tipo' => 'error'
           ]);
       }
@@ -519,7 +519,7 @@ public function servicioPrestadoPDF($param){
           http_response_code(200);
     
           echo json_encode([
-            'titulo' => "Servicio $nombre ya existe!",
+            'titulo' => "Servicio $nombre ya existe",
             'mensaje' => 'Por favor intente de nuevo',
             'tipo' => 'error'
           ]);
@@ -601,7 +601,7 @@ public function servicioPrestadoPDF($param){
         http_response_code(404);
   
         echo json_encode([
-          'titulo' => 'Ocurio un error!',
+          'titulo' => 'Ocurrió un error!',
           'mensaje' => 'No se pudo habilitar el registro',
           'tipo' => 'error'
         ]);

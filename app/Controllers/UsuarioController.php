@@ -35,8 +35,13 @@ class UsuarioController extends Controller{
             return false;
         }
         $roles = $this->rol->listar();
-        
-        return View::getView('Usuario.index', 'roles', $roles);
+        $seguridad_imgs = [
+            'seguridad_img_0_.png', 'seguridad_img_1_.png', 'seguridad_img_2_.png', 'seguridad_img_3_.png'
+        ];
+        return View::getView('Usuario.index', [
+            'roles' => $roles,
+            'seguridad_imgs' => $seguridad_imgs
+        ]);
     }
 
     public function listar(){
@@ -170,6 +175,13 @@ class UsuarioController extends Controller{
             $contrasena = $this->encriptarContrasena($this->limpiaCadena($_POST['contrasena']));
             $usuario->setPassword($contrasena);
         }
+        if ($_POST['seguridad_img']!="") {
+            $usuario->setSeguridad_img($this->decifrarImagen($this->limpiaCadena($_POST['seguridad_img'])));
+        }
+        $usuario->setSeguridad_pregunta($this->limpiaCadena($_POST['seguridad_pregunta']));
+        if ($_POST['seguridad_respuesta']!="") {
+            $usuario->setSeguridad_respuesta($this->encriptar($this->limpiaCadena($_POST['seguridad_respuesta'])));
+        }
         if(isset($_POST['rolUsuario']) && $_POST['rolUsuario']!=""){
             $usuario->setRolId(strtoupper($this->limpiaCadena($_POST['rolUsuario'])));
         }
@@ -179,7 +191,6 @@ class UsuarioController extends Controller{
         if (isset($_POST['perfil']) && $_POST['perfil']!="") {
             if ($usuario->getId()==1 && $usuario->getRolId()!=1) {
                 http_response_code(200);
-
                 echo json_encode([
                     'titulo' => 'Alerta',
                     'mensaje' => 'Este usuario no puede perder el rol de "Super Administrador"',
@@ -195,7 +206,7 @@ class UsuarioController extends Controller{
                 $usu = $this->usuario->getOne("usuarios",$usuario->getId());
                 if($usu->rol_id=="1"){
                     echo json_encode([
-                        'titulo' => 'Ocurrió un error!',
+                        'titulo' => 'Ocurrió un error',
                         'mensaje' => "El Sistema debe tener como mínimo un usuario de tipo Super Administrador",
                         'tipo' => 'error'
                     ]);
@@ -215,7 +226,7 @@ class UsuarioController extends Controller{
             http_response_code(200);
 
             echo json_encode([
-                'titulo' => 'Actualizacion Exitosa',
+                'titulo' => 'Actualización Exitosa',
                 'mensaje' => 'Registro actualizado en nuestro sistema',
                 'tipo' => 'success'
             ]);
@@ -241,7 +252,7 @@ class UsuarioController extends Controller{
         $usuario->email = $this->desencriptar($usuario->email);
         http_response_code(200);
         echo json_encode([
-        'data' => $usuario
+            'data' => $usuario
         ]);
     }
 
@@ -261,7 +272,7 @@ class UsuarioController extends Controller{
             $admin = $this->usuario->query("SELECT id FROM usuarios WHERE rol_id=1 AND estatus='ACTIVO'")->rowCount();
             if($admin == 1){
                 echo json_encode([
-                    'titulo' => 'Ocurrió un error!',
+                    'titulo' => 'Ocurrió un error',
                     'mensaje' => "El Sistema debe tener como mínimo un usuario de tipo Super Administrador",
                     'tipo' => 'error'
                 ]);
@@ -314,7 +325,7 @@ class UsuarioController extends Controller{
           http_response_code(404);
     
           echo json_encode([
-            'titulo' => 'Ocurio un error!',
+            'titulo' => 'Ocurrió un error!',
             'mensaje' => 'No se pudo habilitar el registro',
             'tipo' => 'error'
           ]);

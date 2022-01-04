@@ -38,7 +38,7 @@
 </head>
 <body class="bg-light">
 <nav class="navbar navbar-expand navbar-dark bg-primary w-100" id="navbar">
-    <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
+    <a class="sidebar-toggle p-1 mr-3" href="#"><i class="fa fa-bars fa-2x"></i></a>
     <a class="navbar-brand" href="<?= ROOT;?>">
         <img src="<?= ROOT; ?>public/assets/img/w&cLogoMiniWhite.png" alt="" style="height:30px; max-height:50%">
     </a>

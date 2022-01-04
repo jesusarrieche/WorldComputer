@@ -45,74 +45,35 @@ $(document).ready(function () {
                     }
         }
     });
-    
-    
-    
+    /**
+     * VARIABLES
+     */
+    var seguridadImg = "", seguridadImgActu = "";
+    var seguridadPreguntaActu = "";
     /**
      * FUNCIONES
-     */
-
-    const cargarRoles = () => {
-        $.ajax({
-            type: "POST",
-            url: href,
-            success: function (response) {
-                let json = JSON.parse(response);
-    
-                if(modal == '#modalActualizarUsuario'){
-                    let doc = json.data.documento.split('-');
-                    let inicial = doc[0];
-                    let documento = doc[1];
-    
-                    console.log(doc);
-                    $(formulario).find('input#documento').val(documento);
-                    $(formulario).find('select#inicial_documento').val(inicial);
-    
-                }else{
-                    $(formulario).find('input#documento').val(json.data.documento);
-    
-                }
-    
-                $(formulario).find('input#id').val(json.data.id);
-                $(formulario).find('input#nombre').val(json.data.nombre);
-                $(formulario).find('input#apellido').val(json.data.apellido);
-                $(formulario).find('input#telefono').val(json.data.telefono);
-                $(formulario).find('input#correo').val(json.data.email);
-                $(formulario).find('input#direccion').val(json.data.direccion);
-    
-                $(modal).modal('show');
-                
-            },
-            error: (response) => {
-                console.log(response);
-            }
-        });
-    }
-    
+     */    
     const mostrarUsuario = (href, formulario, modal) => {
         $.ajax({
             type: "POST",
             url: href,
             success: function (response) {
                 let json = JSON.parse(response);
-            
                 if(modal == '#modalActualizarUsuario'){
                     let doc = json.data.documento.split('-');
                     let inicial = doc[0];
                     let documento = doc[1];
-    
-                    console.log(doc);
                     $(formulario).find('input#documento').val(documento);
                     $(formulario).find('select#inicial_documento').val(inicial);
                     $(formulario).find('select#rolUsuario').val(json.data.rol_id);
                     $(formulario).find('input#contrasena').val("");
                     $(formulario).find('input#confirmarContrasena').val("");
-    
+                    $('car-seguridad-img').removeClass('bg-primary');
+                    seguridadImgActu = "";
+                    seguridadPreguntaActu = json.data.seguridad_pregunta;
                 }else{
                     $(formulario).find('input#documento').val(json.data.documento);
-    
-                }
-    
+                }    
                 $(formulario).find('input#id').val(json.data.id);
                 $(formulario).find('input#nombre').val(json.data.nombre);
                 $(formulario).find('input#apellido').val(json.data.apellido);
@@ -120,14 +81,12 @@ $(document).ready(function () {
                 $(formulario).find('input#correo').val(json.data.email);
                 $(formulario).find('input#direccion').val(json.data.direccion);
                 $(formulario).find('input#usuario').val(json.data.usuario);
-                
     
                 $(modal).modal('show');
-    
             },
             error: function(response) {
              console.log(response.getAllResponseHeaders())
-         }
+            }
         });
     }
     
@@ -139,19 +98,14 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
-
                 let json = JSON.parse(response);
-                
                 if( json.tipo == 'success'){
-    
                     Swal.fire(
                         json.titulo,
                         json.mensaje,
                         json.tipo
-                    );
-        
-                    table.ajax.reload();
-        
+                    );        
+                    table.ajax.reload();        
                     $('#modalRegistroUsuario').modal('hide');
                     $('#formularioRegistrarUsuario').trigger('reset');
                 }else{
@@ -161,33 +115,12 @@ $(document).ready(function () {
                         json.tipo
                     );
                 }
-    
             },
             error: (response) => {
                 console.log(response);
                 
             }
         });
-
-    
-        // fetch('cliente/guardar', { method: 'POST', body: datos })
-        // .then((response) => {
-        //     console.log(response);
-        //     return response.json();
-        // })
-        // .then((json) => {
-        //     Swal.fire(
-        //         json.titulo,
-        //         json.mensaje,
-        //         json.tipo
-        //     )
-    
-        //     table.ajax.reload();
-        //     
-        // })
-        // .catch( (response) => {
-        //     console.log(response);
-        // });
     }
     
     const actualizarUsuario = (datos) => {
@@ -200,7 +133,6 @@ $(document).ready(function () {
             processData: false,
             success: function (response) {
                 let json = JSON.parse(response);
-                
                 if( json.tipo == 'success'){
     
                     Swal.fire(
@@ -208,10 +140,9 @@ $(document).ready(function () {
                         json.mensaje,
                         json.tipo
                     );
-        
                     table.ajax.reload();
-        
                     $('#modalActualizarUsuario').modal('hide');
+                    $('#formularioActualizarUsuario').trigger('reset');
                 }else{
                     Swal.fire(
                         json.titulo,
@@ -238,7 +169,6 @@ $(document).ready(function () {
                         'El registro ha sido eliminado!',
                         'success'
                       )
-    
                     table.ajax.reload();
                 }
                 else{
@@ -279,7 +209,6 @@ $(document).ready(function () {
     /**
      * Eventos
      */
-    var seguridadImg = "";
     $('#formularioRegistrarUsuario').submit(function (e) { 
         e.preventDefault();
         let datos = new FormData(document.querySelector('#formularioRegistrarUsuario'));
@@ -314,48 +243,56 @@ $(document).ready(function () {
         console.log(datos.get('seguridad_img'))
         registrarUsuario(datos); 
     });
-    const seleccionarSeguridadImg = (card, actualizar) =>{
-        if(!actualizar){
-            seguridadImg = $(card).find('img').attr('data-img');
-        }
-        $('.card-seguridad-img').removeClass('bg-primary');
-        $(card).addClass('bg-primary');
-    }
     //Selección de imagen de seguridad
     $('.card-seguridad-img').on('click', function(e){
-        seleccionarSeguridadImg(this, false);
+        if($(this).attr('data-action') == "registrar"){
+            seguridadImg = $(this).attr('data-img');
+        }
+        else{
+            seguridadImgActu = $(this).attr('data-img');
+        }
+        $('.card-seguridad-img').removeClass('bg-primary');
+        $(this).addClass('bg-primary');
     })
     // Mostrar Usuario
     $('body').on('click', '.mostrar', function (e) { 
         e.preventDefault();
-    
         mostrarUsuario($(this).attr('href'),'form#formularioMostrarUsuario','#modalMostrarUsuario');
     });
     
     // Editar Usuario
     $('body').on('click', '.editar', function (e) {
         e.preventDefault();
-        console.log($(this).attr('href'));
-    
         mostrarUsuario($(this).attr('href'), 'form#formularioActualizarUsuario', '#modalActualizarUsuario');
     });
     
     $('#formularioActualizarUsuario').submit(function (e) {
         e.preventDefault();
-    
-        const datos = new FormData(document.querySelector('#formularioActualizarUsuario'));
-    
-        if(datos.get('contrasena')==datos.get('confirmarContrasena')){
-            actualizarUsuario(datos);
-        }
-        else{
+        var requerirAutenticacion = false;
+        let datos = new FormData(document.querySelector('#formularioActualizarUsuario'));        
+        if(datos.get('contrasena') != datos.get('confirmarContrasena')){
             Swal.fire(
                 "Error",
                 "Las Contraseñas no coinciden",
                 "warning"
             );
+            return 0;
         }
-        
+        if(datos.get('seguridad_respuesta') != "" &&
+            (datos.get('seguridad_respuesta').length < 3 || datos.get('seguridad_respuesta').length > 20)){
+            Swal.fire(
+                "Error",
+                `Escoja una pregunta de seguridad e indique la respuesta.\n
+                    Debe contener entre 3 y 20 caracteres`,
+                "warning"
+            );
+            return 0;
+        }
+        if(seguridadImgActu != "" || datos.get('seguridad_pregunta') != seguridadPreguntaActu || datos.get('seguridad_respuesta') != ""){
+            requerirAutenticacion = true;
+        }
+        datos.append('seguridad_img', seguridadImgActu);
+        actualizarUsuario(datos);
     });
     // Eliminar Usuario
     $('body').on('click', '.eliminar', function (e) {

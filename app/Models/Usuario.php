@@ -151,15 +151,28 @@ class Usuario extends Persona{
             $usuario = $u->getUsuario(); 
             $rol_id = $u->getRolId(); 
             $password = $u->getPassword(); 
+            $seguridad_img = $u->getSeguridad_img(); 
+            $seguridad_pregunta = $u->getSeguridad_pregunta(); 
+            $seguridad_respuesta = $u->getSeguridad_respuesta(); 
             $estatus = "ACTIVO";
-            if($password=="")
+            $sql_extra = "";
+            if($password != "")
             {
-                $consulta = parent::connect()->prepare("UPDATE usuarios SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, usuario=:usuario,rol_id=:rol_id, estatus=:estatus WHERE id=:id");
+                $sql_extra .= ", password = '$password' ";
             }
-            else{
-                $consulta = parent::connect()->prepare("UPDATE usuarios SET documento=:documento, nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, email=:email, usuario=:usuario,password=:password,rol_id=:rol_id, estatus=:estatus WHERE id=:id");
-                $consulta->bindParam(":password", $password);
+            if($seguridad_img != "")
+            {
+                $sql_extra .= ", seguridad_img = '$seguridad_img' ";
             }
+            if($seguridad_respuesta != "")
+            {
+                $sql_extra .= ", seguridad_respuesta = '$seguridad_respuesta' ";
+            }
+            $consulta = parent::connect()->prepare("UPDATE usuarios SET documento=:documento, 
+                nombre=:nombre, apellido=:apellido, direccion=:direccion, telefono=:telefono, 
+                email=:email, usuario=:usuario,rol_id=:rol_id, seguridad_pregunta=:seguridad_pregunta, 
+                estatus=:estatus $sql_extra
+                WHERE id=:id");
             $consulta->bindParam(":id", $id);
             $consulta->bindParam(":documento", $documento);
             $consulta->bindParam(":nombre", $nombre);
@@ -168,6 +181,7 @@ class Usuario extends Persona{
             $consulta->bindParam(":telefono", $telefono);
             $consulta->bindParam(":email", $email);
             $consulta->bindParam(":usuario", $usuario);
+            $consulta->bindParam(":seguridad_pregunta", $seguridad_pregunta);
             $consulta->bindParam(":rol_id", $rol_id);
             $consulta->bindParam(":estatus", $estatus);
 
