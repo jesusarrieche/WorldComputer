@@ -38,7 +38,7 @@
 
 <body>
 
-<div class="container-fluid login h-100">
+<div class="container-fluid login" style="height: 100vh !important;">
     <div class="row h-100 justify-content-center align-items-center">
         <div class="col-md-4">
                 <h1 class="text-center mb-4"><?php 
@@ -74,11 +74,13 @@
                             </div>
                             <input type="hidden" name="token-r" id="token-r">
                             <div class="row">
-                                <div class="col pr-2">
+                                <div class="col">
                                     <button type="submit" class="btn btn-block btn-primary">Iniciar sesión</button>
                                 </div>
-                                <div class="col pl-2">
-                                    <a class="btn btn-block btn-link" href="javascript:void(0);" id="recuperarContrasena">Recuperar Contraseña</a>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col">
+                                    <a class="btn btn-block btn-link" href="javascript:void(0);" id="recuperarContrasena">Recuperar Acceso</a>
                                 </div>
                             </div>
                         </form>

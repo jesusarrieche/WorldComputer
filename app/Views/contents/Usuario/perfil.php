@@ -96,15 +96,10 @@
                 </div>
 
                 <hr class="bg-secondary">
-                <?php if($_SESSION['rol']==1){?>
+                <?php if($_SESSION['rol']==1 && $_SESSION['id'] != 1){?>
 
                 <div class="form-row justify-content-center">
                     <h4 class="text-center">Rol de Usuario</h4>
-                </div>
-
-                
-                <div class="form-row">
-                    <small class=" form-text">**Por favor seleccione un rol de usuario</small>
                 </div>
                 <hr>
 
@@ -122,7 +117,99 @@
                     <input id="rolUsuarioN" name="rolUsuarioN" value="<?=$usuario->rol_id?>" hidden>
                 <?php }?>
                 <hr>
-
+                <!-- <div class="form-row mb-1">
+                    <small class=" form-text">**No es obligatorio modificar los siguientes campos</small>
+                </div> -->
+                <div class="form-row">
+                    <div class="accordion w-100" id="accordion">
+                        <!-- Cantraseña -->
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                        <h4 class="text-center">Contraseña</h4>
+                                    </button>
+                                </h5>
+                            </div>
+                            <div class="collapse " id="collapseOne" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label for="contrasena">Password</label>
+                                                <input type="password" class="form-control" name="contrasena" id="contrasena" minlength="8" maxlength="20">
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label for="confirmarContrasena">Confirmar Password</label>
+                                                <input type="password" class="form-control" name="confirmarContrasena" id="confirmarContrasena" minlength="8" maxlength="20">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Imagen de Seguridad -->
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <h4 class="text-center">Imagen de Seguridad</h4>
+                                    </button>
+                                </h5>
+                            </div>
+                            <div class="collapse " id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <?php foreach ($seguridad_imgs as $img) : ?>
+                                            <div class="col-6 col-md-3 p-1">
+                                                <div class="card p-2 card-seguridad-img" data-action="actualizar" data-img="<?= $img ?>">
+                                                    <img src="<?= ROOT; ?>public/assets/img/seguridad/<?= $img ?>" />
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pregunta de Seguridad -->
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h5 class="mb-0">
+                                    <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <h4 class="text-center">Pregunta de Seguridad</h4>
+                                    </button>
+                                </h5>
+                            </div>
+                            <div class="collapse " id="collapseThree" aria-labelledby="headingThree" data-parent="#accordion">
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label for="seguridad_pregunta">Pregunta</label>
+                                                <select class="form-control w-100" name="seguridad_pregunta" id="seguridad_pregunta">
+                                                    <option value="Ciudad Favorita">¿Cuál es mi ciudad favorita?</option>
+                                                    <option value="Nombre primer hijo">¿Cuál es el nombre de mi primer hijo?</option>
+                                                    <option value="Libro favorito">¿Cuál es mi libro favorito?</option>
+                                                    <option value="Primer carro">¿Cuál fue mi primer vehículo?</option>
+                                                    <option value="Apodo">¿Cuál es mi apodo?</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label for="seguridad_respuesta">Respuesta</label>
+                                                <input type="text" class="form-control" name="seguridad_respuesta" id="seguridad_respuesta" pattern="[A-Za-z0-9/. ]+" minlength="3" maxlength="20">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="bg-secondary">
                 <div class="row form-group justify-content-md-center">
                     <!-- <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a> -->
                     <button type="submit"  class="btn btn-success m-2">Enviar</button>
@@ -133,4 +220,8 @@
     </div>
    
 </div>
+<?php require VIEWS . "modalAutenticarUsuario.php"; ?>
+<script>
+    let seguridadPregunta = <?= json_encode($usuario->seguridad_pregunta) ?>;    
+</script>
 <script src="<?= ROOT; ?>public/assets/js/usuario/perfil.js"></script>

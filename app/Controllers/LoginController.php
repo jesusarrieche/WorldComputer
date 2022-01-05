@@ -81,10 +81,10 @@ class LoginController extends Controller{
                 if($fallos >= 3){
                     session_destroy();
                     $this->usuario->eliminar('usuarios', $id);
-                    $mensaje = "La Contraseña ingresada es incorrecta. El Usuario ha sido bloqueado";
+                    $mensaje = "La Contraseña ingresada es incorrecta. <br>El Usuario ha sido bloqueado.";
                 }
                 else{
-                    $mensaje = "La Contraseña ingresada es incorrecta. Intento fallido número $fallos. Al tercer intento fallido se bloqueará su Usuario";
+                    $mensaje = "La Contraseña ingresada es incorrecta. <br>Intento fallido número $fallos. <br>Al tercer intento fallido se bloqueará su Usuario.";
                 }
                 echo json_encode([
                     'titulo' => '¡Contraseña incorrecta!',

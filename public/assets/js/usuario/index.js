@@ -291,7 +291,6 @@ $(document).ready(function () {
         if(seguridadImgActu != "" || datos.get('seguridad_pregunta') != seguridadPreguntaActu || datos.get('seguridad_respuesta') != ""){
             requerirAutenticacion = true;
         }
-        datos.append('seguridad_img', seguridadImgActu);
         if(requerirAutenticacion){
             let sesionAutenticada = await getSesionAutenticada();
             if(!sesionAutenticada){
@@ -299,6 +298,7 @@ $(document).ready(function () {
                 return 0;
             }
         }
+        datos.append('seguridad_img', seguridadImgActu);
         actualizarUsuario(datos);
     });
     // Eliminar Usuario

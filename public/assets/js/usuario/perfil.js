@@ -8,21 +8,19 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log("R:"+response);
+                console.log("R:" + response);
                 let json = JSON.parse(response);
-                
-                if( json.tipo == 'success'){
-    
+                if (json.tipo == 'success') {
+
                     Swal.fire(
                         json.titulo,
                         json.mensaje,
                         json.tipo
                     );
-                    setTimeout(function(){
-                        window.location.reload();
-                    },1000);
-                    $('#modalActualizarUsuario').modal('hide');
-                }else{
+                    // setTimeout(function () {
+                    //     window.location.reload();
+                    // }, 1000);
+                } else {
                     Swal.fire(
                         json.titulo,
                         json.mensaje,
@@ -30,28 +28,56 @@ $(document).ready(function () {
                     );
                 }
             },
-            error(response){
+            error(response) {
                 console.log(response);
             }
         });
     }
-    
-    $('#formularioActualizarUsuario').submit(function (e) {
+    /**
+    * VARIABLES
+    */
+    var seguridadImgActu = "", seguridadPreguntaActu = seguridadPregunta;
+    //Selección de imagen de seguridad
+    $('.card-seguridad-img').on('click', function(e){
+        seguridadImgActu = $(this).attr('data-img');
+        $('.card-seguridad-img').removeClass('bg-primary');
+        $(this).addClass('bg-primary');
+        console.log(seguridadImgActu)
+    })
+
+    $('#formularioActualizarUsuario').submit(async function (e) {
         e.preventDefault();
-    
-        const datos = new FormData(document.querySelector('#formularioActualizarUsuario'));
-        console.log(datos.get('perfil'));
-        if(datos.get('contrasena')==datos.get('confirmarContrasena')){
-            console.log(datos.get('contrasena'));
-            actualizarUsuario(datos);
-        }
-        else{
+        var requerirAutenticacion = false;
+        let datos = new FormData(document.querySelector('#formularioActualizarUsuario'));
+        if (datos.get('contrasena') != datos.get('confirmarContrasena')) {
             Swal.fire(
                 "Error",
                 "Las Contraseñas no coinciden",
                 "warning"
             );
+            return 0;
         }
-        
+        if (datos.get('seguridad_respuesta') != "" &&
+            (datos.get('seguridad_respuesta').length < 3 || datos.get('seguridad_respuesta').length > 20)) {
+            Swal.fire(
+                "Error",
+                `Escoja una pregunta de seguridad e indique la respuesta.\n
+                    Debe contener entre 3 y 20 caracteres`,
+                "warning"
+            );
+            return 0;
+        }
+        if (seguridadImgActu != "" || datos.get('seguridad_pregunta') != seguridadPreguntaActu || datos.get('seguridad_respuesta') != "") {
+            requerirAutenticacion = true;
+        }
+        if (requerirAutenticacion) {
+            let sesionAutenticada = await getSesionAutenticada();
+            if (!sesionAutenticada) {
+                iniciarAutenticacion();
+                return 0;
+            }
+        }
+        datos.append('seguridad_img', seguridadImgActu);
+        actualizarUsuario(datos);
     });
 });

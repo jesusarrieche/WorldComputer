@@ -348,7 +348,7 @@ class UsuarioController extends Controller{
             http_response_code(200);
             echo json_encode([
             'titulo' => 'Éxito',
-            'mensaje' => 'Tu Usuario ha sido autenticado',
+            'mensaje' => 'Tu Usuario ha sido autenticado. <br>Puedes continuar con el proceso.',
             'tipo' => 'success'
             ]);    
         } else{
@@ -359,7 +359,7 @@ class UsuarioController extends Controller{
                 session_destroy();
                 $this->usuario->eliminar('usuarios', $id);
             }
-            $mensaje = "Datos incorrectos. Intento fallido número $fallos. Al tercer intento fallido se bloqueará su Usuario";
+            $mensaje = "Datos incorrectos. <br>Intento fallido número $fallos. <br>Al tercer intento fallido se bloqueará su Usuario.";
             echo json_encode([
             'titulo' => 'Error',
             'mensaje' => $mensaje,

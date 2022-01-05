@@ -57,3 +57,6 @@ body{
 .modal-autenticar-usuario{
     background-color: rgba(0,0,0,.4);
 }
+.accordion .card-header button:hover{
+    background-color: #FFF;
+}
