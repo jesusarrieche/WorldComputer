@@ -51,11 +51,46 @@ class LoginController extends Controller{
         $response = $this->usuario->checkUser($this->usuario);
         
         if($response) {
+            if($response->estatus != 'ACTIVO'){
+                echo json_encode([
+                    'titulo' => '¡Usuario Bloqueado!',
+                    'mensaje' => 'El Usuario se encuentra bloqueado',
+                    'tipo' => 'error',
+                ]);
+                return false;
+            }
             if(!$this->verificarContrasena($this->limpiaCadena($_POST['password']),$response->password)){
+                $id = $response->id;
+                $usuario = $response->usuario;
+                if(isset($_SESSION['sesion_fallos_iniciar_tiempo'])){
+                    $tiempo = time();
+                    $tiempo_transcurrido = $tiempo - $_SESSION['sesion_fallos_iniciar_tiempo'];
+                    $tiempo_limite = 60 * 60 * 12;
+                    if($tiempo_transcurrido > $tiempo_limite){
+                        $_SESSION['sesion_fallos_iniciar'] = null;
+                    }
+                }
+                if(isset($_SESSION['sesion_fallos_iniciar']["$usuario"])){
+                    $_SESSION['sesion_fallos_iniciar']["$usuario"] += 1;
+                }
+                else{
+                    $_SESSION['sesion_fallos_iniciar']["$usuario"] = 1;
+                    $_SESSION['sesion_fallos_iniciar_tiempo'] = time();
+                }
+                $fallos = $_SESSION['sesion_fallos_iniciar']["$usuario"];
+                if($fallos >= 3){
+                    session_destroy();
+                    $this->usuario->eliminar('usuarios', $id);
+                    $mensaje = "La Contraseña ingresada es incorrecta. El Usuario ha sido bloqueado";
+                }
+                else{
+                    $mensaje = "La Contraseña ingresada es incorrecta. Intento fallido número $fallos. Al tercer intento fallido se bloqueará su Usuario";
+                }
                 echo json_encode([
                     'titulo' => '¡Contraseña incorrecta!',
-                    'mensaje' => 'La contraseña ingresada es incorrecta',
+                    'mensaje' => $mensaje,
                     'tipo' => 'error',
+                    'fallos' => $fallos
                 ]);
                 return false;
             }
@@ -86,6 +121,7 @@ class LoginController extends Controller{
             $_SESSION['id'] = $response->id;
             $_SESSION['rol'] = $response->rol_id;
             $_SESSION['sesion_autenticada'] = false;
+            $_SESSION['sesion_fallos_autenticacion'] = 0;
             $this->usuario->setRolId($response->rol_id);
             $permisos = $this->usuario->obtenerPermisos($this->usuario);
             $_SESSION['permisos'] = $permisos;
@@ -250,24 +286,19 @@ class LoginController extends Controller{
     public function logout() {
         unset($_COOKIE['title']);
         if (session_destroy()) {
-
             http_response_code(200);
             header('Content-Type: application/json');
 
             echo json_encode([
                 'message' => 'Sesion finalizada'
             ]);
-
         } else {
-
             http_response_code(404);
             header('Content-Type: application/json');
-
             echo json_encode([
                 'error' => true,
                 'message' => 'Error al finalizar la Sesion'
             ]);
         }
-
     }
 }

@@ -83,7 +83,7 @@ class Model extends Database{
 
     public function eliminar($tabla, $id){    //Metodo elimina logicamente un registro
         try{
-            $consulta = parent::connect()->prepare("UPDATE $tabla SET estatus='ELIMINADO' WHERE id=$id");
+            $consulta = parent::connect()->prepare("UPDATE $tabla SET estatus='INACTIVO' WHERE id=$id");
 
             return $consulta->execute();
 

@@ -344,6 +344,7 @@ class UsuarioController extends Controller{
         $usu = $this->usuario->autenticar($usuario);
         if(isset($usu->id)) {
             $_SESSION['sesion_autenticada'] = true;
+            $_SESSION['sesion_fallos_autenticacion'] = 0;
             http_response_code(200);
             echo json_encode([
             'titulo' => 'Éxito',
@@ -351,11 +352,19 @@ class UsuarioController extends Controller{
             'tipo' => 'success'
             ]);    
         } else{
-
+            $id = $_SESSION['id'];
+            $_SESSION['sesion_fallos_autenticacion'] += 1;
+            $fallos = $_SESSION['sesion_fallos_autenticacion'];
+            if($fallos >= 3){
+                session_destroy();
+                $this->usuario->eliminar('usuarios', $id);
+            }
+            $mensaje = "Datos incorrectos. Intento fallido número $fallos. Al tercer intento fallido se bloqueará su Usuario";
             echo json_encode([
             'titulo' => 'Error',
-            'mensaje' => 'Tienes un intento más, si fallas otra vez se cerrará la sesión',
-            'tipo' => 'error'
+            'mensaje' => $mensaje,
+            'tipo' => 'error',
+            'fallos' => $_SESSION['sesion_fallos_autenticacion']
             ]);  
         }
     }
@@ -366,13 +375,13 @@ class UsuarioController extends Controller{
             http_response_code(404);
             return false;
         }
-        // echo $_SESSION['sesion_autenticada'];
         echo json_encode([
             'titulo' => 'Éxito',
             'mensaje' => $_SESSION['sesion_autenticada'],
             'tipo' => 'success'
         ]);
     }
+    
     public function getSeguridadPregunta(){
         $method = $_SERVER['REQUEST_METHOD'];
         if( $method != 'POST'){
@@ -386,23 +395,5 @@ class UsuarioController extends Controller{
             'mensaje' => $usu->seguridad_pregunta,
             'tipo' => 'success'
         ]);
-    }
-
-    private function cifrar(){
-        $img = "seguridad_img_0.png";
-        $mensaje = $this->encriptar("Laptops");
-        $res = $this->cifrarEnImagen($mensaje, $img);
-        echo $res;
-    }
-    
-    private function decifrar(){
-        $img = "seguridad_img_0_.png";
-        $res = $this->decifrarImagen($img);
-        echo "<br>".$res;
-        $res = $this->desencriptar($res);
-        echo "<br>".$res;
-    }
-    public function des($p){
-        echo $this->desencriptar($p);
     }
 }

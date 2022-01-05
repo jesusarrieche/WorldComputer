@@ -20,7 +20,6 @@ class Usuario extends Persona{
     public function getUsuario(){
         return $this->usuario;
     }
-
     public function setUsuario($usuario){
         $this->usuario = $usuario;
     }
@@ -59,9 +58,7 @@ class Usuario extends Persona{
 
     public function listar(){
         try{
-
             $user = $_SESSION['usuario'];
-
             $consulta = parent::connect()->prepare("SELECT u.id, u.documento, CONCAT(u.nombre, ' ', u.apellido) AS nombre, u.usuario, r.nombre AS rol, u.telefono, u.estatus FROM 
                 usuarios u
                     JOIN
@@ -199,7 +196,7 @@ class Usuario extends Persona{
     
     public function checkUser(Usuario $user) {
         try {
-            $query = parent::connect()->prepare("SELECT id, documento, nombre, apellido, email, usuario, estatus, rol_id, password FROM usuarios WHERE estatus='ACTIVO' AND usuario=:usuario");
+            $query = parent::connect()->prepare("SELECT id, documento, nombre, apellido, email, usuario, estatus, rol_id, password FROM usuarios WHERE usuario=:usuario");
             // $query = parent::connect()->prepare("SELECT id, documento, nombre, apellido, email, usuario, estatus, rol_id FROM usuarios WHERE estatus='ACTIVO' AND usuario=:usuario AND password=:password");
             
             $query->bindParam(":usuario", $user->usuario);

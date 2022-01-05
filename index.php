@@ -33,19 +33,15 @@ if(!empty($_SESSION['usuario'])) {
             else{
                 $view->getView("Error.index");
             }
-            
         }
         else{
             $view->getView("Error.index");
         }   
     }
-    
 } else {
-    
     $controller = "App\\Controllers\\LoginController";
     $method = $router->getMethod();
     $param = $router->getParam();
-    
     $controller = new $controller();
     $controller->$method($param);
 }

@@ -27,6 +27,9 @@ const autenticarUsuario = (datos) =>{
                     json.mensaje,
                     json.tipo
                 );
+                if(json.fallos >= 3){
+                    location.reload()
+                }
             }
         },
         error: (response) => {
@@ -82,7 +85,7 @@ function iniciarAutenticacion(){
     });
     ToastAlert.fire({
         title: 'Alerta',
-        html: 'Debe Autenticar su Usuario para poder continuar con el proceso',
+        html: 'Debe autenticar su Usuario para poder continuar con el proceso',
         icon: 'info',
     })
     $('#modalAutenticarUsuario').modal('show');
