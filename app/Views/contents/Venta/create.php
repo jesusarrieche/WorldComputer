@@ -1,4 +1,4 @@
-<div class="content p-42">
+<div class="content">
     <form action="<?= ROOT;?>Venta/guardar" method="post" id="formularioCompra">
         <input type="hidden" name="dolar" id="dolar">
         <input type="hidden" name="iva" id="iva">

@@ -44,11 +44,9 @@
     </a>
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav ml-auto">
-            <div class="">
-                <div id="cantidadNotificaciones" style="display: none;"></div>
-            </div>
-            <li class="nav-item">
-                <i class="fas fa-bell nav-link" id="bell"></i>
+            
+            <li class="nav-item mr-2">
+                <i class="fas fa-bell nav-link" id="bell"><div id="cantidadNotificaciones" style="display: none;"></div></i>
                 <div class="notifications" id="box" style="display: none;">
                     <h2>Notificaciones <i id="getout" class="fas fa-times"></i></h2>
                     <!-- <div class="notifications-item"> <img src="https://i.imgur.com/uIgDDDd.jpg" alt="img">

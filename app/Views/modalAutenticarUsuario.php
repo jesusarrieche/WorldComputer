@@ -1,3 +1,8 @@
+<?php
+    $seguridad_imgs = [
+        'seguridad_img_0_.png', 'seguridad_img_1_.png', 'seguridad_img_2_.png', 'seguridad_img_3_.png'
+    ];
+?>
 <div class="modal fade modal-autenticar-usuario" id="modalAutenticarUsuario" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

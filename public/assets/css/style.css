@@ -60,3 +60,8 @@ body{
 .accordion .card-header button:hover{
     background-color: #FFF;
 }
+.modal-dialog{
+    display: flex;
+    min-height: 90vh;
+    align-items: center;
+}

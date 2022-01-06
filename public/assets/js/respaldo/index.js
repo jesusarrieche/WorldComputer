@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    const respaldar = ()=>{
+    const respaldar = () => {
         Toast.fire({
             title: 'Espere!',
             html: 'Se está creando el respaldo',// add html attribute if you want or remove
@@ -12,41 +12,41 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "respaldo/respaldar",
-            data: {'respaldo': "respaldar"},
+            data: { 'respaldo': "respaldar" },
             success: function (response) {
                 // console.log(response);
-                let json = JSON.parse(response); 
+                let json = JSON.parse(response);
                 if (json.success) {
                     controlarMax();
                     Swal.fire(
                         "Excelente!",
-                         "El Respaldo se creó correctamente",
-                         "success"
-                     );
-                     setTimeout(function(){
+                        "El Respaldo se creó correctamente",
+                        "success"
+                    );
+                    setTimeout(function () {
                         window.location.reload();
-                    },700);
+                    }, 700);
                 }
-                else{
+                else {
                     Swal.fire(
                         "Error!",
-                         "Ocurrió un error durante la creación del respaldo",
-                         "error"
-                     );
+                        "Ocurrió un error durante la creación del respaldo",
+                        "error"
+                    );
                 }
-              
+
             },
             error: (response) => {
-                console.log("Error: "+response);
+                console.log("Error: " + response);
                 Swal.fire(
                     "Error!",
-                     "Ocurrió un error durante la creación del respaldo",
-                     "error"
-                 );
+                    "Ocurrió un error durante la creación del respaldo",
+                    "error"
+                );
             }
         });
     }
-    const restaurar = ()=>{
+    const restaurar = () => {
         Toast.fire({
             title: 'Espere!',
             html: 'Se está realizando la restauración',// add html attribute if you want or remove
@@ -58,7 +58,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "respaldo/restaurar",
-            data: {'respaldo': $('[name="respaldo"]').val()},
+            data: { 'respaldo': $('[name="respaldo"]').val() },
             success: function (response) {
                 // console.log(response);
                 // let json = JSON.parse(response); 
@@ -66,41 +66,41 @@ $(document).ready(function () {
                 // response = response.toString();
                 var result = response.search('{"success":true}');
                 // console.log("Result es "+result);
-                if (result!=-1) {
+                if (result != -1) {
                     Swal.fire(
                         "Excelente!",
-                         "La Restauración se realizó correctamente",
-                         "success"
-                     );
+                        "La Restauración se realizó correctamente",
+                        "success"
+                    );
                     //  setTimeout(function(){
                     //     window.location.reload();
                     // },700);
                 }
-                else{
+                else {
                     Swal.fire(
                         "Error!",
-                         "Ocurrió un error durante la restauración",
-                         "error"
-                     );
+                        "Ocurrió un error durante la restauración",
+                        "error"
+                    );
                 }
-              
+
             },
             error: (response) => {
-                console.log("Error: "+response);
+                console.log("Error: " + response);
                 Swal.fire(
                     "Error!",
-                     "Ocurrió un error durante la restauración",
-                     "error"
-                 );
+                    "Ocurrió un error durante la restauración",
+                    "error"
+                );
             }
         });
     }
 
-    const controlarMax = ()=>{
+    const controlarMax = () => {
         $.ajax({
             type: "POST",
             url: "respaldo/controlarMax",
-            data: {'respaldo': "controlarMax"},
+            data: { 'respaldo': "controlarMax" },
             success: function (response) {
                 console.log(response);
                 let json = JSON.parse(response);
@@ -109,15 +109,19 @@ $(document).ready(function () {
                 // }
             },
             error: (response) => {
-                console.log("Error: "+response);
+                console.log("Error: " + response);
             }
         });
     }
     // controlarMax();
 
-    $('body').on('click', '#respaldar', function (e) { 
+    $('body').on('click', '#respaldar', async function (e) {
         e.preventDefault();
-        
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Confirme la acción',
             input: 'password',
@@ -141,48 +145,52 @@ $(document).ready(function () {
                 $.ajax({
                     type: "POST",
                     url: "respaldo/verificarPassword",
-                    data: {'password': login},
+                    data: { 'password': login },
                     success: function (response) {
                         console.log(response);
                         if (response.success) {
                             respaldar();
                         }
-                        else{
+                        else {
                             Swal.fire(
                                 "Incorrecto!",
-                                 "Contraseña incorrecta",
-                                 "warning"
-                             );
-                             $('#respaldar').click();
-                             Swal.showValidationMessage(
+                                "Contraseña incorrecta",
+                                "warning"
+                            );
+                            $('#respaldar').click();
+                            Swal.showValidationMessage(
                                 `Contraseña Incorrecta`
-                              )
+                            )
                         }
-                      
                     },
                     error: (response) => {
-                        console.log("Error: "+response);
+                        console.log("Error: " + response);
                         Swal.fire(
                             "Error!",
-                             "Ocurrió un error durante la verificación",
-                             "error"
-                         );
+                            "Ocurrió un error durante la verificación",
+                            "error"
+                        );
                     }
                 });
-                
+
             },
             allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                // console.log(result.isConfirmed);
+        }).then((result) => {
+            // console.log(result.isConfirmed);
         });
-        $(".swal2-content").append(`<span class="text-center m-2 spanRespaldar">Nota: Se creará un archivo de respaldo, solo puede haber un máximo de 10 archivos. 
+        $(".swal2-content").append(`<span class="text-center spanRespaldar">Nota: Se creará un archivo de respaldo, solo puede haber un máximo de 10 archivos. 
             Cuando se exceda el límite se eliminarán los más antiguos</span>`);
     });
     // Elegir Restaurar
-    $('body').on('click', '#restaurar', function (e) { 
-       $(".spanRespaldar").remove();
-       $('#modalRestaurar').modal('show');
-       $('#formularioRestaurar').submit(function (e) {  
+    $('body').on('click', '#restaurar', async function (e) {
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
+        $(".spanRespaldar").remove();
+        $('#modalRestaurar').modal('show');
+        $('#formularioRestaurar').submit(function (e) {
             e.preventDefault();
             $('#modalRestaurar').modal('hide');
             Swal.fire({
@@ -208,48 +216,50 @@ $(document).ready(function () {
                     $.ajax({
                         type: "POST",
                         url: "respaldo/verificarPassword",
-                        data: {'password': login},
+                        data: { 'password': login },
                         success: function (response) {
                             console.log(response);
                             if (response.success) {
                                 restaurar();
                             }
-                            else{
+                            else {
                                 Swal.fire(
                                     "Incorrecto!",
-                                     "Contraseña incorrecta",
-                                     "warning"
-                                 );
-                                 $('#formularioRestaurar').submit();
-                                 Swal.showValidationMessage(
+                                    "Contraseña incorrecta",
+                                    "warning"
+                                );
+                                $('#formularioRestaurar').submit();
+                                Swal.showValidationMessage(
                                     `Contraseña Incorrecta`
-                                  )
+                                )
                             }
-                          
+
                         },
                         error: (response) => {
-                            console.log("Error: "+response);
+                            console.log("Error: " + response);
                             Swal.fire(
                                 "Error!",
-                                 "Ocurrió un error durante la verificación",
-                                 "error"
-                             );
+                                "Ocurrió un error durante la verificación",
+                                "error"
+                            );
                         }
                     });
-                    
+
                 },
                 allowOutsideClick: () => !Swal.isLoading()
-                }).then((result) => {
-                    console.log(result.isConfirmed);
+            }).then((result) => {
+                console.log(result.isConfirmed);
             });
-       });
+            $(".swal2-content").append(`<span class="text-center spanRespaldar">Nota: Al restaurar la 
+                Base de Datos perderá todos los cambios realizados después de la fecha del respaldo</span>`);
+        });
     });
 
     const Toast = Swal.mixin({
         toast: true,
         position: 'bottom-start',
         showConfirmButton: false,
-        
-      });
+
+    });
 
 });

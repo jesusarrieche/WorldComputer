@@ -97,7 +97,7 @@ class ProductoController extends Controller{
                 }
             }
             if (isset($producto->precio_venta)) {
-                $producto->precio_bss = $producto->precio_venta * $dolar;
+                $producto->precio_bss = round($producto->precio_venta * $dolar, 2);
             }
             else{
                 $producto->precio_bss = NULL;

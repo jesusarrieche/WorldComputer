@@ -68,12 +68,6 @@
 							?>
 						</select>
 					</div>
-					<div class="row">
-							<span class="text-center m-2">Nota: Al restaurar la Base de Datos perderá todos los cambios realizados después de la fecha del respaldo</span>
-							
-					</div>
-					
-					<br>
 					<div class="form-row justify-content-center m-2">
 						<button type="submit" class="btn btn-warning  swal2-confirm swal2-styled"><i class="fa fa-history"></i> Restaurar</button>
 					</div>
@@ -86,6 +80,5 @@
         </div>
     </div>
 </div>
-
-
+<?php require VIEWS . "modalAutenticarUsuario.php"; ?>
 <script src="<?= ROOT; ?>public/assets/js/respaldo/index.js"></script>

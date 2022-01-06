@@ -2,21 +2,22 @@
     <h2 class="mb-4">Gestión de Venta</h2>
 
     <div class="card mb-4">
-        <!--<div class="card-header bg-white">
-          <a  href="<?= ROOT;?>Venta/crear">
-            <button class="btn btn-primary" 
-            <?php $band = false;
+        <?php $band = false;
                 foreach ($_SESSION['permisos'] as $p):
                     if ($p->permiso == "Registrar Ventas") {     
                         $band = true;
                 }endforeach;     
-                if (!$band) {
-                    echo "disabled";
+                if ($band) {
+        ?>
+            <div class="card-header bg-white">
+                <a  href="<?= ROOT;?>Venta/crear">
+                    <button class="btn btn-primary" 
+                    ><i class="fas fa-plus-square"></i> Agregar Venta</button>
+                </a>
+            </div>
+        <?php
                 }           
-            ?>
-            ><i class="fas fa-plus-square"></i> Agregar Venta</button>
-          </a>
-        </div> -->
+        ?>
         <div class="card-body">
           <table class="table" id="datatable">
             <thead class="thead-dark">

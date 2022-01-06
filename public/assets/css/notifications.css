@@ -102,10 +102,14 @@
 }
 
 #cantidadNotificaciones {
-    padding: 5px;
+    position: absolute;
+    top: 8px;
+    margin-left: 5px;
+    padding: 4px 5px;
     background: #f1f1f142;
     border-radius: 50%;
     line-height: 10px;
-    color: #bfdeff;
-    margin-right: -9px;
+    font-weight: normal;
+    color: #fff;
+    cursor: pointer;
 }

@@ -1,4 +1,4 @@
-<div class=" container-fluid p-2">
+<div class="content">
     <form action="<?= ROOT;?>Compra/guardar" method="post" id="formularioCompra">
         <input type="hidden" name="dolar" id="dolar">
         <div class="card">

@@ -1,4 +1,4 @@
-<div class=" container-fluid p-2">
+<div class="content">
     <form action="<?= ROOT;?>Servicio/agregarPrestado" method="post" id="formularioServicio">
         <input type="hidden" name="dolar" id="dolar">
         <input type="hidden" name="iva" id="iva">
