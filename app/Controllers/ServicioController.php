@@ -117,9 +117,15 @@ class ServicioController extends Controller{
         return false;
     }
     $clientes = $this->cliente->getAll('clientes', "estatus = 'ACTIVO'");
+    foreach ($clientes as $cliente) {
+      $cliente->documento = $this->desencriptar($cliente->documento);
+    }
     $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO' AND stock > 0 AND precio_venta != 'null'");
     $servicios = $this->servicio->listar();
     $empleados = $this->empleado->listarCargo('TECNICO');
+    foreach ($empleados as $empleado) {
+      $empleado->documento = $this->desencriptar($empleado->documento);
+    }
     $config = new Configuracion;
     $dolar = $config->obtenerDolar();
     $iva = $config->obtenerIva();
@@ -243,6 +249,10 @@ class ServicioController extends Controller{
       INNER JOIN clientes c ON s.cliente_id=c.id
       WHERE s.id=$idServicio");
     $servicioPrestado = $query0->fetch(PDO::FETCH_OBJ);
+    $servicioPrestado->cliente_documento = $this->desencriptar($servicioPrestado->cliente_documento);
+    $servicioPrestado->cliente_direccion = $this->desencriptar($servicioPrestado->cliente_direccion);
+    $servicioPrestado->empleado_documento = $this->desencriptar($servicioPrestado->empleado_documento);
+    $servicioPrestado->empleado_direccion = $this->desencriptar($servicioPrestado->empleado_direccion);
     //Servicios
     $query01 = $this->servicio->query("SELECT s.id, s.nombre, s.descripcion, d.precio FROM detalle_servicio d
       INNER JOIN servicios s ON d.servicio_id=s.id
@@ -271,7 +281,8 @@ class ServicioController extends Controller{
           
       // Encabezado Venta
       $venta = $query->fetch(PDO::FETCH_OBJ);
-
+      $venta->rif_cliente = $this->desencriptar($venta->rif_cliente);
+      $venta->direccion = $this->desencriptar($venta->direccion);
       // Detalles Venta
       $productos = $query2->fetchAll(PDO::FETCH_OBJ);
       if ($venta == false) {
@@ -308,6 +319,10 @@ public function servicioPrestadoPDF($param){
     INNER JOIN clientes c ON s.cliente_id=c.id
     WHERE s.id=$idServicio");
   $servicioPrestado = $query0->fetch(PDO::FETCH_OBJ);
+  $servicioPrestado->cliente_documento = $this->desencriptar($servicioPrestado->cliente_documento);
+  $servicioPrestado->cliente_direccion = $this->desencriptar($servicioPrestado->cliente_direccion);
+  $servicioPrestado->empleado_documento = $this->desencriptar($servicioPrestado->empleado_documento);
+  $servicioPrestado->empleado_direccion = $this->desencriptar($servicioPrestado->empleado_direccion);
   //Servicios
   $query01 = $this->servicio->query("SELECT s.id, s.nombre, s.descripcion, d.precio FROM detalle_servicio d
     INNER JOIN servicios s ON d.servicio_id=s.id

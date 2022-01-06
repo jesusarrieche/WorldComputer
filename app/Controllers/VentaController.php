@@ -58,11 +58,14 @@ class VentaController extends Controller{
         }
         $num_documento = $this->venta->formatoDocumento($this->venta->ultimoDocumento());
         $clientes = $this->cliente->getAll('clientes', "estatus = 'ACTIVO'");
+        foreach ($clientes as $cliente) {
+            $cliente->documento = $this->desencriptar($cliente->documento);
+        }
         $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO' AND stock > 0 AND precio_venta != 'null'");
- 
         $config = new Configuracion;
         $dolar = $config->obtenerDolar();
         $iva = $config->obtenerIva();
+        
 
         return View::getView('Venta.create', 
             [ 
@@ -139,12 +142,13 @@ class VentaController extends Controller{
             
         // Encabezado Venta
         $venta = $query->fetch(PDO::FETCH_OBJ);
-
+        $venta->rif_cliente = $this->desencriptar($venta->rif_cliente);
+        $venta->direccion = $this->desencriptar($venta->direccion);
         // Detalles Venta
         $productos = $query2->fetchAll(PDO::FETCH_OBJ);
+        
 
         http_response_code(200);
-
         echo json_encode([
             'venta' => $venta,
             'productos' => $productos,
@@ -263,12 +267,12 @@ class VentaController extends Controller{
             
         // Encabezado Venta
         $venta = $query->fetch(PDO::FETCH_OBJ);
-
+        $venta->rif_cliente = $this->desencriptar($venta->rif_cliente);
+        $venta->direccion = $this->desencriptar($venta->direccion);
         // Detalles Venta
         $productos = $query2->fetchAll(PDO::FETCH_OBJ);
-
+        
         ob_start();
-
         View::getViewPDF('FormatosPDF.Venta', [
             'venta' => $venta,
             'productos' => $productos

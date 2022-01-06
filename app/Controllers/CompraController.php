@@ -54,9 +54,13 @@ class CompraController extends Controller{
         }
         $num_documento = $this->compra->formatoDocumento($this->compra->ultimoDocumento());
         $proveedores = $this->proveedor->getAll('proveedores', "estatus = 'ACTIVO'");
+        foreach ($proveedores as $proveedor) {
+            $proveedor->documento = $this->desencriptar($proveedor->documento);
+        }
         $productos = $this->producto->getAll('v_inventario', "estatus = 'ACTIVO'");
         $config = new Configuracion;
         $dolar = $config->obtenerDolar();
+        
         return View::getView('Compra.create', 
             [ 
                 'productos' => $productos, 
@@ -131,12 +135,13 @@ class CompraController extends Controller{
             
         // Encabezado Compra
         $compra = $query->fetch(PDO::FETCH_OBJ);
-
+        $compra->rif_proveedor = $this->desencriptar($compra->rif_proveedor);
+        $compra->direccion = $this->desencriptar($compra->direccion);
         // Detalles Compra
         $productos = $query2->fetchAll(PDO::FETCH_OBJ);
+        
 
         http_response_code(200);
-
         echo json_encode([
             'compra' => $compra,
             'productos' => $productos,
@@ -242,7 +247,8 @@ class CompraController extends Controller{
             
         // Encabezado Compra
         $compra = $query->fetch(PDO::FETCH_OBJ);
-
+        $compra->rif_proveedor = $this->desencriptar($compra->rif_proveedor);
+        $compra->direccion = $this->desencriptar($compra->direccion);
         // Detalles Compra
         $productos = $query2->fetchAll(PDO::FETCH_OBJ);
 
