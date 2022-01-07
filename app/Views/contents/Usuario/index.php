@@ -237,6 +237,14 @@
                             <label for="usuario"><strong>Usuario:</strong></label>
                             <input type="text" id="usuario" class="form-control-plaintext" disabled placeholder="Usuario">
                         </div>
+                        <div class="form-group">
+                            <label for="rolUsuario"><strong>Rol:</strong></label>
+                            <select class="form-control-plaintext" name="rolUsuario" id="rolUsuario" disabled style="opacity: 1;">
+                                <?php foreach ($roles as $rol) : ?>
+                                    <option value="<?= $rol->id ?>"><?= $rol->nombre ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
                         <hr class="bg-secondary">
 

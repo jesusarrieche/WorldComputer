@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PDO;
+use Exception;
 use System\Core\Model;
 
 class Notificacion extends Model{
