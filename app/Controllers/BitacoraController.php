@@ -91,12 +91,15 @@ class BitacoraController extends Controller{
        
         $bitacora = $query->fetchAll(PDO::FETCH_OBJ);
         foreach($bitacora as $b){
-            $exp = explode('"', $b->accion);//Desglosar la acción
-            $expl = explode(' - ', $exp[1]);//Obtener el documento por su inicial y número
-            if(count($expl) > 1){//Verificar si es un documento de persona
-                $persona = $this->desencriptar($expl[0]).' - '.$expl[1];//Desencriptar documento
-                $accion = $exp[0].'"'.$persona.'"';
-                $b->accion = $accion;
+            $m = $b->modulo;
+            if($m == "Usuarios" || $m == "Clientes" || $m == "Empleados" || $m == "Proveedores"){
+                $exp = explode('"', $b->accion);//Desglosar la acción
+                $expl = explode(' - ', $exp[1]);//Obtener el documento por su inicial y número
+                if(count($expl) > 1){//Verificar si es un documento de persona
+                    $persona = $this->desencriptar($expl[0]).' - '.$expl[1];//Desencriptar documento
+                    $accion = $exp[0].'"'.$persona.'"';
+                    $b->accion = $accion;
+                }
             }
             
             $b->button = 
