@@ -45,13 +45,15 @@ $(document).ready(function() {
                     $('.notifications-item').remove();
 
                     response.data.forEach((e) => {
-                        $('#box').append(`<div class="notifications-item" id="notificacion-${e.id}"> <img src="https://freeiconshop.com/wp-content/uploads/edd/box-flat-128x128.png" alt="img">
-                            <div class="text">
-                                <h4>${e.titulo.toUpperCase()}</h4>
-                                <p>${e.mensaje}</p>
+                        $('#box').append(`
+                            <div class="notifications-item" id="notificacion-${e.id}"> <img src="https://freeiconshop.com/wp-content/uploads/edd/box-flat-128x128.png" alt="img">
+                                <div class="text">
+                                    <h4>${e.titulo.toUpperCase()}</h4>
+                                    <p>${e.mensaje}</p>
+                                </div>
+                                <div class="notifications-item__close" onClick="dismissNotificacion(${e.id})"><i class="fas fa-times"></i></div>
                             </div>
-                            <div class="notifications-item__close" onClick="dismissNotificacion(${e.id})">x</div>
-                        </div>`);
+                        `);
                     })
                     $('#cantidadNotificaciones').show()
                     $('#cantidadNotificaciones').text(response.data.length);

@@ -104,9 +104,7 @@ class ProductoController extends Controller{
             }
             
         }
-
         http_response_code(200);
-
         echo json_encode([
         'data' => $productos
         ]);
@@ -150,7 +148,7 @@ class ProductoController extends Controller{
           http_response_code(200);
           
           echo json_encode([
-            'titulo' => 'Codigo Registrado',
+            'titulo' => 'Código Registrado',
             'mensaje' => $codigo . ' Se encuentra registrado en nuestro sistema',
             'tipo' => 'error'
           ]);
@@ -377,5 +375,18 @@ class ProductoController extends Controller{
         }
         
     
+    }
+
+    public function generarCodigo(){
+
+        $letra = isset($_POST['letra']) ? $_POST['letra'] : 'A';
+        $longitud = isset($_POST['longitud']) ? $_POST['longitud'] : 5;
+        $numFinal = isset($_POST['numero']) ? $_POST['numero'] : 0;
+
+        $codigo = $this->codigoAleatorio($letra, $longitud, $numFinal); 
+        
+        echo json_encode([
+            'data' => $codigo
+        ]);
     }
 }

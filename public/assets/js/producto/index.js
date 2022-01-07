@@ -294,7 +294,7 @@ $(document).ready(function () {
     const generarCodigo = (letra, longitud, numeroFinal, elemento) => {
         $.ajax({
             type: "POST",
-            url: "api/generarCodigo",
+            url: "Producto/generarCodigo",
             data: { letra: letra, longitud: longitud, numero: numeroFinal },
             success: function (response) {
                 let json = JSON.parse(response);
