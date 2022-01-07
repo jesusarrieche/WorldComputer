@@ -212,5 +212,5 @@
             </div>
         </div>
     </div>
-
-<script src="<?= ROOT; ?>public/assets/js/proveedor/index.js"></script>
+    <?php require VIEWS . "modalAutenticarUsuario.php"; ?>
+    <script src="<?= ROOT; ?>public/assets/js/proveedor/index.js"></script>

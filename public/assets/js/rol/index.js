@@ -217,7 +217,7 @@ $(document).ready(function () {
      * Eventos
      */
     
-    $('#formularioRegistrarRol').submit(function (e) { 
+    $('#formularioRegistrarRol').submit(async function (e) { 
         e.preventDefault();
         var ba = false;
         var permisos = $(this).find('input[name="permisos[]"]');                   
@@ -237,9 +237,11 @@ $(document).ready(function () {
         }
     
         let datos = new FormData(document.querySelector('#formularioRegistrarRol'));
-
-    //  console.log(datos.get('documento'));
-
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         registrarRol(datos);   
     });
     
@@ -259,7 +261,7 @@ $(document).ready(function () {
         mostrarRol($(this).attr('href'), 'form#formularioActualizarRol', '#modalActualizarRol');
     });
     
-    $('#formularioActualizarRol').submit(function (e) {
+    $('#formularioActualizarRol').submit(async function (e) {
         e.preventDefault();
         var ba = false;
         var permisos = $(this).find('input[name="permisos[]"]');                   
@@ -277,10 +279,12 @@ $(document).ready(function () {
             );
             return false;
         }
-        const datos = new FormData(document.querySelector('#formularioActualizarRol'));
-    
-        console.log(datos.get('id'));
-    
+        let datos = new FormData(document.querySelector('#formularioActualizarRol'));
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         actualizarRol(datos);
     });
     

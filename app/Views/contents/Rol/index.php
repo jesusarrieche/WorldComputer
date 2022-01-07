@@ -1058,8 +1058,7 @@
             </div>
         </div>
     </div>
-
-
+    <?php require VIEWS . "modalAutenticarUsuario.php"; ?>
     <script src="<?= ROOT; ?>public/assets/js/rol/index.js"></script>
 
 

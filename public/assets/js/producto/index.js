@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     /**
      * DataTable
      */
@@ -46,20 +46,19 @@ $(document).ready(function() {
             }
         }
     });
-
-
-
+    /**
+     * VARIABLES
+    */
+    var codigoActu = "";
     /**
      * FUNCIONES
      */
-
-
     const listarUnidades = (idFormulario) => {
 
         $.ajax({
             type: "POST",
             url: "unidad/listar",
-            success: function(response) {
+            success: function (response) {
                 json = JSON.parse(response);
 
 
@@ -76,7 +75,7 @@ $(document).ready(function() {
                 });
 
             },
-            error: function(response) {
+            error: function (response) {
                 console.log(response);
             }
         });
@@ -87,7 +86,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             url: "categoria/listar",
-            success: function(response) {
+            success: function (response) {
                 let json = JSON.parse(response);
 
 
@@ -105,7 +104,7 @@ $(document).ready(function() {
 
 
             },
-            error: function(response) {
+            error: function (response) {
                 console.log(response);
             }
         });
@@ -117,7 +116,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             url: href,
-            success: function(response) {
+            success: function (response) {
                 let json = JSON.parse(response);
 
                 if (modal == '#modalActualizarProducto') {
@@ -134,16 +133,15 @@ $(document).ready(function() {
                     $(formulario).find('input#stock_min').val(json.data.stock_min);
                     $(formulario).find('input#stock_max').val(json.data.stock_max);
                     $(formulario).find('input#stock').val(json.data.stock);
-                    $(formulario).on('keyup','#porcentaje', function (e) {  
-                        
-                        var precio_costo = parseFloat($(formulario).find('input#precio_costo').val());
-                        if(precio_costo != null){
-                            var porcentaje = parseFloat($(this).val());
-                            var precio = (precio_costo * (porcentaje/100))+ precio_costo;
+                    $(formulario).on('keyup', '#porcentaje', function (e) {
+                        let precio_costo = parseFloat($(formulario).find('input#precio_costo').val());
+                        if (precio_costo != null) {
+                            let porcentaje = parseFloat($(this).val());
+                            let precio = (precio_costo * (porcentaje / 100)) + precio_costo;
                             $(formulario).find('input#precio').val(precio);
                         }
-                        
                     });
+                    codigoActu = json.data.codigo;
                 } else {
 
                     $(formulario).find('input#id').val(json.data.id);
@@ -179,7 +177,7 @@ $(document).ready(function() {
             cache: false,
             contentType: false,
             processData: false,
-            success: function(response) {
+            success: function (response) {
                 console.log(response);
                 let json = JSON.parse(response);
 
@@ -220,7 +218,7 @@ $(document).ready(function() {
             cache: false,
             contentType: false,
             processData: false,
-            success: function(response) {
+            success: function (response) {
 
                 let json = JSON.parse(response);
                 if (json.tipo == 'success') {
@@ -252,7 +250,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             url: "producto/eliminar/" + id,
-            success: function(response) {
+            success: function (response) {
                 const json = JSON.parse(response);
                 if (json.tipo == 'success') {
                     Swal.fire(
@@ -264,7 +262,7 @@ $(document).ready(function() {
                     table.ajax.reload();
                 }
             },
-            error: function(response) {
+            error: function (response) {
                 console.log(response);
             }
         });
@@ -274,7 +272,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             url: "producto/habilitar/" + id,
-            success: function(response) {
+            success: function (response) {
                 const json = JSON.parse(response);
                 if (json.tipo == 'success') {
                     Swal.fire(
@@ -286,7 +284,7 @@ $(document).ready(function() {
                     table.ajax.reload();
                 }
             },
-            error: function(response) {
+            error: function (response) {
                 console.log(response);
             }
         });
@@ -298,12 +296,12 @@ $(document).ready(function() {
             type: "POST",
             url: "api/generarCodigo",
             data: { letra: letra, longitud: longitud, numero: numeroFinal },
-            success: function(response) {
+            success: function (response) {
                 let json = JSON.parse(response);
 
                 document.querySelector(elemento).value = json.data;
             },
-            error: function(response) {
+            error: function (response) {
                 console.log(response);
             }
         });
@@ -345,7 +343,7 @@ $(document).ready(function() {
     // });
 
     // Mostrar Producto
-    $('body').on('click', '.mostrar', function(e) {
+    $('body').on('click', '.mostrar', function (e) {
         e.preventDefault();
         console.log($(this).attr('href'));
         mostrarProducto($(this).attr('href'), 'form#formularioMostrarProducto', '#modalMostrarProducto');
@@ -356,26 +354,32 @@ $(document).ready(function() {
 
     // Editar Producto
 
-    $('body').on('click', '.editar', function(e) {
+    $('body').on('click', '.editar', function (e) {
         e.preventDefault();
         console.log($(this).attr('href'));
 
         mostrarProducto($(this).attr('href'), 'form#formularioActualizarProducto', '#modalActualizarProducto');
     });
 
-    $('#formularioActualizarProducto').submit(function(e) {
+    $('#formularioActualizarProducto').submit(async function (e) {
         e.preventDefault();
-
-        const datos = new FormData(document.querySelector('#formularioActualizarProducto'));
-
-        // console.log(datos.get('id'));
-
+        let requerirAutenticacion = false;
+        let datos = new FormData(document.querySelector('#formularioActualizarProducto'));
+        if (datos.get('codigo') != codigoActu) {
+            requerirAutenticacion = true;
+        }
+        if (requerirAutenticacion) {
+            let sesionAutenticada = await getSesionAutenticada();
+            if (!sesionAutenticada) {
+                iniciarAutenticacion();
+                return 0;
+            }
+        }
         actualizarProducto(datos);
     });
 
-
     // Eliminar Producto
-    $('body').on('click', '.eliminar', function(e) {
+    $('body').on('click', '.eliminar', function (e) {
         e.preventDefault();
 
         Swal.fire({
@@ -397,7 +401,7 @@ $(document).ready(function() {
         console.log($(this).attr('href'));
     });
 
-    $('body').on('click', '.estatusAnulado', function(e) {
+    $('body').on('click', '.estatusAnulado', function (e) {
         e.preventDefault();
 
         Swal.fire({

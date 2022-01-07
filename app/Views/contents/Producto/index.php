@@ -359,7 +359,6 @@
         </div>
     </div>
 </div>
-
-
+<?php require VIEWS . "modalAutenticarUsuario.php"; ?>
 <script src="<?= ROOT; ?>public/assets/js/producto/index.js"></script>
 

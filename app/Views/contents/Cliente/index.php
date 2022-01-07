@@ -232,8 +232,7 @@
             </div>
         </div>
     </div>
-
-
-   <script src="<?= ROOT; ?>public/assets/js/cliente/index.js"></script>
+    <?php require VIEWS . "modalAutenticarUsuario.php"; ?>
+    <script src="<?= ROOT; ?>public/assets/js/cliente/index.js"></script>
 
 
