@@ -110,6 +110,7 @@ $(document).ready(function () {
                     $('#modalRegistroUsuario').modal('hide');
                     $('#formularioRegistrarUsuario').trigger('reset');
                 } else {
+                    json.mensaje = desglosarMensajeError(json.mensaje);
                     Swal.fire(
                         json.titulo,
                         json.mensaje,
@@ -145,6 +146,7 @@ $(document).ready(function () {
                     $('#modalActualizarUsuario').modal('hide');
                     $('#formularioActualizarUsuario').trigger('reset');
                 } else {
+                    json.mensaje = desglosarMensajeError(json.mensaje);
                     Swal.fire(
                         json.titulo,
                         json.mensaje,

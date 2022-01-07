@@ -534,8 +534,8 @@ public function servicioPrestadoPDF($param){
           http_response_code(200);
     
           echo json_encode([
-            'titulo' => "Servicio $nombre ya existe",
-            'mensaje' => 'Por favor intente de nuevo',
+            'titulo' => "Servicio ya existe",
+            'mensaje' => $nombre . ' Se encuentra registrado en nuestro sistema',
             'tipo' => 'error'
           ]);
 

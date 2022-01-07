@@ -72,7 +72,6 @@ $(document).ready(function () {
                         var permiso = $('#formularioActualizarRol').find('input[value="'+element.permiso_id+'"]');
                         permiso.click();
                         permiso.data('s',true);
-                        console.log(permiso);
                     });
                 }else{
                     $('#listaPermisos').html('');
@@ -118,6 +117,7 @@ $(document).ready(function () {
                     $('#modalRegistroRol').modal('hide');
                     $('#formularioRegistrarRol').trigger('reset');
                 }else{
+                    json.mensaje = desglosarMensajeError(json.mensaje);
                     Swal.fire(
                         json.titulo,
                         json.mensaje,
@@ -157,6 +157,7 @@ $(document).ready(function () {
         
                     $('#modalActualizarRol').modal('hide');
                 }else{
+                    json.mensaje = desglosarMensajeError(json.mensaje);
                     Swal.fire(
                         json.titulo,
                         json.mensaje,

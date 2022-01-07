@@ -118,6 +118,7 @@ const registrarEmpleado = (datos) => {
                 $('#modalRegistroEmpleado').modal('hide');
                 $('#formularioRegistrarEmpleado').trigger('reset');
             }else{
+                json.mensaje = desglosarMensajeError(json.mensaje);
                 Swal.fire(
                     json.titulo,
                     json.mensaje,
@@ -131,27 +132,6 @@ const registrarEmpleado = (datos) => {
             
         }
     });
-
-
-
-    // fetch('empleado/guardar', { method: 'POST', body: datos })
-    // .then((response) => {
-    //     console.log(response);
-    //     return response.json();
-    // })
-    // .then((json) => {
-    //     Swal.fire(
-    //         json.titulo,
-    //         json.mensaje,
-    //         json.tipo
-    //     )
-
-    //     table.ajax.reload();
-    //     
-    // })
-    // .catch( (response) => {
-    //     console.log(response);
-    // });
 }
 
 const actualizarEmpleado = (datos) => {
@@ -177,6 +157,7 @@ const actualizarEmpleado = (datos) => {
     
                 $('#modalActualizarEmpleado').modal('hide');
             }else{
+                json.mensaje = desglosarMensajeError(json.mensaje);
                 Swal.fire(
                     json.titulo,
                     json.mensaje,

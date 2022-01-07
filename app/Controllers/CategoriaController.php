@@ -177,8 +177,8 @@ class CategoriaController extends Controller{
           http_response_code(200);
     
           echo json_encode([
-            'titulo' => "Categoria $nombre ya existe!",
-            'mensaje' => 'Por favor intente de nuevo',
+            'titulo' => "Categoría ya existe!",
+            'mensaje' => $nombre . ' Se encuentra registrado en nuestro sistema',
             'tipo' => 'error'
           ]);
 

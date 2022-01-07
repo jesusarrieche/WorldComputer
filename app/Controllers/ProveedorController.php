@@ -93,23 +93,19 @@ class ProveedorController extends Controller{
         $proveedor->setEmail($this->encriptar(strtoupper($this->limpiaCadena($_POST['correo']))));
         $proveedor->setEstatus("ACTIVO");
     
-    
         $documento = $proveedor->getDocumento();
     
         $consultaDocumento = $this->proveedor->query("SELECT * FROM proveedores WHERE documento='$documento'" ); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
     
         if ($consultaDocumento->rowCount() >= 1) {
-    
+          $documento = $this->desencriptar($documento);
           http_response_code(200);
-          
           echo json_encode([
             'titulo' => 'Documento Registrado',
             'mensaje' => $documento . ' Se encuentra registrado en nuestro sistema',
             'tipo' => 'error'
           ]);
-    
           return false;
-    
         }else {
 
           if($this->proveedor->registrar($proveedor)) {
@@ -128,10 +124,7 @@ class ProveedorController extends Controller{
               'tipo' => 'error'
               ]);  
           }
-      }  
-        
-    
-    
+      }      
     }
 
     public function actualizar(){

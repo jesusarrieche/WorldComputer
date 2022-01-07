@@ -72,8 +72,6 @@ const mostrarProveedor = (href, formulario, modal) => {
                 $(formulario).find('input#documento').val(json.data.documento);
 
             }
-
-
             $(formulario).find('input#id').val(json.data.id);
             $(formulario).find('input#nombre').val(json.data.razon_social);
             $(formulario).find('input#telefono').val(json.data.telefono);
@@ -81,8 +79,6 @@ const mostrarProveedor = (href, formulario, modal) => {
             $(formulario).find('input#direccion').val(json.data.direccion);
 
             $(modal).modal('show');
-            
-
         },
         error: (response) => {
             console.log(response);
@@ -114,6 +110,7 @@ const registrarProveedor = (datos) => {
                 $('#agregarProveedor').modal('hide');
                 $('#formularioRegistrarProveedor').trigger('reset');
             }else{
+                json.mensaje = desglosarMensajeError(json.mensaje);
                 Swal.fire(
                     json.titulo,
                     json.mensaje,
@@ -127,27 +124,6 @@ const registrarProveedor = (datos) => {
             
         }
     });
-
-
-
-    // fetch('proveedor/guardar', { method: 'POST', body: datos })
-    // .then((response) => {
-    //     console.log(response);
-    //     return response.json();
-    // })
-    // .then((json) => {
-    //     Swal.fire(
-    //         json.titulo,
-    //         json.mensaje,
-    //         json.tipo
-    //     )
-
-    //     table.ajax.reload();
-    //     
-    // })
-    // .catch( (response) => {
-    //     console.log(response);
-    // });
 }
 
 const actualizarProveedor = (datos) => {
@@ -173,6 +149,7 @@ const actualizarProveedor = (datos) => {
     
                 $('#modalActualizarProveedor').modal('hide');
             }else{
+                json.mensaje = desglosarMensajeError(json.mensaje);
                 Swal.fire(
                     json.titulo,
                     json.mensaje,

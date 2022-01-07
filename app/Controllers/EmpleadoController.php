@@ -99,15 +99,12 @@ class EmpleadoController extends Controller{
     $empleado->setCargo(strtoupper($this->limpiaCadena($_POST['cargo'])));
     $empleado->setEstatus("ACTIVO");
 
-
     $documento = $empleado->getDocumento();
-
     $consultaDocumento = $this->empleado->query("SELECT * FROM empleados WHERE documento='$documento'" ); // Verifica inexistencia de cedula, sies igual a la actual no la toma en cuenta puesto que si registramos un cambio en el nombre se mantiene la misma cedula y afectaria la consulta.
 
     if ($consultaDocumento->rowCount() >= 1) {
-
+      $documento = $this->desencriptar($documento);
       http_response_code(200);
-      
       echo json_encode([
         'titulo' => 'Documento Registrado',
         'mensaje' => $documento . ' Se encuentra registrado en nuestro sistema',

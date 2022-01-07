@@ -26,7 +26,8 @@
     <!-- DATATABLE -->
     <link href="<?= ROOT; ?>vendor/datatables/datatables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" href="<?= ROOT; ?>public/assets/img/w&cLogoFavicon.png" type="image/x-icon">
-
+    <!-- SCRIPT -->
+    <script src="<?= ROOT; ?>public/assets/js/general.js"></script>
     <title><?php 
         if(isset($_COOKIE['title'])){
             echo $_COOKIE['title'];

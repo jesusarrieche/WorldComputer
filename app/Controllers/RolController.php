@@ -144,11 +144,9 @@ class RolController extends Controller {
             'tipo' => 'success'
         ]);
         }else{
-        http_response_code(404);
-
         echo json_encode([
             'titulo' => 'Error',
-            'mensaje' => $this->usuario->getError(),
+            'mensaje' => $this->rol->getError(),
             'tipo' => 'error'
         ]);  
         }
