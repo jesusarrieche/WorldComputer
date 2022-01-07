@@ -37,8 +37,9 @@ $(document).ready(function () {
     * VARIABLES
     */
     var seguridadImgActu = "", seguridadPreguntaActu = seguridadPregunta;
+    var correoActu = correo, rolUsuarioActu = rolUsuario;
     //Selección de imagen de seguridad
-    $('.card-seguridad-img').on('click', function(e){
+    $('.card-seguridad-img').on('click', function (e) {
         seguridadImgActu = $(this).attr('data-img');
         $('.card-seguridad-img').removeClass('bg-primary');
         $(this).addClass('bg-primary');
@@ -67,7 +68,8 @@ $(document).ready(function () {
             );
             return 0;
         }
-        if (seguridadImgActu != "" || datos.get('seguridad_pregunta') != seguridadPreguntaActu || datos.get('seguridad_respuesta') != "") {
+        if (datos.get('correo') != correoActu || datos.get('rolUsuario') != rolUsuarioActu || seguridadImgActu != "" ||
+            datos.get('seguridad_pregunta') != seguridadPreguntaActu || datos.get('seguridad_respuesta') != "") {
             requerirAutenticacion = true;
         }
         if (requerirAutenticacion) {

@@ -223,5 +223,7 @@
 <?php require VIEWS . "modalAutenticarUsuario.php"; ?>
 <script>
     let seguridadPregunta = <?= json_encode($usuario->seguridad_pregunta) ?>;    
+    let correo = <?= json_encode($usuario->email) ?>;    
+    let rolUsuario = <?= json_encode($usuario->rol_id) ?>;    
 </script>
 <script src="<?= ROOT; ?>public/assets/js/usuario/perfil.js"></script>

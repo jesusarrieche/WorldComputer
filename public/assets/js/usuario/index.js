@@ -49,7 +49,7 @@ $(document).ready(function () {
      * VARIABLES
      */
     var seguridadImg = "", seguridadImgActu = "", seguridadPreguntaActu = "";
-    var correoActu = "";
+    var correoActu = "", rolUsuarioActu = "";
     /**
      * FUNCIONES
      */
@@ -68,6 +68,7 @@ $(document).ready(function () {
                     $(formulario).find('input#contrasena').val("");
                     $(formulario).find('input#confirmarContrasena').val("");
                     correoActu = json.data.email;
+                    rolUsuarioActu = json.data.rol_id;
                     $('.card-seguridad-img').removeClass('bg-primary');
                     seguridadImgActu = "";
                     seguridadPreguntaActu = json.data.seguridad_pregunta;
@@ -136,7 +137,6 @@ $(document).ready(function () {
             success: function (response) {
                 let json = JSON.parse(response);
                 if (json.tipo == 'success') {
-
                     Swal.fire(
                         json.titulo,
                         json.mensaje,
@@ -299,7 +299,7 @@ $(document).ready(function () {
             return 0;
         }
         //Si se cambia algún dato sensible se exige autenticación de usuario
-        if (datos.get('correo') != correoActu || seguridadImgActu != "" ||
+        if (datos.get('correo') != correoActu || datos.get('rolUsuario') != rolUsuarioActu || seguridadImgActu != "" ||
             datos.get('seguridad_pregunta') != seguridadPreguntaActu || datos.get('seguridad_respuesta') != "") {
             requerirAutenticacion = true;
         }
@@ -337,7 +337,6 @@ $(document).ready(function () {
     //Activar el registro
     $('body').on('click', '.estatusAnulado', function (e) {
         e.preventDefault();
-
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El usuario será habilitado en el sistema!",
