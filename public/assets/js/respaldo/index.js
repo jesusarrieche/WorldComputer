@@ -77,9 +77,11 @@ $(document).ready(function () {
                     // },700);
                 }
                 else {
+                    let json = JSON.parse(response);
+                    console.log(json);
                     Swal.fire(
                         "Error!",
-                        "Ocurrió un error durante la restauración",
+                        json.mensaje,
                         "error"
                     );
                 }

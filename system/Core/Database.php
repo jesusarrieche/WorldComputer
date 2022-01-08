@@ -6,10 +6,10 @@ use PDO;
 
 class Database {
     private $driver = 'mysql';
-    private $host = 'localhost';
-    private $dbname = 'world_computer';
-    private $user = 'root';
-    private $password = 'informatica';
+    private $host = SERVER;
+    private $dbname = BD;
+    private $user = USER;
+    private $password = PASS;
 
     public function __construct(){
         $this->connect();

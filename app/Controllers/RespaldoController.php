@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use PDO;
+use Exception;
 use App\Traits\Utility;
 use App\Models\Usuario;
 use System\Core\Controller;
@@ -144,7 +145,10 @@ class RespaldoController extends Controller{
         $con=mysqli_connect(SERVER, USER, PASS, BD);
         $con->query("SET FOREIGN_KEY_CHECKS=0");
         for($i = 0; $i < (count($sql)-1); $i++){
-            if($con->query($sql[$i].";")){  }else{ $totalErrors++; }
+            if(!$con->query($sql[$i].";")){
+                echo $con->error." $sql[$i]<br> --- <br>";
+                $totalErrors++;
+            }
         }
         $con->query("SET FOREIGN_KEY_CHECKS=1");
         $con->close();
@@ -156,7 +160,8 @@ class RespaldoController extends Controller{
         }else{
             echo json_encode([
                 'success' => false,
-                'message' => 'Ocurrió un error inesperado, no se pudo hacer la restauración completamente'
+                'mensaje' => "No se pudo realizar la restauración completamente.<br>
+                                Total de errores: $totalErrors"
             ]);
         }
     }
