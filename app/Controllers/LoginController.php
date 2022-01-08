@@ -149,13 +149,14 @@ class LoginController extends Controller{
 
         unset($_SESSION['RC']);
 
-        $this->usuario->setEmail($this->limpiaCadena($_POST['email']));
-
+        $this->usuario->setEmail($this->encriptar(strtoupper($this->limpiaCadena($_POST['email']))));
         $response = $this->usuario->obtenerId($this->usuario);
         
         if ($response) {
             $usuario = $this->usuario->getOne('usuarios', $response->id);
-
+            $usuario->email = $this->desencriptar($usuario->email);
+            $usuario->img = $this->desencriptar($usuario->seguridad_img);
+            $usuario->respuesta = $this->desencriptar($usuario->seguridad_respuesta);
             $token = bin2hex(random_bytes(10));
 
             $_SESSION['RC'] = array(
@@ -177,12 +178,11 @@ class LoginController extends Controller{
                 $mail->isSMTP();                                            //Send using SMTP
                 $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = 'hector.noguera03@gmail.com';                     //SMTP username
-                $mail->Password   = '';                               //SMTP password
+                $mail->Username   = 'worldandcomputer@gmail.com'; //SMTP username
+                $mail->Password   = 'Wcomputer'; //SMTP password
                 $mail->SMTPSecure = 'ssl';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
                 $mail->Port       = 465;   //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
                 $mail->CharSet = 'UTF-8';                              
-            
                 //Recipients
                 $mail->setFrom($mail->Username, 'World & Computer');
                 $mail->addAddress($usuario->email, $usuario->nombre." ".$usuario->apellido);     //Add a recipient
@@ -190,24 +190,28 @@ class LoginController extends Controller{
                 $mail->addReplyTo($mail->Username, 'Información');
                 // $mail->addCC('cc@example.com');
                 // $mail->addBCC('bcc@example.com');
-            
                 //Attachments
                 // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
                 // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
             
                 //Content
                 $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = 'Recuperación de Acceso - World & Computer';
-                $mail->Body    = '<h2>¿Recuperar Acceso?</h2><br>
-                        Si solicitaste un restablecimiento de contraseña para tu usuario "'.$usuario->usuario.'" del sistema World & Computer, usa el link que aparece a 
-                        continuación para completar el proceso. Si no solicitaste esto, puedes ignorar este correo electrónico. <br>
-                        '.$link;
-                $mail->AltBody    = '¿Recuperar Acceso? 
-                        Si solicitaste un restablecimiento de contraseña para tu usuario "'.$usuario->usuario.'" del sistema World & Computer, usa el link que aparece a 
-                        continuación para completar el proceso. Si no solicitaste esto, puedes ignorar este correo electrónico.  
-                        '.$link;
-                
-            
+                $mail->Subject = 'World & Computer - Recuperación de Acceso';
+                $mail->Body    = "<h2>World & Computer - Recuperar Acceso</h2><br>
+                    Si solicitaste la recuperación de acceso para tu usuario \"$usuario->usuario\" del sistema World & Computer, usa el link que aparece a 
+                    continuación para completar el proceso. Si no solicitaste esto, puedes ignorar este correo. <br>
+                    $link <br>
+                    Usuario: $usuario->usuario <br>
+                    Imagen de Seguridad: $usuario->img <br>
+                    Respuesta a Pregunta de Seguridad: $usuario->respuesta <br>";
+                $mail->AltBody    = "World & Computer - Recuperar Acceso 
+                    Si solicitaste la recuperación de acceso para tu usuario \"$usuario->usuario\" del sistema World & Computer, usa el link que aparece a 
+                    continuación para completar el proceso. Si no solicitaste esto, puedes ignorar este correo. <br>
+                    $link  
+                    Usuario: $usuario->usuario  
+                    Imagen de Seguridad: $usuario->img  
+                    Respuesta a Pregunta de Seguridad: $usuario->respuesta ";
+                            
                 $mail->send();
                 // echo 'Message has been sent';
                 echo json_encode([
@@ -215,7 +219,7 @@ class LoginController extends Controller{
                     'message' => 'Enlace de recuperación enviado al correo '.$usuario->email,
                 ]);
             } catch (Exception $e) {
-                // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                // var_dump($e);
                 echo json_encode([
                     'error' => true,
                     'message' => 'No se pudo enviar el correo. Lo sentimos! Intente de nuevo.',
@@ -230,8 +234,8 @@ class LoginController extends Controller{
     }
 
     public function recuperarContrasena ($param) {
-        $config = new Configuracion;
-        $nombre = $config->obtenerNombre_sistema();
+        // $config = new Configuracion;
+        // $nombre = $config->obtenerNombre_sistema();
 
         $token = $this->encriptar($param);
 
@@ -255,18 +259,13 @@ class LoginController extends Controller{
             return false;
         }
 
-        $this->usuario->setPassword($this->encriptar($this->limpiaCadena($_POST['password'])));
+        $this->usuario->setPassword($this->encriptarContrasena($this->limpiaCadena($_POST['password'])));
         $this->usuario->setUsuario($this->limpiaCadena($_POST['user']));
         $this->usuario->setId($this->limpiaCadena($_POST['usuario_id']));
-
         $response = $this->usuario->recuperarContrasena($this->usuario);
-
         unset($_SESSION['id']);
-
         if ($response) {
-
             unset($_SESSION['RC']);
-
             echo json_encode([
                 'tipo' => 'success',
                 'titulo' => 'Contraseña actualizada.',
