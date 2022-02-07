@@ -159,7 +159,7 @@
                         '<?=$clientesN[0]?>', '<?=$clientesN[1]?>', '<?=$clientesN[2]?>', '<?=$clientesN[3]?>', '<?=$clientesN[4]?>', '<?=$clientesN[5]?>', '<?=$clientesN[6]?>',<?=$clientesN[7]?>
                     ],
                     datasets: [{
-                        label: 'Cantidad de Ventas al cliente',
+                        label: 'Cantidad de Servicios al cliente',
                         data: [
                             '<?=$clientesC[0]?>', '<?=$clientesC[1]?>', '<?=$clientesC[2]?>', '<?=$clientesC[3]?>', '<?=$clientesC[4]?>', '<?=$clientesC[5]?>', '<?=$clientesC[6]?>',<?=$clientesC[7]?>
                         ],

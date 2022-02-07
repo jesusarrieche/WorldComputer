@@ -25,7 +25,7 @@
 
     <!-- DATATABLE -->
     <link href="<?= ROOT; ?>vendor/datatables/datatables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="<?= ROOT; ?>public/assets/img/w&cLogoFavicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= ROOT; ?>public/assets/img/w&cLogoWhite.png" type="image/x-icon">
     <!-- SCRIPT -->
     <script src="<?= ROOT; ?>public/assets/js/general.js"></script>
     <title><?php 
@@ -41,7 +41,7 @@
 <nav class="navbar navbar-expand navbar-dark bg-primary w-100" id="navbar">
     <a class="sidebar-toggle py-1 px-2 mr-2" href="#"><i class="fa fa-bars fa-2x"></i></a>
     <a class="navbar-brand" href="<?= ROOT;?>">
-        <img src="<?= ROOT; ?>public/assets/img/w&cLogoMiniWhite.png" alt="" style="height:30px; max-height:50%">
+        <img src="<?= ROOT; ?>public/assets/img/w&cLogoWhite.png" alt="" style="height:40px; max-height:50%">
     </a>
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav ml-auto">

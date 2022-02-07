@@ -2,7 +2,7 @@
 <div class="content p-4">
 	<div class="row justify-content-center">
 		
-		<img src="<?= ROOT; ?>public/assets/img/w&cLogoMini.png" alt="">
+		<img src="<?= ROOT; ?>public/assets/img/w&cLogo.png" alt="" style="height: 100px;">
 		
 	</div>
 	<h2 class="mb-4">Inicio</h2>

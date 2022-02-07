@@ -52,8 +52,17 @@
 <body>
     <div class="container centrado" style="width: 98%;">
 
-        <div class="centrado" style="width=98%;">
-            <h1 class="text-center margin">REPORTE DE PRODUCTOS</h1>
+        <div class="centrado" style="width:98%;">
+            <table>
+                <tr>
+                    <td colspan="4" style="width:40%">
+                        <img class="centrado" style="height:90px;" src="<?=URL;?>public/assets/img/w&cLogo.png" alt=""> 
+                    </td>
+                    <td colspan="8" style="width:60%; padding:20px;">
+                        <h1 style="margin-left: 60px; ">REPORTE <br>DE PRODUCTOS</h1>                            
+                    </td>
+                </tr>
+            </table>
             <hr>
             <div>
             

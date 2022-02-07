@@ -55,11 +55,11 @@
         <div class="centrado" style="width:98%;">
             <table>
                 <tr>
-                    <td colspan="4" style="width:50%">
-                        <img class="centrado" style="width:80%;" src="<?=URL;?>public/assets/img/w&cLogoMini.png" alt=""> 
+                    <td colspan="4" style="width:40%">
+                        <img class="centrado" style="height:90px;" src="<?=URL;?>public/assets/img/w&cLogo.png" alt=""> 
                     </td>
-                    <td colspan="4" style="width:50%; padding-top:10px;">
-                        <h1 class="text-center margin">REPORTE DE <br>SERVICIOS PRESTADOS</h1>                            
+                    <td colspan="8" style="width:60%; padding:20px;">
+                        <h1 style="margin-left: 60px; ">REPORTE <br>DE SERVICIOS PRESTADOS</h1>                            
                     </td>
                 </tr>
             </table>
