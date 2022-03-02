@@ -8,7 +8,6 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log("R:" + response);
                 let json = JSON.parse(response);
                 if (json.tipo == 'success') {
 
@@ -21,6 +20,7 @@ $(document).ready(function () {
                     //     window.location.reload();
                     // }, 1000);
                 } else {
+                    json.mensaje = desglosarMensajeError(json.mensaje);
                     Swal.fire(
                         json.titulo,
                         json.mensaje,

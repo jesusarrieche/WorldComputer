@@ -80,21 +80,6 @@
                     <input  value="<?=$usuario->usuario?>" id="usuario" name="usuario" type="text" class="form-control" required minlength="8" maxlength="20">
                 </div>
 
-                <div class="form-row">
-                    <div class="col-md">
-                        <div class="form-group">
-                            <label for="pass">Password</label>
-                            <input type="password" class="form-control" name="contrasena" id="contrasena" minlength="8" maxlength="20">
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group">
-                            <label for="pass">Confirmar Password</label>
-                            <input type="password" class="form-control" name="confirmarContrasena" id="confirmarContrasena" minlength="8" maxlength="20">
-                        </div>
-                    </div>
-                </div>
-
                 <hr class="bg-secondary">
                 <?php if($_SESSION['rol']==1 && $_SESSION['id'] != 1){?>
 

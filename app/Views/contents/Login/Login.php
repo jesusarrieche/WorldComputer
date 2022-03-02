@@ -5,21 +5,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title><?php 
-        if(isset($_COOKIE['title'])){
-            echo $_COOKIE['title'];
-        }
-        else{
-            echo "World & Computer";
-        }
-    ?></title>
+    <title><?php
+            if (isset($_COOKIE['title'])) {
+                echo $_COOKIE['title'];
+            } else {
+                echo "World & Computer";
+            }
+            ?></title>
 
     <!-- FONTAWESOME -->
     <link href="<?= ROOT; ?>vendor/fortawesome/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- JQUERY -->
     <script src="<?= ROOT; ?>node_modules/jquery/dist/jquery.js"></script>
-    
+
     <!-- SWEETALERT -->
     <link rel="stylesheet" href="<?= ROOT; ?>node_modules/sweetalert2/dist/sweetalert2.min.css">
     <script src="<?= ROOT; ?>node_modules/sweetalert2/dist/sweetalert2.js"></script>
@@ -31,24 +30,19 @@
     <link href="<?= ROOT; ?>public/assets/css/bootadmin.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
 
     <link href="<?= ROOT; ?>public/assets/css/notifications.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="<?= ROOT; ?>public/assets/img/w&cLogoFavicon.png" type="image/x-icon">
-    
-    
+    <link rel="shortcut icon" href="<?= ROOT; ?>public/assets/img/w&cLogoWhite.png" type="image/x-icon">
+
+
 </head>
 
 <body>
 
-<div class="container-fluid login" style="height: 100vh !important;">
-    <div class="row h-100 justify-content-center align-items-center">
-        <div class="col-md-4">
-                <h1 class="text-center mb-4"><?php 
-                    if(isset($_COOKIE['title'])){
-                        echo $_COOKIE['title'];
-                    }
-                    else{
-                        echo "World & Computer";
-                    }
-                ?></h1>
+    <div class="container-fluid login" style="height: 100vh !important;">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-md-4">
+                <div class="row d-flex justify-content-center">
+                    <img src="<?= ROOT; ?>public/assets/img/w&cLogo.png" style="height: 80px;" />
+                </div>
                 <div class="card">
                     <div class="card-body">
                         <form id="loginForm">
@@ -87,65 +81,66 @@
                     </div>
                 </div>
             </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modalRecuperarContrasena" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-
-        <div class="card">
-        <div class="card-body">
-            <h2 class="card-tittle text-center">Recuperar Contraseña</h2>
-            <hr>
-          
-                <form action="#" method="POST" id="formularioRecuperarContrasena" enctype="multipart/form-data">
-
-                    <div class="form-group">
-                        <label for="email"> <i class="fas fa-envelope-square"></i> Ingrese su email</label>
-                        <input type="text" name="email" id="email" class="form-control" maxlength="50" placeholder="...">
-                    </div>
-
-                    <div class="form-row justify-content-center align-items-center">
-                        <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
-                        <button class="btn btn-success" type="submit">Enviar</button>
-                    </div>
-                    
-                </form>   
         </div>
     </div>
+
+    <div class="modal fade" id="modalRecuperarContrasena" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-tittle text-center">Recuperar Contraseña</h2>
+                        <hr>
+
+                        <form action="#" method="POST" id="formularioRecuperarContrasena" enctype="multipart/form-data">
+
+                            <div class="form-group">
+                                <label for="email"> <i class="fas fa-envelope-square"></i> Ingrese su email</label>
+                                <input type="text" name="email" id="email" class="form-control" maxlength="50" placeholder="...">
+                            </div>
+
+                            <div class="form-row justify-content-center align-items-center">
+                                <a href="#" class="btn btn-secondary m-2" data-dismiss="modal"><i class="fas fa-arrow-circle-left"></i> Cerrar</a>
+                                <button class="btn btn-success" type="submit">Enviar</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-    <script src="https://www.google.com/recaptcha/api.js?render=<?=SITE_KEY?>"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=<?= SITE_KEY ?>"></script>
 
     <script>
-         
-            grecaptcha.ready(function() {
-                grecaptcha.execute('<?php echo SITE_KEY;?>', {action: 'homepage'})
+        grecaptcha.ready(function() {
+            grecaptcha.execute('<?php echo SITE_KEY; ?>', {
+                    action: 'homepage'
+                })
                 .then(function(token) {
                     // Add your logic to submit to your backend server here.
                     console.log(token);
                     $('#token-r').val(token);
                 });
-            });
+        });
     </script>
 
     <script src="<?= ROOT; ?>vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?= ROOT; ?>public/assets/js/config.js"></script>
     <script src="<?= ROOT; ?>public/assets/js/bootadmin.min.js"></script>
     <script src="<?= ROOT; ?>public/assets/js/login/validation.js"></script>
-    
-    
-    
- 
+
+
+
+
     <!-- Bootstrap core JavaScript -->
-<!--     <script src="Assets/js/jquery/jquery-3.2.1.js"></script> -->
-<!--     <script src="Assets/js/bootstrap/bootstrap.js"></script> -->
-<!--     <script src="Assets/js/menu_lateral.js"></script> -->
-<!--     <script src="Assets/js/validacion.js"></script> -->
-<!-- 	<script src="Assets/js/select2.js"></script> -->
+    <!--     <script src="Assets/js/jquery/jquery-3.2.1.js"></script> -->
+    <!--     <script src="Assets/js/bootstrap/bootstrap.js"></script> -->
+    <!--     <script src="Assets/js/menu_lateral.js"></script> -->
+    <!--     <script src="Assets/js/validacion.js"></script> -->
+    <!-- 	<script src="Assets/js/select2.js"></script> -->
 </body>
 
 </html>

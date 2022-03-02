@@ -422,7 +422,7 @@ public function servicioPrestadoPDF($param){
                   $servicio->button .= "<a href='". $this->encriptar($servicio->id) ."' class='estatusAnulado btn btn-outline-info mr-1 mb-1' title='Activar'><i class='fas fa-trash'></i></a>";
               }
           }
-          $servicio->precioBss = $servicio->precio * $dolar;
+          $servicio->precioBss = round($servicio->precio * $dolar, 2);
       }
   
       http_response_code(200);

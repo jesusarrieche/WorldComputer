@@ -5,21 +5,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title><?php 
-        if(isset($_COOKIE['title'])){
-            echo $_COOKIE['title'];
-        }
-        else{
-            echo "World & Computer";
-        }
-    ?></title>
+    <title><?php
+            if (isset($_COOKIE['title'])) {
+                echo $_COOKIE['title'];
+            } else {
+                echo "World & Computer";
+            }
+            ?></title>
 
     <!-- FONTAWESOME -->
     <link href="<?= ROOT; ?>vendor/fortawesome/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- JQUERY -->
     <script src="<?= ROOT; ?>node_modules/jquery/dist/jquery.js"></script>
-    
+
     <!-- SWEETALERT -->
     <link rel="stylesheet" href="<?= ROOT; ?>node_modules/sweetalert2/dist/sweetalert2.min.css">
     <script src="<?= ROOT; ?>node_modules/sweetalert2/dist/sweetalert2.js"></script>
@@ -31,24 +30,19 @@
     <link href="<?= ROOT; ?>public/assets/css/bootadmin.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
 
     <link href="<?= ROOT; ?>public/assets/css/notifications.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="<?= ROOT; ?>public/assets/img/w&cLogoFavicon.png" type="image/x-icon">
-    
-    
+    <link rel="shortcut icon" href="<?= ROOT; ?>public/assets/img/w&cLogoWhite.png" type="image/x-icon">
+
+
 </head>
 
 <body>
 
-<div class="container-fluid login h-100">
-    <div class="row h-100 justify-content-center align-items-center">
-        <div class="col-md-4">
-                <h1 class="text-center mb-4"><?php 
-                    if(isset($_COOKIE['title'])){
-                        echo $_COOKIE['title'];
-                    }
-                    else{
-                        echo "World & Computer";
-                    }
-                ?></h1>
+    <div class="container-fluid login h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-md-4">
+                <div class="row d-flex justify-content-center">
+                    <img src="<?= ROOT; ?>public/assets/img/w&cLogo.png" style="height: 80px;" />
+                </div>
                 <div class="card">
                     <div class="card-body">
                         <form id="formularioRecuperarContrasena">
@@ -74,7 +68,7 @@
                             </div>
 
                             <div class="form-check mb-3">
-                               
+
                             </div>
                             <input type="hidden" name="token-r" id="token-r">
                             <input type="hidden" name="usuario_id" id="usuario_id" value="<?= $usuario->id; ?>">
@@ -87,23 +81,24 @@
                     </div>
                 </div>
             </div>
+        </div>
     </div>
-</div>
 
-    <script src="https://www.google.com/recaptcha/api.js?render=<?=SITE_KEY?>"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=<?= SITE_KEY ?>"></script>
 
     <script>
-         
-            grecaptcha.ready(function() {
-                grecaptcha.execute('<?php echo SITE_KEY;?>', {action: 'homepage'})
+        grecaptcha.ready(function() {
+            grecaptcha.execute('<?php echo SITE_KEY; ?>', {
+                    action: 'homepage'
+                })
                 .then(function(token) {
                     // Add your logic to submit to your backend server here.
                     console.log(token);
                     $('#token-r').val(token);
                 });
-            });
+        });
 
-            var baseURL = "<?= URL; ?>"
+        var baseURL = "<?= URL; ?>"
     </script>
 
     <script src="<?= ROOT; ?>vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
