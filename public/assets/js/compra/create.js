@@ -6,14 +6,14 @@ $(document).ready(function () {
     console.log(dolar);
     const buscarProducto = (codigo) => {
 
-        let producto = productos.find( element => element.codigo === codigo);
+        let producto = productos.find(element => element.codigo === codigo);
 
         return producto;
     }
 
     const buscarProveedor = (documento) => {
 
-        let proveedor = proveedores.find( element => element.documento === documento);
+        let proveedor = proveedores.find(element => element.documento === documento);
 
         return proveedor;
     }
@@ -25,9 +25,9 @@ $(document).ready(function () {
      * Eventos
      */
 
-    $('#listadoProductos').change(function (e) { 
+    $('#listadoProductos').change(function (e) {
         e.preventDefault();
-        
+
         let producto = buscarProducto($(this).val());
 
         $('#nombreProducto').val(producto.nombre);
@@ -36,16 +36,16 @@ $(document).ready(function () {
 
 
 
-    $('#agregarProducto').click(function (e) { 
+    $('#agregarProducto').click(function (e) {
         e.preventDefault();
 
-        
+
         let producto = buscarProducto($('#listadoProductos').val());
-        
+
         Toast.fire(
             producto.nombre + ' Agregado',
             'Producto Agregado correctamente',
-            'success'   
+            'success'
         )
 
         let fila = `
@@ -81,47 +81,47 @@ $(document).ready(function () {
 
 
     // Cambio en input de labla de productos
-    $('#tproductos').on('change', 'input', function(e){
-    e.preventDefault();
-    // alert('funciona');
+    $('#tproductos').on('change', 'input', function (e) {
+        e.preventDefault();
+        // alert('funciona');
 
-    let row = $(this).closest('tr');
-    let total = row.find('.cantidad').val() * row.find('.precio').val();
-    let totalBss = total*dolar;
+        let row = $(this).closest('tr');
+        let total = row.find('.cantidad').val() * row.find('.precio').val();
+        let totalBss = total * dolar;
 
-    row.find('.total').val(total);
-    row.find('.totalBss').val(totalBss);
+        row.find('.total').val(total.toFixed(2));
+        row.find('.totalBss').val(totalBss.toFixed(2));
 
-    let elementos = document.querySelectorAll('.total');
+        let elementos = document.querySelectorAll('.total');
 
-    total = 0;
+        total = 0;
 
-    elementos.forEach(element => {
-        total = parseFloat(total) + parseFloat(element.value);
-    })
-    totalBss = total*dolar;
-    $('#totalVenta').val(`${total} $ - ${totalBss} BSS`);    
-    
+        elementos.forEach(element => {
+            total = parseFloat(total) + parseFloat(element.value);
+        })
+        totalBss = total * dolar;
+        $('#totalVenta').val(`${total.toFixed(2)} $ - ${totalBss.toFixed(2)} BSS`);
+
     });
 
     // Eliminar Articulo de la Lista
-    $('tbody').on('click', '.eliminar',function (e) { 
+    $('tbody').on('click', '.eliminar', function (e) {
         e.preventDefault();
-        
+
         $(this).parents('tr').remove();
 
     });
 
     //Agregar Proveedor
-    $('#agregarProveedor').click(function (e) { 
+    $('#agregarProveedor').click(function (e) {
         e.preventDefault();
-        if($('#listadoProveedores').val() == '' || $('#listadoProveedores').val() == null){
+        if ($('#listadoProveedores').val() == '' || $('#listadoProveedores').val() == null) {
             Toast.fire(
                 'Seleccione un Proveedor',
                 'Debe incluir un proveedor en la compra',
                 'warning'
             )
-    
+
             return false;
         }
         Toast.fire(
@@ -137,59 +137,59 @@ $(document).ready(function () {
         $('#nombreProveedor').val(proveedor.razon_social);
 
         console.log(proveedor);
-        
+
     });
 
-    $('#formularioCompra').submit(function (e){
+    $('#formularioCompra').submit(function (e) {
         e.preventDefault();
         var button = $(this).find("[type='submit']");
-        button.attr("disabled",true);
+        button.attr("disabled", true);
         setTimeout(() => {
             button.removeAttr("disabled");
         }, 1000);
         /**
          * Proveedor
          */
-    
-        if($('#proveedor').val() == '' || $('#proveedor').val() == null){
+
+        if ($('#proveedor').val() == '' || $('#proveedor').val() == null) {
             Swal.fire(
                 'Seleccione un Proveedor',
                 'Debe incluir un proveedor en la compra',
                 'warning'
             )
-    
+
             return false;
         }
-    
+
         /**
          * Total Venta
          */
-    
+
         let form = $(this)
-    
+
         let totalfilas = document.querySelectorAll('.total');
         let total = 0;
-    
+
         totalfilas.forEach(element => {
-                // console.log(element);
-                total += parseFloat(element.value);
+            // console.log(element);
+            total += parseFloat(element.value);
         });
-    
-        if(total == 0){
+
+        if (total == 0) {
             Swal.fire(
                 'Compra Vacia',
                 'Debe selecciona al menos un articulo',
                 'warning'
             )
-    
+
             return false;
         }
-    
+
         $('#total').val(total);
-    
+
         console.log(total)
-    
-    
+
+
         $("#dolar").val(dolar);
         $.ajax({
             type: "POST",
@@ -197,19 +197,19 @@ $(document).ready(function () {
             data: form.serialize(),
             success: function (response) {
                 console.log(response);
-               json = JSON.parse(response);
+                json = JSON.parse(response);
                 console.log(json);
 
-                
+
                 Swal.fire(
                     json.titulo,
                     json.mensaje,
                     json.tipo
                 );
 
-                setTimeout(function(){
+                setTimeout(function () {
                     window.location = "../Compra";
-                },700);
+                }, 700);
             },
             error: function (response) {
                 console.log(response);
@@ -223,11 +223,11 @@ $(document).ready(function () {
         timer: 3000,
         timerProgressBar: false,
         didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
-      });
-      const registrarProveedor = (datos) => {
+    });
+    const registrarProveedor = (datos) => {
         $.ajax({
             type: "POST",
             url: "../proveedor/guardar",
@@ -237,19 +237,19 @@ $(document).ready(function () {
             processData: false,
             success: function (response) {
                 let json = JSON.parse(response);
-                
-                if( json.tipo == 'success'){
-    
+
+                if (json.tipo == 'success') {
+
                     Swal.fire(
                         json.titulo,
                         json.mensaje,
                         json.tipo
                     );
-        
+
                     window.location.reload();
-        
+
                     $('#agregarProveedor').modal('hide');
-                }else{
+                } else {
                     Swal.fire(
                         json.titulo,
                         json.mensaje,
@@ -260,16 +260,16 @@ $(document).ready(function () {
             },
             error: (response) => {
                 console.log(response);
-                
+
             }
         });
-     }
-      // Registrar Proveedor
-    $('#formularioRegistrarProveedor').submit(function (e) { 
+    }
+    // Registrar Proveedor
+    $('#formularioRegistrarProveedor').submit(function (e) {
         e.preventDefault();
 
         let datos = new FormData(document.querySelector('#formularioRegistrarProveedor'));
-        registrarProveedor(datos);   
+        registrarProveedor(datos);
     });
 
 });
