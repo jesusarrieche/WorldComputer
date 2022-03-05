@@ -132,10 +132,10 @@
                     <?= $producto->precio; ?>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center" >
-                    <?= $producto->precio * $producto->cantidad; ?>
+                    <?= round($producto->precio * $producto->cantidad, 2); ?>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center" >
-                    <?= $producto->precio * $producto->cantidad * $venta->dolar; ?>
+                    <?= round($producto->precio * $producto->cantidad * $venta->dolar, 2); ?>
                 </div>
                 <!-- <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->precio * $producto->cantidad * $dolar; ?>
@@ -150,8 +150,11 @@
                     <strong>&nbsp;SUB-TOTAL:&nbsp; <?= $total?></strong><br>
                     <?php 
                         $impuesto = $total * $venta->iva/100;
+                        $impuesto = round($impuesto, 2);
                         $total += $impuesto;                        
                         $totalBss = $total * $venta->dolar;
+                        $total = round($total, 2);
+                        $totalBss = round($totalBss, 2);
                     ?>
                     
                     <strong>&nbsp;IVA(<?= $venta->iva; ?>%):&nbsp; <?= $impuesto; ?></strong><br>

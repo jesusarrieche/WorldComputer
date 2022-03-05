@@ -108,7 +108,7 @@ class VentaController extends Controller{
 
                 $venta->button = 
                 "<a href='venta/mostrar/". $this->encriptar($venta->id) ."' class='mostrar btn btn-info mr-1 mb-1'><i class='fas fa-search'></i></a>".
-                "<a href='venta/ventaPDF/". $this->encriptar($venta->id) ."' class='pdf btn btn-danger mr-1 mb-1'><i class='fas fa-file-pdf'></i></a>";
+                "<a href='venta/ventaPDF/". $this->encriptar($venta->id) ."' class='pdf btn btn-danger mr-1 mb-1' target='_blank'><i class='fas fa-file-pdf'></i></a>";
             }
 
         http_response_code(200);

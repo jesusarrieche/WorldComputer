@@ -79,8 +79,8 @@ $(document).ready(function () {
                             <td>${element.codigo}</td>
                             <td>${element.nombre}</td>
                             <td>${element.costo}</td>
-                            <td>${element.costo * element.cantidad}</td>
-                            <td>${element.costo * element.cantidad * dolar}</td>
+                            <td>${round(element.costo * element.cantidad)}</td>
+                            <td>${round(element.costo * element.cantidad * dolar)}</td>
                         </tr>
                     `;
 
@@ -89,6 +89,8 @@ $(document).ready(function () {
                     
                 });
                 var totalBss = total * dolar;
+                total = round(total);
+                totalBss = round(totalBss);
                 $('#total').val(`${total} $ - ${totalBss} BSS`);
                 
                 $('#modalDetalleCompra').modal('show');

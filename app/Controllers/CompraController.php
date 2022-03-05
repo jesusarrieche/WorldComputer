@@ -101,7 +101,7 @@ class CompraController extends Controller{
 
             $compra->button = 
             "<a href='compra/mostrar/". $this->encriptar($compra->id) ."' class='mostrar btn btn-info mr-1 mb-1'><i class='fas fa-search'></i></a>".
-            "<a href='compra/compraPDF/". $this->encriptar($compra->id) ."' class='pdf btn btn-danger mr-1 mb-1'><i class='fas fa-file-pdf'></i></a>";
+            "<a href='compra/compraPDF/". $this->encriptar($compra->id) ."' class='pdf btn btn-danger mr-1 mb-1' target='_blank'><i class='fas fa-file-pdf'></i></a>";
         }
 
         http_response_code(200);
