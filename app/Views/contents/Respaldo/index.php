@@ -50,7 +50,7 @@
 								if(is_dir($ruta)){
 									if($aux=opendir($ruta)){
 										while(($archivo = readdir($aux)) !== false){
-											if($archivo!="."&&$archivo!=".."){
+											if($archivo != "." && $archivo != ".." && $archivo != ".gitignore"){
 												$nombrearchivo=str_replace(".sql", "", $archivo);
 												$nombrearchivo=str_replace("-", ":", $nombrearchivo);
 												$ruta_completa=$ruta.$archivo;
