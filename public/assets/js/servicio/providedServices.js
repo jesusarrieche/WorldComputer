@@ -71,8 +71,8 @@ $(document).ready(function () {
                         <tr>
                             <td>${element.id}</td>
                             <td>${element.nombre}</td>
-                            <td>${element.precio}</td>
-                            <td>${element.precio * dolar}</td>
+                            <td>${round(element.precio)}</td>
+                            <td>${round(element.precio * dolar)}</td>
                         </tr>
                     `;
                     $('#cuerpoServicios').append(row);
@@ -80,11 +80,13 @@ $(document).ready(function () {
                 });
                 // totalServicios = parseFloat(totalServicios).toFixed(2);
                 var totalServiciosBss = totalServicios*dolar;
-                $('#totalServicios').val(`${totalServicios.toFixed(2)} $ - ${totalServiciosBss.toFixed(2)} BSS`);
+                totalServicios = round(totalServicios);
+                totalServiciosBss = round(totalServiciosBss);
+                $('#totalServicios').val(`${totalServicios} $ - ${totalServiciosBss} BSS`);
                 console.log(json.venta);
                 if (json.venta == null) {
                     $('.productos').hide();
-                    $('#totalServicioPrestado').val(`${totalServicios.toFixed(2)} $ - ${totalServiciosBss.toFixed(2)} BSS`);
+                    $('#totalServicioPrestado').val(`${totalServicios} $ - ${totalServiciosBss} BSS`);
                 }
                 else{
                     $('.productos').show();    
@@ -106,24 +108,28 @@ $(document).ready(function () {
                                 <td>${element.codigo}</td>
                                 <td>${element.nombre}</td>
                                 <td>${element.precio}</td>
-                                <td>${element.precio * element.cantidad}</td>
-                                <td>${element.precio * element.cantidad * dolarV}</td>
+                                <td>${round(element.precio * element.cantidad)}</td>
+                                <td>${round(element.precio * element.cantidad * dolarV)}</td>
                             </tr>
                         `;
 
-                        $('#subtotal').val(parseFloat(subtotal).toFixed(2));
-                        $('#impuesto').val(parseFloat(subtotal * iva/100).toFixed(2));
+                        $('#subtotal').val(round(subtotal));
+                        $('#impuesto').val(round(subtotal * iva/100));
                         $('#cuerpo').append(row);
                         
                     });
 
                     
-                    total += (total * iva/100);
+                    total += round(total * iva/100);
                     var totalBss = total * dolar;
-                    $('#total').val(`${total.toFixed(2)} $ - ${totalBss.toFixed(2)} BSS`);
+                    total = round(total);
+                    totalBss = round(totalBss);
+                    $('#total').val(`${total} $ - ${totalBss} BSS`);
                     totalServicioPrestado = totalServicios+total;
                     var totalServicioPrestadoBss = totalServicioPrestado*dolarV;
-                    $('#totalServicioPrestado').val(`${totalServicioPrestado.toFixed(2)} $ - ${totalServicioPrestadoBss.toFixed(2)} BSS`);
+                    totalServicioPrestado = round(totalServicioPrestado);
+                    totalServicioPrestadoBss = round(totalServicioPrestadoBss);
+                    $('#totalServicioPrestado').val(`${totalServicioPrestado} $ - ${totalServicioPrestadoBss} BSS`);
                 }
                 $(modal).modal('show');
     

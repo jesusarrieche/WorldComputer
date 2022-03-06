@@ -1,19 +1,19 @@
 $(document).ready(function () {
-    
+
     /**
      * FUNCIONES
      */
-    
+
     const buscarProducto = (codigo) => {
 
-        let producto = productos.find( element => element.codigo === codigo);
+        let producto = productos.find(element => element.codigo === codigo);
 
         return producto;
     }
 
     const buscarCliente = (documento) => {
 
-        let cliente = clientes.find( element => element.documento === documento);
+        let cliente = clientes.find(element => element.documento === documento);
 
         return cliente;
     }
@@ -25,9 +25,9 @@ $(document).ready(function () {
      * Eventos
      */
 
-    $('#listadoProductos').change(function (e) { 
+    $('#listadoProductos').change(function (e) {
         e.preventDefault();
-        
+
         let producto = buscarProducto($(this).val());
 
         $('#nombreProducto').val(producto.nombre);
@@ -36,16 +36,16 @@ $(document).ready(function () {
 
 
 
-    $('#agregarProducto').click(function (e) { 
+    $('#agregarProducto').click(function (e) {
         e.preventDefault();
 
-        
+
         let producto = buscarProducto($('#listadoProductos').val());
-        
+
         Toast.fire(
             producto.nombre + ' Agregado',
             'Producto Agregado correctamente',
-            'success'   
+            'success'
         )
 
         let fila = `
@@ -83,15 +83,17 @@ $(document).ready(function () {
 
 
     // Cambio en input de labla de productos
-    $('#tproductos').on('change', 'input', function(e){
+    $('#tproductos').on('change', 'input', function (e) {
         e.preventDefault();
         // alert('funciona');
 
         let row = $(this).closest('tr');
         let total = row.find('.cantidad').val() * row.find('.precio').val();
         let totalBss = total * dolar;
-        row.find('.total').val(total.toFixed(2));
-        row.find('.totalBss').val(totalBss.toFixed(2));
+        total = round(total);
+        totalBss = round(totalBss);
+        row.find('.total').val(total);
+        row.find('.totalBss').val(totalBss);
 
         let elementos = document.querySelectorAll('.total');
 
@@ -101,28 +103,31 @@ $(document).ready(function () {
             total = parseFloat(total) + parseFloat(element.value);
         })
 
-        
-        let impuestos = total * (iva/100);
-        
 
-        $('#impuesto').val(impuestos.toFixed(2));
-        $('#subtotal').val(total.toFixed(2));
-        totalNeto = total+impuestos;
-        totalNetoBss = totalNeto*dolar;
-        $('#totalVenta').val(`${totalNeto.toFixed(2)} $ - ${totalNetoBss.toFixed(2)} BSS`); 
-    
+        let impuestos = total * (iva / 100);
+
+        total = round(total);
+        impuestos = round(impuestos);
+        $('#impuesto').val(impuestos);
+        $('#subtotal').val(total);
+        totalNeto = total + impuestos;
+        totalNetoBss = totalNeto * dolar;
+        totalNeto = round(totalNeto);
+        totalNetoBss = round(totalNetoBss);
+        $('#totalVenta').val(`${totalNeto} $ - ${totalNetoBss} BSS`);
+
     });
 
     // Eliminar Articulo de la Lista
-    $('tbody').on('click', '.eliminar',function (e) { 
+    $('tbody').on('click', '.eliminar', function (e) {
         e.preventDefault();
-        
+
         $(this).parents('tr').remove();
 
     });
 
     //Agregar Cliente
-    $('#agregarCliente').click(function (e) { 
+    $('#agregarCliente').click(function (e) {
         e.preventDefault();
 
         Toast.fire(
@@ -135,70 +140,70 @@ $(document).ready(function () {
 
         $('#cliente').val(cliente.id);
         $('#documentoCliente').val(cliente.documento);
-        $('#nombreCliente').val(cliente.nombre+" "+cliente.apellido);
+        $('#nombreCliente').val(cliente.nombre + " " + cliente.apellido);
 
         console.log(cliente);
-        
+
     });
 
-    $('#formularioCompra').submit(function (e){
+    $('#formularioCompra').submit(function (e) {
         e.preventDefault();
-    
+
         var button = $(this).find("[type='submit']");
-        button.attr("disabled",true);
+        button.attr("disabled", true);
         setTimeout(() => {
             button.removeAttr("disabled");
         }, 1000);
         /**
          * Cliente
          */
-        
-        if($('#cliente').val() == '' || $('#cliente').val() == null){
+
+        if ($('#cliente').val() == '' || $('#cliente').val() == null) {
             Swal.fire(
                 'Seleccione un Cliente',
                 'Debe incluir un cliente en la Venta',
                 'warning'
             )
-    
+
             return false;
         }
-    
+
         /**
          * Total Venta
          */
-    
+
         let form = $(this);
-    
+
         let totalfilas = document.querySelectorAll('.total');
         let total = 0;
-        
-    
+
+
         totalfilas.forEach(element => {
-                // console.log(element);
-                total += parseFloat(element.value);
-        });    
+            // console.log(element);
+            total += parseFloat(element.value);
+        });
 
 
-        if(total == 0){
+        if (total == 0) {
             Swal.fire(
                 'Venta Vacia',
                 'Debe seleccionar al menos un articulo',
                 'warning'
             )
-    
+
             return false;
         }
 
-        let impuestos = total * (iva/100);
+        let impuestos = total * (iva / 100);
 
         total = total + impuestos;
-    
+
         $('#total').val(total);
-    
+
         console.log(total)
-    
-        $("#dolar").val(dolar);        
-        $("#iva").val(iva);        
+
+        $("#dolar").val(dolar);
+        $("#iva").val(iva);
         $.ajax({
             type: "POST",
             url: form.attr('action'),
@@ -208,15 +213,15 @@ $(document).ready(function () {
                 json = JSON.parse(response);
                 console.log(json);
 
-                
+
                 Swal.fire(
                     json.titulo,
                     json.mensaje,
                     json.tipo
                 );
-                setTimeout(function(){
+                setTimeout(function () {
                     window.location = "../Venta";
-                },700);
+                }, 700);
             },
             error: function (response) {
                 console.log(response);
@@ -231,8 +236,8 @@ $(document).ready(function () {
         timer: 3000,
         timerProgressBar: false,
         didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     });
     const registrarCliente = (datos) => {
@@ -246,42 +251,42 @@ $(document).ready(function () {
             processData: false,
             success: function (response) {
                 let json = JSON.parse(response);
-                
-                if( json.tipo == 'success'){
-    
+
+                if (json.tipo == 'success') {
+
                     Swal.fire(
                         json.titulo,
                         json.mensaje,
                         json.tipo
                     );
-        
+
                     window.location.reload();
-        
+
                     $('#modalRegistroCliente').modal('hide');
-                }else{
+                } else {
                     Swal.fire(
                         json.titulo,
                         json.mensaje,
                         json.tipo
                     );
                 }
-    
+
             },
             error: (response) => {
                 console.log(response);
-                
+
             }
         });
     }
-    
 
-    $('#formularioRegistrarCliente').submit(function (e) { 
+
+    $('#formularioRegistrarCliente').submit(function (e) {
         e.preventDefault();
-   
+
         let datos = new FormData(document.querySelector('#formularioRegistrarCliente'));
-   
-       //  console.log(datos.get('documento'));
-   
-        registrarCliente(datos);   
-   });
+
+        //  console.log(datos.get('documento'));
+
+        registrarCliente(datos);
+    });
 });

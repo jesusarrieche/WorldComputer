@@ -146,7 +146,7 @@ class RespaldoController extends Controller{
         $con->query("SET FOREIGN_KEY_CHECKS=0");
         for($i = 0; $i < (count($sql)-1); $i++){
             if(!$con->query($sql[$i].";")){
-                echo $con->error." $sql[$i]<br> --- <br>";
+                // echo $con->error." $sql[$i]<br> --- <br>";
                 $totalErrors++;
             }
         }
@@ -163,7 +163,12 @@ class RespaldoController extends Controller{
                 'mensaje' => "No se pudo realizar la restauración completamente.<br>
                                 Total de errores: $totalErrors"
             ]);
+            return 0;
         }
+        echo json_encode([
+            'success' => true
+        ]);
+        return 0;
     }
     public function verificarPassword()
     {

@@ -120,11 +120,11 @@ $(document).ready(function () {
                     <input type="text" class="form-control-plaintext" value="${servicio.nombre}" disabled>
                 </td>
                 <td>
-                    <input type="text" class="form-control-plaintext precio_servicio" value="${servicio.precio}" disabled>
+                    <input type="text" class="form-control-plaintext precio_servicio" value="${round(servicio.precio)}" disabled>
                     <input type="hidden" name="servicios_precio[]" class="form-control-plaintext " value="${servicio.precio}" >
                 </td>
                 <td>
-                    <input type="text" class="form-control-plaintext precio_servicioBss" value="${(servicio.precio*dolar).toFixed(2)}" disabled>
+                    <input type="text" class="form-control-plaintext precio_servicioBss" value="${round(servicio.precio*dolar)}" disabled>
                 </td>
                 
                 <td>
@@ -193,8 +193,10 @@ $(document).ready(function () {
         let row = $(this).closest('tr');
         let total = row.find('.cantidad').val() * row.find('.precio').val();
         let totalBss = total * dolar;
-        row.find('.total').val(total.toFixed(2));
-        row.find('.totalBss').val(totalBss.toFixed(2));
+        total = round(total);
+        totalBss = round(totalBss);
+        row.find('.total').val(total);
+        row.find('.totalBss').val(totalBss);
 
         actualizarTotal();
     
@@ -217,7 +219,10 @@ $(document).ready(function () {
         elementos.forEach(element => {
             totalServicios = parseFloat(totalServicios) + parseFloat(element.value);
         });
-        $('#totalServicios').val(`${totalServicios.toFixed(2)} $ - ${(totalServicios*dolar).toFixed(2)} BSS`); 
+        totalServiciosBss = totalServicios * dolar;
+        totalServicios = round(totalServicios);
+        totalServiciosBss = round(totalServiciosBss);
+        $('#totalServicios').val(`${totalServicios} $ - ${(totalServiciosBss)} BSS`); 
 
         //total productos
         let elementosP = document.querySelectorAll('.total');
@@ -226,15 +231,21 @@ $(document).ready(function () {
             totalProductos = parseFloat(totalProductos) + parseFloat(element.value);
         });      
         let impuestos = totalProductos * (iva/100);
-        $('#impuesto').val(impuestos.toFixed(2));
-        $('#subtotal').val(totalProductos.toFixed(2));
+        impuestos = round(impuestos);
+        totalProductos = round(totalProductos);
+        $('#impuesto').val(impuestos);
+        $('#subtotal').val(totalProductosBss);
         totalProductos = totalProductos + impuestos;
         var totalProductosBss = totalProductos * dolar;
-        $('#totalVenta').val(`${totalProductos.toFixed(2)} $ - ${totalProductosBss.toFixed(2)} BSS`);
+        totalProductos = round(totalProductos);
+        totalProductosBss = round(totalProductosBss);
+        $('#totalVenta').val(`${totalProductos} $ - ${totalProductosBss} BSS`);
         //total
         var totalServicioPrestado = totalServicios+totalProductos;
         var totalServicioPrestadoBss = totalServicioPrestado * dolar;
-        $('#totalServicioPrestado').val(`${totalServicioPrestado.toFixed(2)} $ - ${totalServicioPrestadoBss.toFixed(2)} BSS`);
+        totalServicioPrestado = round(totalServicioPrestado);
+        totalServicioPrestadoBss = round(totalServicioPrestadoBss);
+        $('#totalServicioPrestado').val(`${totalServicioPrestado} $ - ${totalServicioPrestadoBss} BSS`);
     }
 
     $('#formularioServicio').submit(function (e){

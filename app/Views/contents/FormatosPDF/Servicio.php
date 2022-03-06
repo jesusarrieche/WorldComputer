@@ -162,10 +162,10 @@
                     <?= $servicio->nombre; ?>
                 </div>
                 <div style="width:24.5%; display:inline;" class="text-center" >
-                    <?= $servicio->precio; ?>
+                    <?= round($servicio->precio, 2); ?>
                 </div>
                 <div style="width:24.5%; display:inline;" class="text-center" >
-                    <?= $servicio->precio * $servicio_prestado->dolar; ?>
+                    <?= round($servicio->precio * $servicio_prestado->dolar, 2); ?>
                 </div>
                 
                 <!-- <div style="width:15.5%; display:inline;" class="text-center" >
@@ -177,6 +177,8 @@
                     endforeach;
                     
                     $totalServiciosBss = $totalServicios*$servicio_prestado->dolar;
+                    $totalServicios = round($totalServicios, 2);
+                    $totalServiciosBss = round($totalServiciosBss, 2);
                 ?>
                 <hr class="separadorDos">
                 <div>
@@ -249,10 +251,10 @@
                     <?= $producto->precio; ?>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center" >
-                    <?= $producto->precio * $producto->cantidad; ?>
+                    <?= round($producto->precio * $producto->cantidad, 2); ?>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center" >
-                    <?= $producto->precio * $producto->cantidad * $venta->dolar; ?>
+                    <?= round($producto->precio * $producto->cantidad * $venta->dolar, 2); ?>
                 </div>
                 <!-- <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->precio * $producto->cantidad * $dolar; ?>
@@ -267,8 +269,11 @@
                     <strong>&nbsp;SUB-TOTAL:&nbsp; <?= $total?></strong><br>
                     <?php 
                         $impuesto = $total * $venta->iva/100;
+                        $impuesto = round($impuesto, 2);
                         $total += $impuesto;                        
                         $totalBss = $total * $venta->dolar;
+                        $total = round($total, 2);
+                        $totalBss = round($totalBss, 2);
                     ?>
                     
                     <strong>&nbsp;IVA(<?= $venta->iva; ?>%):&nbsp; <?= $impuesto; ?></strong><br>
@@ -286,7 +291,8 @@
                 if (isset($venta)) {
                     $totalFinal = $totalServicios + $total;
                     $totalFinalBss = $totalServiciosBss + $totalBss;
-                   
+                    $totalFinal = round($totalFinal, 2);
+                    $totalFinalBss = round($totalFinalBss, 2);
             ?>
                 <strong>&nbsp;TOTAL:&nbsp; <?= $totalFinal." $ - ".$totalFinalBss." BSS"; ?></strong><br>
             <?php                 

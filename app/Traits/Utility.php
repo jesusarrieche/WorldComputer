@@ -152,7 +152,7 @@ trait Utility
         imagedestroy($im);
         return true;
     }
-    public function decifrarImagen($img){//Extraer mensaje desde imagen
+    public function descifrarImagen($img){//Extraer mensaje desde imagen
         $message = '';
         $src = "public/assets/img/seguridad/".$img;
         $im = imagecreatefrompng($src);//Obtener imagen a partir de un fichero

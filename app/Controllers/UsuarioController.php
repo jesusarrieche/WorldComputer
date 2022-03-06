@@ -113,7 +113,7 @@ class UsuarioController extends Controller{
         $usuario->setEstatus("ACTIVO");
         $usuario->setUsuario(strtoupper($this->limpiaCadena($_POST['usuario'])));
         $usuario->setPassword($contrasena);
-        $usuario->setSeguridad_img($this->decifrarImagen($this->limpiaCadena($_POST['seguridad_img'])));
+        $usuario->setSeguridad_img($this->descifrarImagen($this->limpiaCadena($_POST['seguridad_img'])));
         $usuario->setSeguridad_pregunta($this->limpiaCadena($_POST['seguridad_pregunta']));
         $usuario->setSeguridad_respuesta($this->encriptar($this->limpiaCadena($_POST['seguridad_respuesta'])));
         $usuario->setRolId(strtoupper($this->limpiaCadena($_POST['rolUsuario'])));
@@ -176,7 +176,7 @@ class UsuarioController extends Controller{
             $usuario->setPassword($contrasena);
         }
         if ($_POST['seguridad_img']!="") {
-            $usuario->setSeguridad_img($this->decifrarImagen($this->limpiaCadena($_POST['seguridad_img'])));
+            $usuario->setSeguridad_img($this->descifrarImagen($this->limpiaCadena($_POST['seguridad_img'])));
         }
         $usuario->setSeguridad_pregunta($this->limpiaCadena($_POST['seguridad_pregunta']));
         if ($_POST['seguridad_respuesta']!="") {
@@ -339,7 +339,7 @@ class UsuarioController extends Controller{
             return false;
         }
         $usuario = new Usuario;
-        $usuario->setSeguridad_img($this->decifrarImagen($this->limpiaCadena($_POST['seguridad_img'])));
+        $usuario->setSeguridad_img($this->descifrarImagen($this->limpiaCadena($_POST['seguridad_img'])));
         $usuario->setSeguridad_respuesta($this->encriptar($this->limpiaCadena($_POST['seguridad_respuesta'])));
         $usu = $this->usuario->autenticar($usuario);
         if(isset($usu->id)) {

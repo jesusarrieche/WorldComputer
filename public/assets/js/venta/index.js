@@ -84,23 +84,24 @@ $(document).ready(function () {
                             <td>${element.codigo}</td>
                             <td>${element.nombre}</td>
                             <td>${element.precio}</td>
-                            <td>${element.precio * element.cantidad}</td>
-                            <td>${element.precio * element.cantidad * dolar}</td>
+                            <td>${round(element.precio * element.cantidad)}</td>
+                            <td>${round(element.precio * element.cantidad * dolar)}</td>
                         </tr>
                     `;
 
-                    $('#subtotal').val(parseFloat(subtotal).toFixed(2));
-                    $('#impuesto').val(parseFloat(subtotal * iva/100).toFixed(2));
+                    $('#subtotal').val(round(subtotal));
+                    $('#impuesto').val(round(subtotal * iva/100));
                     $('#cuerpo').append(row);
                     
                 });
 
-                total += (total * iva/100);
+                total += round((total * iva/100));
                 var totalBss = total * dolar;
-                $('#total').val(`${total.toFixed(2)} $ - ${totalBss.toFixed(2)} BSS`);
+                total = round(total);
+                totalBss = round(totalBss);
+                $('#total').val(`${total} $ - ${totalBss} BSS`);
 
-                
-                
+            
                 $('#modalDetalleVenta').modal('show');
 
             },

@@ -94,7 +94,7 @@ class ServicioController extends Controller{
         }                
         $servicio->button = 
         "<a href='mostrarPrestado/". $this->encriptar($servicio->id) ."' class='mostrar btn btn-info mr-1 mb-1'><i class='fas fa-search'></i></a>".
-        "<a href='servicioPrestadoPDF/". $this->encriptar($servicio->id) ."' class='pdf btn btn-danger mr-1 mb-1'><i class='fas fa-file-pdf'></i></a>";
+        "<a href='servicioPrestadoPDF/". $this->encriptar($servicio->id) ."' class='pdf btn btn-danger mr-1 mb-1' target='_blank'><i class='fas fa-file-pdf'></i></a>";
     
     }      
 

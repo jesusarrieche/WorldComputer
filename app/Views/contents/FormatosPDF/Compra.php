@@ -130,10 +130,10 @@
                     <?= $producto->costo; ?>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center" >
-                    <?= $producto->costo * $producto->cantidad; ?>
+                    <?= round($producto->costo * $producto->cantidad, 2); ?>
                 </div>
                 <div style="width:15.5%; display:inline;" class="text-center" >
-                    <?= $producto->costo * $producto->cantidad * $compra->dolar; ?>
+                    <?= round($producto->costo * $producto->cantidad * $compra->dolar, 2); ?>
                 </div>
                 <!-- <div style="width:15.5%; display:inline;" class="text-center" >
                     <?= $producto->costo * $producto->cantidad * $dolar; ?>
@@ -143,6 +143,8 @@
                 <?php
                     endforeach;
                     $totalBss = $total * $compra->dolar;
+                    $total = round($total, 2);
+                    $totalBss = round($totalBss, 2);
                 ?>
                 <hr>
                 <div>

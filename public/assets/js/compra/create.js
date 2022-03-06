@@ -88,9 +88,10 @@ $(document).ready(function () {
         let row = $(this).closest('tr');
         let total = row.find('.cantidad').val() * row.find('.precio').val();
         let totalBss = total * dolar;
-
-        row.find('.total').val(total.toFixed(2));
-        row.find('.totalBss').val(totalBss.toFixed(2));
+        total = round(total);
+        totalBss = round(totalBss);
+        row.find('.total').val(total);
+        row.find('.totalBss').val(totalBss);
 
         let elementos = document.querySelectorAll('.total');
 
@@ -100,7 +101,9 @@ $(document).ready(function () {
             total = parseFloat(total) + parseFloat(element.value);
         })
         totalBss = total * dolar;
-        $('#totalVenta').val(`${total.toFixed(2)} $ - ${totalBss.toFixed(2)} BSS`);
+        total = round(total);
+        totalBss = round(totalBss);
+        $('#totalVenta').val(`${total} $ - ${totalBss} BSS`);
 
     });
 

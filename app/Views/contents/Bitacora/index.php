@@ -51,7 +51,7 @@
                         <option value="Compras">Compras</option>
                         <option value="Ventas">Ventas</option>
                         <option value="Servicios">Servicios</option>
-                        <option value="Servicios Prestados">Servicios Prestados</option>
+                        <option value="Prestados">Servicios Prestados</option>
                         <option value="Roles">Roles</option>
                     </select>
                 </div>

@@ -122,33 +122,39 @@ class BitacoraController extends Controller{
         $actividad = $query->fetch(PDO::FETCH_OBJ);
         $actividad->usuario_documento = $this->desencriptar($actividad->usuario_documento);
         $expA = explode('"', $actividad->accion);//Desglosar la acción
-        $explA = explode(' - ', $expA[1]);//Obtener el documento por su inicial y número
-        if(count($explA) > 1){//Verificar si es un documento de persona
-            $persona = $this->desencriptar($explA[0]).' - '.$explA[1];//Desencriptar documento
-            $accion = $expA[0].'"'.$persona.'"';
-            $actividad->accion = $accion;
-
-            $expD = explode('<br>', $actividad->descripcion);//Desglosar la descripción
-            $descripcion = "";
-            for ($i=0; $i < count($expD); $i++) { 
-                $desencriptado = false;
-                $explD = explode(': ', $expD[$i]);//Desglosar el campo de información
-                if(count($explD) > 1){
-                    if($explD[0] == "Documento" || $explD[0] == "Dirección"
-                        || $explD[0] == "Teléfono" || $explD[0] == "E-mail"){//Verificar si es un dato encriptado
-                        $explD[1] = $this->desencriptar($explD[1]);
-                        $desencriptado = true;
+        if(isset($expA[1])){
+            $explA = explode(' - ', $expA[1]);//Obtener el documento por su inicial y número
+            if(count($explA) > 1){
+                $documentoDesencriptado = $this->desencriptar($explA[0]);
+                if($documentoDesencriptado){
+                    $accionTitulo = $documentoDesencriptado.' - '.$explA[1];//Desencriptar documento
+                    $accion = $expA[0].'"'.$accionTitulo.'"';
+                    $actividad->accion = $accion;
+                }
+    
+                $expD = explode('<br>', $actividad->descripcion);//Desglosar la descripción
+                $descripcion = "";
+                for ($i=0; $i < count($expD); $i++) { 
+                    $desencriptado = false;
+                    $explD = explode(': ', $expD[$i]);//Desglosar el campo de información
+                    if(count($explD) > 1){
+                        if($explD[0] == "Documento" || $explD[0] == "Dirección"
+                            || $explD[0] == "Teléfono" || $explD[0] == "E-mail"){//Verificar si es un dato encriptado
+                            $explD[1] = $this->desencriptar($explD[1]);
+                            $desencriptado = true;
+                        }
                     }
+                    if(!$desencriptado){
+                        $descripcion .= $expD[$i] . '<br>';
+                    }
+                    else{//Agregar a la descripción el dato desencriptado
+                        $descripcion .= $explD[0].': '.$explD[1].'<br>';
+                    }
+                    $actividad->descripcion = $descripcion;//Asignar la nueva descripción al objeto
                 }
-                if(!$desencriptado){
-                    $descripcion .= $expD[$i] . '<br>';
-                }
-                else{//Agregar a la descripción el dato desencriptado
-                    $descripcion .= $explD[0].': '.$explD[1].'<br>';
-                }
-                $actividad->descripcion = $descripcion;//Asignar la nueva descripción al objeto
             }
         }
+        
         http_response_code(200);
         echo json_encode([
             'data' => $actividad
