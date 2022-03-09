@@ -50,7 +50,7 @@
                             <div class="col-md">
                                 <div class="form-group">
                                     <label for="seguridad_respuesta">Respuesta</label>
-                                    <input type="text" class="form-control" name="seguridad_respuesta" id="seguridad_respuesta" pattern="[A-Za-z0-9/. ]+" minlength="3" maxlength="20">
+                                    <input type="text" class="form-control" name="seguridad_respuesta" id="seguridad_respuesta" autocomplete="off" pattern="[A-Za-z0-9/. ]+" minlength="3" maxlength="20">
                                 </div>
                             </div>
                         </div>
