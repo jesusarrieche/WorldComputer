@@ -334,6 +334,24 @@ $(document).ready(function () {
             );
             return 0;
         }
+        if (seguridadImgActu != "" || datos.get('seguridad_pregunta') != seguridadPreguntaActu 
+            || datos.get('seguridad_respuesta') != "") {
+            let error = false;
+            if(seguridadImgActu == ""){
+                error = true;
+            }
+            if(datos.get('seguridad_respuesta') == ""){
+                error = true;
+            }
+            if(error){
+                Swal.fire(
+                    "Error",
+                    "Al cambiar la Imagen, Pregunta y/o Respuesta de Seguridad dichos campos se vuelven obligatorios",
+                    "warning"
+                );
+                return 0;
+            }
+        }
         //Si se cambia algún dato sensible se exige autenticación de usuario
         if (datos.get('correo') != correoActu || datos.get('rolUsuario') != rolUsuarioActu || seguridadImgActu != "" ||
             datos.get('seguridad_pregunta') != seguridadPreguntaActu || datos.get('seguridad_respuesta') != "") {

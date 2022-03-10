@@ -142,7 +142,7 @@
                         </div>
                         <hr>
                         <div class="form-row">
-                            <?php foreach ($seguridad_imgs as $img) : ?>
+                            <?php foreach (SECURITY_IMGS as $img) : ?>
                                 <div class="col-6 col-md-3 p-1">
                                     <div class="card p-2 card-seguridad-img" data-action="registrar" data-img="<?= $img ?>">
                                         <img src="<?= ROOT; ?>public/assets/img/seguridad/<?= $img ?>" />
@@ -388,7 +388,7 @@
                                     <div class="collapse " id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordion">
                                         <div class="card-body">
                                             <div class="form-row">
-                                                <?php foreach ($seguridad_imgs as $img) : ?>
+                                                <?php foreach (SECURITY_IMGS as $img) : ?>
                                                     <div class="col-6 col-md-3 p-1">
                                                         <div class="card p-2 card-seguridad-img" data-action="actualizar" data-img="<?= $img ?>">
                                                             <img src="<?= ROOT; ?>public/assets/img/seguridad/<?= $img ?>" />

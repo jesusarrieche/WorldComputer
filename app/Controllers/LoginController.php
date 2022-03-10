@@ -120,6 +120,8 @@ class LoginController extends Controller{
             $_SESSION['usuario'] = $response->usuario;
             $_SESSION['id'] = $response->id;
             $_SESSION['rol'] = $response->rol_id;
+            $_SESSION['seguridad_img'] = $response->seguridad_img . '.png';
+            $_SESSION['seguridad_respuesta'] = $response->seguridad_respuesta . '.png';
             $_SESSION['sesion_autenticada'] = false;
             $_SESSION['sesion_fallos_autenticacion'] = 0;
             $this->usuario->setRolId($response->rol_id);

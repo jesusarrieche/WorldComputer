@@ -101,11 +101,10 @@ trait Utility
     /*
         ESTEGANOGRAFÍA
     */
-    public function cifrarEnImagen($message, $img){//Grabar mensaje en imagen
-        $img_result = $img;
-        $img_result = str_replace(".png", "_.png", $img_result);
+    public function cifrarEnImagen($message, $img, $id){//Grabar mensaje en imagen
+        $id = $this->encriptar("_$id");
         $src = "public/assets/img/seguridad/".$img;
-        $src_result = "public/assets/img/seguridad/".$img_result;
+        $src_result = "public/assets/img/seguridad/".$id.".png";
 
         $binary_message = $this->imgBinaria($message);
         $message_length = strlen($binary_message);
@@ -150,7 +149,7 @@ trait Utility
         }
         imagepng($im, $src_result);//Crear la imagen
         imagedestroy($im);
-        return true;
+        return $id;
     }
     public function descifrarImagen($img){//Extraer mensaje desde imagen
         $message = '';

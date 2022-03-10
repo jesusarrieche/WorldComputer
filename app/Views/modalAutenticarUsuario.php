@@ -1,7 +1,10 @@
 <?php
-    $seguridad_imgs = [
-        'seguridad_img_0_.png', 'seguridad_img_1_.png', 'seguridad_img_2_.png', 'seguridad_img_3_.png'
-    ];
+    $seguridad_imgs = SECURITY_IMGS;
+    for ($i=0; $i < count($seguridad_imgs) ; $i++) { 
+        if($seguridad_imgs[$i] == $_SESSION['seguridad_img']){
+            $seguridad_imgs[$i] = $_SESSION['seguridad_respuesta'];
+        }
+    }
 ?>
 <div class="modal fade modal-autenticar-usuario" id="modalAutenticarUsuario" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

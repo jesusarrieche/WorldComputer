@@ -38,6 +38,7 @@ $(document).ready(function () {
     */
     var seguridadImgActu = "", seguridadPreguntaActu = seguridadPregunta;
     var correoActu = correo, rolUsuarioActu = rolUsuario;
+    $('#seguridad_pregunta').val(seguridadPreguntaActu);
     //Selección de imagen de seguridad
     $('.card-seguridad-img').on('click', function (e) {
         seguridadImgActu = $(this).attr('data-img');
@@ -67,6 +68,24 @@ $(document).ready(function () {
                 "warning"
             );
             return 0;
+        }
+        if (seguridadImgActu != "" || datos.get('seguridad_pregunta') != seguridadPreguntaActu 
+            || datos.get('seguridad_respuesta') != "") {
+            let error = false;
+            if(seguridadImgActu == ""){
+                error = true;
+            }
+            if(datos.get('seguridad_respuesta') == ""){
+                error = true;
+            }
+            if(error){
+                Swal.fire(
+                    "Error",
+                    "Al cambiar la Imagen, Pregunta y/o Respuesta de Seguridad dichos campos se vuelven obligatorios",
+                    "warning"
+                );
+                return 0;
+            }
         }
         if (datos.get('correo') != correoActu || datos.get('rolUsuario') != rolUsuarioActu || seguridadImgActu != "" ||
             datos.get('seguridad_pregunta') != seguridadPreguntaActu || datos.get('seguridad_respuesta') != "") {
