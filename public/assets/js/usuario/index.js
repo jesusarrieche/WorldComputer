@@ -209,6 +209,35 @@ $(document).ready(function () {
         });
     }
 
+    const consultarDocumento = (form) => {
+        let inicial_documento = $(form).find('#inicial_documento').val()
+        let documento = $(form).find('#documento').val()
+        if(inicial_documento == ''){
+            return 0;
+        }
+        if(documento.length < 7){
+            return 0;
+        }
+        documento = inicial_documento + '-' + documento;
+        $.ajax({
+            type: "POST",
+            url: "Usuario/consultarDocumento/" + documento,
+            success: function (response) {
+                const json = JSON.parse(response);
+                if (json.tipo != 'success') {
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                    )
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
     /**
      * Eventos
      */
@@ -276,6 +305,13 @@ $(document).ready(function () {
         mostrarUsuario($(this).attr('href'), 'form#formularioActualizarUsuario', '#modalActualizarUsuario');
     });
 
+    $('#formularioRegistrarUsuario').on('change', '#documento', function (e){
+        consultarDocumento($('#formularioRegistrarUsuario'));
+    });
+    $('#formularioRegistrarUsuario').on('change', '#inicial_documento', function (e){
+        consultarDocumento($('#formularioRegistrarUsuario'));
+    });
+    
     $('#formularioActualizarUsuario').submit(async function (e) {
         e.preventDefault();
         let requerirAutenticacion = false;

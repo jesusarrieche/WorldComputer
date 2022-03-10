@@ -229,7 +229,17 @@ class Usuario extends Persona{
             die($e->getMessage());
         }
     }
+    public function consultarDocumento ($documento) {
+        try {
+            $query = parent::connect()->prepare("SELECT nombre, apellido FROM usuarios WHERE documento = :documento");
+            $query->bindParam(":documento", $documento);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_OBJ);
 
+        } catch ( Exception $e ) {
+            die($e->getMessage());
+        }
+    }
     public function obtenerId (Usuario $user) {
         try {
             $email = $user->getEmail();

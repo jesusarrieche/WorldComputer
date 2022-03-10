@@ -89,5 +89,16 @@ class Cliente extends Persona{
             return false;
         }
     }
+    public function consultarDocumento ($documento) {
+        try {
+            $query = parent::connect()->prepare("SELECT nombre, apellido FROM clientes WHERE documento = :documento");
+            $query->bindParam(":documento", $documento);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_OBJ);
+
+        } catch ( Exception $e ) {
+            die($e->getMessage());
+        }
+    }
 
 }
