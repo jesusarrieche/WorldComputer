@@ -87,7 +87,7 @@ class Proveedor extends Persona{
     }
     public function consultarDocumento ($documento) {
         try {
-            $query = parent::connect()->prepare("SELECT nombre, apellido FROM proveedores WHERE documento = :documento");
+            $query = parent::connect()->prepare("SELECT razon_social FROM proveedores WHERE documento = :documento");
             $query->bindParam(":documento", $documento);
             $query->execute();
             return $query->fetch(PDO::FETCH_OBJ);

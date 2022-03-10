@@ -120,7 +120,7 @@ class Empleado extends Persona{
 
     public function consultarDocumento ($documento) {
         try {
-            $query = parent::connect()->prepare("SELECT nombre, apellido FROM emoleados WHERE documento = :documento");
+            $query = parent::connect()->prepare("SELECT nombre, apellido FROM empleados WHERE documento = :documento");
             $query->bindParam(":documento", $documento);
             $query->execute();
             return $query->fetch(PDO::FETCH_OBJ);

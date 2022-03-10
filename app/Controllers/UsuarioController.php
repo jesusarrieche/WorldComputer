@@ -255,6 +255,7 @@ class UsuarioController extends Controller{
             'data' => $usuario
         ]);
     }
+    
     public function consultarDocumento($documento){
         $documento = $this->encriptar($documento);
         $persona = $this->usuario->consultarDocumento($documento);

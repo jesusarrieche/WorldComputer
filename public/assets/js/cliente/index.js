@@ -206,6 +206,34 @@ $(document).ready(function () {
             }
         });
     }
+    const consultarDocumento = (form) => {
+        let inicial_documento = $(form).find('#inicial_documento').val()
+        let documento = $(form).find('#documento').val()
+        if(inicial_documento == ''){
+            return 0;
+        }
+        if(documento.length < 7){
+            return 0;
+        }
+        documento = inicial_documento + '-' + documento;
+        $.ajax({
+            type: "POST",
+            url: "Cliente/consultarDocumento/" + documento,
+            success: function (response) {
+                const json = JSON.parse(response);
+                if (json.tipo != 'success') {
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                    )
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
 
     /**
      * Eventos
@@ -234,6 +262,12 @@ $(document).ready(function () {
         e.preventDefault();
         console.log($(this).attr('href'));
         mostrarCliente($(this).attr('href'), 'form#formularioActualizarCliente', '#modalActualizarCliente');
+    });
+    $('#formularioRegistrarCliente').on('change', '#documento', function (e){
+        consultarDocumento($('#formularioRegistrarCliente'));
+    });
+    $('#formularioRegistrarCliente').on('change', '#inicial_documento', function (e){
+        consultarDocumento($('#formularioRegistrarCliente'));
     });
 
     $('#formularioActualizarCliente').submit(async function (e) {
