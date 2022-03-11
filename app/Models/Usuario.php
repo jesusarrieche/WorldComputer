@@ -34,6 +34,7 @@ class Usuario extends Persona{
         return $this->seguridad_img;
     }
     public function setSeguridad_img($seguridad_img){
+        $seguridad_img = str_replace(".png", "", $seguridad_img);
         $this->seguridad_img = $seguridad_img;
     }
     public function getSeguridad_pregunta(){
@@ -99,8 +100,8 @@ class Usuario extends Persona{
         try{
             $dbh = parent::connect();
             $consulta = $dbh->prepare("INSERT INTO usuarios(rol_id,documento, nombre, apellido, direccion, telefono, 
-                email, usuario, password, seguridad_img, seguridad_pregunta, seguridad_respuesta) VALUES (:rol_id,:documento, :nombre, :apellido, :direccion, 
-                :telefono, :email, :usuario, :password, :seguridad_img, :seguridad_pregunta, :seguridad_respuesta)");
+                email, usuario, password, seguridad_pregunta) VALUES (:rol_id,:documento, :nombre, :apellido, :direccion, 
+                :telefono, :email, :usuario, :password, :seguridad_pregunta)");
 
             $documento = $usuario->getDocumento();
             $nombre = $usuario->getNombre();
@@ -110,9 +111,7 @@ class Usuario extends Persona{
             $email = $usuario->getEmail();
             $usuario_name = $usuario->getUsuario();
             $password = $usuario->getPassword();
-            $seguridad_img = $usuario->getSeguridad_img();
             $seguridad_pregunta = $usuario->getSeguridad_pregunta();
-            $seguridad_respuesta = $usuario->getSeguridad_respuesta();
             $rol_id = $usuario->getRolId();
 
             $consulta->bindParam(":rol_id", $rol_id);
@@ -124,13 +123,32 @@ class Usuario extends Persona{
             $consulta->bindParam(":email", $email);
             $consulta->bindParam(":usuario", $usuario_name);
             $consulta->bindParam(":password", $password);
-            $consulta->bindParam(":seguridad_img", $seguridad_img);
             $consulta->bindParam(":seguridad_pregunta", $seguridad_pregunta);
-            $consulta->bindParam(":seguridad_respuesta", $seguridad_respuesta);
 
-            return $consulta->execute();
-
+            $consulta->execute();
+            return $dbh->lastInsertId();
         }catch(Exception $ex){
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+    public function registrarDatosSeguridad(Usuario $usuario){
+        try{
+            $dbh = parent::connect();
+            $consulta = $dbh->prepare("UPDATE usuarios SET seguridad_img = :seguridad_img,
+                seguridad_respuesta = :seguridad_respuesta WHERE id = :id");
+
+            $id = $usuario->getId();
+            $seguridad_img = $usuario->getSeguridad_img();
+            $seguridad_respuesta = $usuario->getSeguridad_respuesta();
+
+            $consulta->bindParam(":seguridad_img", $seguridad_img);
+            $consulta->bindParam(":seguridad_respuesta", $seguridad_respuesta);
+            $consulta->bindParam(":id", $id);
+            $consulta->execute();
+            return true;
+        }catch(Exception $ex){
+            var_dump($ex);
             $this->error = $ex->getMessage();
             return false;
         }
@@ -196,7 +214,9 @@ class Usuario extends Persona{
     
     public function checkUser(Usuario $user) {
         try {
-            $query = parent::connect()->prepare("SELECT id, documento, nombre, apellido, email, usuario, estatus, rol_id, password FROM usuarios WHERE usuario=:usuario");
+            $query = parent::connect()->prepare("SELECT id, documento, nombre, apellido, email, 
+                usuario, estatus, rol_id, password, seguridad_img, seguridad_respuesta 
+                FROM usuarios WHERE usuario=:usuario");
             // $query = parent::connect()->prepare("SELECT id, documento, nombre, apellido, email, usuario, estatus, rol_id FROM usuarios WHERE estatus='ACTIVO' AND usuario=:usuario AND password=:password");
             
             $query->bindParam(":usuario", $user->usuario);
@@ -229,7 +249,17 @@ class Usuario extends Persona{
             die($e->getMessage());
         }
     }
+    public function consultarDocumento ($documento) {
+        try {
+            $query = parent::connect()->prepare("SELECT nombre, apellido FROM usuarios WHERE documento = :documento");
+            $query->bindParam(":documento", $documento);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_OBJ);
 
+        } catch ( Exception $e ) {
+            die($e->getMessage());
+        }
+    }
     public function obtenerId (Usuario $user) {
         try {
             $email = $user->getEmail();
@@ -254,25 +284,6 @@ class Usuario extends Persona{
             die($e->getMessage());
         }
     }
-
-    public function autenticar(Usuario $u) {
-        try {
-            $id = $_SESSION['id'];
-            $seguridad_img = $u->getSeguridad_img(); 
-            $seguridad_respuesta = $u->getSeguridad_respuesta(); 
-            $query = parent::connect()->prepare("SELECT id, usuario FROM usuarios WHERE id=:id 
-                AND seguridad_img=:seguridad_img AND seguridad_respuesta=:seguridad_respuesta");
-            $query->bindParam(":id", $id);
-            $query->bindParam(":seguridad_img", $seguridad_img);
-            $query->bindParam(":seguridad_respuesta", $seguridad_respuesta);
-            $query->execute();
-            return $query->fetch(PDO::FETCH_OBJ);
-
-        } catch ( Exception $e ) {
-            die($e->getMessage());
-        }
-    }
-
     public function recuperarContrasena(Usuario $user) {
         try {
             $_SESSION['id'] = $user->getId();

@@ -3,7 +3,7 @@
 
     <div class="card mb-4">
         <div class="card-header bg-white">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroUsuario" <?php $band = false;?>>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroUsuario" <?php $band = false; ?>>
                 <i class="fas fa-plus-square"></i> Agregar Usuarios
             </button>
         </div>
@@ -47,6 +47,21 @@
                         </div>
 
                         <hr>
+                        <div class="row form-group">
+                            <label for="documento" class="col-form-label col-md-2">Cedula/RIF:</label>
+                            <div class="col-3 col-md-2 ">
+                                <select class="form-control pl-0 pr-0" name="inicial_documento" id="inicial_documento" required="">
+                                    <option value="" selected="">-</option>
+                                    <option value="V">V</option>
+                                    <option value="E">E</option>
+                                    <option value="J">J</option>
+                                    <option value="G">G</option>
+                                </select>
+                            </div>
+                            <div class="col-9 col-md-4">
+                                <input type="text" pattern="[0-9]{6,8}" name="documento" id="documento" minlength="6" maxlength="8" title="Ingrese entre 6 y 8 digitos" class="form-control" placeholder="Identificación" required="">
+                            </div>
+                        </div>
 
                         <div class="row form-group">
                             <input name="id" id="id" hidden>
@@ -62,18 +77,9 @@
                         </div>
 
                         <div class="row form-group">
-                            <label for="cedula_cliente" class="col-form-label col-md-2">Cedula/RIF:</label>
-                            <div class="col-md-1 ">
-                                <select class="form-control pl-0 pr-0" name="inicial_documento" id="inicial_documento" required="">
-                                    <option value="" selected="">-</option>
-                                    <option value="V">V</option>
-                                    <option value="E">E</option>
-                                    <option value="J">J</option>
-                                    <option value="G">G</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" pattern="[0-9]{6,8}" name="documento" id="documento" minlength="6" maxlength="8" title="Ingrese entre 6 y 8 digitos" class="form-control" placeholder="Identificaion" required="">
+                            <label for="correo" class="col-form-label col-md-2">Correo:</label>
+                            <div class="col-md-4 ">
+                                <input type="email" name="correo" id="correo" required class="form-control" placeholder="Correo Electronico">
                             </div>
                             <label for="telefono" class="col-form-label col-md-2">Telefono:</label>
                             <div class="col-md-4 ">
@@ -81,13 +87,9 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <label for="correo" class="col-form-label col-md-2">Correo:</label>
-                            <div class="col-md-4 ">
-                                <input type="email" name="correo" id="correo" required class="form-control" placeholder="Correo Electronico">
-                            </div>
 
                             <label for="direccion" class="col-form-label col-md-2">Direccion:</label>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <input type="text" name="direccion" id="direccion" pattern="[A-Za-z0-9/ ]+" required maxlength="150" class="form-control" placeholder="Direccion">
                             </div>
                         </div>
@@ -142,7 +144,7 @@
                         </div>
                         <hr>
                         <div class="form-row">
-                            <?php foreach ($seguridad_imgs as $img) : ?>
+                            <?php foreach (SECURITY_IMGS as $img) : ?>
                                 <div class="col-6 col-md-3 p-1">
                                     <div class="card p-2 card-seguridad-img" data-action="registrar" data-img="<?= $img ?>">
                                         <img src="<?= ROOT; ?>public/assets/img/seguridad/<?= $img ?>" />
@@ -171,7 +173,7 @@
                             <div class="col-md">
                                 <div class="form-group">
                                     <label for="seguridad_respuesta">Respuesta</label>
-                                    <input type="text" class="form-control" name="seguridad_respuesta" id="seguridad_respuesta" pattern="[A-Za-z0-9/. ]+" required minlength="3" maxlength="20">
+                                    <input type="text" class="form-control" name="seguridad_respuesta" id="seguridad_respuesta" autocomplete="off" pattern="[A-Za-z0-9/. ]+" required minlength="3" maxlength="20">
                                 </div>
                             </div>
                         </div>
@@ -275,20 +277,8 @@
                         <hr>
 
                         <div class="row form-group">
-                            <input name="id" id="id" hidden>
-                            <label for="nombre" class="col-form-label col-md-2">Nombre:</label>
-                            <div class="col-md-4 ">
-                                <input type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
-                            </div>
-                            <label for="apellido" class="col-form-label col-md-2">Apellido:</label>
-                            <div class="col-md-4 ">
-                                <input type="text" name="apellido" id="apellido" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Apellido">
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            <label for="cedula_cliente" class="col-form-label col-md-2">Cedula/RIF:</label>
-                            <div class="col-md-1 ">
+                            <label for="documento" class="col-form-label col-md-2">Cedula/RIF:</label>
+                            <div class="col-3 col-md-2 ">
                                 <select class="form-control pl-0 pr-0" name="inicial_documento" id="inicial_documento" required="">
                                     <option value="" selected="">-</option>
                                     <option value="V">V</option>
@@ -297,8 +287,28 @@
                                     <option value="G">G</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
-                                <input type="text" pattern="[0-9]{6,8}" name="documento" id="documento" minlength="6" maxlength="8" title="Ingrese entre 6 y 8 digitos" class="form-control" placeholder="Identificaion" required="">
+                            <div class="col-9 col-md-4">
+                                <input type="text" pattern="[0-9]{6,8}" name="documento" id="documento" minlength="6" maxlength="8" title="Ingrese entre 6 y 8 digitos" class="form-control" placeholder="Identificación" required="">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <input name="id" id="id" hidden>
+                            <label for="nombre" class="col-form-label col-md-2">Nombre:</label>
+                            <div class="col-md-4 ">
+                                <input type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
+                            </div>
+
+                            <label for="apellido" class="col-form-label col-md-2">Apellido:</label>
+                            <div class="col-md-4 ">
+                                <input type="text" name="apellido" id="apellido" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Apellido">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label for="correo" class="col-form-label col-md-2">Correo:</label>
+                            <div class="col-md-4 ">
+                                <input type="email" name="correo" id="correo" required class="form-control" placeholder="Correo Electronico">
                             </div>
                             <label for="telefono" class="col-form-label col-md-2">Telefono:</label>
                             <div class="col-md-4 ">
@@ -306,13 +316,8 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <label for="correo" class="col-form-label col-md-2">Correo:</label>
-                            <div class="col-md-4 ">
-                                <input type="email" name="correo" id="correo" required class="form-control" placeholder="Correo Electronico">
-                            </div>
-
                             <label for="direccion" class="col-form-label col-md-2">Direccion:</label>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <input type="text" name="direccion" id="direccion" pattern="[A-Za-z0-9/ ]+" required maxlength="150" class="form-control" placeholder="Direccion">
                             </div>
                         </div>
@@ -388,7 +393,7 @@
                                     <div class="collapse " id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordion">
                                         <div class="card-body">
                                             <div class="form-row">
-                                                <?php foreach ($seguridad_imgs as $img) : ?>
+                                                <?php foreach (SECURITY_IMGS as $img) : ?>
                                                     <div class="col-6 col-md-3 p-1">
                                                         <div class="card p-2 card-seguridad-img" data-action="actualizar" data-img="<?= $img ?>">
                                                             <img src="<?= ROOT; ?>public/assets/img/seguridad/<?= $img ?>" />
@@ -426,7 +431,7 @@
                                                 <div class="col-md">
                                                     <div class="form-group">
                                                         <label for="seguridad_respuesta">Respuesta</label>
-                                                        <input type="text" class="form-control" name="seguridad_respuesta" id="seguridad_respuesta" pattern="[A-Za-z0-9/. ]+" minlength="3" maxlength="20">
+                                                        <input type="text" class="form-control" name="seguridad_respuesta" id="seguridad_respuesta" autocomplete="off" pattern="[A-Za-z0-9/. ]+" minlength="3" maxlength="20">
                                                     </div>
                                                 </div>
                                             </div>

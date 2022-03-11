@@ -172,6 +172,23 @@ class ProveedorController extends Controller{
       ]);
     }
 
+    public function consultarDocumento($documento){
+      $documento = $this->encriptar($documento);
+      $persona = $this->proveedor->consultarDocumento($documento);
+      if($persona){
+          echo json_encode([
+              'titulo' => 'Error!',
+              'mensaje' => 'El Documento (Cédula/Rif) que ingresó se encuentra registrado en el sistema',
+              'tipo' => 'warning'
+          ]);
+      }
+      else{
+          echo json_encode([
+              'tipo' => 'success'
+          ]);
+      }
+  }
+
     public function eliminar($id){
 
       $method = $_SERVER['REQUEST_METHOD'];

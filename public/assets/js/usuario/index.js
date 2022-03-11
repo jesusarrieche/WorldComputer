@@ -67,6 +67,7 @@ $(document).ready(function () {
                     $(formulario).find('select#inicial_documento').val(inicial);
                     $(formulario).find('input#contrasena').val("");
                     $(formulario).find('input#confirmarContrasena').val("");
+                    $(formulario).find('select#seguridad_pregunta').val(json.data.seguridad_pregunta);
                     correoActu = json.data.email;
                     rolUsuarioActu = json.data.rol_id;
                     $('.card-seguridad-img').removeClass('bg-primary');
@@ -209,6 +210,35 @@ $(document).ready(function () {
         });
     }
 
+    const consultarDocumento = (form) => {
+        let inicial_documento = $(form).find('#inicial_documento').val()
+        let documento = $(form).find('#documento').val()
+        if(inicial_documento == ''){
+            return 0;
+        }
+        if(documento.length < 7){
+            return 0;
+        }
+        documento = inicial_documento + '-' + documento;
+        $.ajax({
+            type: "POST",
+            url: "Usuario/consultarDocumento/" + documento,
+            success: function (response) {
+                const json = JSON.parse(response);
+                if (json.tipo != 'success') {
+                    Swal.fire(
+                        json.titulo,
+                        json.mensaje,
+                        json.tipo
+                    )
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
     /**
      * Eventos
      */
@@ -276,6 +306,13 @@ $(document).ready(function () {
         mostrarUsuario($(this).attr('href'), 'form#formularioActualizarUsuario', '#modalActualizarUsuario');
     });
 
+    $('#formularioRegistrarUsuario').on('change', '#documento', function (e){
+        consultarDocumento($('#formularioRegistrarUsuario'));
+    });
+    $('#formularioRegistrarUsuario').on('change', '#inicial_documento', function (e){
+        consultarDocumento($('#formularioRegistrarUsuario'));
+    });
+    
     $('#formularioActualizarUsuario').submit(async function (e) {
         e.preventDefault();
         let requerirAutenticacion = false;
@@ -297,6 +334,24 @@ $(document).ready(function () {
                 "warning"
             );
             return 0;
+        }
+        if (seguridadImgActu != "" || datos.get('seguridad_pregunta') != seguridadPreguntaActu 
+            || datos.get('seguridad_respuesta') != "") {
+            let error = false;
+            if(seguridadImgActu == ""){
+                error = true;
+            }
+            if(datos.get('seguridad_respuesta') == ""){
+                error = true;
+            }
+            if(error){
+                Swal.fire(
+                    "Error",
+                    "Al cambiar la Imagen, Pregunta y/o Respuesta de Seguridad dichos campos se vuelven obligatorios",
+                    "warning"
+                );
+                return 0;
+            }
         }
         //Si se cambia algún dato sensible se exige autenticación de usuario
         if (datos.get('correo') != correoActu || datos.get('rolUsuario') != rolUsuarioActu || seguridadImgActu != "" ||
