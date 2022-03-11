@@ -13,24 +13,12 @@
                 </div>
 
                 <hr>
-
-                <div class="row form-group">
-                    <input  name="perfil" id="perfil" value="1" hidden>
-                    <input  name="id" id="id" value="<?=$usuario->id?>" hidden>
-                    <label for="nombre" class="col-form-label col-md-2">Nombre:</label>
-                    <div class="col-md-4 ">
-                        <input type="text" value="<?=$usuario->nombre?>" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
-                    </div> 
-
-                    <label for="apellido" class="col-form-label col-md-2">Apellido:</label>
-                    <div class="col-md-4 ">
-                        <input type="text" value="<?=$usuario->apellido?>" name="apellido" id="apellido" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required"  class="form-control" placeholder="Apellido">
-                    </div>
-                </div>
+                <input  name="perfil" id="perfil" value="1" hidden>
+                <input  name="id" id="id" value="<?=$usuario->id?>" hidden>
 
                 <div class="row form-group">
                     <label for="cedula_cliente" class="col-form-label col-md-2">Cedula/RIF:</label>
-                    <div class="col-md-1 ">
+                    <div class="col-3 col-md-2 ">
                         <input type="hidden" id="inicial_documentoH" value="<?=$inicial_documento?>">
                         <select class="form-control pl-0 pr-0"  name="inicial_documento" id="inicial_documento" required="">
                             <option value="" selected="">-</option>
@@ -47,22 +35,35 @@
                         });
                             
                     </script>
-                    <div class="col-md-3">
+                    <div class="col-9 col-md-4">
                         <input type="text" value="<?=$documento?>" pattern="[0-9]{6,8}" name="documento" id="documento" minlength="6" maxlength="8" title="Ingrese entre 6 y 8 digitos" class="form-control" placeholder="Identificaion" required="">
                     </div>
+                </div>
+                <div class="row form-group">
+                    <label for="nombre" class="col-form-label col-md-2">Nombre:</label>
+                    <div class="col-md-4 ">
+                        <input type="text" value="<?=$usuario->nombre?>" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required" class="form-control" placeholder="Nombre">
+                    </div> 
+
+                    <label for="apellido" class="col-form-label col-md-2">Apellido:</label>
+                    <div class="col-md-4 ">
+                        <input type="text" value="<?=$usuario->apellido?>" name="apellido" id="apellido" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="30" required="required"  class="form-control" placeholder="Apellido">
+                    </div>
+                </div>
+
+                <div class="row form-group">
                     <label for="telefono" class="col-form-label col-md-2" >Telefono:</label>
                     <div class="col-md-4 ">
                         <input type="tel" value="<?=$usuario->telefono?>" name="telefono" id="telefono" title="Debe Contener minimo 11 Caracteres numericos" minlength="10"  maxlength="12" pattern="[0-9-]+" required class="form-control" placeholder="Telefono">
                     </div>
-                </div>
-                <div class="row form-group">
                     <label for="correo" class="col-form-label col-md-2">Correo:</label>
                     <div class="col-md-4 ">
                         <input type="email" value="<?=$usuario->email?>" name="correo" id="correo" required class="form-control" placeholder="Correo Electronico">
                     </div>
-
+                </div>
+                <div class="row form-group">
                     <label for="direccion" class="col-form-label col-md-2">Direccion:</label>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <input type="text" value="<?=$usuario->direccion?>" name="direccion" id="direccion" pattern="[A-Za-z0-9/ ]+" required maxlength="150" class="form-control" placeholder="Direccion" >
                     </div>
                 </div>

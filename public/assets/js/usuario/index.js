@@ -67,6 +67,7 @@ $(document).ready(function () {
                     $(formulario).find('select#inicial_documento').val(inicial);
                     $(formulario).find('input#contrasena').val("");
                     $(formulario).find('input#confirmarContrasena').val("");
+                    $(formulario).find('select#seguridad_pregunta').val(json.data.seguridad_pregunta);
                     correoActu = json.data.email;
                     rolUsuarioActu = json.data.rol_id;
                     $('.card-seguridad-img').removeClass('bg-primary');
