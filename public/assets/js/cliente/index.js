@@ -272,11 +272,11 @@ $(document).ready(function () {
 
     $('#formularioActualizarCliente').submit(async function (e) {
         e.preventDefault();
-        let requerirAutenticacion = false;
-        let datos = new FormData(document.querySelector('#formularioActualizarCliente'));
-        if (datos.get('inicial_documento') != inicialDocumentoActu || datos.get('documento') != documentoActu) {
-            requerirAutenticacion = true;
-        }
+        let requerirAutenticacion = true;
+        // let datos = new FormData(document.querySelector('#formularioActualizarCliente'));
+        // if (datos.get('inicial_documento') != inicialDocumentoActu || datos.get('documento') != documentoActu) {
+        //     requerirAutenticacion = true;
+        // }
         if (requerirAutenticacion) {
             let sesionAutenticada = await getSesionAutenticada();
             if (!sesionAutenticada) {
@@ -289,9 +289,13 @@ $(document).ready(function () {
 
 
     // Eliminar Cliente
-    $('body').on('click', '.eliminar', function (e) {
+    $('body').on('click', '.eliminar', async function (e) {
         e.preventDefault();
-
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El cliente sera eliminado del sistema!",
@@ -311,9 +315,13 @@ $(document).ready(function () {
         console.log($(this).attr('href'));
     });
     //Activar el registro
-    $('body').on('click', '.estatusAnulado', function (e) {
+    $('body').on('click', '.estatusAnulado', async function (e) {
         e.preventDefault();
-
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El cliente será habilitado en el sistema!",

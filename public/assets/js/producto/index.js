@@ -363,11 +363,11 @@ $(document).ready(function () {
 
     $('#formularioActualizarProducto').submit(async function (e) {
         e.preventDefault();
-        let requerirAutenticacion = false;
-        let datos = new FormData(document.querySelector('#formularioActualizarProducto'));
-        if (datos.get('codigo') != codigoActu) {
-            requerirAutenticacion = true;
-        }
+        let requerirAutenticacion = true;
+        // let datos = new FormData(document.querySelector('#formularioActualizarProducto'));
+        // if (datos.get('codigo') != codigoActu) {
+        //     requerirAutenticacion = true;
+        // }
         if (requerirAutenticacion) {
             let sesionAutenticada = await getSesionAutenticada();
             if (!sesionAutenticada) {
@@ -379,9 +379,13 @@ $(document).ready(function () {
     });
 
     // Eliminar Producto
-    $('body').on('click', '.eliminar', function (e) {
+    $('body').on('click', '.eliminar', async function (e) {
         e.preventDefault();
-
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El producto sera eliminado del sistema!",
@@ -401,9 +405,13 @@ $(document).ready(function () {
         console.log($(this).attr('href'));
     });
 
-    $('body').on('click', '.estatusAnulado', function (e) {
+    $('body').on('click', '.estatusAnulado', async function (e) {
         e.preventDefault();
-
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El producto será habilitado en el sistema!",

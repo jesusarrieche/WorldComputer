@@ -221,4 +221,4 @@
         </div>
     </div>
     <?php require VIEWS . "modalAutenticarUsuario.php"; ?>
-    <script src="<?= ROOT; ?>public/assets/js/proveedor/index.js"></script>
+    <script src="<?= ROOT; ?>public/assets/js/proveedor/index.js?v=<?php echo time();?>"></script>

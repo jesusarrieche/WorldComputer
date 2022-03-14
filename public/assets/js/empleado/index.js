@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     /**
      * DataTable
      */
@@ -277,11 +276,11 @@ $(document).ready(function () {
 
     $('#formularioActualizarEmpleado').submit(async function (e) {
         e.preventDefault();
-        let requerirAutenticacion = false;
-        let datos = new FormData(document.querySelector('#formularioActualizarEmpleado'));
-        if (datos.get('inicial_documento') != inicialDocumentoActu || datos.get('documento') != documentoActu) {
-            requerirAutenticacion = true;
-        }
+        let requerirAutenticacion = true;
+        // let datos = new FormData(document.querySelector('#formularioActualizarEmpleado'));
+        // if (datos.get('inicial_documento') != inicialDocumentoActu || datos.get('documento') != documentoActu) {
+        //     requerirAutenticacion = true;
+        // }
         if (requerirAutenticacion) {
             let sesionAutenticada = await getSesionAutenticada();
             if (!sesionAutenticada) {
@@ -294,9 +293,13 @@ $(document).ready(function () {
 
 
     // Eliminar Empleado
-    $('body').on('click', '.eliminar', function (e) {
+    $('body').on('click', '.eliminar', async function (e) {
         e.preventDefault();
-
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El empleado sera eliminado del sistema!",
@@ -317,9 +320,13 @@ $(document).ready(function () {
     });
 
     //Activar el registro
-    $('body').on('click', '.estatusAnulado', function (e) {
+    $('body').on('click', '.estatusAnulado', async function (e) {
         e.preventDefault();
-
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El empleado será habilitado en el sistema!",

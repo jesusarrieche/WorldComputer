@@ -454,4 +454,4 @@
     </div>
 </div>
 <?php require VIEWS . "modalAutenticarUsuario.php"; ?>
-<script src="<?= ROOT; ?>public/assets/js/usuario/index.js"></script>
+<script src="<?= ROOT; ?>public/assets/js/usuario/index.js?v=<?php echo time();?>"></script>
