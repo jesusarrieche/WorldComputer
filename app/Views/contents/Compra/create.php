@@ -298,4 +298,4 @@
     let dolar = parseFloat(<?= json_encode($dolar) ?>);   
 </script>
 
-<script src="<?= ROOT; ?>public/assets/js/compra/create.js"></script>
+<script src="<?= ROOT; ?>public/assets/js/compra/create.js?v=<?php echo time();?>"></script>

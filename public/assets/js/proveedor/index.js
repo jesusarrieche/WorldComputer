@@ -268,7 +268,7 @@ $(document).ready(function () {
     $('#formularioActualizarProveedor').submit(async function (e) {
         e.preventDefault();
         let requerirAutenticacion = true;
-        // let datos = new FormData(document.querySelector('#formularioActualizarProveedor'));
+        let datos = new FormData(document.querySelector('#formularioActualizarProveedor'));
         // if (datos.get('inicial_documento') != inicialDocumentoActu || datos.get('documento') != documentoActu) {
         //     requerirAutenticacion = true;
         // }

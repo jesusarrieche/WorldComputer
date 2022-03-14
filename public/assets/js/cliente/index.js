@@ -273,7 +273,7 @@ $(document).ready(function () {
     $('#formularioActualizarCliente').submit(async function (e) {
         e.preventDefault();
         let requerirAutenticacion = true;
-        // let datos = new FormData(document.querySelector('#formularioActualizarCliente'));
+        let datos = new FormData(document.querySelector('#formularioActualizarCliente'));
         // if (datos.get('inicial_documento') != inicialDocumentoActu || datos.get('documento') != documentoActu) {
         //     requerirAutenticacion = true;
         // }

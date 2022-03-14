@@ -364,7 +364,7 @@ $(document).ready(function () {
     $('#formularioActualizarProducto').submit(async function (e) {
         e.preventDefault();
         let requerirAutenticacion = true;
-        // let datos = new FormData(document.querySelector('#formularioActualizarProducto'));
+        let datos = new FormData(document.querySelector('#formularioActualizarProducto'));
         // if (datos.get('codigo') != codigoActu) {
         //     requerirAutenticacion = true;
         // }

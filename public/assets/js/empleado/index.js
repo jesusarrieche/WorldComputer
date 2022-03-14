@@ -277,7 +277,7 @@ $(document).ready(function () {
     $('#formularioActualizarEmpleado').submit(async function (e) {
         e.preventDefault();
         let requerirAutenticacion = true;
-        // let datos = new FormData(document.querySelector('#formularioActualizarEmpleado'));
+        let datos = new FormData(document.querySelector('#formularioActualizarEmpleado'));
         // if (datos.get('inicial_documento') != inicialDocumentoActu || datos.get('documento') != documentoActu) {
         //     requerirAutenticacion = true;
         // }

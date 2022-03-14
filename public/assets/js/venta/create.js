@@ -183,11 +183,10 @@ $(document).ready(function () {
             total += parseFloat(element.value);
         });
 
-
         if (total == 0) {
             Swal.fire(
-                'Venta Vacia',
-                'Debe seleccionar al menos un articulo',
+                'Venta Vacía',
+                'Debe seleccionar al menos un artículo',
                 'warning'
             )
 

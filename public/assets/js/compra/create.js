@@ -172,22 +172,35 @@ $(document).ready(function () {
 
         let totalfilas = document.querySelectorAll('.total');
         let total = 0;
+        let errorPrecios = false;
+        let productos = 0;
 
         totalfilas.forEach(element => {
             // console.log(element);
             total += parseFloat(element.value);
+            productos++;
+            if(element.value == '' || element.value == 0){
+                errorPrecios = true;
+            }
         });
 
-        if (total == 0) {
+        if (productos == 0) {
             Swal.fire(
-                'Compra Vacia',
-                'Debe selecciona al menos un articulo',
+                'Compra Vacía',
+                'Debe seleccionar al menos un artículo',
                 'warning'
             )
-
             return false;
         }
-
+        if(errorPrecios){
+            Swal.fire(
+                'Indique los precios',
+                'Se debe indicar cantidad y precio de cada artículo',
+                'warning'
+            )
+            return false;
+        }
+        
         $('#total').val(total);
 
         console.log(total)
@@ -202,7 +215,6 @@ $(document).ready(function () {
                 console.log(response);
                 json = JSON.parse(response);
                 console.log(json);
-
 
                 Swal.fire(
                     json.titulo,
