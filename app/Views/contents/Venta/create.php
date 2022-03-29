@@ -305,4 +305,4 @@
 
 </script>
 
-<script src="<?= ROOT; ?>public/assets/js/venta/create.js"></script>
+<script src="<?= ROOT; ?>public/assets/js/venta/create.js?v=<?php echo time();?>"></script>

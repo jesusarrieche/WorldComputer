@@ -213,10 +213,10 @@ $(document).ready(function () {
     const consultarDocumento = (form) => {
         let inicial_documento = $(form).find('#inicial_documento').val()
         let documento = $(form).find('#documento').val()
-        if(inicial_documento == ''){
+        if (inicial_documento == '') {
             return 0;
         }
-        if(documento.length < 7){
+        if (documento.length < 7) {
             return 0;
         }
         documento = inicial_documento + '-' + documento;
@@ -272,13 +272,13 @@ $(document).ready(function () {
             );
             return 0;
         }
-        if (datos.get('rolUsuario') == '1') {
-            let sesionAutenticada = await getSesionAutenticada();
-            if (!sesionAutenticada) {
-                iniciarAutenticacion();
-                return 0;
-            }
+        // if (datos.get('rolUsuario') == '1') {
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
         }
+        // }
         datos.append('seguridad_img', seguridadImg);
         console.log(datos.get('seguridad_img'))
         registrarUsuario(datos);
@@ -306,16 +306,16 @@ $(document).ready(function () {
         mostrarUsuario($(this).attr('href'), 'form#formularioActualizarUsuario', '#modalActualizarUsuario');
     });
 
-    $('#formularioRegistrarUsuario').on('change', '#documento', function (e){
+    $('#formularioRegistrarUsuario').on('change', '#documento', function (e) {
         consultarDocumento($('#formularioRegistrarUsuario'));
     });
-    $('#formularioRegistrarUsuario').on('change', '#inicial_documento', function (e){
+    $('#formularioRegistrarUsuario').on('change', '#inicial_documento', function (e) {
         consultarDocumento($('#formularioRegistrarUsuario'));
     });
-    
+
     $('#formularioActualizarUsuario').submit(async function (e) {
         e.preventDefault();
-        let requerirAutenticacion = false;
+        let requerirAutenticacion = true;
         let datos = new FormData(document.querySelector('#formularioActualizarUsuario'));
         if (datos.get('contrasena') != datos.get('confirmarContrasena')) {
             Swal.fire(
@@ -335,16 +335,16 @@ $(document).ready(function () {
             );
             return 0;
         }
-        if (seguridadImgActu != "" || datos.get('seguridad_pregunta') != seguridadPreguntaActu 
+        if (seguridadImgActu != "" || datos.get('seguridad_pregunta') != seguridadPreguntaActu
             || datos.get('seguridad_respuesta') != "") {
             let error = false;
-            if(seguridadImgActu == ""){
+            if (seguridadImgActu == "") {
                 error = true;
             }
-            if(datos.get('seguridad_respuesta') == ""){
+            if (datos.get('seguridad_respuesta') == "") {
                 error = true;
             }
-            if(error){
+            if (error) {
                 Swal.fire(
                     "Error",
                     "Al cambiar la Imagen, Pregunta y/o Respuesta de Seguridad dichos campos se vuelven obligatorios",
@@ -353,11 +353,11 @@ $(document).ready(function () {
                 return 0;
             }
         }
-        //Si se cambia algún dato sensible se exige autenticación de usuario
-        if (datos.get('correo') != correoActu || datos.get('rolUsuario') != rolUsuarioActu || seguridadImgActu != "" ||
-            datos.get('seguridad_pregunta') != seguridadPreguntaActu || datos.get('seguridad_respuesta') != "") {
-            requerirAutenticacion = true;
-        }
+        // //Si se cambia algún dato sensible se exige autenticación de usuario
+        // if (datos.get('correo') != correoActu || datos.get('rolUsuario') != rolUsuarioActu || seguridadImgActu != "" ||
+        //     datos.get('seguridad_pregunta') != seguridadPreguntaActu || datos.get('seguridad_respuesta') != "") {
+        //     requerirAutenticacion = true;
+        // }
         if (requerirAutenticacion) {
             let sesionAutenticada = await getSesionAutenticada();
             if (!sesionAutenticada) {
@@ -369,9 +369,13 @@ $(document).ready(function () {
         actualizarUsuario(datos);
     });
     // Eliminar Usuario
-    $('body').on('click', '.eliminar', function (e) {
+    $('body').on('click', '.eliminar', async function (e) {
         e.preventDefault();
-
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El usuario sera eliminado del sistema!",
@@ -390,8 +394,13 @@ $(document).ready(function () {
         })
     });
     //Activar el registro
-    $('body').on('click', '.estatusAnulado', function (e) {
+    $('body').on('click', '.estatusAnulado', async function (e) {
         e.preventDefault();
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El usuario será habilitado en el sistema!",

@@ -466,4 +466,4 @@
     console.log(backUrl);
 </script>
 
-<script src="<?= ROOT; ?>public/assets/js/servicio/create.js"></script>
+<script src="<?= ROOT; ?>public/assets/js/servicio/create.js?v=<?php echo time();?>"></script>

@@ -267,11 +267,11 @@ $(document).ready(function () {
 
     $('#formularioActualizarProveedor').submit(async function (e) {
         e.preventDefault();
-        let requerirAutenticacion = false;
+        let requerirAutenticacion = true;
         let datos = new FormData(document.querySelector('#formularioActualizarProveedor'));
-        if (datos.get('inicial_documento') != inicialDocumentoActu || datos.get('documento') != documentoActu) {
-            requerirAutenticacion = true;
-        }
+        // if (datos.get('inicial_documento') != inicialDocumentoActu || datos.get('documento') != documentoActu) {
+        //     requerirAutenticacion = true;
+        // }
         if (requerirAutenticacion) {
             let sesionAutenticada = await getSesionAutenticada();
             if (!sesionAutenticada) {
@@ -284,9 +284,13 @@ $(document).ready(function () {
 
 
     // Eliminar Proveedor
-    $('body').on('click', '.eliminar', function (e) {
+    $('body').on('click', '.eliminar', async function (e) {
         e.preventDefault();
-
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El proveedor sera eliminado del sistema!",
@@ -306,9 +310,13 @@ $(document).ready(function () {
         console.log($(this).attr('href'));
     });
     //Activar el registro
-    $('body').on('click', '.estatusAnulado', function (e) {
+    $('body').on('click', '.estatusAnulado', async function (e) {
         e.preventDefault();
-
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El proveedor será habilitado en el sistema!",

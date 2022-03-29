@@ -205,18 +205,28 @@ $(document).ready(function () {
     
         mostrarServicio($(this).attr('href'),'form#formularioActualizarServicio','#modalActualizarServicio','actualizar');
     });
-    $('#formularioActualizarServicio').submit(function (e) {
+    $('#formularioActualizarServicio').submit(async function (e) {
         e.preventDefault();
-    
+        let requerirAutenticacion = true;
         const datos = new FormData(document.querySelector('#formularioActualizarServicio'));
-    
+        if (requerirAutenticacion) {
+            let sesionAutenticada = await getSesionAutenticada();
+            if (!sesionAutenticada) {
+                iniciarAutenticacion();
+                return 0;
+            }
+        }
         // console.log(datos.get('id'));
         actualizarServicio(datos);
     });
     // Eliminar Servicio
-    $('body').on('click', '.eliminar', function (e) {
+    $('body').on('click', '.eliminar', async function (e) {
         e.preventDefault();
-    
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El servicio sera eliminado del sistema!",
@@ -235,9 +245,13 @@ $(document).ready(function () {
           })
     });
     //Activar el registro
-    $('body').on('click', '.estatusAnulado', function (e) {
+    $('body').on('click', '.estatusAnulado', async function (e) {
         e.preventDefault();
-
+        let sesionAutenticada = await getSesionAutenticada();
+        if (!sesionAutenticada) {
+            iniciarAutenticacion();
+            return 0;
+        }
         Swal.fire({
             title: 'Esta Seguro?',
             text: "El servicio será habilitado en el sistema!",

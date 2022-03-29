@@ -55,7 +55,7 @@
                     <input type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="45" required="required" class="form-control" placeholder="Nombre">
                 </div>
                 <div class="col-md-6">
-                    <label for="precio">Precio:</label>
+                    <label for="precio">Precio ($):</label>
                     <input type="number" name="precio" id="precio"  required="required" class="form-control" placeholder="Precio">
                 </div>
             </div>
@@ -94,7 +94,7 @@
                     <input disabled type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="45" required="required" class="form-control-plaintext" placeholder="Nombre">
                 </div>
                 <div class="col-md-6">
-                    <label for="precio"><strong>Precio:</strong></label>
+                    <label for="precio"><strong>Precio ($):</strong></label>
                     <input disabled type="number" name="precio" id="precio" maxlength="200" required="required" class="form-control-plaintext" placeholder="Precio">
                 </div>
             </div>
@@ -129,17 +129,17 @@
             <div class="row form-group">
                 <div class="col-md-6">
                     <input  name="id" id="id" hidden>
-                    <label for="nombre"><strong>Nombre:</strong></label>
+                    <label for="nombre">Nombre:</label>
                     <input type="text" name="nombre" id="nombre" pattern="[A-Za-z ]+" title="Ingrese solo letras" maxlength="50" required="required" class="form-control" placeholder="Nombre">
                 </div>
                 <div class="col-md-6">
-                    <label for="precio"><strong>Precio:</strong></label>
+                    <label for="precio">Precio ($):</label>
                     <input type="number" name="precio" id="precio" maxlength="30" required="required" class="form-control" placeholder="Precio">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="descripcion"><strong>Descripción:</strong></label>
+                <label for="descripcion">Descripción:</label>
                 <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripción del servicio" rows="3" maxlength="45"></textarea>
             </div>
             
@@ -154,5 +154,5 @@
     </div>
   </div>
 </div>
-
-<script src="<?= ROOT; ?>public/assets/js/servicio/index.js"></script>
+<?php require VIEWS . "modalAutenticarUsuario.php"; ?>
+<script src="<?= ROOT; ?>public/assets/js/servicio/index.js?v=<?php echo time();?>"></script>
